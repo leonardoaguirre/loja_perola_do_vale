@@ -1,0 +1,107 @@
+.pageHeader {
+    display: flex;
+    flex-direction: column;
+    background-color: #c8e6d1;
+}
+
+.pageHeader .topBarContainer {
+    width: 95%;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #000000;
+    padding: 1.6rem 0;
+}
+
+.pageHeader .topBarContainer a {
+    transition: 0.2s;
+}
+
+.pageHeader .topBarContainer a:hover {
+    opacity: 0.6;
+}
+
+.pageHeader .topBarContainer .logoContainter a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pageHeader .topBarContainer .logoContainter a h1 {
+    font: 700 2rem Signika;
+}
+
+.pageHeader .topBarContainer .logoContainter a img {
+    height: 7rem;
+}
+
+.pageHeader .topBarContainer .inputContainer {
+    background: white;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    border-radius: 2rem;
+    padding: 0.6rem 2rem;
+}
+
+.pageHeader .topBarContainer .inputContainer input {
+    height: 2.8rem;
+    width: 30rem;
+    border: 0;
+}
+
+.pageHeader .topBarContainer .inputContainer input:focus {
+    outline: 0;
+}
+
+.pageHeader .topBarContainer .inputContainer button {
+    background: white;
+    border: 0;
+}
+
+.pageHeader .topBarContainer .userContainer {
+    display: flex;
+    align-items: center;
+    padding: 0rem 2rem ;
+}
+
+.page-header .top-bar-container .user-container i {
+    height: 4rem;
+    width: 4rem;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.pageHeader .topBarContainer .userContainer .userInfo {
+    padding-left: 1rem;
+}
+
+.pageHeader .topBarContainer .userContainer .userInfo strong {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.pageHeader .topBarContainer .userActions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pageHeader .topBarContainer .userActions .shoppingCart {
+    padding-right: 2rem;
+}
+
+.pageHeader .headerContent {
+    width: 90%;
+    max-width: 1280px;
+    position: relative;
+    margin: 1rem auto;
+    font: 700 3rem Roboto;
+    line-height: 1.2;
+    color: #000000;
+}
