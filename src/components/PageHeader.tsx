@@ -1,7 +1,9 @@
+import Link from 'next/link';
+
 import styles from '../styles/components/PageHeader.module.css';
 
 interface PageHeaderProps {
-    title: string;
+
 }
 
 const PageHeader: React.FC<PageHeaderProps> = (props) => {
@@ -10,10 +12,12 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
             <div className={styles.topBarContainer}>
 
                 <div className={styles.logoContainter}>
-                    <a href="/home">
-                        <img src="icons/logo.png" alt="Logo Loja Pérola do Vale" />
-                        <h1>Loja Pérola do Vale</h1>
-                    </a>
+                    <Link href="/">
+                        <a>
+                            <img id={styles.logoImg} src="icons/logo.png" alt="Logo Ferragens Pérola do Vale" />
+                            <img id={styles.logoTitle} src="icons/logoTitle.png" alt="Logo título Ferragens Pérola do Vale"/>
+                        </a>
+                    </Link>
                 </div>
 
                 <div className={styles.inputContainer}>
@@ -24,9 +28,11 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
                 </div>
 
                 <div className={styles.userContainer}>
-                    <a href="/user-info">
-                        <i className="far fa-user-circle fa-2x"></i>
-                    </a>
+                    <Link href="/userInfo">
+                        <a>
+                            <i className="far fa-user-circle fa-2x"></i>
+                        </a>
+                    </Link>
                     <div className={styles.userInfo}>
                         <strong>Hideki Yamakawa</strong>
                     </div>
@@ -34,22 +40,27 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
 
                 <div className={styles.userActions}>
                     <div className={styles.shoppingCart}>
-                        <a href="/shopping-cart">
-                            <i className="fas fa-shopping-cart fa-2x"></i>
-                        </a>
+                        <Link href="/shoppingCart">
+                            <a>
+                                <i className="fas fa-shopping-cart fa-2x"></i>
+                            </a>
+                        </Link>
                     </div>
                     <div className={styles.favoritesItens}>
-                        <a href="/favorites-itens">
-                            <i className="fas fa-star fa-2x"></i>
-                        </a>
+                        <Link href="/favoriteItens">
+                            <a>
+                                <i className="fas fa-star fa-2x"></i>
+                            </a>
+                        </Link>
                     </div>
                 </div>
 
             </div>
 
             <div className={styles.headerContent}>
-                <div className={styles.title}>
-                    <strong>{props.title}</strong>
+                <div className={styles.menu}>
+                    <i className="fas fa-bars fa-2x"></i>
+                    <span>Departamentos</span>
                 </div>
             </div>
         </header>

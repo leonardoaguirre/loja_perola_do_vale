@@ -1,9 +1,9 @@
-
 import PageHeader from '../components/PageHeader';
 
 import Head from 'next/head';
 
 import styles from '../styles/pages/Home.module.css';
+import PageFooter from '../components/PageFooter';
 
 export default function Home() {
   return (
@@ -11,7 +11,8 @@ export default function Home() {
       <Head>
         <title>Início | Loja Pérola do Vale</title>
       </Head>
-      <PageHeader title="Bem-vindo"/>
+      <PageHeader />
+      <PageFooter />
     </div>
   )
 }

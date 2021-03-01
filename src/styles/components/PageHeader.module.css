@@ -1,7 +1,7 @@
 .pageHeader {
     display: flex;
     flex-direction: column;
-    background-color: #c8e6d1;
+    background-color: #f5ffbc;
 }
 
 .pageHeader .topBarContainer {
@@ -29,12 +29,12 @@
     justify-content: center;
 }
 
-.pageHeader .topBarContainer .logoContainter a h1 {
-    font: 700 2rem Signika;
+.pageHeader .topBarContainer .logoContainter a #logoImg {
+    height: 7rem;
 }
 
-.pageHeader .topBarContainer .logoContainter a img {
-    height: 7rem;
+.pageHeader .topBarContainer .logoContainter a #logoTitle {
+    height: 4rem;
 }
 
 .pageHeader .topBarContainer .inputContainer {
@@ -97,11 +97,21 @@
 }
 
 .pageHeader .headerContent {
-    width: 90%;
-    max-width: 1280px;
-    position: relative;
-    margin: 1rem auto;
-    font: 700 3rem Roboto;
-    line-height: 1.2;
-    color: #000000;
+    width: 93%;
+    margin: 0 auto;
+    padding-bottom: 0.5rem;
+}
+
+.pageHeader .headerContent .menu {
+    display: flex;
+    align-items: center;
+}
+
+.pageHeader .headerContent .menu i {
+    opacity: 0.7;
+}
+
+.pageHeader .headerContent .menu span {
+    padding-left: 1rem;
+    font-size: 1.8rem;
 }
