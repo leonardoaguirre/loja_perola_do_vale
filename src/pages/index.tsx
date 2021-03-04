@@ -9,9 +9,17 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Início | Loja Pérola do Vale</title>
+        <title>Início | Ferragens Pérola do Vale</title>
       </Head>
       <PageHeader />
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
       <PageFooter />
     </div>
   )

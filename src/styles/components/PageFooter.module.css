@@ -37,23 +37,28 @@
 }
 
 .pageFooter .topBarContainer .linksContainer {
-    display: inline-flex;
-    opacity: 0.6;
+    display: flex;
     align-items: center;
     justify-content: center;
+    opacity: 0.6;
 }
 
-.pageFooter .topBarContainer .mapLocation {
+.pageFooter .topBarContainer .linksContainer a {
+    display: inline-flex;
+}
+
+.pageFooter .topBarContainer .linksContainer img {
+    height: 3rem;
+    width: 3rem;
+}
+
+.pageFooter .topBarContainer .linksContainer .mapLocation {
     padding-right: 1.2rem;
     border-right: 2px solid #000000;
 }
 
-.pageFooter .topBarContainer .socialMedias a {
+.pageFooter .topBarContainer .linksContainer .socialMedias a {
     padding: 1rem;
-}
-
-.pageFooter .topBarContainer .socialMedias a:last-child {
-    padding-right: 0;
 }
 
 .pageFooter .footerContent {
