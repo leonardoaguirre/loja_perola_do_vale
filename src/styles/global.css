@@ -37,6 +37,7 @@ textarea {
 
 button {
 	cursor: pointer;
+	outline: 0;
 }
 
 a {

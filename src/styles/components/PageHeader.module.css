@@ -111,13 +111,16 @@
 }
 
 .pageHeader .headerContent {
-    width: 93%;
+    width: 100vw;
     max-width: 1280px;
     margin: 0 auto;
+    display: flex;
+    background-color: white;
 }
 
 .pageHeader .headerContent .menu .departmentsDropdown {
     position: relative;
+
 }
 
 .pageHeader .headerContent .menu .departmentsDropdown .dropdownContent {
@@ -136,13 +139,21 @@
     display: block;
 }
 
-.pageHeader .headerContent .menu .departmentsDropdown .dropdownContent a:hover {
-    background-color: #f5ffbc;
+.pageHeader .headerContent .menu .departmentsDropdown .dropdownButton .arrowAnimation {
+    transition: all 0.5s ease-in-out;
+}
+
+.pageHeader .headerContent .menu .departmentsDropdown:hover .dropdownButton .arrowAnimation {
+    transform: rotate(180deg);
 }
 
 .pageHeader .headerContent .menu .departmentsDropdown:hover .dropdownContent {
-    background-color: #d4d4d4;
+    background-color: white;
     display: block;
+}
+
+.pageHeader .headerContent .menu .departmentsDropdown .dropdownContent a:hover {
+    background-color: #f5ffbc;
 }
 
 .pageHeader .headerContent .menu button {

@@ -58,24 +58,6 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
                         </Link>
                     </div>
                 </div>
-
-            </div>
-
-            <div className={styles.headerContent}>
-                <div className={styles.menu}>
-                    <div className={styles.departmentsDropdown}>
-                        <button className={styles.dropdownButton}>
-                            <img src="icons/menu-black-36dp.svg" alt="3 barras horizontais empilhadas" title="Menu" />
-                            <strong>Departamentos</strong>
-                            <img src="icons/keyboard_arrow_down-black-36dp.svg" className={styles.arrowAnimation} alt="seta para baixo" />
-                        </button>
-                        <div className={`${styles.dropdownContent} ${styles.barBlock} ${styles.border}`}>
-                            <a href="#" className={`${styles.menuBarIten} ${styles.menuButton}`}>Eletrônicos</a>
-                            <a href="#" className={`${styles.menuBarIten} ${styles.menuButton}`}>Ferramentas</a>
-                            <a href="#" className={`${styles.menuBarIten} ${styles.menuButton}`}>Materiais</a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </header>
     );

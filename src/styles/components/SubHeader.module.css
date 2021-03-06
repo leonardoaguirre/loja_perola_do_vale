@@ -1,0 +1,96 @@
+.subHeader {
+    width: 100%;
+    background-color: inherit;
+    border-bottom: 1px solid rgb(228, 228, 228);
+}
+
+.subHeader button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    background-color: inherit;
+}
+
+.subHeader .subHeaderContent {
+    width: 95%;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    align-items: flex-start;
+}
+
+.subHeader .subHeaderContent .menu {
+    display: flex;
+    align-items: center;
+}
+
+.subHeader .subHeaderContent .menu .menuItens {
+    transition: 0.3s;
+    display: flex;
+}
+
+.subHeader .subHeaderContent .menu .menuItens:hover {
+    background-color: #d4d4d4;
+}
+
+.subHeader .subHeaderContent .menu .menuItens button {
+    padding: 1rem 2rem;
+}
+
+.subHeader .subHeaderContent .menu .menuItens .selected {
+    position: relative;
+    bottom: -9px;
+    border-bottom: 3px solid #72b0e4;
+}
+
+.subHeader .subHeaderContent .menu .menuItens .departmentsDropdown {
+    position: relative;
+}
+
+.subHeader .subHeaderContent .menu .menuItens .departmentsDropdown .dropdownContent {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 21rem;
+    z-index: 1;
+}
+
+.subHeader .subHeaderContent .menu .menuItens .departmentsDropdown .dropdownContent a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.subHeader .subHeaderContent .menu .menuItens .departmentsDropdown .dropdownContent a:hover {
+    background-color: #d4d4d4;
+}
+
+.subHeader .subHeaderContent .menu .menuItens .departmentsDropdown .dropdownButton .arrowAnimation {
+    transition: all 0.5s ease-in-out;
+}
+
+.subHeader .subHeaderContent .menu .menuItens .departmentsDropdown:hover .dropdownButton .arrowAnimation {
+    transform: rotate(180deg);
+}
+
+.subHeader .subHeaderContent .menu .menuItens .departmentsDropdown:hover .dropdownButton {
+    background-color: white;
+}
+
+.subHeader .subHeaderContent .menu .menuItens .departmentsDropdown:hover .dropdownContent {
+    background-color: white;
+    display: block;
+}
+
+.subHeader .subHeaderContent .menu .menuItens button img {
+    opacity: 0.8;
+}
+
+.subHeader .subHeaderContent .menu .menuItens button strong {
+    padding-left: 1rem;
+    font-size: 1.8rem;
+}
