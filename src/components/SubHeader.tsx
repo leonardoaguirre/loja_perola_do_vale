@@ -38,19 +38,16 @@ function SubHeader() {
                         <button>
                             Promoções
                         </button>
-                        {/*<div className={styles.selected}></div>*/}
                     </div>
                     <div className={styles.menuItens}>
                         <button>
                             Ferramentas
                         </button>
-                        {/*<div className={styles.selected}></div>*/}
                     </div>
                     <div className={styles.menuItens}>
                         <button>
                             Materiais
                         </button>
-                        {/*<div className={styles.selected}></div>*/}
                     </div>
                 </div>
             </div>

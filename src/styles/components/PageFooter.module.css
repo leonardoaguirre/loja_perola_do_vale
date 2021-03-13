@@ -1,7 +1,8 @@
 .pageFooter {
     display: flex;
     flex-direction: column;
-    background-color: #72b0e4;
+    background-color: var(--secondary);
+    color: white;
 }
 
 .pageFooter .topBarContainer {
@@ -11,7 +12,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: #000000;
 }
 
 .pageFooter .topBarContainer a {
@@ -33,14 +33,13 @@
 }
 
 .pageFooter .topBarContainer .logoContainter a #logoTitle {
-    height: 6rem;
+    height: 7rem;
 }
 
 .pageFooter .topBarContainer .linksContainer {
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.6;
 }
 
 .pageFooter .topBarContainer .linksContainer a {
@@ -54,7 +53,7 @@
 
 .pageFooter .topBarContainer .linksContainer .mapLocation {
     padding-right: 1.2rem;
-    border-right: 2px solid #000000;
+    border-right: 2px solid white;
 }
 
 .pageFooter .topBarContainer .linksContainer .socialMedias a {

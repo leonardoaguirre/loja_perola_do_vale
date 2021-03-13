@@ -2,12 +2,12 @@ import PageFooter from '../../components/PageFooter';
 import PageHeaderAdministration from '../../components/PageHeaderAdministration';
 import styles from '../../styles/pages/ProductForm.module.css';
 
-function userForm() {
+function productForm() {
     return (
         <div className={styles.container}>
             <PageHeaderAdministration />
-            <div className={styles.userForm}>
-                <h1>Cadastrar-se</h1>
+            <div className={styles.productForm}>
+                <h1>Cadastrar Produto</h1>
                 <div className={styles.formContainer}>
                     <form>
                         <div className={styles.name}>
@@ -16,32 +16,26 @@ function userForm() {
                                 <input type="text" placeholder="Nome" />
                             </div>
                         </div>
-                        <div className={styles.identificationRg}>
-                            <label htmlFor="rg">RG: </label>
+                        <div className={styles.brand}>
+                            <label htmlFor="marca">Marca: </label>
                             <div className={styles.inputContainer}>
-                                <input type="text" placeholder="RG" />
+                                <input type="text" placeholder="Marca" />
                             </div>
                         </div>
-                        <div className={styles.identificationCpf}>
-                            <label htmlFor="cpf">CPF: </label>
+                        <div className={styles.description}>
+                            <label htmlFor="descricao">Descrição: </label>
                             <div className={styles.inputContainer}>
-                                <input type="text" placeholder="CPF" />
+                                <input type="text" placeholder="Descrição" />
                             </div>
                         </div>
-                        <div className={styles.birthDate}>
-                            <label htmlFor="dataNascimento">Data de nascimento: </label>
+                        <div className={styles.size}>
+                            <label htmlFor="tamanho">Tamanho: </label>
                             <div className={styles.inputContainer}>
-                                <input type="text" placeholder="Data de nascimento" />
+                                <input type="text" placeholder="Tamanho" />
                             </div>
                         </div>
-                        <div className={styles.postalAdress}>
-                            <label htmlFor="preco de venda">Endereço: </label>
-                            <div className={styles.inputContainer}>
-                                <input type="text" placeholder="Preço de venda" />
-                            </div>
-                        </div>
-                        <div className={styles.postalAdress}>
-                            <label htmlFor="preco de venda">Endereço: </label>
+                        <div className={styles.salePrice}>
+                            <label htmlFor="preco de venda">Preço de venda: </label>
                             <div className={styles.inputContainer}>
                                 <input type="text" placeholder="Preço de venda" />
                             </div>
@@ -119,4 +113,4 @@ function userForm() {
     );
 }
 
-export default userForm;
+export default productForm;

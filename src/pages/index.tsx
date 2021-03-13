@@ -14,25 +14,9 @@ export default function Home() {
       </Head>
       <PageHeader />
       <SubHeader />
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
+      <div className={styles.home}>
+        
+      </div>
       <PageFooter />
     </div>
   )

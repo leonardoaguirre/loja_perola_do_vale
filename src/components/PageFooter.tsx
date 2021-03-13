@@ -10,7 +10,7 @@ function PageFooter() {
                     <Link href="/">
                         <a>
                             <img id={styles.logoImg} src="icons/logo.png" alt="Logo Ferragens Pérola do Vale" title="Logo Ferragens Pérola do Vale"/>
-                            <img id={styles.logoTitle}  src="icons/logoTitle.png" alt="Logo título Ferragens Pérola do Vale" title="Logo título Ferragens Pérola do Vale"/>
+                            <img id={styles.logoTitle}  src="icons/ferragens-perola-do-vale-branco.png" alt="Logo título Ferragens Pérola do Vale" title="Logo título Ferragens Pérola do Vale"/>
                         </a>
                     </Link>
                 </div>
@@ -18,24 +18,24 @@ function PageFooter() {
                     <div className={styles.mapLocation}>
                         <Link href="https://goo.gl/maps/ekkeZRJEX39yGkFA8">
                             <a target="_blank">
-                                <img src="icons/google-maps-black.svg" alt="logo do google maps" title="Google Maps" />
+                                <img src="icons/google-maps-white.svg" alt="logo do google maps" title="Google Maps" />
                             </a>
                         </Link>
                     </div>
                     <div className={styles.socialMedias}>
                         <Link href="https://www.facebook.com/pages/Ferragens%20Perola%20do%20Vale/383000095476541/">
                             <a target="_blank">
-                                <img src="icons/facebook-black.svg" alt="logo do facebook" title="Facebook" />
+                                <img src="icons/facebook-white.svg" alt="logo do facebook" title="Facebook" />
                             </a>
                         </Link>
                         <Link href="http://www.instagram.com">
                             <a target="_blank">
-                                <img src="icons/instagram-black.svg" alt="logo do instagram" title="Instagram" />
+                                <img src="icons/instagram-white.svg" alt="logo do instagram" title="Instagram" />
                             </a>
                         </Link>
                         <Link href="http://www.twitter.com">
                             <a target="_blank">
-                                <img src="icons/twitter-black.svg" alt="logo do twitter" title="Twitter" />
+                                <img src="icons/twitter-white.svg" alt="logo do twitter" title="Twitter" />
                             </a>
                         </Link>
                     </div>

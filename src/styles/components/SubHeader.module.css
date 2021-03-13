@@ -1,6 +1,6 @@
 .subHeader {
     width: 100%;
-    background-color: inherit;
+    background-color: var(--tertiary);
     border-bottom: 1px solid rgb(228, 228, 228);
 }
 
@@ -18,31 +18,31 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    background-color: white;
     align-items: flex-start;
 }
 
 .subHeader .subHeaderContent .menu {
     display: flex;
-    align-items: center;
+    align-items: stretch;
 }
 
 .subHeader .subHeaderContent .menu .menuItens {
-    transition: 0.3s;
     display: flex;
-}
-
-.subHeader .subHeaderContent .menu .menuItens:hover {
-    background-color: #d4d4d4;
 }
 
 .subHeader .subHeaderContent .menu .menuItens button {
     padding: 1rem 2rem;
+    height: 4rem;
+    border-bottom: 3px solid inherit;
+    transition: 0.3s;
+}
+
+.subHeader .subHeaderContent .menu .menuItens button:hover {
+    background-color: #d4d4d4;
+    transition: 0.3s;
 }
 
 .subHeader .subHeaderContent .menu .menuItens .selected {
-    position: relative;
-    bottom: -9px;
     border-bottom: 3px solid #72b0e4;
 }
 

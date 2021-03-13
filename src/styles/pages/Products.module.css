@@ -1,0 +1,49 @@
+.container {
+	height: 100vh;
+	width: 100vw;
+	margin: 0 auto;
+
+	display: flex;
+	flex-direction: column;
+}
+
+.products {
+    width: 95%;
+    max-width: 2880px;
+    margin: 0 auto;
+    padding: 1.6rem 0;
+}
+
+.products .actionsContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.products .actionsContainer button {
+    width: 12rem;
+    height: 4rem;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.products .actionsContainer .buttonContainer {
+    padding: 2rem 2rem;
+}
+
+.products .actionsContainer .buttonContainer .createButton {
+    background-color: #068601;
+    color: white;
+}
+
+.products .actionsContainer .buttonContainer .updateButton {
+    background-color: #bdba00;
+    color: black;
+}
+
+.products .actionsContainer .buttonContainer .deleteButton {
+    background-color: #e73b3b;
+    color: white;
+}

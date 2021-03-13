@@ -1,7 +1,7 @@
 .pageHeader {
     display: flex;
     flex-direction: column;
-    background-color: #f5ffbc;
+    background-color: var(--primary);
 }
 
 .pageHeader .topBarContainer {
@@ -34,7 +34,7 @@
 }
 
 .pageHeader .topBarContainer .logoContainter a #logoTitle {
-    height: 4rem;
+    height: 6rem;
 }
 
 .pageHeader .topBarContainer .inputContainer {
@@ -140,7 +140,7 @@
 }
 
 .pageHeader .headerContent .menu .departmentsDropdown .dropdownButton .arrowAnimation {
-    transition: all 0.5s ease-in-out;
+    transition: all ease-in-out;
 }
 
 .pageHeader .headerContent .menu .departmentsDropdown:hover .dropdownButton .arrowAnimation {

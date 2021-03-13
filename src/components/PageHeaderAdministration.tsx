@@ -1,12 +1,12 @@
 import Link from 'next/link';
 
-import styles from '../styles/components/PageHeader.module.css';
+import styles from '../styles/components/PageHeaderAdministration.module.css';
 
-interface PageHeaderProps {
+interface PageHeaderAdministrationProps {
 
 }
 
-const PageHeader: React.FC<PageHeaderProps> = (props) => {
+const PageHeaderAdministration: React.FC<PageHeaderAdministrationProps> = (props) => {
     return (
         <header className={styles.pageHeader}>
             <div className={styles.topBarContainer}>
@@ -20,17 +20,6 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
                     </Link>
                 </div>
 
-                <div className={styles.inputContainer}>
-                    <input type="search" placeholder="Busque aqui seu produto" />
-                    <button>
-                        <Link href="/products">
-                            <a>
-                                <img src="icons/search-black-36dp.svg" alt="Lupa" title="Buscar" />
-                            </a>
-                        </Link>
-                    </button>
-                </div>
-
                 <div className={styles.userContainer}>
                     <Link href="/user/userInfo">
                         <a>
@@ -39,28 +28,29 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
                     </Link>
                     <div className={styles.userInfo}>
                         <strong>Hideki Yamakawa</strong>
+                        <span>Gerente de vendas</span>
                     </div>
                 </div>
 
                 <div className={styles.userActions}>
-                    <div className={styles.shoppingCart}>
-                        <Link href="/shoppingCart">
+                    <Link href="/storage">
+                        <div className={styles.storage}>
                             <a>
-                                <img src="icons/shopping_cart-black-36dp.svg" alt="Carrinho de compras" title="Carrinho" />
+                                <img src="icons/boxes-black.svg" alt="Caixas" title="Estoque" />
                             </a>
-                        </Link>
-                    </div>
-                    <div className={styles.favoritesItens}>
-                        <Link href="/favoriteItens">
+                        </div>
+                    </Link>
+                    <Link href="/manageEmployees">
+                        <div className={styles.manageEmployees}>
                             <a>
-                                <img src="icons/favorite_border-black-36dp.svg" alt="Coração" title="Favoritos" />
+                                <img src="icons/manage_accounts-black-36dp.svg" alt="Usuário com uma engrenagem" title="Gerenciar Funcionários" />
                             </a>
-                        </Link>
-                    </div>
+                        </div>
+                    </Link>
                 </div>
             </div>
         </header>
     );
 }
 
-export default PageHeader;
+export default PageHeaderAdministration;
