@@ -1,7 +1,7 @@
 import { GetStaticProps} from 'next';
 import styles from '../styles/components/ProductsTable.module.css';
 
-function UserTable({ users =[]}) {
+function UserTable({ users}) {
     return (
         <div className={styles.productsTable}>
             <table>

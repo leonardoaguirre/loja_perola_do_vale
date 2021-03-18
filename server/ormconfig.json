@@ -1,0 +1,20 @@
+{
+    "name": "default",
+    "type": "mysql",
+    "host": "localhost",
+    "port": 3308,
+    "username": "root",
+    "password": "",
+    "database": "mydb",
+    "synchronize": true,
+    "entities": [
+        "./models/**.ts"
+    ],
+    "migrations": [
+        "./database/migrations/**.ts"
+    ],
+    "cli": {
+        "entitiesDir": "./models",
+        "migrationsDir": "./database/migrations"
+    }
+}
