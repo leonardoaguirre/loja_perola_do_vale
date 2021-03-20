@@ -4,11 +4,13 @@ import "express-async-errors";
 import createConnection from "../infra/database/conexao";
 import { routes } from "../routes/main.routes";
 import { AppError } from "../errors/AppError";
+import cors from 'cors';
 
 createConnection();
-const app = express();
 
+const app = express();
 app.use(express.json());
+app.use(cors());
 app.use(routes);
 
 app.use(

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { ControlePessoa } from "../controllers/ControlePessoa";
-
+import cors from 'cors';
 
 const controlePessoa = new ControlePessoa();
 const pessoaRoutes = Router();

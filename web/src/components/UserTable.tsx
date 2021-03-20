@@ -13,6 +13,7 @@ function UserTable({ users }) {
             }),
             headers: new Headers({
                 'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
             }),
             method: "DELETE",
         })

@@ -5,7 +5,7 @@ import styles from '../../styles/pages/UserForm.module.css';
 
 function userForm({ retorno }) {
     const registerUser = async event => {
-        event.preventDefault()
+        event.preventDefault();
 
         const res = await fetch("http://localhost:3008/Pessoa/Adicionar", {
             body: JSON.stringify({
@@ -21,13 +21,13 @@ function userForm({ retorno }) {
             }),
             headers: new Headers({
                 'Content-Type': 'application/json'
-            }), 
-            method: 'POST',
+            }),
+            method: "post",
         })
-        console.log(res);
+
         const result = await res.json();
         // result.user => 'Ada Lovelace'
-
+        console.log(result);
         return {
             props: { retorno: result, },
         }
@@ -38,7 +38,7 @@ function userForm({ retorno }) {
             <div className={styles.userForm}>
                 <h1>Cadastrar-se</h1>
                 <div className={styles.formContainer}>
-                    <form onSubmit={registerUser}>
+                    <form method="POST" onSubmit={registerUser}>
                         <div className={styles.email}>
                             <label htmlFor="email">Email: </label>
                             <div className={styles.inputContainer}>
