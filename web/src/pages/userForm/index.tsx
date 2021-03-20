@@ -14,21 +14,23 @@ function userForm({ retorno }) {
                 rg: event.target.rg.value,
                 cpf: event.target.cpf.value,
                 dtNasc: event.target.dtNasc.value,
-                ddd: event.target.ddd.value,
-                numero: event.target.numero.value,
+                telefones: [{
+                    ddd: event.target.ddd.value,
+                    numero: event.target.numero.value
+                }]
             }),
-            headers: {
+            headers: new Headers({
                 'Content-Type': 'application/json'
-            },
-            method: 'POST'
+            }), 
+            method: 'POST',
         })
-
-        const result = await res.json()
+        console.log(res);
+        const result = await res.json();
         // result.user => 'Ada Lovelace'
 
-        // return {
-        //     props: { retorno: result, },
-        // }
+        return {
+            props: { retorno: result, },
+        }
     }
     return (
         <div className={styles.container}>
