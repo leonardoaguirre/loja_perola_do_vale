@@ -13,25 +13,25 @@ function productForm() {
                         <div className={styles.name}>
                             <label htmlFor="name">Nome: </label>
                             <div className={styles.inputContainer}>
-                                <input type="text" placeholder="Nome" />
+                                <input type="text" placeholder="Nome" name="name" />
                             </div>
                         </div>
                         <div className={styles.brand}>
                             <label htmlFor="marca">Marca: </label>
                             <div className={styles.inputContainer}>
-                                <input type="text" placeholder="Marca" />
+                                <input type="text" placeholder="Marca" name="marca" />
                             </div>
                         </div>
                         <div className={styles.description}>
                             <label htmlFor="descricao">Descrição: </label>
                             <div className={styles.inputContainer}>
-                                <input type="text" placeholder="Descrição" />
+                                <input type="text" placeholder="Descrição" name="descricao" />
                             </div>
                         </div>
                         <div className={styles.size}>
                             <label htmlFor="tamanho">Tamanho: </label>
                             <div className={styles.inputContainer}>
-                                <input type="text" placeholder="Tamanho" />
+                                <input type="text" placeholder="Tamanho" name="" />
                             </div>
                         </div>
                         <div className={styles.salePrice}>

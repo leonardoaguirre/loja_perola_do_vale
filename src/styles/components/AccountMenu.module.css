@@ -1,0 +1,13 @@
+.accountMenu {
+    display: flex;
+    flex-direction: column;
+}
+
+.accountMenu .menuItem {
+    font-size: 2rem;
+    justify-content: flex-start;
+}
+
+.accountMenu .menuItem img {
+    height: 6rem;
+}
