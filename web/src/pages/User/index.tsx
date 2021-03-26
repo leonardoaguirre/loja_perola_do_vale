@@ -13,21 +13,11 @@ function user({ pessoas }) {
         <div className={styles.container}>
             <PageHeaderAdministration />
             <div className={styles.products}>
-                <UserTable users={pessoas}  />
+                <UserTable users={pessoas} />
                 <div className={styles.actionsContainer}>
                     <div className={styles.buttonContainer}>
                         <Link href="/userForm">
                             <button className={styles.createButton}>Cadastrar</button>
-                        </Link>
-                    </div>
-                    <div className={styles.buttonContainer}>
-                        <Link href="/updateProduct">
-                            <button className={styles.updateButton}>Alterar</button>
-                        </Link>
-                    </div>
-                    <div className={styles.buttonContainer}>
-                        <Link href="/deleteProduct">
-                            <button className={styles.deleteButton}>Excluir</button>
                         </Link>
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 import { AppError } from "../errors/AppError";
 import { NextFunction, Request, Response } from "express";
+import type { NextApiRequest, NextApiResponse} from 'next';
 import { getCustomRepository } from "typeorm";
 import { TelefoneRepository } from "../repositorios/TelefoneRepository"
 import { Pessoa } from "../models/Pessoa";

@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
+import type { NextApiRequest, NextApiResponse} from 'next'
 import { getConnection, getCustomRepository, getManager, Repository, RepositoryNotTreeError, TransactionManager } from "typeorm";
 import { PessoaRepository } from "../repositorios/PessoaRepository";
 import { AppError } from "../errors/AppError";
 import { ControleTelefone } from "../controllers/ControleTelefone";
 import { Pessoa } from "../models/Pessoa";
+import { fromString } from "uuidv4";
 
 class ControlePessoa {
 
@@ -107,7 +109,7 @@ class ControlePessoa {
     }
 
 
-    async deletar(request: Request, response: Response) {
+    async deletar(request , response) {
         const pessoaRepository = getCustomRepository(PessoaRepository);
         const { id } = request.body;
 
