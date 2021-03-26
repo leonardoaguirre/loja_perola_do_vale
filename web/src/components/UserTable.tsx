@@ -1,10 +1,9 @@
-import { GetStaticProps} from 'next';
-import styles from '../styles/components/ProductsTable.module.css';
+import styles from '../styles/components/UserTable.module.css';
 
 function UserTable({ users}) {
     return (
-        <div className={styles.productsTable}>
-            <table>
+        <div className={styles.usersTable}>
+            <table id="usersTable" className={styles.table}>
                 <tr>
                     <th>ID</th>
                     <th>Nome</th>

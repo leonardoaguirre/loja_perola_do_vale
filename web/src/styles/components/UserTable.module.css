@@ -1,0 +1,20 @@
+.usersTable table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0 auto;
+    max-width: 2880px;
+}
+
+.usersTable table tr th {
+    background-color: #a7baff;
+}
+
+.usersTable table tr td, .productsTable table tr th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+  
+.usersTable table tr:nth-child(even) {
+    background-color: #dfe5fa;
+}
