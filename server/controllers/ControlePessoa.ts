@@ -1,11 +1,9 @@
 import { Request, Response } from "express";
-import type { NextApiRequest, NextApiResponse} from 'next'
-import { getConnection, getCustomRepository, getManager, Repository, RepositoryNotTreeError, TransactionManager } from "typeorm";
+import { getCustomRepository} from "typeorm";
 import { PessoaRepository } from "../repositorios/PessoaRepository";
 import { AppError } from "../errors/AppError";
 import { ControleTelefone } from "../controllers/ControleTelefone";
 import { Pessoa } from "../models/Pessoa";
-import { fromString } from "uuidv4";
 
 class ControlePessoa {
 

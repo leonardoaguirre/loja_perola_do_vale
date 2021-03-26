@@ -22,9 +22,9 @@ class Pessoa {
   @Column({ nullable: false, length: 11, unique: true })
   cpf: string;
 
-  @IsDateString({strict:true},{message:"A data precisa ser valida"})
-  @Column({ nullable: false })
-  dtNasc: Date;
+  @IsDateString({strict:true},{message:"A data precisa ser valida"},)
+  @Column({type :'date', nullable: false })
+  dtNasc : Date;
 
   @Length(10,100,{message:"O email deve ter entre 10 e 100 caracteres"})
   @IsEmail({}, {message:"Email invalido!"})

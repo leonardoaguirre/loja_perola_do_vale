@@ -1,15 +1,25 @@
+import { Button } from '@material-ui/core';
 import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import React from 'react';
 import styles from '../styles/components/ProductsTable.module.css';
 
 function UserTable({ users }) {
-    const deleteUser = async (event) => {
+    const cliquei = async(event) =>{
+        console.log("cliquei na tr")
+    }
+    const alterUser = async(event) => {
         event.preventDefault()
-        console.log(event.target.value);
+          
+
+    }
+    const deleteUser = async (event,userid) => {
+        event.preventDefault()
+
+        console.log(event.target.key);
         await fetch('http://localhost:3008/Pessoa/Deletar', {
             body: JSON.stringify({
-                id: event.target.value,
+                id: userid,
             }),
             headers: new Headers({
                 'Content-Type': 'application/json',
@@ -44,8 +54,8 @@ function UserTable({ users }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((user, key) => (
-                        <tr key={key}>
+                    {users.map((user) => (
+                        <tr key={user.id} onClick={cliquei}>
                             <td>{user.id}</td>
                             <td>{user.nome}</td>
                             <td>{user.rg}</td>
@@ -54,15 +64,15 @@ function UserTable({ users }) {
                             <td>{user.email}</td>
                             <td>
                                 <div className={styles.buttonContainer}>
-                                    <Link href="/userForm?id='{user.id}'">
-                                        <button className={styles.updateButton}>Alterar</button>
+                                    <Link href={`/userForm/${user.id}`}>
+                                        <a><button className={styles.updateButton}>Alterar</button></a>
                                     </Link>
                                 </div>
                             </td>
                             <td>
                                 <div className={styles.buttonContainer}>
-                                    <Link href="">
-                                        <button className={styles.deleteButton} onClick={deleteUser} value={user.id}>Excluir</button>
+                                    <Link href="/userForm">
+                                        <button className={styles.deleteButton} onClick={(event)=>deleteUser(event,user.id)}>Excluir</button>
                                     </Link>
                                 </div>
                             </td>
