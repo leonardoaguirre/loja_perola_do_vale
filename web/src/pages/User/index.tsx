@@ -37,7 +37,7 @@ function user({ pessoas }) {
     );
 }
 export const getStaticProps: GetStaticProps = async () => {
-    const response = await fetch('http://localhost:3008/pessoa/listar');
+    const response = await fetch('http://localhost:3006/pessoa/listar');
     const data = await response.json();
     return {
         props: {
