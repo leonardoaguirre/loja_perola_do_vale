@@ -64,7 +64,7 @@ function UserTable({ users }) {
                             <td>{user.email}</td>
                             <td>
                                 <div className={styles.buttonContainer}>
-                                    <Link href={`/userForm/${user.id}`}>
+                                    <Link href={`/userForm/alter/${user.id}`}>
                                         <a><button className={styles.updateButton}>Alterar</button></a>
                                     </Link>
                                 </div>
@@ -72,7 +72,7 @@ function UserTable({ users }) {
                             <td>
                                 <div className={styles.buttonContainer}>
                                     <Link href="/userForm">
-                                        <button className={styles.deleteButton} onClick={(event)=>deleteUser(event,user.id)}>Excluir</button>
+                                        <a><button className={styles.deleteButton} onClick={(event)=>deleteUser(event,user.id)}>Excluir</button></a>
                                     </Link>
                                 </div>
                             </td>

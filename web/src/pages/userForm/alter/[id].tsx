@@ -1,15 +1,23 @@
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { useRouter } from 'next/router'
-import PageFooter from '../../components/PageFooter';
-import PageHeaderAdministration from '../../components/PageHeaderAdministration';
-import styles from '../../styles/pages/UserForm.module.css';
+import { useEffect } from 'react';
+import LoadingIcon from '../../../components/LoadingIcon';
+import PageFooter from '../../../components/PageFooter';
+import PageHeaderAdministration from '../../../components/PageHeaderAdministration';
+import styles from '../../../styles/pages/UserForm.module.css';
 
-function userForm({retorno}) {
-    const {isFallback} = useRouter();
-    
-    if(isFallback){
-        return <h1>Carregando...</h1>;
+function userAlterForm({ retorno }) {
+    const { isFallback } = useRouter();
+    if (isFallback) {
+        return <LoadingIcon />;
     }
+
+    const router = useRouter();
+    // useEffect(() => {
+    //     // Prefetch the dashboard page
+    //     router.prefetch(`/userForm/alter/${retorno.id}`)
+    // }, [])
+    // router.prefetch(`/userForm/${id}`);
 
     const registerUser = async event => {
         event.preventDefault();
@@ -33,6 +41,7 @@ function userForm({retorno}) {
                 }),
                 method: "PATCH",
             })
+            router.push('/User');
         } else {
             const res = await fetch("http://localhost:3008/Pessoa/Adicionar", {
                 body: JSON.stringify({
@@ -62,7 +71,7 @@ function userForm({retorno}) {
 
     }
 
-
+ 
     return (
         <div className={styles.container}>
             <PageHeaderAdministration />
@@ -73,49 +82,49 @@ function userForm({retorno}) {
                         <div className={styles.email}>
                             <label htmlFor="email">Email: </label>
                             <div className={styles.inputContainer}>
-                                <input type="email" placeholder="Email" name="email" defaultValue={retorno.email}/>
+                                <input type="email" placeholder="Email" name="email" defaultValue={retorno.email} />
                             </div>
                         </div>
                         <div className={styles.password}>
                             <label htmlFor="password">Senha: </label>
                             <div className={styles.inputContainer}>
-                                <input type="password" placeholder="Senha" name="senha" defaultValue=""/>
+                                <input type="password" placeholder="Senha" name="senha" defaultValue="" />
                             </div>
                         </div>
                         <div className={styles.name}>
                             <label htmlFor="name">Nome: </label>
                             <div className={styles.inputContainer}>
-                                <input type="text" placeholder="Nome" name="nome" defaultValue={retorno.nome}/>
+                                <input type="text" placeholder="Nome" name="nome" defaultValue={retorno.nome} />
                             </div>
                         </div>
                         <div className={styles.identificationRg}>
                             <label htmlFor="rg">RG: </label>
                             <div className={styles.inputContainer}>
-                                <input type="number" placeholder="RG" name="rg"  defaultValue={retorno.rg}/>
+                                <input type="number" placeholder="RG" name="rg" defaultValue={retorno.rg} />
                             </div>
                         </div>
                         <div className={styles.identificationCpf}>
                             <label htmlFor="cpf">CPF: </label>
                             <div className={styles.inputContainer}>
-                                <input type="number" placeholder="CPF" name="cpf"  defaultValue={retorno.cpf}/>
+                                <input type="number" placeholder="CPF" name="cpf" defaultValue={retorno.cpf} />
                             </div>
                         </div>
                         <div className={styles.birthDate}>
                             <label htmlFor="dataNascimento">Data de nascimento: </label>
                             <div className={styles.inputContainer}>
-                                <input type="date" placeholder="Data de nascimento" name="dtNasc"  defaultValue={retorno.dtNasc}/>
+                                <input type="date" placeholder="Data de nascimento" name="dtNasc" defaultValue={retorno.dtNasc} />
                             </div>
                         </div>
                         <div className={styles.telephone}>
                             <label htmlFor="telephone">DDD: </label>
                             <div className={styles.inputContainer}>
-                                <input type="number" placeholder="xx" name="ddd" defaultValue={retorno.telefones[0].ddd}/>
+                                <input type="number" placeholder="xx" name="ddd" defaultValue={retorno.telefones[0].ddd} />
                             </div>
                         </div>
                         <div className={styles.telephone}>
                             <label htmlFor="telephone">Telefone: </label>
                             <div className={styles.inputContainer}>
-                                <input type="number" placeholder="xxxx-xxx" name="numero"  defaultValue={retorno.telefones[0].numero}/>
+                                <input type="number" placeholder="xxxx-xxx" name="numero" defaultValue={retorno.telefones[0].numero} />
                             </div>
                         </div>
                         <div className={styles.buttonsContainer}>
@@ -134,24 +143,28 @@ function userForm({retorno}) {
         </div>
     );
 }
-export const getStaticPaths : GetStaticPaths = async () =>{
+export const getStaticPaths: GetStaticPaths = async () => {
     const response = await fetch(`http://localhost:3008/pessoa/Listar`);
     const data = await response.json();
 
-    const paths = data.map(pessoa =>{
-        return {params : {id : ''}}
+
+
+    const paths = data.map(pessoa => {
+        return { params: { id: '' } }
     });
-    return{
+    return {
         paths,
-        fallback : true
+        fallback: true
     }
 
 }
 export const getStaticProps: GetStaticProps = async (context) => {
-    const {id} = context.params;
+    const { id } = context.params;
+
 
     const response = await fetch(`http://localhost:3008/pessoa/BuscaPorId/${id}`);
     const data = await response.json();
+
     return {
         props: {
             retorno: data,
@@ -160,4 +173,4 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 
-export default userForm;
+export default userAlterForm;

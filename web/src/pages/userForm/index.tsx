@@ -1,58 +1,48 @@
 import { GetStaticProps } from 'next';
 import { route } from 'next/dist/next-server/server/router';
 import { useRouter } from 'next/router'
+import LoadingIcon from '../../components/LoadingIcon';
 import PageFooter from '../../components/PageFooter';
 import PageHeaderAdministration from '../../components/PageHeaderAdministration';
 import styles from '../../styles/pages/UserForm.module.css';
 
-function userForm() {
-    const registerUser = async event => {
+function userForm({ retorno }) {
+    const { isFallback } = useRouter();
+    if (isFallback) {
+        return <LoadingIcon />;
+    }
+
+    const registerUser = async (event) => {
         event.preventDefault();
 
-        // if (retorno.id) {
-        //     await fetch('http://localhost:3008/Pessoa/Alterar/' + retorno.id, {
-        //         body: JSON.stringify({
-        //             nome: event.target.nome.value,
-        //             email: event.target.email.value,
-        //             rg: event.target.rg.value,
-        //             cpf: event.target.cpf.value,
-        //             dtNasc: event.target.dtNasc.value,
-        //             telefones: [{
-        //                 ddd: event.target.ddd.value,
-        //                 numero: event.target.numero.value
-        //             }]
-        //         }),
-        //         headers: new Headers({
-        //             'Content-Type': 'application/json',
-        //             'Access-Control-Allow-Origin': '*',
-        //         }),
-        //         method: "PATCH",
-        //     })
-        // } else {
-            const res = await fetch("http://localhost:3008/Pessoa/Adicionar", {
-                body: JSON.stringify({
-                    nome: event.target.nome.value,
-                    email: event.target.email.value,
-                    rg: event.target.rg.value,
-                    cpf: event.target.cpf.value,
-                    dtNasc: event.target.dtNasc.value,
-                    telefones: [{
-                        ddd: event.target.ddd.value,
-                        numero: event.target.numero.value
-                    }]
-                }),
-                headers: new Headers({
-                    'Content-Type': 'application/json'
-                }),
-                method: "post",
-            })
+        const res = await fetch("http://localhost:3008/Pessoa/Adicionar", {
+            body: JSON.stringify({
+                nome: event.target.nome.value,
+                email: event.target.email.value,
+                rg: event.target.rg.value,
+                cpf: event.target.cpf.value,
+                dtNasc: event.target.dtNasc.value,
+                telefones: [{
+                    ddd: event.target.ddd.value,
+                    numero: event.target.numero.value
+                }]
+            }),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            }),
+            method: "post",
+        })
 
-            const result = await res.json();
-            // result.user => 'Ada Lovelace'
-            console.log(result);
-            return {
-                props: { retorno: result, },
-            }
+        const result = await res.json();
+        console.log(result);
+
+        // result.user => 'Ada Lovelace'
+        
+        // }
+
+        // return {
+        //     retorno: result,
+        // }
         // }
 
     }
@@ -78,13 +68,13 @@ function userForm() {
                         <div className={styles.name}>
                             <label htmlFor="name">Nome: </label>
                             <div className={styles.inputContainer}>
-                                <input type="text" placeholder="Nome" name="nome"/>
+                                <input type="text" placeholder="Nome" name="nome" />
                             </div>
                         </div>
                         <div className={styles.identificationRg}>
                             <label htmlFor="rg">RG: </label>
                             <div className={styles.inputContainer}>
-                                <input type="number" placeholder="RG" name="rg"/>
+                                <input type="number" placeholder="RG" name="rg" />
                             </div>
                         </div>
                         <div className={styles.identificationCpf}>
@@ -96,7 +86,7 @@ function userForm() {
                         <div className={styles.birthDate}>
                             <label htmlFor="dataNascimento">Data de nascimento: </label>
                             <div className={styles.inputContainer}>
-                                <input type="date" placeholder="Data de nascimento" name="dtNasc"/>
+                                <input type="date" placeholder="Data de nascimento" name="dtNasc" />
                             </div>
                         </div>
                         <div className={styles.telephone}>
@@ -114,7 +104,7 @@ function userForm() {
                         <div className={styles.buttonsContainer}>
                             <div className={styles.create}>
                                 <input type="submit" value="Cadastrar" />
-                                {/* <p>{retorno}</p> */}
+                                <p>{retorno}</p>
                             </div>
                             <div className={styles.reset}>
                                 <input type="reset" />
@@ -127,12 +117,13 @@ function userForm() {
         </div>
     );
 }
-// export const  : GetStaticProps = async () => {
-//     const response = await fetch("http://localhost:3008/Pessoa/Adicionar")
-//     const data = await response.json();
-//     return {
-//         props: {retorno: data,},
-//     }
+export const getStaticProps : GetStaticProps = async () => {
+    const response = await fetch("http://localhost:3008/Pessoa/Adicionar")
+    const res = response.json();
+    return {
+        props: { retorno: res },
+    }
+}
 // export const getStaticProps: GetStaticProps = async () => {
 //     const router = useRouter()
 //     const { idpessoa } = router.query
