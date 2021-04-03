@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getCustomRepository} from "typeorm";
+import { getCustomRepository } from "typeorm";
 import { PessoaRepository } from "../repositorios/PessoaRepository";
 import { AppError } from "../errors/AppError";
 import { ControleTelefone } from "../controllers/ControleTelefone";
@@ -22,30 +22,39 @@ class ControlePessoa {
         let retornoPessoa;
 
         try {
-            await pessoaRepository.verifica(pessoa);
-            const erros = await pessoaRepository.validaDados(pessoa);
+            await pessoaRepository.verifica(pessoa)
+                .then(async (result) => {
+                    if (result) {
+                        throw result;
+                    }
+                    const erros = await pessoaRepository.validaDados(pessoa);
 
-            if (erros.length > 0) {
-                throw erros;
-            } else {
-                const controleTelefone = new ControleTelefone();
+                    if (erros.length > 0) {
+                        throw erros;
+                    }
+                    else {
+                        const controleTelefone = new ControleTelefone();
 
-                retornoPessoa = await pessoaRepository.save(pessoa);
-                const retornoTelefone = await controleTelefone.adicionar(request, response, retornoPessoa);
+                        retornoPessoa = await pessoaRepository.save(pessoa);
+                        const retornoTelefone = await controleTelefone.adicionar(request, response, retornoPessoa);
 
-                if (retornoTelefone) {
-                    throw retornoTelefone;
-                } else {
-                    return response.status(201).json(request.body);
-                }
-                
-            }
+                        if (retornoTelefone.length > 0) {
+                            throw retornoTelefone;
+                        } else {
+                            return response.status(201).json(retornoPessoa.id);
+                        }
+
+                    }
+                }).catch((res) => {
+                    throw res;
+                });
+
         } catch (error) {
 
-            if(retornoPessoa instanceof Pessoa){
+            if (retornoPessoa instanceof Pessoa) {
                 await pessoaRepository.delete(retornoPessoa.id);
-            } 
-            
+            }
+
             return response.status(400).json(error);
         }
     }
@@ -66,7 +75,7 @@ class ControlePessoa {
         if (pessoaExiste) {
             return response.status(201).json(pessoaExiste);
         } else {
-            throw new AppError("O usuario nao foi encontrado");
+            throw new AppError("O usuario nao foi encontrado", 'id');
         }
     }
 
@@ -100,22 +109,22 @@ class ControlePessoa {
                     });
             }
         } else {
-            throw new AppError("O usuario de id: " + id + " a ser alterado nao foi encontrado ");
+            throw new AppError("O usuario de id: " + id + " a ser alterado nao foi encontrado ", 'id');
         }
 
 
     }
 
 
-    async deletar(request , response) {
+    async deletar(request, response) {
         const pessoaRepository = getCustomRepository(PessoaRepository);
         const { id } = request.body;
 
         if (await pessoaRepository.findOne(id)) {
             await pessoaRepository.delete(id);
-            return response.status(200).json({message : "O usuario de id "+id+" foi deletado com sucessso!"});
+            return response.status(200).json({ message: "O usuario de id " + id + " foi deletado com sucessso!" });
         } else {
-            throw new AppError("O usuario a ser deletado nao foi encontrado");
+            throw new AppError("O usuario a ser deletado nao foi encontrado", 'id');
         }
     }
 }

@@ -1,24 +1,27 @@
 import { EntityRepository, Repository } from "typeorm";
 import { Pessoa } from "../models/Pessoa";
-import { validate } from "class-validator";
+import { validate, ValidationError } from "class-validator";
 import { AppError } from "../errors/AppError";
 
 @EntityRepository(Pessoa)
 class PessoaRepository extends Repository<Pessoa> {
     async verifica(pessoa: Pessoa) {
+        const validacoes = new Array<AppError>();
 
-        if (await this.existeEmail(pessoa.email)) {
-            throw new AppError("Este email ja foi registrado!");
-        }
-        // erros.push("Este email ja foi registrado!");
+        await this.existeEmail(pessoa.email)
+            .then((result) => {
+                if (result) {
+                    validacoes.push(new AppError("Este email ja foi registrado!", "email"));
+                }
+            })
         if (await this.existeCpf(pessoa.cpf)) {
-            throw new AppError("Este cpf ja foi registrado!");
+            validacoes.push(new AppError("Este cpf ja foi registrado!", "cpf"));
         }
-        // erros.push("Este cpf ja foi registrado!");
         if (await this.existeRg(pessoa.rg)) {
-            throw new AppError("Este rg ja foi registrado!");
+            validacoes.push(new AppError("Este rg ja foi registrado!", "rg"));
         }
 
+        return validacoes;
     }
     async validaDados(pessoa: Pessoa) {
         return await validate(pessoa);

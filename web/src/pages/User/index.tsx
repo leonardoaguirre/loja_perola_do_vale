@@ -1,11 +1,9 @@
 import { GetStaticProps } from 'next';
 import Link from 'next/link';
-
 import PageFooter from '../../components/PageFooter';
 import PageHeaderAdministration from '../../components/PageHeaderAdministration';
 import ProductsTable from '../../components/ProductsTable';
 import UserTable from '../../components/UserTable';
-
 import styles from '../../styles/pages/Products.module.css';
 
 function user({ pessoas }) {
