@@ -1,3 +1,3 @@
 import { app } from "./config/app";
 
-app.listen(3008, () => console.log("Server is running! Port:3008"));
+app.listen(3006, () => console.log("Server is running! Port:3006"));
