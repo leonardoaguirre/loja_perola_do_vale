@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { GetServerSideProps, GetStaticProps } from 'next';
-=======
-import { GetStaticProps } from 'next';
->>>>>>> parent of 2abfcdd9 (Revert "Merge branch 'hideki_updates' of https://github.com/HidekiYamakawa/loja_perola_do_vale into hideki_updates")
 import Link from 'next/link';
 import PageFooter from '../../components/PageFooter';
 import PageHeaderAdministration from '../../components/PageHeaderAdministration';
@@ -10,10 +6,6 @@ import ProductsTable from '../../components/ProductsTable';
 import UserTable from '../../components/UserTable';
 import styles from '../../styles/pages/Products.module.css';
 
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of 2abfcdd9 (Revert "Merge branch 'hideki_updates' of https://github.com/HidekiYamakawa/loja_perola_do_vale into hideki_updates")
 function user({ pessoas }) {
     return (
         <div className={styles.container}>
@@ -33,11 +25,7 @@ function user({ pessoas }) {
     );
 }
 export const getStaticProps: GetStaticProps = async () => {
-<<<<<<< HEAD
     const response = await fetch(process.env.API_ROUTE+'pessoa/listar');
-=======
-    const response = await fetch('http://localhost:3006/pessoa/listar');
->>>>>>> parent of 2abfcdd9 (Revert "Merge branch 'hideki_updates' of https://github.com/HidekiYamakawa/loja_perola_do_vale into hideki_updates")
     const data = await response.json();
     return {
         props: {
@@ -45,7 +33,6 @@ export const getStaticProps: GetStaticProps = async () => {
         }
     }
 }
-<<<<<<< HEAD
 // export const getServerSideProps : GetServerSideProps = withSession(async function ({ req, res }) {
 //     // Get the user's session based on the request
 //     const user = req.session.get('user')
@@ -63,6 +50,4 @@ export const getStaticProps: GetStaticProps = async () => {
 //       props: { user },
 //     }
 //   })
-=======
->>>>>>> parent of 2abfcdd9 (Revert "Merge branch 'hideki_updates' of https://github.com/HidekiYamakawa/loja_perola_do_vale into hideki_updates")
 export default user;

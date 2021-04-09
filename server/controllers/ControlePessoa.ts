@@ -4,23 +4,16 @@ import { PessoaRepository } from "../repositorios/PessoaRepository";
 import { AppError } from "../errors/AppError";
 import { ControleTelefone } from "../controllers/ControleTelefone";
 import { Pessoa } from "../models/Pessoa";
-<<<<<<< HEAD
 import { Encrypt } from "../services/encrypt";
 import jwt from 'jsonwebtoken';
-=======
->>>>>>> parent of 2abfcdd9 (Revert "Merge branch 'hideki_updates' of https://github.com/HidekiYamakawa/loja_perola_do_vale into hideki_updates")
 
 class ControlePessoa {
 
     async adicionar(request: Request, response: Response) {
         const pessoaRepository = getCustomRepository(PessoaRepository);
-<<<<<<< HEAD
         const { nome, rg, cpf, dtNasc, email, senha } = request.body;
         const encrypt = new Encrypt();
         const senhaCrypt = await encrypt.execute(senha);
-=======
-        const { nome, rg, cpf, dtNasc, email } = request.body;
->>>>>>> parent of 2abfcdd9 (Revert "Merge branch 'hideki_updates' of https://github.com/HidekiYamakawa/loja_perola_do_vale into hideki_updates")
 
         const pessoa = pessoaRepository.create({
             nome,
@@ -28,10 +21,7 @@ class ControlePessoa {
             cpf,
             dtNasc,
             email,
-<<<<<<< HEAD
             senha : senhaCrypt,
-=======
->>>>>>> parent of 2abfcdd9 (Revert "Merge branch 'hideki_updates' of https://github.com/HidekiYamakawa/loja_perola_do_vale into hideki_updates")
         });
 
         let retornoPessoa;
@@ -39,11 +29,7 @@ class ControlePessoa {
         try {
             await pessoaRepository.verifica(pessoa)
                 .then(async (result) => {
-<<<<<<< HEAD
                     if (result.length > 0) {
-=======
-                    if (result) {
->>>>>>> parent of 2abfcdd9 (Revert "Merge branch 'hideki_updates' of https://github.com/HidekiYamakawa/loja_perola_do_vale into hideki_updates")
                         throw result;
                     }
                     const erros = await pessoaRepository.validaDados(pessoa);
@@ -62,10 +48,6 @@ class ControlePessoa {
                         } else {
                             return response.status(201).json(retornoPessoa.id);
                         }
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 2abfcdd9 (Revert "Merge branch 'hideki_updates' of https://github.com/HidekiYamakawa/loja_perola_do_vale into hideki_updates")
                     }
                 }).catch((res) => {
                     throw res;
@@ -92,7 +74,6 @@ class ControlePessoa {
         const id = request.params.idPessoa;
         const pessoaRepository = getCustomRepository(PessoaRepository);
 
-<<<<<<< HEAD
         try {
             const pessoaExiste = await pessoaRepository.findOne(id);
 
@@ -105,15 +86,6 @@ class ControlePessoa {
             return response.status(400).json(error);
         }
 
-=======
-        const pessoaExiste = await pessoaRepository.findOne(id);
-
-        if (pessoaExiste) {
-            return response.status(201).json(pessoaExiste);
-        } else {
-            throw new AppError("O usuario nao foi encontrado", 'id');
-        }
->>>>>>> parent of 2abfcdd9 (Revert "Merge branch 'hideki_updates' of https://github.com/HidekiYamakawa/loja_perola_do_vale into hideki_updates")
     }
 
     async alterar(request: Request, response: Response) {
@@ -121,7 +93,6 @@ class ControlePessoa {
         const { nome, rg, cpf, dtNasc, email } = request.body;
         const id = request.params.idPessoa;
 
-<<<<<<< HEAD
         try {
             const pessoaExiste = await pessoaRepository.findOne(id);
             if (pessoaExiste) {
@@ -199,50 +170,6 @@ class ControlePessoa {
         }
 
 
-=======
-        const pessoaExiste = await pessoaRepository.findOne(id);
-        if (pessoaExiste) {
-
-            const pessoa = pessoaRepository.create({
-                nome,
-                rg,
-                cpf,
-                dtNasc,
-                email,
-            });
-
-            const erros = await pessoaRepository.validaDados(pessoa);
-
-            if (erros.length > 0) {
-                return response.status(400).json(erros);
-            } else {
-                await pessoaRepository.update(id, pessoa)
-                    .then(async (retornoPessoa) => {
-                        return response.status(201).json(retornoPessoa);
-                    })
-                    .catch(async (errors) => {
-                        return response.status(400).json(errors);
-                    });
-            }
-        } else {
-            throw new AppError("O usuario de id: " + id + " a ser alterado nao foi encontrado ", 'id');
-        }
-
-
-    }
-
-
-    async deletar(request, response) {
-        const pessoaRepository = getCustomRepository(PessoaRepository);
-        const { id } = request.body;
-
-        if (await pessoaRepository.findOne(id)) {
-            await pessoaRepository.delete(id);
-            return response.status(200).json({ message: "O usuario de id " + id + " foi deletado com sucessso!" });
-        } else {
-            throw new AppError("O usuario a ser deletado nao foi encontrado", 'id');
-        }
->>>>>>> parent of 2abfcdd9 (Revert "Merge branch 'hideki_updates' of https://github.com/HidekiYamakawa/loja_perola_do_vale into hideki_updates")
     }
 }
 

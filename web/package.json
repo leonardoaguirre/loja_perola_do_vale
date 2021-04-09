@@ -10,10 +10,7 @@
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "cors": "^2.8.5",
-<<<<<<< HEAD:package.json
     "dotenv": "^8.2.0",
-=======
->>>>>>> parent of 2abfcdd9 (Revert "Merge branch 'hideki_updates' of https://github.com/HidekiYamakawa/loja_perola_do_vale into hideki_updates"):web/package.json
     "next": "^10.0.9",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
