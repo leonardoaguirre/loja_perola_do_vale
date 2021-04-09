@@ -1,0 +1,81 @@
+.pageHeader {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--primary);
+}
+
+.pageHeader .topBarContainer {
+    width: 95%;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #000000;
+    padding: 1.6rem 0;
+}
+
+.pageHeader .topBarContainer a {
+    transition: 0.2s;
+}
+
+.pageHeader .topBarContainer a:hover {
+    opacity: 0.6;
+}
+
+.pageHeader .topBarContainer .logoContainter a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pageHeader .topBarContainer .logoContainter a #logoImg {
+    height: 7rem;
+}
+
+.pageHeader .topBarContainer .logoContainter a #logoTitle {
+    height: 6rem;
+}
+
+.pageHeader .topBarContainer .userContainer {
+    display: flex;
+    align-items: center;
+    padding: 0rem 2rem ;
+}
+
+.pageHeader .topBarContainer .userContainer a img {
+    height: 4rem;
+    width: 4rem;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.pageHeader .topBarContainer .userContainer .userInfo {
+    padding-left: 1rem;
+}
+
+.pageHeader .topBarContainer .userContainer .userInfo strong {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.pageHeader .topBarContainer .userActions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pageHeader .topBarContainer .userActions a {
+    color: #000000;
+}
+
+.pageHeader .topBarContainer .userActions a img {
+    height: 5rem;
+}
+
+.pageHeader .topBarContainer .userActions .storage {
+    padding-right: 2rem;
+}
