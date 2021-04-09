@@ -1,15 +1,19 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { getCustomRepository } from "typeorm";
 import { PessoaRepository } from "../repositorios/PessoaRepository";
 import { AppError } from "../errors/AppError";
 import { ControleTelefone } from "../controllers/ControleTelefone";
 import { Pessoa } from "../models/Pessoa";
+import { Encrypt } from "../services/encrypt";
+import jwt from 'jsonwebtoken';
 
 class ControlePessoa {
 
     async adicionar(request: Request, response: Response) {
         const pessoaRepository = getCustomRepository(PessoaRepository);
-        const { nome, rg, cpf, dtNasc, email } = request.body;
+        const { nome, rg, cpf, dtNasc, email, senha } = request.body;
+        const encrypt = new Encrypt();
+        const senhaCrypt = await encrypt.execute(senha);
 
         const pessoa = pessoaRepository.create({
             nome,
@@ -17,6 +21,7 @@ class ControlePessoa {
             cpf,
             dtNasc,
             email,
+            senha : senhaCrypt,
         });
 
         let retornoPessoa;
@@ -24,7 +29,7 @@ class ControlePessoa {
         try {
             await pessoaRepository.verifica(pessoa)
                 .then(async (result) => {
-                    if (result) {
+                    if (result.length > 0) {
                         throw result;
                     }
                     const erros = await pessoaRepository.validaDados(pessoa);
@@ -43,7 +48,6 @@ class ControlePessoa {
                         } else {
                             return response.status(201).json(retornoPessoa.id);
                         }
-
                     }
                 }).catch((res) => {
                     throw res;
@@ -59,10 +63,10 @@ class ControlePessoa {
         }
     }
 
-    async listar(request: Request, response: Response) {
+    async listar(request: Request, response: Response, next : NextFunction) {
         const pessoaRepository = getCustomRepository(PessoaRepository);
         const all = await pessoaRepository.find();
-
+        
         return response.status(200).json(all);
     }
 
@@ -70,13 +74,18 @@ class ControlePessoa {
         const id = request.params.idPessoa;
         const pessoaRepository = getCustomRepository(PessoaRepository);
 
-        const pessoaExiste = await pessoaRepository.findOne(id);
+        try {
+            const pessoaExiste = await pessoaRepository.findOne(id);
 
-        if (pessoaExiste) {
-            return response.status(201).json(pessoaExiste);
-        } else {
-            throw new AppError("O usuario nao foi encontrado", 'id');
+            if (pessoaExiste) {
+                return response.status(201).json(pessoaExiste);
+            } else {
+                throw new AppError("O usuario nao foi encontrado", 'id');
+            }
+        } catch (error) {
+            return response.status(400).json(error);
         }
+
     }
 
     async alterar(request: Request, response: Response) {
@@ -84,48 +93,83 @@ class ControlePessoa {
         const { nome, rg, cpf, dtNasc, email } = request.body;
         const id = request.params.idPessoa;
 
-        const pessoaExiste = await pessoaRepository.findOne(id);
-        if (pessoaExiste) {
+        try {
+            const pessoaExiste = await pessoaRepository.findOne(id);
+            if (pessoaExiste) {
 
-            const pessoa = pessoaRepository.create({
-                nome,
-                rg,
-                cpf,
-                dtNasc,
-                email,
-            });
+                const pessoa = pessoaRepository.create({
+                    nome,
+                    rg,
+                    cpf,
+                    dtNasc,
+                    email,
+                });
 
-            const erros = await pessoaRepository.validaDados(pessoa);
+                const erros = await pessoaRepository.validaDados(pessoa);
 
-            if (erros.length > 0) {
-                return response.status(400).json(erros);
+                if (erros.length > 0) {
+                    return response.status(400).json(erros);
+                } else {
+                    await pessoaRepository.update(id, pessoa)
+                        .then(async (retornoPessoa) => {
+                            return response.status(201).json(retornoPessoa);
+                        })
+                        .catch(async (errors) => {
+                            return response.status(400).json(errors);
+                        });
+                }
             } else {
-                await pessoaRepository.update(id, pessoa)
-                    .then(async (retornoPessoa) => {
-                        return response.status(201).json(retornoPessoa);
-                    })
-                    .catch(async (errors) => {
-                        return response.status(400).json(errors);
-                    });
+                throw new AppError("O usuario de id: " + id + " a ser alterado nao foi encontrado ", 'id');
             }
-        } else {
-            throw new AppError("O usuario de id: " + id + " a ser alterado nao foi encontrado ", 'id');
+        } catch (error) {
+            return response.status(400).json(error);
         }
+
 
 
     }
-
-
-    async deletar(request, response) {
+    async deletar(request: Request, response: Response) {
         const pessoaRepository = getCustomRepository(PessoaRepository);
         const { id } = request.body;
 
-        if (await pessoaRepository.findOne(id)) {
-            await pessoaRepository.delete(id);
-            return response.status(200).json({ message: "O usuario de id " + id + " foi deletado com sucessso!" });
-        } else {
-            throw new AppError("O usuario a ser deletado nao foi encontrado", 'id');
+        try {
+            if (await pessoaRepository.findOne(id)) {
+                await pessoaRepository.delete(id);
+                return response.status(200).json({ message: "O usuario de id " + id + " foi deletado com sucessso!" });
+            } else {
+                throw new AppError("O usuario a ser deletado nao foi encontrado", 'id');
+            }
+        } catch (error) {
+            return response.status(200).json(error);
         }
+
+    }
+    async login(request: Request, response: Response , next : NextFunction) {
+        const pessoaRepository = getCustomRepository(PessoaRepository);
+        const { email, senha } = request.body;
+        const encrypt = new Encrypt();
+
+        try {
+            const pessoa = await pessoaRepository.existeEmail(email);
+
+            if (pessoa) {
+                const res = await encrypt.validate(senha, pessoa.senha)
+                if (res == true) {
+                    const token = jwt.sign({id : pessoa.id},process.env.SECRET_KEY,{expiresIn : '7d'});
+                    delete pessoa.senha;
+
+                    return response.status(200).json({ message: "Usuario logado com sucesso!",token,pessoa});
+                } else {
+                    throw new AppError("Email ou senha inválidos", "login");
+                }
+            } else {
+                throw new AppError("Email ou senha inválidos", "login");
+            }
+        } catch (error) {
+            return response.status(401).json(error);
+        }
+
+
     }
 }
 

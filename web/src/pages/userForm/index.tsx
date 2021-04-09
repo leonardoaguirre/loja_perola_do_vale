@@ -24,6 +24,7 @@ function userForm() {
             body: JSON.stringify({
                 nome: event.target.nome.value,
                 email: event.target.email.value,
+                senha : event.target.senha.value,
                 rg: event.target.rg.value,
                 cpf: event.target.cpf.value,
                 dtNasc: event.target.dtNasc.value,
@@ -40,7 +41,7 @@ function userForm() {
         await fetch("http://localhost:3008/Pessoa/Adicionar", pessoa)
             .then(async (res) => {
                 if (res.ok) {
-                    router.push('/Listar');
+                    router.push('/User');
                 } else {
                     const erro = await res.json()
                     console.log(erro);
@@ -55,9 +56,9 @@ function userForm() {
             <PageHeaderAdministration />
             <div className={styles.userForm}>
                 <h1>Cadastrar-se</h1>
+                {process.env.API_ADRESS}
                 <div className={styles.formContainer}>
                     <form onSubmit={registerUser}>
-                        { }
                         <div className={styles.email}>
                             <label htmlFor="email">Email: </label>
                             <div className={styles.inputContainer}>
@@ -103,18 +104,19 @@ function userForm() {
                         <div className={styles.telephone}>
                             <label htmlFor="telephone">DDD: </label>
                             <div className={styles.inputContainer}>
-                                <input type="tel" name="ddd" id="" size={2} placeholder="xx" maxLength={2} pattern="(?:[14689][1-9]|2[12478]|3[1234578]|5[1345]|7[134579])"required/>
+                                <input type="tel" name="ddd" id="" size={2} placeholder="xx" maxLength={2} minLength={2} pattern="(?:[14689][1-9]|2[12478]|3[1234578]|5[1345]|7[134579])"required/>
                             </div>
+                            {erro.length>0 ? erro.map((err)=> err.property === "ddd" ? Object.values(err.constraints).map((tipoErro,key)=> <p key={key}>{tipoErro}</p>) : "") : ""}
                         </div>
                         <div className={styles.telephone}>
                             <label htmlFor="telephone">Telefone: </label>
                             <div className={styles.inputContainer}>
-                                <input type="tel" placeholder="xxxxxxxxx" size={9} name="numero" maxLength={9} pattern="(?:[2-8]|9[1-9])[0-9]{3}\[0-9]{4}$"required/>
+                                <input type="tel" placeholder="xxxxxxxxx" size={9} name="numero" maxLength={9} minLength={8} pattern="(?:[2-8]|9[1-9])[0-9]{3}\[0-9]{4}$"required/>
                             </div>
+                            {erro.length>0 ? erro.map((err)=> err.property === "numero" ? Object.values(err.constraints).map((tipoErro,key)=> <p key={key}>{tipoErro}</p>) : "") : ""}
                         </div>
                         <div className={styles.buttonsContainer}>
                             <div className={styles.create}>
-                                {/* <h1>{erro}</h1> */}
                                 <input type="submit" value="Cadastrar" />
                             </div>
                             <div className={styles.reset}>
@@ -129,21 +131,22 @@ function userForm() {
     );
 }
 
-// export async function getServerSideProps(context) {
-//     const res = await fetch("http://localhost:3008/Pessoa/Adicionar", context);
-//     const response = res.json();
+// export async function getServerSideProps() {
+//     // const res = await fetch("http://localhost:3008/Pessoa/Adicionar", context);
+//     // const response = res.json();
 
-//     console.log("getServerSideProps");
-//     if (res.status === 400) {
-//         // const res = JSON.parse(res)
+//     // console.log("getServerSideProps");
+//     // if (res.status === 400) {
+//     //     // const res = JSON.parse(res)
 
-//         return {
-//             props: { retorno: response },
-//         }
-//     }
-//     return {
-//         props: {}
-//     };
+//     //     return {
+//     //         props: { retorno: response },
+//     //     }
+//     // }
+    // return {
+    //     props: {
+    //     },
+    // };
 // }
 // export const getStaticProps: GetStaticProps = async () => {
 //     const router = useRouter()
