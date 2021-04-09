@@ -1,5 +1,7 @@
 import { GetServerSideProps, GetStaticProps } from 'next';
+import { route } from 'next/dist/next-server/server/router';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import PageFooter from '../../components/PageFooter';
 import PageHeaderAdministration from '../../components/PageHeaderAdministration';
 import ProductsTable from '../../components/ProductsTable';
@@ -25,18 +27,32 @@ function user({ pessoas }) {
     );
 }
 export const getStaticProps: GetStaticProps = async () => {
-    const response = await fetch(process.env.API_ROUTE+'pessoa/listar');
-    const data = await response.json();
-    return {
-        props: {
-            pessoas: data,
+    const response = await fetch('http://localhost:3008/Pessoa/listar');
+    if (response.ok) {
+        const data = await response.json();
+        return {
+            props: {
+                pessoas: data,
+            }
+        }
+    } else if (response.status == 401) {
+        return {
+            props: {
+                pessoas: null,
+            }
+        }
+    } else {
+        return {
+            props: {
+                pessoas: null,
+            }
         }
     }
 }
 // export const getServerSideProps : GetServerSideProps = withSession(async function ({ req, res }) {
 //     // Get the user's session based on the request
 //     const user = req.session.get('user')
-  
+
 //     if (!user) {
 //       return {
 //         redirect: {
@@ -45,7 +61,7 @@ export const getStaticProps: GetStaticProps = async () => {
 //         },
 //       }
 //     }
-  
+
 //     return {
 //       props: { user },
 //     }

@@ -8,10 +8,6 @@ import PageHeaderAdministration from '../../components/PageHeaderAdministration'
 import styles from '../../styles/pages/UserForm.module.css';
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of 2abfcdd9 (Revert "Merge branch 'hideki_updates' of https://github.com/HidekiYamakawa/loja_perola_do_vale into hideki_updates")
 function userForm() {
     const [erro, setErro] = useState([]);
     const { isFallback } = useRouter();
@@ -28,10 +24,7 @@ function userForm() {
             body: JSON.stringify({
                 nome: event.target.nome.value,
                 email: event.target.email.value,
-<<<<<<< HEAD
                 senha : event.target.senha.value,
-=======
->>>>>>> parent of 2abfcdd9 (Revert "Merge branch 'hideki_updates' of https://github.com/HidekiYamakawa/loja_perola_do_vale into hideki_updates")
                 rg: event.target.rg.value,
                 cpf: event.target.cpf.value,
                 dtNasc: event.target.dtNasc.value,
@@ -48,11 +41,7 @@ function userForm() {
         await fetch("http://localhost:3008/Pessoa/Adicionar", pessoa)
             .then(async (res) => {
                 if (res.ok) {
-<<<<<<< HEAD
                     router.push('/User');
-=======
-                    router.push('/Listar');
->>>>>>> parent of 2abfcdd9 (Revert "Merge branch 'hideki_updates' of https://github.com/HidekiYamakawa/loja_perola_do_vale into hideki_updates")
                 } else {
                     const erro = await res.json()
                     console.log(erro);
@@ -67,15 +56,9 @@ function userForm() {
             <PageHeaderAdministration />
             <div className={styles.userForm}>
                 <h1>Cadastrar-se</h1>
-<<<<<<< HEAD
                 {process.env.API_ADRESS}
                 <div className={styles.formContainer}>
                     <form onSubmit={registerUser}>
-=======
-                <div className={styles.formContainer}>
-                    <form onSubmit={registerUser}>
-                        { }
->>>>>>> parent of 2abfcdd9 (Revert "Merge branch 'hideki_updates' of https://github.com/HidekiYamakawa/loja_perola_do_vale into hideki_updates")
                         <div className={styles.email}>
                             <label htmlFor="email">Email: </label>
                             <div className={styles.inputContainer}>
@@ -121,33 +104,19 @@ function userForm() {
                         <div className={styles.telephone}>
                             <label htmlFor="telephone">DDD: </label>
                             <div className={styles.inputContainer}>
-<<<<<<< HEAD
                                 <input type="tel" name="ddd" id="" size={2} placeholder="xx" maxLength={2} minLength={2} pattern="(?:[14689][1-9]|2[12478]|3[1234578]|5[1345]|7[134579])"required/>
                             </div>
                             {erro.length>0 ? erro.map((err)=> err.property === "ddd" ? Object.values(err.constraints).map((tipoErro,key)=> <p key={key}>{tipoErro}</p>) : "") : ""}
-=======
-                                <input type="tel" name="ddd" id="" size={2} placeholder="xx" maxLength={2} pattern="(?:[14689][1-9]|2[12478]|3[1234578]|5[1345]|7[134579])"required/>
-                            </div>
->>>>>>> parent of 2abfcdd9 (Revert "Merge branch 'hideki_updates' of https://github.com/HidekiYamakawa/loja_perola_do_vale into hideki_updates")
                         </div>
                         <div className={styles.telephone}>
                             <label htmlFor="telephone">Telefone: </label>
                             <div className={styles.inputContainer}>
-<<<<<<< HEAD
                                 <input type="tel" placeholder="xxxxxxxxx" size={9} name="numero" maxLength={9} minLength={8} pattern="(?:[2-8]|9[1-9])[0-9]{3}\[0-9]{4}$"required/>
                             </div>
                             {erro.length>0 ? erro.map((err)=> err.property === "numero" ? Object.values(err.constraints).map((tipoErro,key)=> <p key={key}>{tipoErro}</p>) : "") : ""}
                         </div>
                         <div className={styles.buttonsContainer}>
                             <div className={styles.create}>
-=======
-                                <input type="tel" placeholder="xxxxxxxxx" size={9} name="numero" maxLength={9} pattern="(?:[2-8]|9[1-9])[0-9]{3}\[0-9]{4}$"required/>
-                            </div>
-                        </div>
-                        <div className={styles.buttonsContainer}>
-                            <div className={styles.create}>
-                                {/* <h1>{erro}</h1> */}
->>>>>>> parent of 2abfcdd9 (Revert "Merge branch 'hideki_updates' of https://github.com/HidekiYamakawa/loja_perola_do_vale into hideki_updates")
                                 <input type="submit" value="Cadastrar" />
                             </div>
                             <div className={styles.reset}>
@@ -162,7 +131,6 @@ function userForm() {
     );
 }
 
-<<<<<<< HEAD
 // export async function getServerSideProps() {
 //     // const res = await fetch("http://localhost:3008/Pessoa/Adicionar", context);
 //     // const response = res.json();
@@ -179,23 +147,6 @@ function userForm() {
     //     props: {
     //     },
     // };
-=======
-// export async function getServerSideProps(context) {
-//     const res = await fetch("http://localhost:3008/Pessoa/Adicionar", context);
-//     const response = res.json();
-
-//     console.log("getServerSideProps");
-//     if (res.status === 400) {
-//         // const res = JSON.parse(res)
-
-//         return {
-//             props: { retorno: response },
-//         }
-//     }
-//     return {
-//         props: {}
-//     };
->>>>>>> parent of 2abfcdd9 (Revert "Merge branch 'hideki_updates' of https://github.com/HidekiYamakawa/loja_perola_do_vale into hideki_updates")
 // }
 // export const getStaticProps: GetStaticProps = async () => {
 //     const router = useRouter()

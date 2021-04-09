@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { getCustomRepository } from "typeorm";
 import { PessoaRepository } from "../repositorios/PessoaRepository";
 import { AppError } from "../errors/AppError";
@@ -63,10 +63,10 @@ class ControlePessoa {
         }
     }
 
-    async listar(request: Request, response: Response) {
+    async listar(request: Request, response: Response, next : NextFunction) {
         const pessoaRepository = getCustomRepository(PessoaRepository);
         const all = await pessoaRepository.find();
-
+        
         return response.status(200).json(all);
     }
 
@@ -144,13 +144,13 @@ class ControlePessoa {
         }
 
     }
-    async login(request: Request, response: Response) {
+    async login(request: Request, response: Response , next : NextFunction) {
         const pessoaRepository = getCustomRepository(PessoaRepository);
-        const { login, senha } = request.body;
+        const { email, senha } = request.body;
         const encrypt = new Encrypt();
 
         try {
-            const pessoa = await pessoaRepository.existeEmail(login);
+            const pessoa = await pessoaRepository.existeEmail(email);
 
             if (pessoa) {
                 const res = await encrypt.validate(senha, pessoa.senha)

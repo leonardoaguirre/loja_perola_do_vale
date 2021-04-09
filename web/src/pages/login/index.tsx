@@ -33,7 +33,7 @@ function Login() {
                 if (res.ok) {
                     const r = await res.json();
                    // r.token;
-                   res.("authorization",r.token);
+                   //res.("authorization",r.token);
                     console.log(r.token);
                     
                     router.push('/User');
