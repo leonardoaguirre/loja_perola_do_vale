@@ -1,4 +1,0 @@
-class ControleEndereco {
-
-}
-export { ControleEndereco }

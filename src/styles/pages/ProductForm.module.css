@@ -1,0 +1,151 @@
+.container {
+	height: 100%;
+	width: 100%;
+	margin: 0 auto;
+
+    background-color: #ced2ff;
+
+	display: flex;
+	flex-direction: column;
+}
+
+.productForm {
+    width: 95%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1.6rem 0;
+}
+
+.productForm h1 {
+    display: flex;
+    justify-content: center;
+}
+
+.productForm .formContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.productForm .formContainer form {
+    margin: 2rem 4rem;
+    background-color: inherit;
+    padding: 1rem 4rem 3rem 4rem;
+    border-radius: 20px;
+    width: 70rem;
+}
+
+.productForm .formContainer .inputContainer,
+.productForm .formContainer .selectContainer {
+    background-color: white;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+}
+
+.productForm .formContainer .provider .selectContainer select option {
+    padding: 0 2rem;
+}
+
+.productForm .formContainer label {
+    display: flex;
+    justify-content: flex-start;
+    padding: 1rem 0;
+}
+
+.productForm .formContainer .name input, 
+.productForm .formContainer .brand input, 
+.productForm .formContainer .description input, 
+.productForm .formContainer .size input, 
+.productForm .formContainer .salePrice input, 
+.productForm .formContainer .barcode input, 
+.productForm .formContainer .image input,
+.productForm .formContainer .provider select {
+    height: 2rem;
+    width: 100%;
+    border: none;
+}
+
+.productForm .formContainer .name input:focus, 
+.productForm .formContainer .brand input:focus, 
+.productForm .formContainer .description input:focus, 
+.productForm .formContainer .size input:focus, 
+.productForm .formContainer .salePrice input:focus, 
+.productForm .formContainer .barcode input:focus, 
+.productForm .formContainer .image input:focus,
+.productForm .formContainer .provider select:focus {
+    outline: none;
+}
+
+.productForm .formContainer .image input {
+    height: fit-content;
+}
+
+.productForm .formContainer .category {
+    padding: 1rem 0;
+}
+
+.productForm .formContainer .category fieldset {
+    height: fit-content;
+    width: 100%;
+    border: none;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.productForm .formContainer .category .checkboxOption {
+    width: fit-content;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1rem 3rem;
+}
+
+.productForm .formContainer .category .checkboxOption label {
+    padding-left: 1rem;
+}
+
+.productForm .formContainer .buttonsContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    column-span: all;
+
+    padding-top: 1.7rem;
+}
+
+.productForm .formContainer .buttonsContainer .create {
+    padding-right: 2rem;
+}
+
+.productForm .formContainer .buttonsContainer .create input {
+    background-color: #2753ca;
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+.productForm .formContainer .buttonsContainer .reset input {
+    background-color: #949494;
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+
+.productForm .formContainer .buttonsContainer .create input:hover {
+    cursor: pointer;
+    background-color: #6f85c2;
+}
+
+.productForm .formContainer .buttonsContainer .reset input:hover {
+    cursor: pointer;
+    background-color: #b6b6a9;
+}
+
+.productForm .formContainer .buttonsContainer .create input:focus,
+.productForm .formContainer .buttonsContainer .reset input:focus {
+    outline: none;
+}
