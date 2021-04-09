@@ -1,6 +1,10 @@
 import { AppError } from "../errors/AppError";
 import { NextFunction, Request, Response } from "express";
+<<<<<<< HEAD
 import type { NextApiRequest, NextApiResponse } from 'next';
+=======
+import type { NextApiRequest, NextApiResponse} from 'next';
+>>>>>>> parent of 2abfcdd9 (Revert "Merge branch 'hideki_updates' of https://github.com/HidekiYamakawa/loja_perola_do_vale into hideki_updates")
 import { getCustomRepository } from "typeorm";
 import { TelefoneRepository } from "../repositorios/TelefoneRepository"
 import { Pessoa } from "../models/Pessoa";
@@ -12,6 +16,7 @@ class ControleTelefone {
         const telefoneRepository = getCustomRepository(TelefoneRepository);
         const id_pessoa_fk = pessoa.id;
 
+<<<<<<< HEAD
         const tel = telefoneRepository.create({
             ddd: telefones[0].ddd,
             numero: telefones[0].numero,
@@ -32,6 +37,30 @@ class ControleTelefone {
         //     const numero = element.numero;
         //     const ddd = element.ddd;
         // }
+=======
+        for (let index = 0; index < telefones.length; index++) {
+            const element = telefones[index];
+
+            const numero = element.numero;
+            const ddd = element.ddd;
+
+
+            const tel = await telefoneRepository.create({
+                ddd,
+                numero,
+                id_pessoa_fk
+            });
+
+            const erros = await telefoneRepository.validaDados(tel);
+            if (erros.length > 0) {
+                return erros;
+            } else {
+                await telefoneRepository.save(tel);
+            }
+
+        }
+        return;
+>>>>>>> parent of 2abfcdd9 (Revert "Merge branch 'hideki_updates' of https://github.com/HidekiYamakawa/loja_perola_do_vale into hideki_updates")
         // telefones.forEach( async element => {
         //     // const inseridos = await telefoneRepository.find()
         //     // await telefoneRepository.remove(pessoa.id);

@@ -1,7 +1,7 @@
 .pageHeader {
     display: flex;
     flex-direction: column;
-    background-color: #c5a100;
+    background-color: var(--primary);
 }
 
 .pageHeader .topBarContainer {

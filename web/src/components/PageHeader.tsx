@@ -3,7 +3,7 @@ import Link from 'next/link';
 import styles from '../styles/components/PageHeader.module.css';
 
 interface PageHeaderProps {
-
+ 
 }
 
 const PageHeader: React.FC<PageHeaderProps> = (props) => {
