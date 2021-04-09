@@ -4,27 +4,27 @@ import Link from 'next/link';
 import React from 'react';
 import styles from '../styles/components/UserTable.module.css';
 
-var table = document.getElementById("table");
-var lines = table.getElementsByTagName("tr");
+// var table = document.getElementById("table");
+// var lines = table.getElementsByTagName("tr");
 
-for (var i = 0; i < lines.length; i++) {
-    var line = lines[i];
+// for (var i = 0; i < lines.length; i++) {
+//     var line = lines[i];
 
-    line.addEventListener("click", function () {
-        selectLine(this, false);
-    });
-}
+//     line.addEventListener("click", function () {
+//         selectLine(this, false);
+//     });
+// }
 
-function selectLine(line, multiples) {
-    if (!multiples) {
-        var lines = line.parentElement.getElementsByTagName("tr");
-        for (var i = 0; i < lines.length; i++) {
-            var line_ = lines[i];
-            line_.classList.remove(styles.selected);
-        }
-    }
-    line.classList.toggle(styles.selected);
-}
+// function selectLine(line, multiples) {
+//     if (!multiples) {
+//         var lines = line.parentElement.getElementsByTagName("tr");
+//         for (var i = 0; i < lines.length; i++) {
+//             var line_ = lines[i];
+//             line_.classList.remove(styles.selected);
+//         }
+//     }
+//     line.classList.toggle(styles.selected);
+// }
 
 function UserTable({ users }) {
     const cliquei = async(event) =>{
@@ -71,6 +71,7 @@ function UserTable({ users }) {
                         <th>CPF</th>
                         <th>Data de Nascimennto</th>
                         <th>Email</th>
+                        <th>Senha</th>
                         <th>Alterar</th>
                         <th>Excluir</th>
                     </tr>
@@ -84,6 +85,7 @@ function UserTable({ users }) {
                             <td>{user.cpf}</td>
                             <td>{user.dtNasc}</td>
                             <td>{user.email}</td>
+                            <td>{user.senha}</td>
                             <td>
                                 <div className={styles.buttonContainer}>
                                     <Link href={`/userForm/alter/${user.id}`}>
