@@ -1,12 +1,16 @@
 import Link from 'next/link';
+import { useContext, useEffect } from 'react';
+import { UserContext } from '../contexts/UserContext';
 
 import styles from '../styles/components/PageHeader.module.css';
 
 interface PageHeaderProps {
- 
+
 }
 
 const PageHeader: React.FC<PageHeaderProps> = (props) => {
+    const { user, logoutUser } = useContext(UserContext);
+
     return (
         <header className={styles.pageHeader}>
             <div className={styles.topBarContainer}>
@@ -37,9 +41,28 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
                             <img src="icons/account_circle-black-36dp.svg" alt="Usuário" title="Minha Conta" />
                         </a>
                     </Link>
-                    <div className={styles.userInfo}>
-                        <strong>Hideki Yamakawa</strong>
-                    </div>
+
+                    {user ? (
+                        <div className={styles.userInfo}>
+                            <strong>{user.nome}</strong>
+                            <p className={styles.log}>
+                                <button onClick={logoutUser}>
+                                    Log out
+                                </button>
+                            </p>
+                        </div>
+                    ) : (
+                        <div className={styles.userInfo}>
+                            <p className={styles.log}>
+                                <Link href="/login">
+                                    <a>
+                                        Log in
+                                    </a>
+                                </Link>
+                            </p>
+                        </div>
+                    )}
+
                 </div>
 
                 <div className={styles.userActions}>

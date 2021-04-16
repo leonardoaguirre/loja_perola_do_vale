@@ -6,7 +6,7 @@ import styles from '../styles/pages/Home.module.css';
 import * as dotenv from 'dotenv';
 
 export default function Home() {
-//dotenv.config({path : "../.env.local"});
+  //dotenv.config({path : "../.env.local"});
   return (
     <div className={styles.container}>
       <Head>

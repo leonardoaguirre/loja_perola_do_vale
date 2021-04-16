@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import LoadingIcon from '../../components/LoadingIcon';
-import PageFooter from '../../components/PageFooter';
+import { UserContext } from '../../contexts/UserContext';
 import styles from '../../styles/pages/Login.module.css';
 
 
 function Login() {
+    const { loginUser }= useContext(UserContext);
     const [erro, setErro] = useState({ constraints: { message: "" } });
     const router = useRouter();
     const { isFallback } = useRouter();
@@ -34,9 +35,9 @@ function Login() {
                     const r = await res.json();
                    // r.token;
                    //res.("authorization",r.token);
-                    console.log(r.token);
-                    
-                    router.push('/User');
+                    console.log(r.pessoa, r.token);
+                    loginUser(r.pessoa, r.token);
+                    router.push('/');
                 } else {
                     const err = await res.json()
                     console.log(err);
