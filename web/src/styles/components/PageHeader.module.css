@@ -15,11 +15,13 @@
     padding: 1.6rem 0;
 }
 
-.pageHeader .topBarContainer a {
+.pageHeader .topBarContainer a, 
+.pageHeader .topBarContainer button {
     transition: 0.2s;
 }
 
-.pageHeader .topBarContainer a:hover {
+.pageHeader .topBarContainer a:hover,
+.pageHeader .topBarContainer button:hover {
     opacity: 0.6;
 }
 
@@ -68,7 +70,7 @@
 .pageHeader .topBarContainer .inputContainer button a img {
     height: 2rem;
     width: 2rem;
-
+    
 }
 
 .pageHeader .topBarContainer .userContainer {
@@ -94,6 +96,16 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    max-width: 20rem;
+    overflow: hidden;
+    text-transform: capitalize;
+}
+
+.pageHeader .topBarContainer .userContainer .userInfo .log button,
+.pageHeader .topBarContainer .userContainer .userInfo .log a {
+    color: #0044ff;
+    border: none;
+    background-color: inherit;
 }
 
 .pageHeader .topBarContainer .userActions {

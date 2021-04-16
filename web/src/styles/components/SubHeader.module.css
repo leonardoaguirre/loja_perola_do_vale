@@ -1,10 +1,9 @@
-.subHeader {
+.productNavigation {
     width: 100%;
     background-color: var(--tertiary);
-    border-bottom: 1px solid rgb(228, 228, 228);
 }
 
-.subHeader button {
+.productNavigation button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -12,7 +11,7 @@
     background-color: inherit;
 }
 
-.subHeader .subHeaderContent {
+.productNavigation .productNavigationContent {
     width: 95%;
     max-width: 1280px;
     margin: 0 auto;
@@ -21,76 +20,75 @@
     align-items: flex-start;
 }
 
-.subHeader .subHeaderContent .menu {
+.productNavigation .productNavigationContent .menu {
     display: flex;
-    align-items: stretch;
+    align-items: flex-start;
 }
 
-.subHeader .subHeaderContent .menu .menuItens {
-    display: flex;
+.productNavigation .productNavigationContent .menu .menuItens {
+    border: none;
 }
 
-.subHeader .subHeaderContent .menu .menuItens button {
-    padding: 1rem 2rem;
-    height: 4rem;
-    border-bottom: 3px solid inherit;
+.productNavigation .productNavigationContent .menu .menuItens button {
+    padding: 0.6rem 2rem 0.4rem 2rem;
+    transition: 0.3s;
+    height: 5.5rem;
+}
+
+.productNavigation .productNavigationContent .menu .menuItens button:hover {
+    background-color: #FFFFFF;
     transition: 0.3s;
 }
 
-.subHeader .subHeaderContent .menu .menuItens button:hover {
-    background-color: #d4d4d4;
-    transition: 0.3s;
-}
-
-.subHeader .subHeaderContent .menu .menuItens .selected {
+.productNavigation .productNavigationContent .menu .menuItens .selected {
     border-bottom: 3px solid #72b0e4;
 }
 
-.subHeader .subHeaderContent .menu .menuItens .departmentsDropdown {
+.productNavigation .productNavigationContent .menu .menuItens .departmentsDropdown {
     position: relative;
 }
 
-.subHeader .subHeaderContent .menu .menuItens .departmentsDropdown .dropdownContent {
+.productNavigation .productNavigationContent .menu .menuItens .departmentsDropdown .dropdownContent {
     display: none;
     position: absolute;
     background-color: white;
-    min-width: 21rem;
+    min-width: 24.89rem;
     z-index: 1;
 }
 
-.subHeader .subHeaderContent .menu .menuItens .departmentsDropdown .dropdownContent a {
+.productNavigation .productNavigationContent .menu .menuItens .departmentsDropdown .dropdownContent a {
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
 }
 
-.subHeader .subHeaderContent .menu .menuItens .departmentsDropdown .dropdownContent a:hover {
+.productNavigation .productNavigationContent .menu .menuItens .departmentsDropdown .dropdownContent a:hover {
     background-color: #d4d4d4;
 }
 
-.subHeader .subHeaderContent .menu .menuItens .departmentsDropdown .dropdownButton .arrowAnimation {
+.productNavigation .productNavigationContent .menu .menuItens .departmentsDropdown .dropdownButton .arrowAnimation {
     transition: all 0.5s ease-in-out;
 }
 
-.subHeader .subHeaderContent .menu .menuItens .departmentsDropdown:hover .dropdownButton .arrowAnimation {
+.productNavigation .productNavigationContent .menu .menuItens .departmentsDropdown:hover .dropdownButton .arrowAnimation {
     transform: rotate(180deg);
 }
 
-.subHeader .subHeaderContent .menu .menuItens .departmentsDropdown:hover .dropdownButton {
+.productNavigation .productNavigationContent .menu .menuItens .departmentsDropdown:hover .dropdownButton {
     background-color: white;
 }
 
-.subHeader .subHeaderContent .menu .menuItens .departmentsDropdown:hover .dropdownContent {
+.productNavigation .productNavigationContent .menu .menuItens .departmentsDropdown:hover .dropdownContent {
     background-color: white;
     display: block;
 }
 
-.subHeader .subHeaderContent .menu .menuItens button img {
+.productNavigation .productNavigationContent .menu .menuItens button img {
     opacity: 0.8;
 }
 
-.subHeader .subHeaderContent .menu .menuItens button strong {
+.productNavigation .productNavigationContent .menu .menuItens button strong {
     padding-left: 1rem;
     font-size: 1.8rem;
 }

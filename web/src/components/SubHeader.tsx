@@ -4,8 +4,8 @@ import styles from '../styles/components/SubHeader.module.css';
 
 function SubHeader() {
     return (
-        <div className={styles.subHeader}>
-            <div className={styles.subHeaderContent}>
+        <nav className={styles.productNavigation}>
+            <div className={styles.productNavigationContent}>
                 <div className={styles.menu}>
                     <div className={styles.menuItens}>
                         <div className={styles.departmentsDropdown}>
@@ -28,11 +28,9 @@ function SubHeader() {
                         </div>
                     </div>
                     <div className={styles.menuItens}>
-                        <div className={styles.selected}>
-                            <button>
-                                Todos{'\u00A0'}Produtos
-                            </button>
-                        </div>
+                        <button className={styles.selected}>
+                            Todos{'\u00A0'}Produtos
+                        </button>
                     </div>
                     <div className={styles.menuItens}>
                         <button>
@@ -51,7 +49,7 @@ function SubHeader() {
                     </div>
                 </div>
             </div>
-        </div>
+        </nav>
     );
 }
 
