@@ -5,10 +5,15 @@ import { useRouter } from 'next/router';
 import PageFooter from '../../components/PageFooter';
 import PageHeaderAdministration from '../../components/PageHeaderAdministration';
 import ProductsTable from '../../components/ProductsTable';
+import React, { useState, useContext } from 'react';
 import UserTable from '../../components/UserTable';
 import styles from '../../styles/pages/Products.module.css';
+import { UserContext } from '../../contexts/UserContext';
 
-function user({ pessoas }) {
+function Pageuser({ pessoas }) {
+    const {user} = useContext(UserContext);
+    
+    const token = localStorage.getItem('@userToken');
     return (
         <div className={styles.container}>
             <PageHeaderAdministration />
@@ -26,44 +31,30 @@ function user({ pessoas }) {
         </div>
     );
 }
-export const getStaticProps: GetStaticProps = async () => {
-    const response = await fetch('http://localhost:3008/Pessoa/listar');
-    if (response.ok) {
+
+
+export const getStaticProps : GetStaticProps = async (context) =>  {
+
+    const pessoa = { headers: { 'authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZmNWNmZDIwLTNlMmMtNGQzYi1hNmQ1LTc1YTVhOTc2ZDllNCIsImlhdCI6MTYxODYxNTM2NiwiZXhwIjoxNjE5MjIwMTY2fQ.FezUcx7suuQDKwVApd7uHVj5oHvvsTqA2r6fyMStJ0g' }, method: "GET" };
+    const response = await fetch('http://localhost:3008/Pessoa/listar', pessoa);
+
+    console.log(response);
+
+
+    if (response.status == 200) {
         const data = await response.json();
         return {
             props: {
                 pessoas: data,
             }
         }
-    } else if (response.status == 401) {
-        return {
-            props: {
-                pessoas: null,
-            }
-        }
     } else {
         return {
-            props: {
-                pessoas: null,
-            }
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
         }
     }
 }
-// export const getServerSideProps : GetServerSideProps = withSession(async function ({ req, res }) {
-//     // Get the user's session based on the request
-//     const user = req.session.get('user')
-
-//     if (!user) {
-//       return {
-//         redirect: {
-//           destination: '/login',
-//           permanent: false,
-//         },
-//       }
-//     }
-
-//     return {
-//       props: { user },
-//     }
-//   })
-export default user;
+export default Pageuser;
