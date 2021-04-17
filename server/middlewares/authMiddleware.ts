@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken';
 
 export default function authMiddleware(req : Request , res : Response, next : NextFunction){
     const authorization = req.headers.authorization
-    console.log(authorization);
     
     // req.
 

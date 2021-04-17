@@ -11,9 +11,6 @@ import styles from '../../styles/pages/Products.module.css';
 import { UserContext } from '../../contexts/UserContext';
 
 function Pageuser({ pessoas }) {
-    const {user} = useContext(UserContext);
-    
-    const token = localStorage.getItem('@userToken');
     return (
         <div className={styles.container}>
             <PageHeaderAdministration />
@@ -33,12 +30,15 @@ function Pageuser({ pessoas }) {
 }
 
 
-export const getStaticProps : GetStaticProps = async (context) =>  {
+export const getServerSideProps : GetServerSideProps = async (context) =>  {
+    
+    const { tokenCookie } = context.req.cookies;
+    
+    const pessoa = { headers: { 'authorization': tokenCookie }, method: "GET" };
 
-    const pessoa = { headers: { 'authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZmNWNmZDIwLTNlMmMtNGQzYi1hNmQ1LTc1YTVhOTc2ZDllNCIsImlhdCI6MTYxODYxNTM2NiwiZXhwIjoxNjE5MjIwMTY2fQ.FezUcx7suuQDKwVApd7uHVj5oHvvsTqA2r6fyMStJ0g' }, method: "GET" };
     const response = await fetch('http://localhost:3008/Pessoa/listar', pessoa);
 
-    console.log(response);
+
 
 
     if (response.status == 200) {

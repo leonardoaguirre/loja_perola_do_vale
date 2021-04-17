@@ -1,5 +1,6 @@
 import React from 'react';
 import { createContext, useState, ReactNode, useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 interface User {
     id: string;
@@ -41,6 +42,9 @@ export function UserProvider({ children }: UserContextProviderProps) {
         setUser(user);
         sessionStorage.setItem('@userToken', token);
         localStorage.setItem('@user', JSON.stringify(user));
+
+        Cookies.set('tokenCookie', token);
+        
         console.log('Usuário logado');
     }
 
