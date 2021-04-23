@@ -7,7 +7,7 @@ const pessoaRoutes = Router();
 
 pessoaRoutes.post("/Adicionar", controlePessoa.adicionar);
 pessoaRoutes.get('/Listar',authMiddleware, controlePessoa.listar);
-pessoaRoutes.get("/BuscaPorId/:idPessoa", controlePessoa.buscarPorId);
+pessoaRoutes.get("/Buscar/:atributo/:pesquisa", controlePessoa.buscar);
 pessoaRoutes.patch("/Alterar/:idPessoa", controlePessoa.alterar);
 pessoaRoutes.delete("/Deletar", controlePessoa.deletar);
 pessoaRoutes.post("/Login", controlePessoa.login);

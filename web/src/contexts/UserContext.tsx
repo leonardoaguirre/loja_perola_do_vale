@@ -25,24 +25,19 @@ export function UserProvider({ children }: UserContextProviderProps) {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const userToken = localStorage.getItem('@userToken');
+        // const userToken = localStorage.getItem('@userToken');
         const user = localStorage.getItem('@user');
 
-        if (userToken && user) {
+        if (user) {
             setUser(JSON.parse(user))
-            console.log('entrou no if');
-        } else {
-            console.log('deu falso no if');
         }
 
-        console.log('chamou useEffect da UserContext');
     }, []);
 
     function loginUser(user: User, token: string) {
         setUser(user);
-        sessionStorage.setItem('@userToken', token);
+        // sessionStorage.setItem('@userToken', token);
         localStorage.setItem('@user', JSON.stringify(user));
-
         Cookies.set('tokenCookie', token);
         
         console.log('Usuário logado');
@@ -50,6 +45,7 @@ export function UserProvider({ children }: UserContextProviderProps) {
 
     function logoutUser() {
         setUser(null);
+        Cookies.remove('tokenCookie');
         localStorage.clear();
         console.log('Usuário deslogado');
     }

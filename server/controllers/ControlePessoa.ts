@@ -1,11 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { getCustomRepository } from "typeorm";
+import { getCustomRepository,ILike } from "typeorm";
 import { PessoaRepository } from "../repositorios/PessoaRepository";
 import { AppError } from "../errors/AppError";
 import { ControleTelefone } from "../controllers/ControleTelefone";
 import { Pessoa } from "../models/Pessoa";
 import { Encrypt } from "../services/encrypt";
 import jwt from 'jsonwebtoken';
+import { isMethodDeclaration } from "typescript";
 
 class ControlePessoa {
 
@@ -70,17 +71,19 @@ class ControlePessoa {
         return response.status(200).json(all);
     }
 
-    async buscarPorId(request: Request, response: Response) {
-        const id = request.params.idPessoa;
+    async buscar(request: Request, response: Response) {
+        const atributo = request.params.atributo;
+        const pesquisa = request.params.pesquisa;
+        
         const pessoaRepository = getCustomRepository(PessoaRepository);
 
         try {
-            const pessoaExiste = await pessoaRepository.findOne(id);
+            const pessoaExiste = await pessoaRepository.buscaPor(pesquisa,atributo);
 
-            if (pessoaExiste) {
+            if (pessoaExiste.length>0) {
                 return response.status(201).json(pessoaExiste);
             } else {
-                throw new AppError("O usuario nao foi encontrado", 'id');
+                throw new AppError("O usuario nao foi encontrado", 'atributo');
             }
         } catch (error) {
             return response.status(400).json(error);
@@ -156,9 +159,8 @@ class ControlePessoa {
                 const res = await encrypt.validate(senha, pessoa.senha)
                 if (res == true) {
                     const token = jwt.sign({id : pessoa.id},process.env.SECRET_KEY,{expiresIn : '7d'});
-                    delete pessoa.senha;
 
-                    return response.status(200).json({ message: "Usuario logado com sucesso!",token,pessoa});
+                    return response.status(200).json({ message: "Usuario logado com sucesso!",token,pessoa : {id : pessoa.id,nome : pessoa.nome, email : pessoa.email}});
                 } else {
                     throw new AppError("Email ou senha inválidos", "login");
                 }

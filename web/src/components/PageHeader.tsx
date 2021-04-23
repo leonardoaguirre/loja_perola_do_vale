@@ -36,7 +36,7 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
                 </div>
 
                 <div className={styles.userContainer}>
-                    <Link href="/user/userInfo">
+                    <Link href="/userInfo">
                         <a>
                             <img src="icons/account_circle-black-36dp.svg" alt="Usuário" title="Minha Conta" />
                         </a>
@@ -46,9 +46,18 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
                         <div className={styles.userInfo}>
                             <strong>{user.nome}</strong>
                             <p className={styles.log}>
-                                <button onClick={logoutUser}>
-                                    Log out
+                                <button>
+                                <Link href="/userInfo">
+                                    <a>Minha Conta</a> 
+                                    </Link>
                                 </button>
+                                |
+                                <button onClick={logoutUser}>
+                                    Sair
+                                </button>
+                            </p>
+                            <p className={styles.log}>
+                                
                             </p>
                         </div>
                     ) : (
@@ -56,7 +65,7 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
                             <p className={styles.log}>
                                 <Link href="/login">
                                     <a>
-                                        Log in
+                                        Entrar
                                     </a>
                                 </Link>
                             </p>
