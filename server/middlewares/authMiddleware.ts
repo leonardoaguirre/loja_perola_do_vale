@@ -15,6 +15,9 @@ export default function authMiddleware(req : Request , res : Response, next : Ne
     try {
         
         const data = jwt.verify(token,process.env.SECRET_KEY);
+
+        console.log(data.toString);
+        
         
         return next();
 

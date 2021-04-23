@@ -1,7 +1,8 @@
-import { EntityRepository, Repository } from "typeorm";
+import { EntityRepository, Repository,ILike } from "typeorm";
 import { Pessoa } from "../models/Pessoa";
 import { validate, ValidationError } from "class-validator";
 import { AppError } from "../errors/AppError";
+import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
 
 @EntityRepository(Pessoa)
 class PessoaRepository extends Repository<Pessoa> {
@@ -34,6 +35,15 @@ class PessoaRepository extends Repository<Pessoa> {
     }
     async existeRg(rg: string) {
         return this.findOne({ where: { rg: rg } });
+    }
+    async buscaPor(pesquisa : string ,atributo : string){
+        if(atributo === "nome"){
+            return await this.find({nome : ILike('%'+pesquisa+'%')});
+        }else if(atributo === " email"){
+            return await this.find({email : ILike(pesquisa+'%')});
+        }else if(atributo === "cpf"){
+            return await this.find({cpf : ILike(pesquisa)});
+        }
     }
 }
 

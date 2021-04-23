@@ -33,9 +33,7 @@ function Login() {
             .then(async (res) => {
                 if (res.ok) {
                     const r = await res.json();
-                   // r.token;
-                   //res.("authorization",r.token);
-                    console.log(r.pessoa, r.token);
+    
                     loginUser(r.pessoa, r.token);
                     router.push('/');
                 } else {
