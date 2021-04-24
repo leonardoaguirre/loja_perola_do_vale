@@ -39,7 +39,7 @@ class PessoaRepository extends Repository<Pessoa> {
     async buscaPor(pesquisa : string ,atributo : string){
         if(atributo === "nome"){
             return await this.find({nome : ILike('%'+pesquisa+'%')});
-        }else if(atributo === " email"){
+        }else if(atributo === "email"){
             return await this.find({email : ILike(pesquisa+'%')});
         }else if(atributo === "cpf"){
             return await this.find({cpf : ILike(pesquisa)});
