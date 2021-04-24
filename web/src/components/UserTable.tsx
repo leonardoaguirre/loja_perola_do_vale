@@ -1,7 +1,7 @@
 import { Button } from '@material-ui/core';
 import { GetStaticProps } from 'next';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '../styles/components/UserTable.module.css';
 
 // var table = document.getElementById("table");
@@ -26,16 +26,33 @@ import styles from '../styles/components/UserTable.module.css';
 //     line.classList.toggle(styles.selected);
 // }
 
-function UserTable({ users }) {
-    const cliquei = async(event) =>{
+
+
+interface UserProps {
+    id : string,
+    nome: string,
+    rg: string,
+    cpf: string,
+    dtNasc: string,
+    email: string,
+    senha: string
+}
+
+interface UserTableProps {
+    users: [UserProps];
+}
+
+const UserTable: React.FC<UserTableProps> = (props) => {
+
+    const cliquei = async (event) => {
         console.log("cliquei na tr")
     }
-    const alterUser = async(event) => {
+    
+    const alterUser = async (event) => {
         event.preventDefault()
-          
-
     }
-    const deleteUser = async (event,userid) => {
+
+    const deleteUser = async (event, userid) => {
         event.preventDefault()
 
         console.log(event.target.key);
@@ -57,9 +74,8 @@ function UserTable({ users }) {
                 //     props: { retorno: result, },
                 // }
             }).catch((err) => console.log(err))
+   }
 
-
-    }
     return (
         <div className={styles.usersTable}>
             <table id="table" className={styles.table}>
@@ -77,8 +93,8 @@ function UserTable({ users }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((user) => (
-                        <tr key={user.id} onClick={cliquei}>
+                    {props.users.map((user, key) => (
+                        <tr key={key} onClick={cliquei}>
                             <td>{user.id}</td>
                             <td>{user.nome}</td>
                             <td>{user.rg}</td>
@@ -96,7 +112,7 @@ function UserTable({ users }) {
                             <td>
                                 <div className={styles.buttonContainer}>
                                     <Link href="/userForm">
-                                        <a><button className={styles.deleteButton} onClick={(event)=>deleteUser(event,user.id)}>Excluir</button></a>
+                                        <a><button className={styles.deleteButton} onClick={(event) => deleteUser(event, user.id)}>Excluir</button></a>
                                     </Link>
                                 </div>
                             </td>
