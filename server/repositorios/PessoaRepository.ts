@@ -37,11 +37,13 @@ class PessoaRepository extends Repository<Pessoa> {
         return this.findOne({ where: { rg: rg } });
     }
     async buscaPor(pesquisa : string ,atributo : string){
-        if(atributo === "nome"){
+        console.log(pesquisa, atributo);
+        
+        if(atributo.localeCompare("nome")){
             return await this.find({nome : ILike('%'+pesquisa+'%')});
-        }else if(atributo === " email"){
+        }else if(atributo.localeCompare("email")){
             return await this.find({email : ILike(pesquisa+'%')});
-        }else if(atributo === "cpf"){
+        }else if(atributo.localeCompare("cpf")){
             return await this.find({cpf : ILike(pesquisa)});
         }
     }
