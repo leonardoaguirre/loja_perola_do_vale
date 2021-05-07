@@ -3,7 +3,7 @@ import styles from '../styles/components/AccountMenu.module.css';
 
 function AccountMenu() {
     return (
-        <div className={styles.accountMenu}>
+        <nav className={styles.accountMenu}>
             <ul className={styles.menuList}>
                 <li className={styles.menuItem}>
                     <Link href="/orders">
@@ -13,12 +13,16 @@ function AccountMenu() {
                         </a>
                     </Link>
                 </li>
-                <li className={styles.menuItem}>Cadastro</li>
-                <li className={styles.menuItem}>Endereço</li>
-                <li className={styles.menuItem}>Telefone</li>
-                <li className={styles.menuItem}>Avaliações</li>
+                <li className={styles.menuItem}>
+                    <Link href="/myInfo">
+                        <a>
+                            <img src="icons/face_black_36dp.svg" alt="rosto de pessoa" />
+                            Meus dados
+                        </a>
+                    </Link>
+                </li>
             </ul>
-        </div>
+        </nav>
     );
 }
 

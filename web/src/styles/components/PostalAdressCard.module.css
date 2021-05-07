@@ -1,0 +1,50 @@
+.postalAdress {
+	border: 1px solid var(--primary);
+	margin: 2rem;
+	height: fit-content;
+}
+
+.postalAdress header {
+	display: flex;
+	align-items: center;
+	background-color: var(--primary);
+	justify-content: space-between;
+	padding: 0.5rem 0;
+}
+
+.postalAdress header .postalAdressTitle {
+	margin-left: 0.5rem;
+}
+
+.postalAdress header .postalAdressActions {
+	margin-right: 0.4rem;
+}
+
+.postalAdress header button {
+	border: none;
+	background-color: inherit;
+	margin: 0 0.3rem;
+}
+
+.postalAdress header button img {
+	width: 2.5rem;
+}
+
+.postalAdress .content {
+    padding: 2rem;
+}
+
+.postalAdress .content .adress {
+	display: flex;
+	padding: 1rem 0;
+}
+
+.postalAdress .content .complementAndDistrict {
+	display: flex;
+	padding: 1rem 0;
+}
+
+.postalAdress .content .location {
+	display: flex;
+	padding: 1rem 0;
+}

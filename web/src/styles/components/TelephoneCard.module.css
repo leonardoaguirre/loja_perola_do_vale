@@ -1,0 +1,63 @@
+.telephoneCard {
+	border: 1px solid var(--primary);
+	margin: 2rem;
+	width: 25rem;
+	height: fit-content;
+}
+
+.telephoneCard button:hover {
+	opacity: 0.6;
+}
+
+.telephoneCard header {
+	display: flex;
+	align-items: center;
+	background-color: var(--primary);
+	justify-content: space-between;
+	padding: 0.5rem 0;
+}
+
+.telephoneCard header .telephoneTitle {
+	margin-left: 0.5rem;
+}
+
+.telephoneCard header .telephoneActions {
+	margin-right: 0.4rem;
+}
+
+.telephoneCard header button {
+	border: none;
+	background-color: inherit;
+	margin: 0 0.3rem;
+}
+
+.telephoneCard header button img {
+	width: 2.5rem;
+}
+
+.telephoneCard .content {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem 0;
+}
+
+.telephoneCard .dddNumber,
+.telephoneCard .telephoneNumber {
+	display: flex;
+	flex-direction: column;
+}
+
+.telephoneCard .dddNumber input {
+	width: 4rem;
+	margin-right: 0.3rem;
+	background-color: var(--quinary);
+	border: 0;
+}
+
+.telephoneCard .telephoneNumber input {
+	width: 16rem;
+	background-color: var(--quinary);
+	border: 0;
+}

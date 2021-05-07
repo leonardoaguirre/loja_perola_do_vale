@@ -32,8 +32,8 @@
     width: 70rem;
 }
 
-.userForm .formContainer .inputContainer,
-.userForm .formContainer .selectContainer {
+.userForm .formContainer .inputs .inputContainer,
+.userForm .formContainer .inputs .selectContainer {
     background-color: white;
     padding: 1rem 2rem;
     border-radius: 10px;

@@ -13,7 +13,7 @@ const Banner: React.FC<BannerProps> = (props) => {
         <Carousel autoPlay={true} infiniteLoop={true}>
             
             {props.source.map((source, index) => {
-                return <div><img src={`${source}`} key={index}/></div>
+                return <div key={index}><img src={`${source}`} key={index}/></div>
             })}
             
         </Carousel>

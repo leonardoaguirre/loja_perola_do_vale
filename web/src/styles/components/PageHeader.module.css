@@ -44,13 +44,13 @@
     align-items: center;
     justify-content: center;
     display: flex;
-    border-radius: 2rem;
     padding: 0.6rem 2rem;
+    width: 40%;
 }
 
 .pageHeader .topBarContainer .inputContainer input {
-    height: 2.8rem;
-    width: 30rem;
+    height: 3rem;
+    width: 100%;
     border: 0;
 }
 
@@ -59,7 +59,8 @@
 }
 
 .pageHeader .topBarContainer .inputContainer button {
-    background: white;
+    background: inherit;
+    margin-left: 2rem;
     border: 0;
 }
 
@@ -68,15 +69,14 @@
 }
 
 .pageHeader .topBarContainer .inputContainer button a img {
-    height: 2rem;
-    width: 2rem;
-    
+    height: 2.8rem;
+    width: 2.8rem;
 }
 
 .pageHeader .topBarContainer .userContainer {
     display: flex;
     align-items: center;
-    padding: 0rem 2rem ;
+    margin: 0rem 2rem;
 }
 
 .pageHeader .topBarContainer .userContainer a img {
@@ -99,6 +99,12 @@
     max-width: 20rem;
     overflow: hidden;
     text-transform: capitalize;
+}
+
+.pageHeader .topBarContainer .userContainer .userInfo .log button:first-child {
+    border-right: 1px solid #000000;
+    padding-right: 0.3rem;
+    margin-right: 0.3rem;
 }
 
 .pageHeader .topBarContainer .userContainer .userInfo .log button,

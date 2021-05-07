@@ -1,0 +1,33 @@
+.postalAdressCardNew {
+    border: 2px dashed var(--primary);
+	margin: 2rem;
+    height: 80%;
+    flex: 1 1 25rem;
+    width: 25rem;
+    max-width: 35rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.postalAdressCardNew a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.postalAdressCardNew img {
+    width: 4rem;
+}
+
+.postalAdressCardNew:hover {
+    cursor: pointer;
+    opacity: 0.6;
+}

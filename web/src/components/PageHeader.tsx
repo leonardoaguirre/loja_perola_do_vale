@@ -45,30 +45,26 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
                     {user ? (
                         <div className={styles.userInfo}>
                             <strong>{user.nome}</strong>
-                            <p className={styles.log}>
+                            <div className={styles.log}>
                                 <button>
                                 <Link href="/userInfo">
                                     <a>Minha Conta</a> 
                                     </Link>
                                 </button>
-                                |
                                 <button onClick={logoutUser}>
                                     Sair
                                 </button>
-                            </p>
-                            <p className={styles.log}>
-                                
-                            </p>
+                            </div>
                         </div>
                     ) : (
                         <div className={styles.userInfo}>
-                            <p className={styles.log}>
+                            <div className={styles.log}>
                                 <Link href="/login">
                                     <a>
                                         Entrar
                                     </a>
                                 </Link>
-                            </p>
+                            </div>
                         </div>
                     )}
 
