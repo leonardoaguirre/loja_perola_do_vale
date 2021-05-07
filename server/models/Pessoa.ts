@@ -6,26 +6,9 @@ import { Encrypt } from "../services/encrypt";
 
 @Entity("pessoa")
 class Pessoa {
+
   @PrimaryGeneratedColumn("uuid")
   id: string;
-
-  @Length(7, 50, { message: "O nome deve ter entre 7 e 50 caracteres" })
-  @Column({ nullable: false, length: 50 })
-  nome: string;
-
-  @IsNumberString({ no_symbols: true }, { message: "O rg deve conter somente numeros" })
-  @Length(9, 9, { message: "O rg deve ter 9 caracteres" })
-  @Column({ nullable: false, length: 9, unique: true, })
-  rg: string;
-
-  @IsNumberString({ no_symbols: true }, { message: "O cpf deve conter somente numeros" })
-  @Length(11, 11, { message: "O cpf deve ter 11 caracteres" })
-  @Column({ nullable: false, length: 11, unique: true })
-  cpf: string;
-
-  @IsDateString({ strict: true }, { message: "A data precisa ser valida" },)
-  @Column({ type: 'date', nullable: false })
-  dtNasc: Date;
 
   @Length(10, 100, { message: "O email deve ter entre 10 e 100 caracteres" })
   @IsEmail({}, { message: "Email invalido!" })
@@ -45,5 +28,6 @@ class Pessoa {
   @OneToMany(() => Endereco, endereco => endereco.pessoa, { eager: true })
   enderecos: Endereco[];
 }
+
 
 export { Pessoa };

@@ -23,7 +23,7 @@ class Telefone {
     @Column({ nullable: false, length: 36 })
     id_pessoa_fk: String;
 
-    @ManyToOne(() => Pessoa, pessoa => pessoa.telefones, { onDelete: "CASCADE", onUpdate: "CASCADE",/*createForeignKeyConstraints: false*/ })
+    @ManyToOne(() => Pessoa, pessoa => pessoa.telefones, { onDelete: "CASCADE", onUpdate: "CASCADE",})
     @JoinColumn({ name: "id_pessoa_fk", referencedColumnName: "id" })
     pessoa: Pessoa;
 
