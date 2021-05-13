@@ -1,17 +1,32 @@
 import { } from "class-validator";
-import { EntityRepository, ILike, Repository } from "typeorm";
+import { EntityRepository, Repository } from "typeorm";
 import { Cliente } from "../models/Cliente";
 
 @EntityRepository(Cliente)
 class ClienteRepository extends Repository<Cliente>{
     async buscaPor(pesquisa: string, atributo: string) {
         if (atributo === "nome") {
-            return await this.find({pessoaFisica : {nome : ILike('%'+pesquisa+'%') }});
+               return this.createQueryBuilder("cliente")
+               .leftJoinAndSelect("cliente.pessoaFisica", "pessoaFisica")
+               .leftJoinAndSelect("pessoaFisica.pessoa","pessoa")
+                .where("pessoaFisica.nome like :nome", { nome: `%${pesquisa}%` })
+                .getMany();
         } else if (atributo === "email") {
-            return await this.find({ where: { pessoaFisica: { pessoa: { email: ILike(pesquisa + '%') } } } });
+            return this.createQueryBuilder("cliente")
+               .leftJoinAndSelect("cliente.pessoaFisica", "pessoaFisica")
+               .leftJoinAndSelect("pessoaFisica.pessoa","pessoa")
+                .where("pessoa.email like :email", { email: `%${pesquisa}%` })
+                .getMany();
         } else if (atributo === "cpf") {
-            return await this.find({ where: { pessoaFisica: { cpf: ILike+ pesquisa + '%'} } });
+            return this.createQueryBuilder("cliente")
+               .leftJoinAndSelect("cliente.pessoaFisica", "pessoaFisica")
+               .leftJoinAndSelect("pessoaFisica.pessoa","pessoa")
+                .where("pessoaFisica.cpf like :cpf", { cpf: `%${pesquisa}%` })
+                .getMany();
         }
+    }
+    async buscaPorId(id: string){
+        return this.findOne({id : id});
     }
 
 }

@@ -6,7 +6,7 @@ import { AppError } from '../errors/AppError'
 class ControleEndereco {
     async adicionar(request: Request, response: Response) {
         const enderecoRespository = getCustomRepository(EnderecoRepository);
-        const { idPessoa, cep, rua, numero, complemento, bairro, cidade, estado } = request.body;
+        const { idPessoa, cep, rua, numero, complemento, titulo, bairro, cidade, estado } = request.body;
 
         const endereco = enderecoRespository.create({
             id_pessoa_fk: idPessoa,
@@ -16,7 +16,8 @@ class ControleEndereco {
             numero,
             bairro,
             cidade,
-            estado
+            estado,
+            titulo
         });
 
         await enderecoRespository.validaDados(endereco)
@@ -64,7 +65,7 @@ class ControleEndereco {
     }
     async alterar(request: Request, response: Response) {
         const enderecoRespository = getCustomRepository(EnderecoRepository);
-        const { idEndereco, idPessoa , cep, complemento, rua, numero, bairro, cidade, estado } = request.body;
+        const { idEndereco, idPessoa , cep, complemento, titulo, rua, numero, bairro, cidade, estado } = request.body;
         // const id = request.params.idEndereco;
 
         const endereco = enderecoRespository.create({
@@ -76,7 +77,8 @@ class ControleEndereco {
             numero,
             bairro,
             cidade,
-            estado
+            estado,
+            titulo
         })
 
         await enderecoRespository.validaDados(endereco)

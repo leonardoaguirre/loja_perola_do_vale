@@ -19,6 +19,10 @@ class Endereco {
     @Column({length:50})
     complemento: string;
 
+    @Length(5,50,{message:"O titulo deve ter entre 5 e 50 caracteres"})
+    @Column({length:50})
+    titulo: string;
+
     @IsNumberString({},{message : "Somente numeros sao aceitos"})
     @Length(1,4,{message: "O numero deve ter no minimo 1 no maximo 4 caracteres"})
     @Column({nullable: false})

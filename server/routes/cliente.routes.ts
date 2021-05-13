@@ -9,6 +9,7 @@ clienteRoutes.post('/Adicionar',controleCliente.adicionar);
 clienteRoutes.patch('/Alterar/:id',controleCliente.alterar);
 clienteRoutes.delete('/Deletar',controleCliente.deletar);
 clienteRoutes.get('/Buscar/:atributo/:pesquisa',controleCliente.buscar);
+clienteRoutes.get('/BuscaPorId',controleCliente.buscarPorId);
 
 
 export{clienteRoutes};

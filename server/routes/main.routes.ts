@@ -3,6 +3,10 @@ import {pessoaRoutes} from "./pessoa.routes";
 import {telefoneRoutes} from "./telefone.routes";
 import {enderecoRoutes} from "./endereco.routes";
 import {clienteRoutes} from "./cliente.routes";
+import {cargoRoutes} from './cargo.routes';
+import {funcionarioRoutes} from './funcionario.routes';
+import {empresaRoutes} from './empresa.routes';
+import {fornecedorRoutes} from './fornecedor.routes';
 
 const routes = Router();
 
@@ -10,6 +14,11 @@ routes.use("/Pessoa",pessoaRoutes);
 routes.use("/Telefone",telefoneRoutes);
 routes.use("/Endereco",enderecoRoutes);
 routes.use("/Cliente",clienteRoutes);
+routes.use("/Funcionario",funcionarioRoutes);
+routes.use("/Cargo",cargoRoutes);
+routes.use("/Empresa",empresaRoutes);
+routes.use("/Fornecedor",fornecedorRoutes);
 
 
-export {routes}
+
+export {routes};

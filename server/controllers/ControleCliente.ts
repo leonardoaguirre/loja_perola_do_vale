@@ -104,5 +104,20 @@ class ControleCliente {
             return response.status(400).json(error);
         }
     }
+    async buscarPorId(request: Request, response: Response) {
+        const { id } = request.body;
+        const clienteRepository = getCustomRepository(ClienteRepository);
+
+        try {
+            const cliente = await clienteRepository.buscaPorId(id);
+            if (!cliente) {
+                throw new AppError('Cliente nao encontrado', 'cliente');
+            }
+
+            return response.status(200).json(cliente);
+        } catch (error) {
+            return response.status(400).json(error);
+        }
+    }
 }
 export { ControleCliente };

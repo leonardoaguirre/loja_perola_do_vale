@@ -1,4 +1,4 @@
-import e, { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { PessoaFisicaRepository } from '../repositorios/PessoaFisicaRepository';
 import { EntityManager, getCustomRepository } from 'typeorm';
 import { PessoaFisica } from '../models/PessoaFisica';

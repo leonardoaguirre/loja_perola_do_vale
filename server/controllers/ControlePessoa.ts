@@ -65,10 +65,10 @@ class ControlePessoa {
 
     // }
 
-    async alterar(request: Request, response: Response, cliente: Cliente, manager: EntityManager) {
+    async alterar(request: Request, response: Response, pessoa, manager: EntityManager) {
         const pessoaRepository = getCustomRepository(PessoaRepository);
         const { email, senha } = request.body;
-        const id = cliente.pessoaFisica.pessoa.id;
+        const id = pessoa.pessoaFisica.pessoa.id;
 
         try {
             const pessoaExiste = await pessoaRepository.findOne(id);
