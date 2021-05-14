@@ -81,10 +81,10 @@
 
 .userInfo .content .rightContent .formContainer #postalAdressForm {
 	display: flex;
+	flex-wrap: wrap;
 	width: 90%;
-	height: 100%;
+	height: fit-content;
 	justify-content: flex-start;
-	margin: 0 auto;
+	margin: 1rem auto;
 	align-items: center;
-	background-color: rgba(202, 164, 238, 0.37);
 }

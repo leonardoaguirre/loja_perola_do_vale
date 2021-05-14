@@ -1,13 +1,13 @@
 import styles from '../styles/components/TelephoneCard.module.css';
 
 interface Telephone {
-    titulo?: string;
     ddd: string;
     numero: string;
 }
 
 interface TelephoneCardProps {
     telephone: Telephone;
+    index: number;
 }
 
 const TelephoneCard: React.FC<TelephoneCardProps> = (props) => {
@@ -15,7 +15,7 @@ const TelephoneCard: React.FC<TelephoneCardProps> = (props) => {
         <div className={styles.telephoneCard}>
             <header>
                 <div className={styles.telephoneTitle}>
-                    <strong>{props.telephone.titulo}</strong>
+                    <strong>Opção {props.index+1}</strong>
                 </div>
                 <div className={styles.telephoneActions}>
                     <button>

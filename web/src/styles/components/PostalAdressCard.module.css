@@ -2,6 +2,9 @@
 	border: 1px solid var(--primary);
 	margin: 2rem;
 	height: fit-content;
+	flex: 1 1 30rem;
+	max-width: 40rem;
+	min-width: 25rem;
 }
 
 .postalAdress header {

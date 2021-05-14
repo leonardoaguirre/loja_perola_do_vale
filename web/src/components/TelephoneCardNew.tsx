@@ -8,7 +8,10 @@ function TelephoneCardNew() {
             <Link href="/telephoneForm">
                 <a>
                     <div className={styles.border}>
-                        <img src="/icons/add_circle_black_36dp.svg" alt="adicionar" />
+                        <div title="Adicionar telefone">
+                            <img className={styles.telephoneIcon} src="/icons/phone_black_36dp.svg" alt="telefone" />
+                            <img className={styles.addIcon} src="/icons/add_circle_black_36dp.svg" alt="adicionar" />
+                        </div>
                         <div>Adicionar novo telefone</div>
                     </div>
                 </a>

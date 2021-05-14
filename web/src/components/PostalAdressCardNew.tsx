@@ -7,7 +7,10 @@ function PostalAdressCardNew() {
         <div className={styles.postalAdressCardNew}>
             <Link href="/telephoneForm">
                 <a>
-                    <img src="/icons/add_circle_black_36dp.svg" alt="adicionar" />
+                    <div title="Adicionar endereço">
+                        <img className={styles.homeIcon} src="/icons/home_black_36dp.svg" alt="casa" />
+                        <img className={styles.addIcon} src="/icons/add_circle_black_36dp.svg" alt="adicionar" />
+                    </div>
                     <div>Adicionar novo endereço</div>
                 </a>
             </Link>

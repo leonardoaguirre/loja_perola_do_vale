@@ -63,6 +63,27 @@ const userTeste: User = {
     ],
     "enderecos": [
         {
+            "titulo": "Minha casa",
+            "rua": 'Rua Adalberto Roberto da Silva',
+            "numero": '23',
+            "complemento": 'Padaria Pão Feliz',
+            "bairro": 'Centro',
+            "cidade": 'Mogi das Cruzes',
+            "estado": 'São Paulo',
+            "cep": '08024200'
+        },
+        {
+            "titulo": "Caixa postal do Correio",
+            "rua": 'Rua Adalberto Roberto da Silva',
+            "numero": '23',
+            "complemento": 'Padaria Pão Feliz',
+            "bairro": 'Centro',
+            "cidade": 'Mogi das Cruzes',
+            "estado": 'São Paulo',
+            "cep": '08024200'
+        },
+        {
+            "titulo": "Casa do Pedro",
             "rua": 'Rua Adalberto Roberto da Silva',
             "numero": '23',
             "complemento": 'Padaria Pão Feliz',
@@ -138,7 +159,7 @@ const userInfo: React.FC<PageUserInfoProps> = (props) => {
                             <h3>Telefones</h3>
                             <form id={styles.telephoneForm}>
                                 {props.user.telefones.map((telephone, index) => {
-                                    return <TelephoneCard telephone={telephone} key={index}/>
+                                    return <TelephoneCard telephone={telephone} index={index} key={index}/>
                                 })}
                                 <TelephoneCardNew />
                             </form>
