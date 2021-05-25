@@ -140,8 +140,20 @@ class ControlePessoa {
         } catch (error) {
             return response.status(401).json(error);
         }
+    }
+    async buscaPessoa(id: string) {
+        const pessoaRepository = getCustomRepository(PessoaRepository);
 
+        try {
+            const pessoa = await pessoaRepository.findOne(id);
+            if (!pessoa) {
+                throw new AppError('Nenhuma pessoa encontrada', 'pessoa');
+            }
+            return pessoa;
 
+        } catch (error) {
+            throw error;
+        }
     }
 }
 

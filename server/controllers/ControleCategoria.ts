@@ -20,15 +20,15 @@ class ControleCategoria {
                     await categoriaRepository.verifica(categoria)
                         .then(result => {
                             if (result.length > 0) {
-                                throw new AppError('Categoria já cadastrado', 'categoria');
+                                throw new AppError('Categoria já cadastrada', 'categoria');
                             }
                         }).catch(erro => { throw erro })
                     await categoriaRepository.save(categoria)
                         .then(result => {
                             if (result) {
-                                return response.status(201).json({ message: "Categoria cadastrado com sucesso" });
+                                return response.status(201).json({ message: "Categoria cadastrada com sucesso" });
                             } else {
-                                throw { message: 'Categoria nao cadastrado' }
+                                throw { message: 'Categoria nao cadastrada' }
                             }
                         })
                 }
@@ -51,7 +51,7 @@ class ControleCategoria {
         const categoriaRepository = getCustomRepository(CategoriaRepository);
         const id = request.params.idcategoria;
 
-        categoriaRepository.buscaPorId(id)
+        await categoriaRepository.buscaPorId(id)
             .then((result) => {
                 if (result) {
                     return response.status(201).json(result);
@@ -61,13 +61,13 @@ class ControleCategoria {
             })
             .catch(error => { return response.status(400).json(error) });
     }
-    async buscacategoria(id: string) {
+    async buscaCategoria(id: string) {
         const categoriaRepository = getCustomRepository(CategoriaRepository);
 
         try {
             const categoria = await categoriaRepository.buscaPorId(id);
             if (!categoria) {
-                throw new AppError('Nenhuma categoria encontrada', 'categoria');
+                throw new AppError('Categoria encontrada', 'categoria');
             }
             return categoria;
 

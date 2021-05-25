@@ -1,6 +1,6 @@
 import { AppError } from "../errors/AppError";
 import { Request, Response } from "express";
-import { EntityManager, getCustomRepository, RepositoryNotFoundError } from "typeorm";
+import { EntityManager, getCustomRepository } from "typeorm";
 import { TelefoneRepository } from "../repositorios/TelefoneRepository"
 import { Pessoa } from "../models/Pessoa";
 

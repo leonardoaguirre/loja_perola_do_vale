@@ -117,7 +117,7 @@ class ControleCargo {
                         if (result.affected) {
                             return response.status(200).json({ message: "O cargo foi deletado com sucessso!" })
                         } else {
-                            return response.status(400).json(result)
+                            return response.status(400).json(result);
                         }
                     })
                 } else {

@@ -1,36 +1,65 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
-import { Telefone } from "./Telefone";
-import { Endereco } from "./Endereco";
-import { Length, IsEmail, IsDateString, IsNumberString } from "class-validator";
-import { Encrypt } from "../services/encrypt";
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
+import { Length, IsDecimal, IsNumberString } from "class-validator";
+import { Categoria } from "./Categoria";
+import { Imagem } from "./Imagem";
 
 @Entity("produto")
 class Produto {
+    @PrimaryGeneratedColumn("uuid")
+    id: string;
 
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
+    @Length(5, 100, { message: "O nome deve ter entre 5 e 100 caracteres" })
+    @Column({ nullable: false, length: 100 })
+    nome: string;
 
-  @Length(10, 100, { message: "O email deve ter entre 10 e 100 caracteres" })
-  @Column({ nullable: false, length: 100, unique: true })
-  nome: string;
+    @Length(5, 100, { message: "A marca deve ter entre 5 e 100 caracteres" })
+    @Column({ nullable: false, length: 100 })
+    marca: string;
 
-  @Length(10, 100, { message: "O email deve ter entre 10 e 100 caracteres" })
-  @Column({ nullable: false, length: 100, unique: true })
-  marca: string;
+    @Length(10, 65000, { message: "A descricao deve ter entre no minimo 10 caracteres", })
+    @Column({ nullable: false, type: 'text' })
+    descricao: string;
 
-//   @Length(60, 60, { message: "Hash de senha não está do tamanho correto" })
-//   @Column({ nullable: false })
-//   senha: string;
+    @ManyToMany(() => Categoria, { eager: true, onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+    @JoinTable({ name: 'produto_categoria', })
+    categorias: Categoria[];
 
-  @CreateDateColumn()
-  created_at: Date;
+    @IsDecimal({ decimal_digits: '1,2', force_decimal: true }, { message: "Valor de venda é invalido(centavos separado com ponto(.)" })
+    @Column({ nullable: false, type: 'decimal', precision: 5, scale: 2 })
+    valorVenda: number;
 
-//   @OneToMany(() => Telefone, telefone => telefone.Produto, { eager: true })
-//   telefones: Telefone[];
+    @Length(12, 13, { message: "O codigo de barra deve conter no minimo 12 e no maximo 13 numeros" })
+    @IsNumberString({ no_symbols: true }, { message: "Codigo de barra invalido" })
+    @Column({ nullable: false })
+    codBarra: number;
 
-//   @OneToMany(() => Endereco, endereco => endereco.Produto, { eager: true })
-//   enderecos: Endereco[];
+    @IsNumberString({ no_symbols: true }, { message: "Quantidade invalida" })
+    @Column({ nullable: false })
+    quantidade: number;
+
+    @IsDecimal({ decimal_digits: '1,3', force_decimal: true }, { message: "Peso é invalido" })
+    @Column({ nullable: false, type: 'decimal', precision: 3, scale: 3 })
+    peso: number;
+
+    @IsNumberString({ no_symbols: true }, { message: "Altura invalida, valor somente em centimetros" })
+    @Column({ nullable: false })
+    altura: number;
+
+    @IsNumberString({ no_symbols: true }, { message: "Largura invalida, valor somente em centimetros" })
+    @Column({ nullable: false })
+    largura: number;
+
+    @IsNumberString({ no_symbols: true }, { message: "Comprimento invalido, valor somente em centimetros" })
+    @Column({ nullable: false })
+    comprimento: number;
+
+    @OneToMany(() => Imagem, imagem => imagem.produto, { eager: true })
+    imagens: Imagem[];
+
+    @CreateDateColumn()
+    created_at: Date;
+
+    @UpdateDateColumn()
+    updated_at: Date;
 }
-
-
 export { Produto };
