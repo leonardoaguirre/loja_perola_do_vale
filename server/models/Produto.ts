@@ -30,8 +30,8 @@ class Produto {
 
     @Length(12, 13, { message: "O codigo de barra deve conter no minimo 12 e no maximo 13 numeros" })
     @IsNumberString({ no_symbols: true }, { message: "Codigo de barra invalido" })
-    @Column({ nullable: false })
-    codBarra: number;
+    @Column({ nullable: false , length : 13})
+    codBarra: string;
 
     @IsNumberString({ no_symbols: true }, { message: "Quantidade invalida" })
     @Column({ nullable: false })

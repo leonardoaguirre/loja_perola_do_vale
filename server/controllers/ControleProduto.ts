@@ -7,6 +7,8 @@ import { ControleCategoria } from './ControleCategoria';
 import fs from 'fs';
 import path from 'path';
 import { ControleImgs } from './ControleImgs';
+import { Imagem } from '../models/Imagem';
+import { Produto } from '../models/Produto';
 
 class ControleProduto {
     async adicionar(request: Request, response: Response, next: NextFunction) {
@@ -28,7 +30,65 @@ class ControleProduto {
             marca,
             descricao,
             valorVenda,
-            codBarra,
+            codBarra: codBarra,
+            quantidade,
+            peso,
+            altura,
+            largura,
+            comprimento,
+            categorias: categorias
+        });
+        //variavel de retorno da insercao das imagens fora do try
+        let imgs = new Array<Imagem>();
+        try {
+            await getManager().transaction(async transactionalEntityManager => {
+
+                const prod = await transactionalEntityManager.save(produto);
+                imgs = await controleImgs.adicionar(request, response, prod, transactionalEntityManager);
+
+                const valida = await produtoRepository.validaDados(produto);
+                if (valida.length > 0) {
+                    throw valida;
+                }
+                const verifica = await produtoRepository.verifica(produto);
+                if (verifica) {
+                    throw new AppError('Produto ja cadastrado', 'produto');
+                }
+            });
+
+            return response.status(200).json({ message: 'Produto cadastrado com sucesso' });
+
+        } catch (error) {
+            //exclui somente as imagens que foram tentadas a serem inseridas
+            for (const img of imgs) {
+                // const dir = path.resolve('uploads', 'imgs', produto.codBarra.toString(), img.);
+                fs.rm(img.path, { recursive: true, force: true, }, (error) => {
+                    if (error) throw error;
+                })
+            }
+            return response.status(400).json(error);
+        }
+    }
+    async alterar(request: Request, response: Response) {
+        const produtoRepository = getCustomRepository(ProdutoRepository);
+        const { nome, marca, descricao, valorVenda, codBarra, quantidade, peso, altura, largura, comprimento } = request.body;
+        const categoriasBody: [string] = request.body.categorias;
+        const id = request.params.idCliente;
+
+
+        const categorias = new Array<Categoria>();
+        const controleCategoria = new ControleCategoria();
+        const controleImgs = new ControleImgs();
+
+        for (const cat of categoriasBody) {
+            categorias.push(await controleCategoria.buscaCategoria(cat));
+        }
+        const produto = produtoRepository.create({
+            nome,
+            marca,
+            descricao,
+            valorVenda,
+            codBarra: codBarra,
             quantidade,
             peso,
             altura,
@@ -37,33 +97,28 @@ class ControleProduto {
             categorias: categorias
         });
 
-
         try {
             await getManager().transaction(async transactionalEntityManager => {
-
-
-
+                const prodExiste = await produtoRepository.findOne(id);
+                if (!prodExiste) {
+                    throw new AppError('Produto não existe','produto');
+                }
+                const prod = await transactionalEntityManager.update(Produto,id,produto);
+                await controleImgs.adicionar(request, response, prodExiste, transactionalEntityManager);
 
                 const valida = await produtoRepository.validaDados(produto);
                 if (valida.length > 0) {
                     throw valida;
                 }
                 const verifica = await produtoRepository.verifica(produto);
-                if (verifica.length > 0) {
+                if (verifica) {
                     throw new AppError('Produto ja cadastrado', 'produto');
                 }
-                const prod = await transactionalEntityManager.save(produto);
-                await controleImgs.adicionar(request, response, prod, transactionalEntityManager);
             });
 
             return response.status(200).json({ message: 'Produto cadastrado com sucesso' });
 
         } catch (error) {
-            const dir = path.resolve('uploads', 'imgs', produto.codBarra.toString());
-
-            fs.rm(dir, { recursive: true, force: true }, (error) => {
-                if (error) throw error;
-            })
             return response.status(400).json(error);
         }
     }
