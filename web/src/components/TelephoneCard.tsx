@@ -29,11 +29,11 @@ const TelephoneCard: React.FC<TelephoneCardProps> = (props) => {
             <div className={styles.content}>
                 <div className={styles.dddNumber}>
                     <label htmlFor="ddd">DDD</label>
-                    <input type="text" name="ddd" value={props.telephone.ddd} disabled />
+                    <input type="text" name="ddd" value={`(${props.telephone.ddd})`} disabled />
                 </div>
                 <div className={styles.telephoneNumber}>
                     <label htmlFor="number">Número</label>
-                    <input type="text" name="number" value={props.telephone.numero} disabled />
+                    <input type="text" name="number" value={`${props.telephone.numero.slice(0, 1)} ${props.telephone.numero.slice(1, 5)}-${props.telephone.numero.slice(5, 9)}`} disabled />
                 </div>
             </div>
         </div>

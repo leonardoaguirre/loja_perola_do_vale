@@ -1,13 +1,17 @@
 .telephoneCardNew {
 	margin: 2rem;
+    flex: 1 1 18rem;
+	max-width: 22rem;
+	min-width: 18rem;
+	flex-wrap: wrap;
 }
 
 .border {
     border: 2px dashed var(--primary);
-    width: 18rem;
 	height: 9.5rem;
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
     text-align: center;
     justify-content: center;

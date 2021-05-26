@@ -1,8 +1,11 @@
 .telephoneCard {
 	border: 1px solid var(--primary);
 	margin: 2rem;
-	width: 18rem;
 	height: fit-content;
+	flex: 1 1 18rem;
+	max-width: 22rem;
+	min-width: 18rem;
+	flex-wrap: wrap;
 }
 
 .telephoneCard button:hover {
@@ -47,17 +50,24 @@
 .telephoneCard .telephoneNumber {
 	display: flex;
 	flex-direction: column;
+	margin: 0 0.5rem;
+}
+
+.telephoneCard .dddNumber {
+	align-items: flex-end;
+	
 }
 
 .telephoneCard .dddNumber input {
 	width: 3rem;
-	margin-right: 0.3rem;
 	background-color: var(--quinary);
 	border: 0;
+	align-items: flex-end;
+	text-align: center;
 }
 
 .telephoneCard .telephoneNumber input {
-	width: 10rem;
+	width: 9rem;
 	background-color: var(--quinary);
 	border: 0;
 }
