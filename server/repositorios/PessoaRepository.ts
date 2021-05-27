@@ -1,8 +1,7 @@
 import { EntityRepository, Repository,ILike } from "typeorm";
 import { Pessoa } from "../models/Pessoa";
-import { validate, ValidationError } from "class-validator";
+import { validate } from "class-validator";
 import { AppError } from "../errors/AppError";
-import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
 
 @EntityRepository(Pessoa)
 class PessoaRepository extends Repository<Pessoa> {
@@ -15,12 +14,12 @@ class PessoaRepository extends Repository<Pessoa> {
                     validacoes.push(new AppError("Este email ja foi registrado!", "email"));
                 }
             })
-        if (await this.existeCpf(pessoa.cpf)) {
-            validacoes.push(new AppError("Este cpf ja foi registrado!", "cpf"));
-        }
-        if (await this.existeRg(pessoa.rg)) {
-            validacoes.push(new AppError("Este rg ja foi registrado!", "rg"));
-        }
+        // if (await this.existeCpf(pessoa.cpf)) {
+        //     validacoes.push(new AppError("Este cpf ja foi registrado!", "cpf"));
+        // }
+        // if (await this.existeRg(pessoa.rg)) {
+        //     validacoes.push(new AppError("Este rg ja foi registrado!", "rg"));
+        // }
 
         return validacoes;
     }
@@ -30,20 +29,19 @@ class PessoaRepository extends Repository<Pessoa> {
     async existeEmail(email: string) {
         return this.findOne({ where: { email: email } });
     }
-    async existeCpf(cpf: string) {
-        return this.findOne({ where: { cpf: cpf } });
-    }
-    async existeRg(rg: string) {
-        return this.findOne({ where: { rg: rg } });
-    }
+
     async buscaPor(pesquisa : string ,atributo : string){
-        if(atributo === "nome"){
+        console.log(pesquisa, atributo);
+        
+        /*if(atributo === "nome"){
             return await this.find({nome : ILike('%'+pesquisa+'%')});
-        }else if(atributo === "email"){
+        }*/
+        if(atributo === "email"){
             return await this.find({email : ILike(pesquisa+'%')});
-        }else if(atributo === "cpf"){
-            return await this.find({cpf : ILike(pesquisa)});
         }
+        //else if(atributo ==="cpf"){
+        //     return await this.find({cpf : ILike(pesquisa)});
+        // }
     }
 }
 

@@ -5,11 +5,15 @@ import createConnection from "../infra/database/conexao";
 import { routes } from "../routes/main.routes";
 import { AppError } from "../errors/AppError";
 import cors from 'cors';
+require("dotenv").config();
 
 createConnection();
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({extended:true }));
+app.use('/Produto/Imagens', express.static('uploads/imgs'));
+
 app.use(cors());
 app.use(routes);
 

@@ -6,7 +6,6 @@ class Encrypt {
         const hash = await bcrypt.hash(senha, 10).then((res)=>{
             return res;
         })
-        console.log("hash na execute: "+hash);
         
         return hash;
     }
