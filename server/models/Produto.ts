@@ -20,10 +20,6 @@ class Produto {
     @Column({ nullable: false, type: 'text' })
     descricao: string;
 
-    @ManyToMany(() => Categoria, { eager: true, onDelete: 'CASCADE', onUpdate: 'CASCADE' })
-    @JoinTable({ name: 'produto_categoria', })
-    categorias: Categoria[];
-
     @IsDecimal({ decimal_digits: '1,2', force_decimal: true }, { message: "Valor de venda é invalido(centavos separado com ponto(.)" })
     @Column({ nullable: false, type: 'decimal', precision: 5, scale: 2 })
     valorVenda: number;
@@ -56,6 +52,10 @@ class Produto {
     @IsEmpty({message : "O produto deve conter pelos menos 1 imagem"})
     @OneToMany(() => Imagem, imagem => imagem.produto, { eager: true })
     imagens: Imagem[];
+
+    @ManyToMany(() => Categoria, { eager: true, onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+    @JoinTable({ name: 'produto_categoria', })
+    categorias: Categoria[];
 
     @CreateDateColumn()
     created_at: Date;

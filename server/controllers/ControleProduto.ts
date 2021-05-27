@@ -120,12 +120,12 @@ class ControleProduto {
                 if (verifica && (prodExiste.codBarra !== produto.codBarra) && (produto.codBarra == verifica.codBarra)) {
                     throw new AppError('Codigo de barra ja cadastrado', 'produto');
                 }
-                
-                categoriasBody.forEach(async cat =>{
+
+                categoriasBody.forEach(async cat => {
                     console.log(cat);
                     categorias.push(await controleCategoria.buscaCategoria(cat));
-                }) 
-                prodExiste.categorias = prodExiste.categorias.filter((catEx,i )=> {
+                })
+                prodExiste.categorias = prodExiste.categorias.filter((catEx, i) => {
                     catEx.id != categorias[i].id;
                 })
                 await transactionalEntityManager.save(prodExiste);
@@ -217,6 +217,20 @@ class ControleProduto {
         } catch (error) {
             throw error;
         }
+    }
+    async procurar(request: Request, response: Response) {
+        const pesquisa = request.params.pesquisa;
+        const produtoRepository = getCustomRepository(ProdutoRepository);
+
+        await produtoRepository.procura(pesquisa)
+            .then(res => {
+                if(res.length==0){
+                    throw new AppError('Nenhum produto encontrado','produto');
+                }
+                return response.status(200).json(res);
+            }).catch(err=>{
+                return response.status(400).json(err);
+            })
     }
 }
 export { ControleProduto };
