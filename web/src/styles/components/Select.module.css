@@ -1,0 +1,54 @@
+.customSelect {
+    position: relative;
+}
+
+.customSelect select {
+    display: none;
+}
+
+.selectSelected {
+    background-color: DodgerBlue;
+}
+
+.selectSelected:after {
+    position: absolute;
+    content: "";
+    top: 14px;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-color: #fff transparent transparent transparent;
+}
+
+.selectSelected.selectArrowActive:after {
+    border-color: transparent transparent #fff transparent;
+    top: 7px;
+}  
+
+.selectItems div,
+.selectSelected {
+    color: #ffffff;
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+    cursor: pointer;
+}
+
+.selectItems {
+    position: absolute;
+    background-color: DodgerBlue;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+}
+
+.selectHide {
+    display: none;
+}
+
+.selectItems div:hover, 
+.sameAsSelected {
+    background-color: rgba(0, 0, 0, 0.1);
+}

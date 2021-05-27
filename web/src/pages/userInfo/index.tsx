@@ -54,11 +54,11 @@ const userTeste: User = {
     "telefones": [
         {
             "ddd": "11",
-            "numero": "91234578"
+            "numero": "941234578"
         },
         {
             "ddd": "11",
-            "numero": "93214567"
+            "numero": "953214567"
         }
     ],
     "enderecos": [

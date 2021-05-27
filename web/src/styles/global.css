@@ -40,6 +40,10 @@ textarea {
 	font: 400 1.5rem Roboto;
 }
 
+textarea {
+	resize: none;
+}
+
 button {
 	cursor: pointer;
 	outline: 0;
