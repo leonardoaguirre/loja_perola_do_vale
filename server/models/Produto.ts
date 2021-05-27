@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
-import { Length, IsDecimal, IsNumberString } from "class-validator";
+import { Length, IsDecimal, IsNumberString, IsEmpty } from "class-validator";
 import { Categoria } from "./Categoria";
 import { Imagem } from "./Imagem";
 
@@ -53,6 +53,7 @@ class Produto {
     @Column({ nullable: false })
     comprimento: number;
 
+    @IsEmpty({message : "O produto deve conter pelos menos 1 imagem"})
     @OneToMany(() => Imagem, imagem => imagem.produto, { eager: true })
     imagens: Imagem[];
 

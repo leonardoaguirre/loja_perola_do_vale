@@ -14,6 +14,7 @@ class ControleImgs {
         try {
             for (let i = 0; i < request.files.length; i++) {
                 const img = request.files[i];
+
                 imagens.push(imgRepository.create({
                     originalName: img.originalname,
                     mimetype: img.mimetype,
@@ -31,6 +32,15 @@ class ControleImgs {
             throw error;
         }
 
+    }
+    async deletar(request: Request, response: Response, prod: Produto, manager: EntityManager) {
+        for(const img of prod.imagens){
+            manager.delete(Imagem,img.id)
+            .then(res=>{
+            }).catch(err =>{
+                throw err;
+            });
+        }
     }
     async teste(request: Request, response: Response) {
         return response.status(200).json(request.body.categorias);

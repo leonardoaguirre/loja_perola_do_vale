@@ -10,7 +10,9 @@ const controleImgs = new ControleImgs();
 
 
 produtoRoutes.get('/Listar',controleProduto.listar);
+produtoRoutes.get('/BuscarPorId',controleProduto.buscarPorId);
 produtoRoutes.post('/Adicionar',upload.array('images',5),controleProduto.adicionar);
+produtoRoutes.patch('/Alterar/:idProduto',upload.array('images',5),controleProduto.alterar);
 produtoRoutes.delete('/Deletar',controleProduto.deletar);
 produtoRoutes.post('/Teste',upload.array("images",5),controleImgs.teste);
 
