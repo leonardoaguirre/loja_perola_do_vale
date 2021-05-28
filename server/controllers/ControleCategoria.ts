@@ -67,7 +67,7 @@ class ControleCategoria {
         try {
             const categoria = await categoriaRepository.buscaPorId(id);
             if (!categoria) {
-                throw new AppError('Categoria encontrada', 'categoria');
+                throw new AppError('Categoria nao encontrada', 'categoria');
             }
             return categoria;
 
