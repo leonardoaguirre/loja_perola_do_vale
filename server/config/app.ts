@@ -12,7 +12,7 @@ createConnection();
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended:true }));
-app.use('/Produto/Imagens', express.static('uploads/imgs'));
+app.use('/uploads/imgs', express.static('uploads/imgs'));
 
 app.use(cors());
 app.use(routes);

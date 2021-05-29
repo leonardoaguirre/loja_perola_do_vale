@@ -20,9 +20,6 @@ export default function Home() {
       <div className={styles.home}>
         Promoção
         <Banner source={images}/>
-        <Banner source={images}/>
-        <Banner source={images}/>
-        <Banner source={images}/>
       </div>
       <PageFooter />
     </div>

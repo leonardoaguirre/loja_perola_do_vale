@@ -32,8 +32,8 @@ const FileList: React.FC<FileListProps> = ({ files, onDelete }) => {
                         />
                         <div>
                             <strong>
-                                {file.name.length > 20 
-                                ? `${file.name.slice(0,17)}....${file.name.slice(-3)}`
+                                {file.name.length > 19 
+                                ? `${file.name.slice(0,16)}(...).${file.name.slice(-3)}`
                                 : file.name}
                             </strong>
                             <span>

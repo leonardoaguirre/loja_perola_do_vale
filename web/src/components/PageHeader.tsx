@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../contexts/UserContext';
 
 import styles from '../styles/components/PageHeader.module.css';
@@ -11,6 +11,12 @@ interface PageHeaderProps {
 const PageHeader: React.FC<PageHeaderProps> = (props) => {
     const { user, logoutUser } = useContext(UserContext);
 
+    const [search, setSearch] = useState('');
+
+    const handleInputSearch = (event) => {
+        setSearch(event.target.value);
+    }
+
     return (
         <header className={styles.pageHeader}>
             <div className={styles.topBarContainer}>
@@ -18,18 +24,18 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
                 <div className={styles.logoContainter}>
                     <Link href="/">
                         <a>
-                            <img id={styles.logoImg} src="icons/logo.png" alt="Logo Ferragens Pérola do Vale" title="Logo Ferragens Pérola do Vale" />
-                            <img id={styles.logoTitle} src="icons/ferragens-perola-do-vale-preto.png" alt="Logo título Ferragens Pérola do Vale" title="Logo título Ferragens Pérola do Vale" />
+                            <img id={styles.logoImg} src="/icons/logo.png" alt="Logo Ferragens Pérola do Vale" title="Logo Ferragens Pérola do Vale" />
+                            <img id={styles.logoTitle} src="/icons/ferragens-perola-do-vale-preto.png" alt="Logo título Ferragens Pérola do Vale" title="Logo título Ferragens Pérola do Vale" />
                         </a>
                     </Link>
                 </div>
 
                 <div className={styles.inputContainer}>
-                    <input type="search" placeholder="Busque aqui seu produto" />
+                    <input type="search" placeholder="Busque aqui seu produto" onChange={handleInputSearch} />
                     <button>
-                        <Link href="/products">
+                        <Link href={`/productList/${search}`}>
                             <a>
-                                <img src="icons/search-black-36dp.svg" alt="Lupa" title="Buscar" />
+                                <img src="/icons/search-black-36dp.svg" alt="Lupa" title="Buscar" />
                             </a>
                         </Link>
                     </button>
@@ -38,7 +44,7 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
                 <div className={styles.userContainer}>
                     <Link href="/userInfo">
                         <a>
-                            <img src="icons/account_circle-black-36dp.svg" alt="Usuário" title="Minha Conta" />
+                            <img src="/icons/account_circle-black-36dp.svg" alt="Usuário" title="Minha Conta" />
                         </a>
                     </Link>
 
@@ -74,14 +80,14 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
                     <div className={styles.shoppingCart}>
                         <Link href="/shoppingCart">
                             <a>
-                                <img src="icons/shopping_cart-black-36dp.svg" alt="Carrinho de compras" title="Carrinho" />
+                                <img src="/icons/shopping_cart-black-36dp.svg" alt="Carrinho de compras" title="Carrinho" />
                             </a>
                         </Link>
                     </div>
                     <div className={styles.favoritesItens}>
                         <Link href="/favoriteItens">
                             <a>
-                                <img src="icons/favorite_border-black-36dp.svg" alt="Coração" title="Favoritos" />
+                                <img src="/icons/favorite_border-black-36dp.svg" alt="Coração" title="Favoritos" />
                             </a>
                         </Link>
                     </div>

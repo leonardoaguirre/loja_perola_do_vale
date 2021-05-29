@@ -10,9 +10,9 @@ function SubHeader() {
                     <div className={styles.menuItens}>
                         <div className={styles.departmentsDropdown}>
                             <button className={styles.dropdownButton}>
-                                <img src="icons/menu-black-36dp.svg" alt="3 barras horizontais empilhadas" title="Menu" />
+                                <img src="/icons/menu-black-36dp.svg" alt="3 barras horizontais empilhadas" title="Menu" />
                                 <strong>Departamentos</strong>
-                                <img src="icons/keyboard_arrow_down-black-36dp.svg" className={styles.arrowAnimation} alt="seta para baixo" />
+                                <img src="/icons/keyboard_arrow_down-black-36dp.svg" className={styles.arrowAnimation} alt="seta para baixo" />
                             </button>
                             <div className={`${styles.dropdownContent} ${styles.barBlock} ${styles.border}`}>
                                 <Link href="#">

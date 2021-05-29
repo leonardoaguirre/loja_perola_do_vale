@@ -1,0 +1,85 @@
+.item header {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    top: -3rem;
+    z-index: 2;
+}
+
+.item header .discount {
+    background-color: var(--primary);
+    color: #ffffff;
+    padding: 1rem;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+
+.itemContainer {
+    display: flex;
+    flex-direction: column;
+    height: 35rem;
+    width: 26rem;
+    background-color: white;
+    padding: 1rem;
+    position: relative;
+}
+
+.itemContainer .hasDiscount {
+    position: relative;
+    top: -4rem;
+    z-index: 1;
+}
+
+.itemContainer figure {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.itemContainer figure img{
+    height: 20rem;
+    width: 20rem;
+}
+
+.itemContainer h2 {
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin-top: 0.6rem;
+}
+
+.itemContainer h2:first-letter {
+    text-transform: uppercase;
+}
+
+.itemContainer .price {
+    margin-top: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.itemContainer .price .oldPrice {
+    text-decoration: line-through;
+    font-size: 1.3rem;
+}
+
+.itemContainer .price .currentPrice {
+    font-size: 2.3rem;
+}
+
+.itemContainer .price .oldPrice span {
+    margin-right: 0.1rem;
+}
+
+.itemContainer .price .currentPrice span {
+    position: relative;
+    top: -0.7rem;
+    margin-right: 0.1rem;
+    font-size: 1.3rem;
+    font-weight: 400;
+}
+
+.itemContainer .price .installment {
+    font-size: 1.2rem;
+}

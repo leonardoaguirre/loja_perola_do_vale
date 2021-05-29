@@ -188,11 +188,11 @@ class ControleProduto {
         })
     }
     async buscarPorId(request: Request, response: Response) {
-        const { id } = request.body;
+        const { idProduto } = request.params;
         const produtoRepository = getCustomRepository(ProdutoRepository);
 
         try {
-            const produto = await produtoRepository.buscaPorId(id);
+            const produto = await produtoRepository.buscaPorId(idProduto);
             console.log(produto);
 
             if (!produto) {

@@ -39,7 +39,7 @@ interface UserProps {
 }
 
 interface UserTableProps {
-    users: [UserProps];
+    users: UserProps[];
 }
 
 const UserTable: React.FC<UserTableProps> = (props) => {

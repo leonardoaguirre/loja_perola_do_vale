@@ -1,0 +1,29 @@
+.container {
+	margin: 0 auto;
+
+	display: flex;
+	flex-direction: column;
+}
+
+.productSearch {
+	width: 95%;
+    max-width: 2880px;
+    margin: 0 auto;
+    padding: 1.6rem 0;
+
+	display: flex;
+	justify-content: center;
+}
+
+.productSearch .product {
+	width: 90rem;
+	height: 50rem;
+	background-color: blue;
+	margin-right: 2rem;
+}
+
+.productSearch .buy {
+	width: 40rem;
+	height: 50rem;
+	background-color: blueviolet;
+}

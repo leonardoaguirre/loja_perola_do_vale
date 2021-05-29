@@ -21,7 +21,7 @@ interface UserProps {
 }
 
 interface PageUserProps {
-    pessoas: [UserProps];
+    pessoas: UserProps[];
 }
 
 const Pageuser: React.FC<PageUserProps> = (props) => {
