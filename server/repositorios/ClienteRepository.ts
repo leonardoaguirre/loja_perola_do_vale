@@ -4,6 +4,9 @@ import { Cliente } from "../models/Cliente";
 
 @EntityRepository(Cliente)
 class ClienteRepository extends Repository<Cliente>{
+    existeEmail(email: string) {
+        return this.findOne({pessoaFisica:{pessoa:{email : email}}});
+    }
     async buscaPor(pesquisa: string, atributo: string) {
         if (atributo === "nome") {
                return this.createQueryBuilder("cliente")

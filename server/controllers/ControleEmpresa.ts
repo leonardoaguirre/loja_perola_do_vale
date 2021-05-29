@@ -81,7 +81,7 @@ class ControleEmpresa {
             })
     }
     async buscarPorId(request: Request, response: Response) {
-        const { id } = request.body;
+        const id  = request.params.IdEmpresa;
         const empresaRepository = getCustomRepository(EmpresaRepository);
 
         try {

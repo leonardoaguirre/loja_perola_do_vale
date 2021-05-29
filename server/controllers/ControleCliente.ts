@@ -1,10 +1,12 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { getCustomRepository, getManager } from 'typeorm';
 import { ControlePessoa } from './ControlePessoa';
 import { ControlePessoaFisica } from './ControlePessoaFisica';
 import { ClienteRepository } from '../repositorios/ClienteRepository';
 import { ControleTelefone } from './ControleTelefone';
 import { AppError } from '../errors/AppError';
+import { Encrypt } from '../services/encrypt';
+import jwt from 'jsonwebtoken';
 
 class ControleCliente {
     async adicionar(request: Request, response: Response) {
@@ -105,7 +107,7 @@ class ControleCliente {
         }
     }
     async buscarPorId(request: Request, response: Response) {
-        const { id } = request.body;
+        const id = request.params.idCliente;
         const clienteRepository = getCustomRepository(ClienteRepository);
 
         try {
@@ -117,6 +119,30 @@ class ControleCliente {
             return response.status(200).json(cliente);
         } catch (error) {
             return response.status(400).json(error);
+        }
+    }
+    async login(request: Request, response: Response, next: NextFunction) {
+        const clienteRepository = getCustomRepository(ClienteRepository);
+        const { email, senha } = request.body;
+        const encrypt = new Encrypt();
+
+        try {
+            const clienteExiste = await clienteRepository.existeEmail(email);
+
+            if (clienteExiste) {
+                const res = await encrypt.validate(senha, clienteExiste.pessoaFisica.pessoa.senha);
+                if (res == true) {
+                    const token = jwt.sign({ id: clienteExiste.id }, process.env.SECRET_KEY, { expiresIn: '7d' });
+
+                    return response.status(200).json({ message: "Usuario logado com sucesso!", token, pessoa: { id: clienteExiste.id,/*nome : pessoaExiste.nome,*/ email: clienteExiste.pessoaFisica.pessoa.email } });
+                } else {
+                    throw new AppError("Email ou senha inválidos", "login");
+                }
+            } else {
+                throw new AppError("Email ou senha inválidos", "login");
+            }
+        } catch (error) {
+            return response.status(401).json(error);
         }
     }
 }

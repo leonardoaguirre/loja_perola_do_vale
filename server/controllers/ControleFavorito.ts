@@ -51,7 +51,7 @@ class ControleFavorito {
     }
     async listarPorPessoa(request: Request, response: Response) {
         const favoritoRepository = getCustomRepository(FavoritoRepository);
-        const { idPessoa } = request.body;
+        const idPessoa = request.params.idPessoa;
 
         try {
             await favoritoRepository.find({ where: { pessoa: { id: idPessoa } } }).then((res) => {

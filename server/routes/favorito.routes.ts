@@ -6,7 +6,7 @@ const favoritoRoutes = Router();
 
 favoritoRoutes.get('/Listar', controleFavorito.listar);
 favoritoRoutes.post('/Adicionar', controleFavorito.adicionar);
-favoritoRoutes.get('/ListarPorPessoa', controleFavorito.listarPorPessoa);
+favoritoRoutes.get('/ListarPorPessoa/:idPessoa', controleFavorito.listarPorPessoa);
 favoritoRoutes.delete('/Deletar', controleFavorito.deletar);
 
 export { favoritoRoutes };

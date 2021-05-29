@@ -11,7 +11,7 @@ const controleImgs = new ControleImgs();
 
 produtoRoutes.get('/Listar',controleProduto.listar);
 produtoRoutes.get('/Procurar/:pesquisa',controleProduto.procurar);
-produtoRoutes.get('/BuscarPorId',controleProduto.buscarPorId);
+produtoRoutes.get('/BuscarPorId/:idProduto',controleProduto.buscarPorId);
 produtoRoutes.post('/Adicionar',upload.array('images',5),controleProduto.adicionar);
 produtoRoutes.patch('/Alterar/:idProduto',upload.array('images',5),controleProduto.alterar);
 produtoRoutes.delete('/Deletar',controleProduto.deletar);
