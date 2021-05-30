@@ -9,21 +9,177 @@
 	width: 95%;
     max-width: 2880px;
     margin: 0 auto;
-    padding: 1.6rem 0;
+    padding: 3rem 0;
 
 	display: flex;
 	justify-content: center;
 }
 
+.productSearch hr {
+	height: 1px;
+	background-color: rgb(219, 219, 219);
+	border: none;
+}
+
 .productSearch .product {
 	width: 90rem;
-	height: 50rem;
-	background-color: blue;
+	height: 60rem;
+	background-color: white;
 	margin-right: 2rem;
+	display: flex;
+}
+
+.productSearch .product .imageContainer {
+	margin-right: 3rem;
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.productSearch .product .imageContainer .mainImage {
+	min-width: 45rem;
+	min-height: 40rem;
+	margin-bottom: 3rem;
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.productSearch .product .imageContainer .mainImage img {
+	max-width: 40rem;
+	max-height: 40rem;
+	margin: 2rem;
+}
+
+.productSearch .product .imageContainer .imageCollection {
+	display: inline-flex;
+	align-items: center;
+}
+
+.productSearch .product .imageContainer .imageCollection .imageItem {
+	min-width: 9rem;
+	min-height: 9rem;
+	margin: 1.3rem;
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.productSearch .product .imageContainer .imageCollection button {
+	border: none;
+	background-color: inherit;
+}
+
+.productSearch .product .imageContainer .imageCollection .imageItem img {
+	max-width: 9.5rem;
+	max-height: 9.5rem;
+	border: 1px solid #e4e4e4;
+	padding: 0.2rem;
+}
+
+.productSearch .product .infoContainer {
+	min-width: 35rem;
+	margin: 0 2rem;
+}
+
+.productSearch .product .infoContainer h1 {
+	margin-top: 3rem;
+}
+
+.productSearch .product .infoContainer h1::first-letter {
+	text-transform: uppercase;
+}
+
+.productSearch .product .infoContainer .brand {
+	margin-bottom: 1rem;
+	font-size: 1.7rem;
+}
+
+.productSearch .product .infoContainer .description {
+	margin: 2rem 0;
+}
+
+.productSearch .product .infoContainer .phisicsDimentions {
+	margin: 2rem 0;
 }
 
 .productSearch .buy {
 	width: 40rem;
-	height: 50rem;
-	background-color: blueviolet;
+	height: 60rem;
+	background-color: white;
+
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+	justify-content: space-between;
+	padding: 4rem;
+}
+
+.productSearch .buy .price {
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+}
+
+.productSearch .buy .price .currentPrice {
+	font-size: 4rem;
+	font-weight: 600;
+	color: #2c4069;
+}
+
+.productSearch .buy .price .currentPrice .currence {
+	margin-right: 1.2rem;
+}
+
+.productSearch .buy .price .installment {
+	margin-bottom: 2rem;
+}
+
+.productSearch .buy .price .installment .currence,
+.productSearch .buy .price .installment .dividedValue,
+.productSearch .buy .price .installment .times {
+	font-weight: 500;
+}
+
+.productSearch .buy .buttonContainer {
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+}
+
+.productSearch .buy .buttonContainer .addCart {
+	padding: 0.4rem 0;
+	border: none;
+	background-color: var(--primary);
+	color: white;
+	font: 400 2rem Roboto;
+	margin: 0.5rem 0;
+	transition: 0.2s;
+}
+
+.productSearch .buy .buttonContainer .addCart:hover {
+	background-color: #c58215;
+	color: #4d4526;
+}
+
+.productSearch .buy .buttonContainer .buyButton {
+	padding: 1rem 0;
+	border: none;
+	background-color: #139c2a;
+	color: white;
+	font: 500 2.5rem Roboto;
+	letter-spacing: 0.2rem;
+	margin: 0.5rem 0;
+	transition: 0.2s;
+}
+
+.productSearch .buy .buttonContainer .buyButton:hover {
+	background-color: #187c28;
+	color: #183f0d;
 }

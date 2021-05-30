@@ -11,6 +11,7 @@ import SubHeader from '../../components/SubHeader';
 
 import styles from '../../styles/pages/ProductList.module.css';
 import { toString } from 'lodash';
+import ProductItem from '../../components/ProductItem';
 
 interface ProductListProps {
     products: Product[];
@@ -72,65 +73,8 @@ const ProductList: React.FC<ProductListProps> = (props) => {
                 <h1>Produtos</h1>
                 <ul>
                     {props.products.map((product, index) => (
-                        <li key={index} className={styles.item}>
-
-                            <Link href={`/productSearch/${product.id}`}>
-                                <a onClick={handleClickProductItem}>
-                                    <div className={styles.itemContainer}>
-                                        <header>
-                                            {hasDiscount
-                                                ? <div className={styles.discount}>-10%</div>
-                                                : ''}
-                                        </header>
-                                        {hasDiscount
-                                            ? <div className={`${styles.content} ${styles.hasDiscount}`}>
-                                                <figure>
-                                                    <img src={`http://localhost:3008/${product.imagens[0].path}`} alt={product.nome} title={product.nome} />
-                                                </figure>
-                                                <h2>{product.nome.length > 93
-                                                    ? `${product.nome.slice(0, 93)}...`
-                                                    : product.nome}
-                                                </h2>
-                                                <div className={styles.price}>
-                                                    <strong className={styles.oldPrice}><span>R$</span>{(product.valorVenda * 1.1).toFixed(2)}</strong>
-                                                    <strong className={styles.currentPrice}><span>R$</span>{parseFloat(toString(product.valorVenda)).toFixed(2)}</strong>
-                                                    <span className={styles.installment}>10x de R$ {`${(product.valorVenda / 10).toFixed(2)} sem juros`}</span>
-                                                </div>
-                                            </div>
-                                            : <div className={styles.content}>
-                                                <figure>
-                                                    <img src={`http://localhost:3008/${product.imagens[0].path}`} alt={product.nome} />
-                                                </figure>
-                                                <h2>{product.nome.length > 93
-                                                    ? `${product.nome.slice(0, 93)}...`
-                                                    : product.nome}
-                                                </h2>
-                                                <div className={styles.price}>
-                                                    <strong className={styles.currentPrice}><span>R$</span>{parseFloat(toString(product.valorVenda)).toFixed(2)}</strong>
-                                                    <span className={styles.installment}>10x de R$ {`${(product.valorVenda / 10).toFixed(2)} sem juros`}</span>
-                                                </div>
-                                            </div>}
-                                    </div>
-                                </a>
-                            </Link>
-                        </li>
+                        <ProductItem product={product} index={index} />
                     ))}
-                    {/* {props.products.map((product, index) => (
-                        <li key={index} className={styles.item}>
-                            <Link href="/">
-                                <a>
-                                    <div className={styles.itemContainer}>
-                                        <figure>
-                                            <img src={`http://localhost:3008/${product.imagens[0].path}`} alt={product.nome} />
-                                        </figure>
-                                        <h2>{product.nome}</h2>
-                                        <strong>R$ {parseFloat(toString(product.valorVenda)).toFixed(2)}</strong>
-                                        <span>10x de R$ {`${(product.valorVenda / 10).toFixed(2)} sem Juros`}</span>
-                                    </div>
-                                </a>
-                            </Link>
-                        </li>
-                    ))} */}
                 </ul>
             </div>
             <PageFooter />

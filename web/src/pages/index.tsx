@@ -5,6 +5,7 @@ import Banner from '../components/Banner';
 import Head from 'next/head';
 import styles from '../styles/pages/Home.module.css';
 import * as dotenv from 'dotenv';
+import { useEffect } from 'react';
 
 export default function Home() {
   //dotenv.config({path : "../.env.local"});
