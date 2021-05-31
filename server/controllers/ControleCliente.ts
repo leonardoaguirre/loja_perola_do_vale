@@ -125,6 +125,7 @@ class ControleCliente {
         const clienteRepository = getCustomRepository(ClienteRepository);
         const { email, senha } = request.body;
         const encrypt = new Encrypt();
+        console.log(email, senha);
 
         try {
             const clienteExiste = await clienteRepository.existeEmail(email);
@@ -136,13 +137,27 @@ class ControleCliente {
 
                     return response.status(200).json({ message: "Usuario logado com sucesso!", token, pessoa: { id: clienteExiste.id,/*nome : pessoaExiste.nome,*/ email: clienteExiste.pessoaFisica.pessoa.email } });
                 } else {
-                    throw new AppError("Email ou senha inválidos", "login");
+                    throw new AppError("senha inválidos", "login");
                 }
             } else {
                 throw new AppError("Email ou senha inválidos", "login");
             }
         } catch (error) {
             return response.status(401).json(error);
+        }
+    }
+    async buscarCliente(id: string) {
+        const clienteRepository = getCustomRepository(ClienteRepository);
+
+        try {
+            const cliente = await clienteRepository.buscaPorId(id);
+            if (!cliente) {
+                throw new AppError('Cliente nao encontrado', 'cliente');
+            }
+
+            return cliente;
+        } catch (error) {
+            throw error;
         }
     }
 }

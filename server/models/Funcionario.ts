@@ -18,7 +18,7 @@ class Funcionario{
 
     @IsNumberString({},{message : "Somente numeros sao aceitos"})
     @Length(5,7,{message: "O salario deve ter no minimo 5 no maximo 7 caracteres"})
-    @Column({nullable: false})
+    @Column({nullable: false, type: 'decimal', precision: 7, scale: 2 })
     salario : number;
 
 }

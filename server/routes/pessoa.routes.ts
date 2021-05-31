@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { ControleCliente } from "../controllers/ControleCliente";
 import { ControlePessoa } from "../controllers/ControlePessoa";
-import authMiddleware from '../middlewares/authMiddleware';
 
 const controlePessoa = new ControlePessoa();
 const pessoaRoutes = Router();
