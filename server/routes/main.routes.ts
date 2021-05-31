@@ -10,6 +10,7 @@ import { fornecedorRoutes } from './fornecedor.routes';
 import { produtoRoutes } from './produto.routes';
 import { categoriaRoutes } from './categoria.routes';
 import { favoritoRoutes } from "./favorito.routes";
+import { correioRoutes } from './correios.routes';
 
 const routes = Router();
 
@@ -24,6 +25,8 @@ routes.use("/Fornecedor", fornecedorRoutes);
 routes.use("/Produto", produtoRoutes);
 routes.use("/Categoria", categoriaRoutes);
 routes.use("/Favorito", favoritoRoutes);
+routes.use("/Correios",correioRoutes);
+
 
 
 
