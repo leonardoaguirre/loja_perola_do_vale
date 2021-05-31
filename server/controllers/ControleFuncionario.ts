@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import { getCustomRepository, getManager } from 'typeorm';
 import { AppError } from '../errors/AppError';
-import { Funcionario } from '../models/Funcionario';
+import jwt from 'jsonwebtoken';
 import { FuncionarioRepository } from '../repositorios/FuncionarioRepository';
+import { Encrypt } from '../services/encrypt';
 import { ControleCargo } from './ControleCargo';
 import { ControlePessoa } from './ControlePessoa';
 import { ControlePessoaFisica } from './ControlePessoaFisica';
@@ -117,6 +118,44 @@ class ControleFuncionario {
             }
         } catch (error) {
             return response.status(400).json(error);
+        }
+    }
+    async buscarGerente(id : string){
+        const funcionarioRepository = getCustomRepository(FuncionarioRepository);
+
+        try {
+            const funcionario = await funcionarioRepository.buscaGerente(id);
+            if (!funcionario) {
+                throw new AppError('Gerente nao encontrado', 'gerente');
+            }
+
+            return funcionario;
+        } catch (error) {
+            throw error;
+        }
+    }
+    async login(request: Request, response: Response) {
+        const funcionarioRepository = getCustomRepository(FuncionarioRepository);
+        const { email, senha } = request.body;
+        const encrypt = new Encrypt();
+
+        try {
+            const funcExiste = await funcionarioRepository.existeEmail(email);
+
+            if (funcExiste) {
+                const res = await encrypt.validate(senha, funcExiste.pessoaFisica.pessoa.senha);
+                if (res == true) {
+                    const token = jwt.sign({ id: funcExiste.id }, process.env.SECRET_KEY, { expiresIn: '7d' });
+
+                    return response.status(200).json({ message: "Usuario logado com sucesso!", token, pessoa: { id: funcExiste.id,/*nome : pessoaExiste.nome,*/ email: funcExiste.pessoaFisica.pessoa.email } });
+                } else {
+                    throw new AppError("senha inválidos", "login");
+                }
+            } else {
+                throw new AppError("Email ou senha inválidos", "login");
+            }
+        } catch (error) {
+            return response.status(401).json(error);
         }
     }
 }

@@ -10,5 +10,6 @@ funcionarioRoutes.get('/Listar', controleFuncionario.listar);
 funcionarioRoutes.get('/BuscarPorId/:idFuncionario', controleFuncionario.buscarPorId);
 funcionarioRoutes.delete('/Deletar', controleFuncionario.deletar);
 funcionarioRoutes.get('/Buscar/:atributo/:pesquisa', controleFuncionario.buscarPor);
+funcionarioRoutes.post('/Login',controleFuncionario.login);
 
 export { funcionarioRoutes };
