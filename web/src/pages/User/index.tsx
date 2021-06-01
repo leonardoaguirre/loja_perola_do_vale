@@ -133,12 +133,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     const pessoa = { headers: { 'authorization': tokenCookie }, method: "GET" };
 
-    const response = await fetch('http://localhost:3008/Cliente/listar', pessoa);
+    const response = await fetch('http://localhost:3008/Cliente/Listar', pessoa);
 
 
 
 
     if (response.status == 200) {
+        const data = await response.json();
+        return {
+            props: {
+                pessoas: data,
+            }
+        }
+    }else if(response.status == 400){
         const data = await response.json();
         return {
             props: {

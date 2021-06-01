@@ -1,6 +1,7 @@
 import React from 'react';
 import { createContext, useState, ReactNode, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 
 interface User {
     id: string;
@@ -23,6 +24,7 @@ export const UserContext = createContext({} as UserContextData);
 
 export function UserProvider({ children }: UserContextProviderProps) {
     const [user, setUser] = useState(null);
+    const router= useRouter();
 
     useEffect(() => {
         // const userToken = localStorage.getItem('@userToken');
@@ -47,8 +49,10 @@ export function UserProvider({ children }: UserContextProviderProps) {
     function logoutUser() {
         setUser(null);
         Cookies.remove('tokenCookie');
+        Cookies.remove('userIdCookie');
         localStorage.clear();
         console.log('Usuário deslogado');
+        router.push('/');
     }
 
     return (

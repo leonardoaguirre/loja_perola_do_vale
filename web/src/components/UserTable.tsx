@@ -56,7 +56,7 @@ const UserTable: React.FC<ClientTableProps> = (props) => {
     const cliquei = async (event) => {
         console.log("cliquei na tr")
     }
-    
+
     const alterUser = async (event) => {
         event.preventDefault()
     }
@@ -84,7 +84,7 @@ const UserTable: React.FC<ClientTableProps> = (props) => {
                 //     props: { retorno: result, },
                 // }
             }).catch((err) => console.log(err))
-   }
+    }
 
     return (
         <div className={styles.clientTable}>

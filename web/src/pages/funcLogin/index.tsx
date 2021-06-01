@@ -30,7 +30,7 @@ function Login() {
             }),
             method: "post",
         };
-        await fetch("http://localhost:3008/Cliente/Login", pessoa)
+        await fetch("http://localhost:3008/Funcionario/Login", pessoa)
             .then(async (res) => {
                 if (res.ok) {
                     const r = await res.json();
@@ -49,15 +49,15 @@ function Login() {
             <form onSubmit={login}>
                 <div className={styles.header}>
                     <img src="/icons/logo.png" alt="Logo ferragens pérola do vale" />
-                    <h1>Entrar</h1>
+                    <h1>Login de Funcionario</h1>
                 </div>
                 <div className={styles.email}>
                     <label htmlFor="email">Email</label>
-                    <input type="email" name="email" autoComplete="off" placeholder="exemplo@email.com" />
+                    <input type="email" name="email" placeholder="exemplo@email.com" />
                 </div>
                 <div className={styles.password}>
                     <label htmlFor="password">Senha</label>
-                    <input type="password" name="password" autoComplete="off" placeholder="senha" />
+                    <input type="password" name="password" placeholder="senha" />
                 </div>
                 <div className={styles.actionsContainer}>
                     <div className={styles.errorMessage}>
@@ -71,22 +71,14 @@ function Login() {
                             <a>Esqueci minha senha</a>
                         </Link>
                     </div>
-                    <div className={styles.register}>
+                    {/* <div className={styles.register}>
                         <p>Não possui uma conta?</p>
                         <span>
                             <Link href="/userForm">
                                 <a>Cadastre-se</a>
                             </Link>
                         </span>
-                    </div>
-                    <div className={styles.employeLogin}>
-                        <p>Você é nosso colaborador?</p>
-                        <span>
-                            <Link href="/funcLogin">
-                                <a>Entre por aqui!</a>
-                            </Link>
-                        </span>
-                    </div>
+                    </div> */}
                 </div>
             </form>
         </div>
@@ -95,8 +87,6 @@ function Login() {
 export const getServerSideProps: GetServerSideProps = async (context) => {
 
     const { tokenCookie } = context.req.cookies;
-    console.log(tokenCookie);
-    
     if (tokenCookie !== undefined) {
         return {
             redirect: {
@@ -109,5 +99,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         props :{}
     }
 }
-
 export default Login;

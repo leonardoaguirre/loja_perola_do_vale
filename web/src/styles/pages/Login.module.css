@@ -104,3 +104,29 @@
 .container form .errorMessage p {
 	text-align: center;
 }
+.container form .actionsContainer .register{
+	display: flex;
+	justify-content: center;
+	margin-top: 1rem;
+
+	font-size: 1.3rem;
+
+	color: #2042ff;
+}
+.container form .actionsContainer .register p{
+	margin-right: 0.5rem;
+	color: #505050;
+}
+.container form .actionsContainer .employeLogin {
+	display: flex;
+	justify-content: center;
+	margin-top: 1rem;
+
+	font-size: 1.3rem;
+
+	color: #2042ff;
+}
+.container form .actionsContainer .employeLogin p{
+	margin-right: 0.5rem;
+	color: #505050;
+}

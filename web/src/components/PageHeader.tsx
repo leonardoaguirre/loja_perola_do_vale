@@ -42,11 +42,20 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
                 </div>
 
                 <div className={styles.userContainer}>
+                    {user ? 
                     <Link href="/userInfo">
                         <a>
                             <img src="/icons/account_circle-black-36dp.svg" alt="Usuário" title="Minha Conta" />
                         </a>
                     </Link>
+                    :
+                    <Link href="/login">
+                        <a>
+                            <img src="/icons/account_circle-black-36dp.svg" alt="Usuário" title="Minha Conta" />
+                        </a>
+                    </Link>
+                    }
+                    
 
                     {user ? (
                         <div className={styles.userInfo}>

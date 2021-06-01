@@ -10,7 +10,7 @@ import LoadingIcon from '../components/LoadingIcon';
 
 export default function Home() {
   //dotenv.config({path : "../.env.local"});
-  const images = ['images/1.png', 'images/2.jpg', 'images/3.jpg']
+  const images = ['images/1.png', 'images/2.png', 'images/3.png']
 
   return (
     <div className={styles.container} >

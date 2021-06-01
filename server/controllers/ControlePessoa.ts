@@ -101,22 +101,24 @@ class ControlePessoa {
             throw error;
         }
     }
-    // async deletar(request: Request, response: Response) {
-    //     const pessoaRepository = getCustomRepository(PessoaRepository);
-    //     const { id } = request.body;
+    async deletar(id : string) {
+        const pessoaRepository = getCustomRepository(PessoaRepository);
+        try {
+            if (await pessoaRepository.findOne(id)) {
+                await pessoaRepository.delete(id).then(result=>{
+                    if(!result.affected){
+                        throw new AppError("Usuario nao deletado", 'usuario');
+                    }
+                    return result;
+                });
+            } else {
+                throw new AppError("O usuario a ser deletado nao foi encontrado", 'id');
+            }
+        } catch (error) {
+            throw error;
+        }
 
-    //     try {
-    //         if (await pessoaRepository.findOne(id)) {
-    //             await pessoaRepository.delete(id);
-    //             return response.status(200).json({ message: "O usuario foi deletado com sucessso!" });
-    //         } else {
-    //             throw new AppError("O usuario a ser deletado nao foi encontrado", 'id');
-    //         }
-    //     } catch (error) {
-    //         return response.status(400).json(error);
-    //     }
-
-    // }
+    }
     async login(request: Request, response: Response, next: NextFunction) {
         const pessoaRepository = getCustomRepository(PessoaRepository);
         const { email, senha } = request.body;
