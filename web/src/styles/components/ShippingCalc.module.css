@@ -1,0 +1,56 @@
+.shippingCalc {
+    display: flex;
+    flex-direction: column;
+}
+
+.shippingCalc .search {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.shippingCalc .search input {
+    width: 15rem;
+    height: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--primary);
+}
+
+.shippingCalc .search input:focus {
+    outline: 1px solid var(--primary);
+}
+
+.shippingCalc .search button {
+    height: 100%;
+    padding: 0 0.7rem;
+    background-color: var(--primary);
+    border: 1px solid var(--primary);
+}
+
+.shippingCalc .postalAdress {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+    color: #777777;
+}
+
+.shippingCalc table thead {
+    text-align: left;
+}
+
+.shippingCalc table thead .tipo,
+.shippingCalc table tbody .tipo {
+    text-align: left;
+}
+
+.shippingCalc table thead .prazo,
+.shippingCalc table tbody .prazo {
+    text-align: center;
+}
+
+.shippingCalc table thead .valor,
+.shippingCalc table tbody .valor {
+    text-align: right;
+}

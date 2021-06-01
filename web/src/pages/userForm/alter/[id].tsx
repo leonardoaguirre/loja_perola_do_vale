@@ -83,49 +83,49 @@ function userAlterForm({ retorno }) {
                         <div className={styles.email}>
                             <label htmlFor="email">Email: </label>
                             <div className={styles.inputContainer}>
-                                <input type="email" placeholder="Email" name="email" defaultValue={retorno.email} />
+                                <input type="email" placeholder="Email" name="email" defaultValue={retorno.email} autoComplete="off" />
                             </div>
                         </div>
                         <div className={styles.password}>
                             <label htmlFor="password">Senha: </label>
                             <div className={styles.inputContainer}>
-                                <input type="password" placeholder="Senha" name="senha" defaultValue="" />
+                                <input type="password" placeholder="Senha" name="senha" defaultValue="" autoComplete="off" />
                             </div>
                         </div>
                         <div className={styles.name}>
                             <label htmlFor="name">Nome: </label>
                             <div className={styles.inputContainer}>
-                                <input type="text" placeholder="Nome" name="nome" defaultValue={retorno.nome} />
+                                <input type="text" placeholder="Nome" name="nome" defaultValue={retorno.nome} autoComplete="off" />
                             </div>
                         </div>
                         <div className={styles.identificationRg}>
                             <label htmlFor="rg">RG: </label>
                             <div className={styles.inputContainer}>
-                                <input type="number" placeholder="RG" name="rg" defaultValue={retorno.rg} />
+                                <input type="number" placeholder="RG" name="rg" defaultValue={retorno.rg} autoComplete="off" />
                             </div>
                         </div>
                         <div className={styles.identificationCpf}>
                             <label htmlFor="cpf">CPF: </label>
                             <div className={styles.inputContainer}>
-                                <input type="number" placeholder="CPF" name="cpf" defaultValue={retorno.cpf} />
+                                <input type="number" placeholder="CPF" name="cpf" defaultValue={retorno.cpf} autoComplete="off" />
                             </div>
                         </div>
                         <div className={styles.birthDate}>
                             <label htmlFor="dataNascimento">Data de nascimento: </label>
                             <div className={styles.inputContainer}>
-                                <input type="date" placeholder="Data de nascimento" name="dtNasc" defaultValue={retorno.dtNasc} />
+                                <input type="date" placeholder="Data de nascimento" name="dtNasc" defaultValue={retorno.dtNasc} autoComplete="off" />
                             </div>
                         </div>
                         <div className={styles.telephone}>
                             <label htmlFor="telephone">DDD: </label>
                             <div className={styles.inputContainer}>
-                                <input type="number" placeholder="xx" name="ddd" defaultValue={retorno.telefones[0].ddd} />
+                                <input type="number" placeholder="xx" name="ddd" defaultValue={retorno.telefones[0].ddd} autoComplete="off" />
                             </div>
                         </div>
                         <div className={styles.telephone}>
                             <label htmlFor="telephone">Telefone: </label>
                             <div className={styles.inputContainer}>
-                                <input type="number" placeholder="xxxx-xxx" name="numero" defaultValue={retorno.telefones[0].numero} />
+                                <input type="number" placeholder="xxxx-xxx" name="numero" defaultValue={retorno.telefones[0].numero} autoComplete="off" />
                             </div>
                         </div>
                         <div className={styles.buttonsContainer}>

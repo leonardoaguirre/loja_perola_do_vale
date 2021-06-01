@@ -67,8 +67,33 @@
     border: none;
 }
 
+.userInfo .content .rightContent .formContainer #userForm .inputs .inputContainer input:disabled {
+	background-color: inherit;
+}
+
 .userInfo .content .rightContent .formContainer #userForm .inputs .inputContainer input:focus {
 	outline: 0;
+}
+
+.userInfo .content .rightContent .formContainer #userForm .inputs .actions {
+	display: flex;
+	justify-content: center;
+}
+
+.userInfo .content .rightContent .formContainer #userForm .inputs .actions input {
+	padding: 1rem 2rem;
+	font-size: 1.8rem;
+	background-color: inherit;
+	color: var(--primary);
+	border: 1px solid var(--primary);
+	cursor: pointer;
+
+	transition: 0.2s;
+}
+
+.userInfo .content .rightContent .formContainer #userForm .inputs .actions input:hover {
+	background-color: var(--primary);
+	color: white;
 }
 
 .userInfo .content .rightContent .formContainer h3 {

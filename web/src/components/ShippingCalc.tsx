@@ -82,28 +82,30 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
 
     return (
         <div className={styles.shippingCalc}>
-            <input type="text" name="cep" onChange={event => setCepPesquisa(event.target.value)} required />
-            <button onClick={calcShipping}>confimar</button>
+            <div className={styles.search}>
+                <input type="text" name="cep" placeholder="CEP" onChange={event => setCepPesquisa(event.target.value)} required />
+                <button onClick={calcShipping}>Confimar</button>
+            </div>
             {cep
-                ? <div>{`${cep.logradouro}, ${cep.bairro}, ${cep.localidade}, ${cep.uf}`}</div>
+                ? <div className={styles.postalAdress}>{`${cep.logradouro}, ${cep.bairro}, ${cep.localidade}, ${cep.uf}`}</div>
                 : ''}
             {isRequestSuccess
                 ? <table>
                     <thead>
-                        <th>Tipo de envio</th>
-                        <th>Estimativa de entrega</th>
-                        <th>Preço</th>
+                        <th className={styles.tipo}>Tipo de envio</th>
+                        <th className={styles.prazo}>Estimativa de entrega</th>
+                        <th  className={styles.valor}>Preço</th>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Sedex</td>
-                            <td>{`${fretes[0].PrazoEntrega} dias úteis`}</td>
-                            <td>{fretes[0].Valor}</td>
+                            <td className={styles.tipo}>Sedex</td>
+                            <td className={styles.prazo}>{`${fretes[0].PrazoEntrega} dias úteis`}</td>
+                            <td className={styles.valor}>{fretes[0].Valor}</td>
                         </tr>
                         <tr>
-                            <td>PAC</td>
-                            <td>{`${fretes[1].PrazoEntrega} dias úteis`}</td>
-                            <td>{fretes[1].Valor}</td>
+                            <td className={styles.tipo}>PAC</td>
+                            <td className={styles.prazo}>{`${fretes[1].PrazoEntrega} dias úteis`}</td>
+                            <td className={styles.valor}>{fretes[1].Valor}</td>
                         </tr>
                     </tbody>
                 </table>

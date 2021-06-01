@@ -6,6 +6,7 @@ import Head from 'next/head';
 import styles from '../styles/pages/Home.module.css';
 import * as dotenv from 'dotenv';
 import { useEffect } from 'react';
+import LoadingIcon from '../components/LoadingIcon';
 
 export default function Home() {
   //dotenv.config({path : "../.env.local"});

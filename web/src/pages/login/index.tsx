@@ -29,7 +29,7 @@ function Login() {
             }),
             method: "post",
         };
-        await fetch("http://localhost:3008/Funcionario/Login", pessoa)
+        await fetch("http://localhost:3008/Cliente/Login", pessoa)
             .then(async (res) => {
                 if (res.ok) {
                     const r = await res.json();
@@ -52,11 +52,11 @@ function Login() {
                 </div>
                 <div className={styles.email}>
                     <label htmlFor="email">Email</label>
-                    <input type="email" name="email" placeholder="exemplo@email.com" />
+                    <input type="email" name="email" autoComplete="off" placeholder="exemplo@email.com" />
                 </div>
                 <div className={styles.password}>
                     <label htmlFor="password">Senha</label>
-                    <input type="password" name="password" placeholder="senha" />
+                    <input type="password" name="password" autoComplete="off" placeholder="senha" />
                 </div>
                 <div className={styles.actionsContainer}>
                     <div className={styles.errorMessage}>

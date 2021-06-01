@@ -145,22 +145,22 @@ const userInfo: React.FC<PageClientInfoProps> = (props) => {
                                 </div>
                                 <div className={styles.inputs}>
                                     <div className={styles.inputContainer}>
-                                        <input type="text" name="nome" onChange={event => setNome(event.target.value)}/>
+                                        <input type="text" name="nome" autoComplete="off" defaultValue={nome} onChange={event => setNome(event.target.value)}/>
                                     </div>
                                     <div className={styles.inputContainer}>
-                                        <input type="number" name="rg" onChange={event => setRg(event.target.value)}/>
+                                        <input type="number" name="rg" autoComplete="off" defaultValue={rg} onChange={event => setRg(event.target.value)}/>
                                     </div>
                                     <div className={styles.inputContainer}>
-                                        <input type="number" name="cpf" onChange={event => setCpf(event.target.value)}/>
+                                        <input type="number" name="cpf" autoComplete="off" defaultValue={cpf} onChange={event => setCpf(event.target.value)}/>
                                     </div>
                                     <div className={styles.inputContainer}>
-                                        <input type="date" name="dtNasc" onChange={event => setDtnasc(event.target.value)}/>
+                                        <input type="date" name="dtNasc" autoComplete="off" defaultValue={dtnasc} onChange={event => setDtnasc(event.target.value)}/>
                                     </div>
                                     <div className={styles.inputContainer}>
-                                        <input type="email" name="email" value={props.client.pessoaFisica.pessoa.email} disabled />
+                                        <input type="email" name="email" autoComplete="off" value={props.client.pessoaFisica.pessoa.email} disabled />
                                     </div>
                                     <div className={styles.inputContainer}>
-                                        <input type="password" name="senha" value="***********" disabled />
+                                        <input type="password" name="senha" autoComplete="off" value="***********" disabled />
                                     </div>
                                     <div className={styles.actions}>
                                         <input type="submit" value="Alterar" />

@@ -170,32 +170,32 @@ function productForm() {
                         <div className={styles.name}>
                             <label htmlFor="nome">Nome</label>
                             <div className={styles.inputContainer}>
-                                <input type="text" placeholder="Nome" name="nome" />
+                                <input type="text" placeholder="Nome" name="nome" autoComplete="off" required />
                             </div>
                         </div>
                         <div className={styles.brand}>
                             <label htmlFor="marca">Marca</label>
                             <div className={styles.inputContainer}>
-                                <input type="text" placeholder="Marca" name="marca" />
+                                <input type="text" placeholder="Marca" name="marca" autoComplete="off" required />
                             </div>
                         </div>
                         <div className={styles.description}>
                             <label htmlFor="descricao">Descrição</label>
                             <div className={styles.inputContainer}>
-                                <textarea placeholder="Descrição" name="descricao" />
+                                <textarea placeholder="Descrição" name="descricao" autoComplete="off" required />
                             </div>
                         </div>
                         <div className={styles.size}>
                             <label htmlFor="tamanho">Tamanho</label>
                             <div className={styles.inputContainer}>
-                                <input type="text" placeholder="Tamanho" name="tamanho" />
+                                <input type="text" placeholder="Tamanho" name="tamanho" autoComplete="off" required />
                             </div>
                         </div>
                         <div className={styles.salePrice}>
                             <label htmlFor="precoDeVenda">Preço de venda</label>
                             <div className={styles.inputContainer}>
                                 <div className={styles.currency}>R$</div>
-                                <input type="text" placeholder="" name="precoDeVenda" />
+                                <input type="text" placeholder="" name="precoDeVenda" autoComplete="off" required />
                             </div>
                         </div>
                         <div className={styles.provider}>
@@ -271,6 +271,8 @@ function productForm() {
                                     placeholder="Código de barra"
                                     minLength={12}
                                     maxLength={13}
+                                    autoComplete="off"
+                                    required
                                 />
                             </div>
                         </div>

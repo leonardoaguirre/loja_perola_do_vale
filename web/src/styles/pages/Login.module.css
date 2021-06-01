@@ -11,9 +11,8 @@
 	z-index: 10;
 	margin: auto;
 	border: 1px solid black;
-	border-radius: 10px;
 	box-shadow: 8px 8px 25px #2a4370;
-	padding: 4rem 8rem;
+	padding: 6rem 10rem;
 	background-color: #bcd3ff;
 }
 
@@ -43,7 +42,7 @@
 .container form .password input {
 	padding: 1rem;
 	
-	width: 23rem;
+	width: 27rem;
 }
 
 .container form .actionsContainer .buttonContainer {
@@ -82,6 +81,18 @@
 
 	font-size: 1.3rem;
 
+	color: #2042ff;
+}
+
+.container form .actionsContainer .register {
+	display: flex;
+	justify-content: center;
+	font-size: 1.5rem;
+	margin-top: 1rem;
+}
+
+.container form .actionsContainer .register span a {
+	margin-left: 0.3rem;
 	color: #2042ff;
 }
 

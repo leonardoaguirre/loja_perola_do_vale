@@ -105,7 +105,7 @@ const Pageuser: React.FC<PageUserProps> = (props) => {
                         <option value="cpf">CPF</option>
                     </select>
                     <div className={styles.search}>
-                        <input type="search" value={textSearch} onChange={handleInputSearch} placeholder="Digite aqui sua pesquisa..." />
+                        <input type="search" value={textSearch} onChange={handleInputSearch} placeholder="Digite aqui sua pesquisa..." autoComplete="off" />
                         <button onClick={(event) => { handleSearch(event, atribute, textSearch) }} className={styles.searchButton}>
                             Pesquisar
                         </button>
