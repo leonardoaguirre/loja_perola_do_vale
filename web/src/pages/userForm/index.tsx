@@ -38,10 +38,10 @@ function userForm() {
             }),
             method: "post",
         };
-        await fetch("http://localhost:3008/Pessoa/Adicionar", pessoa)
+        await fetch("http://localhost:3008/Cliente/Adicionar", pessoa)
             .then(async (res) => {
                 if (res.ok) {
-                    router.push('/User');
+                    router.push('/');
                 } else {
                     const erro = await res.json()
                     console.log(erro);

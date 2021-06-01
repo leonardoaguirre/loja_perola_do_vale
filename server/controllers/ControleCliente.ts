@@ -53,6 +53,7 @@ class ControleCliente {
             })
     }
     async alterar(request: Request, response: Response) {
+        console.log(request.body)
         const clienteRepository = getCustomRepository(ClienteRepository);
         const controlePessoa = new ControlePessoa();
         const controlePessoaFisica = new ControlePessoaFisica();
@@ -64,7 +65,8 @@ class ControleCliente {
                 throw new AppError('Cliente a ser alterado nao foi encontrado', 'cliente');
             }
             await getManager().transaction(async transactionalEntityManager => {
-                await controlePessoa.alterar(request, response, clienteExiste, transactionalEntityManager);
+                // await controlePessoa.alterar(request, response, clienteExiste, transactionalEntityManager);
+                console.log(clienteExiste)
                 await controlePessoaFisica.alterar(request, response, clienteExiste, transactionalEntityManager);
             });
             return response.status(200).json({ message: "Usuario alterado com sucesso" });
@@ -135,7 +137,7 @@ class ControleCliente {
                 if (res == true) {
                     const token = jwt.sign({ id: clienteExiste.id }, process.env.SECRET_KEY, { expiresIn: '7d' });
 
-                    return response.status(200).json({ message: "Usuario logado com sucesso!", token, pessoa: { id: clienteExiste.id,/*nome : pessoaExiste.nome,*/ email: clienteExiste.pessoaFisica.pessoa.email } });
+                    return response.status(200).json({ message: "Usuario logado com sucesso!", token, pessoa: { id: clienteExiste.id, nome : clienteExiste.pessoaFisica.nome, email: clienteExiste.pessoaFisica.pessoa.email } });
                 } else {
                     throw new AppError("senha inválidos", "login");
                 }

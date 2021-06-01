@@ -39,6 +39,7 @@ export function UserProvider({ children }: UserContextProviderProps) {
         // sessionStorage.setItem('@userToken', token);
         localStorage.setItem('@user', JSON.stringify(user));
         Cookies.set('tokenCookie', token);
+        Cookies.set('userIdCookie', user.id);
         
         console.log('Usuário logado');
     }

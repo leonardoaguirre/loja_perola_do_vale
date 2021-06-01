@@ -7,7 +7,7 @@ import styles from '../../styles/pages/Login.module.css';
 
 
 function Login() {
-    const { loginUser }= useContext(UserContext);
+    const { loginUser } = useContext(UserContext);
     const [erro, setErro] = useState({ constraints: { message: "" } });
     const router = useRouter();
     const { isFallback } = useRouter();
@@ -29,16 +29,15 @@ function Login() {
             }),
             method: "post",
         };
-        await fetch("http://localhost:3008/Pessoa/Login", pessoa)
+        await fetch("http://localhost:3008/Funcionario/Login", pessoa)
             .then(async (res) => {
                 if (res.ok) {
                     const r = await res.json();
-    
+
                     loginUser(r.pessoa, r.token);
                     router.push('/');
                 } else {
                     const err = await res.json()
-                    console.log(err);
 
                     setErro(err);
                 }
@@ -70,6 +69,14 @@ function Login() {
                         <Link href="/esquecisenha">
                             <a>Esqueci minha senha</a>
                         </Link>
+                    </div>
+                    <div className={styles.register}>
+                        <p>Não possui uma conta?</p>
+                        <span>
+                            <Link href="/userForm">
+                                <a>Cadastre-se</a>
+                            </Link>
+                        </span>
                     </div>
                 </div>
             </form>

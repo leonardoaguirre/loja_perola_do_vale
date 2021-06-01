@@ -73,7 +73,7 @@ const ProductList: React.FC<ProductListProps> = (props) => {
                 <h1>Produtos</h1>
                 <ul>
                     {props.products.map((product, index) => (
-                        <ProductItem product={product} index={index} />
+                        <ProductItem product={product} index={index} key={index} />
                     ))}
                 </ul>
             </div>
@@ -102,6 +102,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
     const response = await fetch(`http://localhost:3008/produto/procurar/${search}`);
     const data = await response.json();
+
+    console.log(data, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
     return {
         props: {

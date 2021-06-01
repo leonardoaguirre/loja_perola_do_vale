@@ -28,21 +28,30 @@ import styles from '../styles/components/UserTable.module.css';
 
 
 
-interface UserProps {
-    id : string,
+interface ClientTableProps {
+    clients: Client[];
+    reload: () => void;
+}
+
+interface Client {
+    id: string,
+    pessoaFisica: PessoaFisica,
+}
+
+interface PessoaFisica {
     nome: string,
     rg: string,
     cpf: string,
     dtNasc: string,
+    pessoa: Pessoa,
+}
+
+interface Pessoa {
     email: string,
-    senha: string
 }
 
-interface UserTableProps {
-    users: UserProps[];
-}
 
-const UserTable: React.FC<UserTableProps> = (props) => {
+const UserTable: React.FC<ClientTableProps> = (props) => {
 
     const cliquei = async (event) => {
         console.log("cliquei na tr")
@@ -56,7 +65,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
         event.preventDefault()
 
         console.log(event.target.key);
-        await fetch('http://localhost:3008/Pessoa/Deletar', {
+        await fetch('http://localhost:3008/Cliente/Deletar', {
             body: JSON.stringify({
                 id: userid,
             }),
@@ -70,6 +79,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
                 const result = await res.json();
                 // result.user => 'Ada Lovelace'
                 console.log(result);
+                props.reload();
                 // return {
                 //     props: { retorno: result, },
                 // }
@@ -77,7 +87,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
    }
 
     return (
-        <div className={styles.usersTable}>
+        <div className={styles.clientTable}>
             <table id="table" className={styles.table}>
                 <thead>
                     <tr>
@@ -87,24 +97,22 @@ const UserTable: React.FC<UserTableProps> = (props) => {
                         <th>CPF</th>
                         <th>Data de Nascimennto</th>
                         <th>Email</th>
-                        <th>Senha</th>
                         <th>Alterar</th>
                         <th>Excluir</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {props.users.map((user, key) => (
+                    {props.clients.map((client, key) => (
                         <tr key={key} onClick={cliquei}>
-                            <td>{user.id}</td>
-                            <td>{user.nome}</td>
-                            <td>{user.rg}</td>
-                            <td>{user.cpf}</td>
-                            <td>{user.dtNasc}</td>
-                            <td>{user.email}</td>
-                            <td>{user.senha}</td>
+                            <td>{client.id}</td>
+                            <td>{client.pessoaFisica.nome}</td>
+                            <td>{client.pessoaFisica.rg}</td>
+                            <td>{client.pessoaFisica.cpf}</td>
+                            <td>{client.pessoaFisica.dtNasc}</td>
+                            <td>{client.pessoaFisica.pessoa.email}</td>
                             <td>
                                 <div className={styles.buttonContainer}>
-                                    <Link href={`/userForm/alter/${user.id}`}>
+                                    <Link href={`/userForm/alter/${client.id}`}>
                                         <a><button className={styles.updateButton}>Alterar</button></a>
                                     </Link>
                                 </div>
@@ -112,7 +120,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
                             <td>
                                 <div className={styles.buttonContainer}>
                                     <Link href="/userForm">
-                                        <a><button className={styles.deleteButton} onClick={(event) => deleteUser(event, user.id)}>Excluir</button></a>
+                                        <a><button className={styles.deleteButton} onClick={(event) => deleteUser(event, client.id)}>Excluir</button></a>
                                     </Link>
                                 </div>
                             </td>
@@ -129,7 +137,7 @@ const UserTable: React.FC<UserTableProps> = (props) => {
 //     const response = await fetch("http://localhost:3008/pessoa/listar")
 //     const data = await response.json();
 //     return {
-//         props: {users: data,},
+//         props: {client: Client,},
 //         revalidate: 0
 //     }
 // }

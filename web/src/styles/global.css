@@ -2,7 +2,8 @@
     font-size: 60%;
 
 	--background: #f0f0f0;
-	--text: #4b4b4b;
+	--text: #000000;
+	--text-light: #4b4b4b;
 	--primary: #fca311;
 	--secondary: #14213d;
 	--tertiary: #e5e5e5;

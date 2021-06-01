@@ -7,19 +7,34 @@ import SubHeader from "../../components/SubHeader";
 import TelephoneCard from "../../components/TelephoneCard";
 import TelephoneCardNew from "../../components/TelephoneCardNew";
 import PostalAdressCard from "../../components/PostalAdressCard";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetStaticProps } from "next";
 import PostalAdressCardNew from "../../components/PostalAdressCardNew";
+import { FormEvent, useContext, useEffect, useState } from "react";
+import { UserContext } from "../../contexts/UserContext";
+import Cookies from "js-cookie";
+import LoadingIcon from "../../components/LoadingIcon";
+import { useRouter } from "next/router";
 
-interface PageUserInfoProps {
-    user: User
+interface PageClientInfoProps {
+    client: Client
 }
 
-interface User {
+interface Client {
     id: string,
+    pessoaFisica: PessoaFisica,
+}
+
+interface PessoaFisica {
+    pessoaFisicaId: string,
     nome: string,
     rg: string,
     cpf: string,
     dtNasc: string,
+    pessoa: Pessoa,
+}
+
+interface Pessoa {
+    id: string,
     email: string,
     senha: string
     telefones: Telephone[],
@@ -27,12 +42,13 @@ interface User {
 }
 
 interface Telephone {
-    titulo?: string,
+    id: string,
     ddd: string,
     numero: string
 }
 
 interface Adress {
+    id: string,
     titulo?: string,
     rua: string,
     numero: string,
@@ -43,59 +59,51 @@ interface Adress {
     cep: string
 }
 
-const userTeste: User = {
-    "id": "2f6fac4d-d9f3-44d7-b460-a67ebcddfbc7",
-    "nome": "hideki yamakawa",
-    "rg": "437744556",
-    "cpf": "13335678810",
-    "dtNasc": "2000-04-06",
-    "email": "agdfgsg@gmail.com",
-    "senha": "12345678",
-    "telefones": [
-        {
-            "ddd": "11",
-            "numero": "941234578"
-        },
-        {
-            "ddd": "11",
-            "numero": "953214567"
-        }
-    ],
-    "enderecos": [
-        {
-            "titulo": "Minha casa",
-            "rua": 'Rua Adalberto Roberto da Silva',
-            "numero": '23',
-            "complemento": 'Padaria Pão Feliz',
-            "bairro": 'Centro',
-            "cidade": 'Mogi das Cruzes',
-            "estado": 'São Paulo',
-            "cep": '08024200'
-        },
-        {
-            "titulo": "Caixa postal do Correio",
-            "rua": 'Rua Adalberto Roberto da Silva',
-            "numero": '23',
-            "complemento": 'Padaria Pão Feliz',
-            "bairro": 'Centro',
-            "cidade": 'Mogi das Cruzes',
-            "estado": 'São Paulo',
-            "cep": '08024200'
-        },
-        {
-            "titulo": "Casa do Pedro",
-            "rua": 'Rua Adalberto Roberto da Silva',
-            "numero": '23',
-            "complemento": 'Padaria Pão Feliz',
-            "bairro": 'Centro',
-            "cidade": 'Mogi das Cruzes',
-            "estado": 'São Paulo',
-            "cep": '08024200'
-        }
-    ]
-}
 
-const userInfo: React.FC<PageUserInfoProps> = (props) => {
+const userInfo: React.FC<PageClientInfoProps> = (props) => {
+
+    const { isFallback } = useRouter();
+    if (isFallback) {
+        return <LoadingIcon />;
+    }
+
+    const [nome, setNome] = useState<string>(props.client.pessoaFisica.nome);
+    const [cpf, setCpf] = useState<string>(props.client.pessoaFisica.cpf);
+    const [rg, setRg] = useState<string>(props.client.pessoaFisica.rg);
+    const [dtnasc, setDtnasc] = useState<string>(props.client.pessoaFisica.dtNasc);
+
+    useEffect(() => {
+
+    }, [])
+    
+
+
+    const handleSubmitForm = async (event) => {
+        event.preventDefault();
+
+
+
+        const cliente = {
+            body: JSON.stringify({
+                nome: nome,
+                dtNasc: dtnasc,
+                cpf: cpf,
+                rg: rg
+            }),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            }),
+            method: "PATCH",
+        };
+
+        const response = await fetch(`http://localhost:3008/Cliente/Alterar/${props.client.id}`, cliente)
+
+        console.log(response);
+
+        const result = await response.json();
+
+        console.log(result);
+    }
 
     return (
         <div className={styles.container}>
@@ -114,7 +122,7 @@ const userInfo: React.FC<PageUserInfoProps> = (props) => {
                             <h2>Meus Dados</h2>
                         </header>
                         <div className={styles.formContainer}>
-                            <form id={styles.userForm}>
+                            <form id={styles.userForm} onSubmit={handleSubmitForm}>
                                 <div className={styles.labels}>
                                     <div className={styles.name}>
                                         <label htmlFor="name">Nome </label>
@@ -137,38 +145,50 @@ const userInfo: React.FC<PageUserInfoProps> = (props) => {
                                 </div>
                                 <div className={styles.inputs}>
                                     <div className={styles.inputContainer}>
-                                        <input type="text" name="nome" value={props.user.nome} disabled />
+                                        <input type="text" name="nome" onChange={event => setNome(event.target.value)}/>
                                     </div>
                                     <div className={styles.inputContainer}>
-                                        <input type="number" name="rg" value={props.user.rg} disabled />
+                                        <input type="number" name="rg" onChange={event => setRg(event.target.value)}/>
                                     </div>
                                     <div className={styles.inputContainer}>
-                                        <input type="number" name="cpf" value={props.user.cpf} disabled />
+                                        <input type="number" name="cpf" onChange={event => setCpf(event.target.value)}/>
                                     </div>
                                     <div className={styles.inputContainer}>
-                                        <input type="date" name="dtNasc" value={props.user.dtNasc} disabled />
+                                        <input type="date" name="dtNasc" onChange={event => setDtnasc(event.target.value)}/>
                                     </div>
                                     <div className={styles.inputContainer}>
-                                        <input type="email" name="email" value={props.user.email} disabled />
+                                        <input type="email" name="email" value={props.client.pessoaFisica.pessoa.email} disabled />
                                     </div>
                                     <div className={styles.inputContainer}>
-                                        <input type="password" name="senha" value={props.user.senha} disabled />
+                                        <input type="password" name="senha" value="***********" disabled />
+                                    </div>
+                                    <div className={styles.actions}>
+                                        <input type="submit" value="Alterar" />
                                     </div>
                                 </div>
+
                             </form>
                             <h3>Telefones</h3>
                             <form id={styles.telephoneForm}>
-                                {props.user.telefones.map((telephone, index) => {
-                                    return <TelephoneCard telephone={telephone} index={index} key={index}/>
-                                })}
-                                <TelephoneCardNew />
+                                {props.client.pessoaFisica.pessoa.telefones.length > 0
+                                    ? props.client.pessoaFisica.pessoa.telefones.map((telephone, index) => {
+                                        return <TelephoneCard telephone={telephone} index={index} key={index} />
+                                    })
+                                    : ''}
+                                {props.client.pessoaFisica.pessoa.telefones.length < 3
+                                    ? <TelephoneCardNew />
+                                    : ''}
                             </form>
                             <h3>Endereços</h3>
                             <form id={styles.postalAdressForm}>
-                                {props.user.enderecos.map((adress, index) => {
-                                    return <PostalAdressCard postalAdress={adress} key={index}/>
-                                })}
-                                <PostalAdressCardNew />
+                                {props.client.pessoaFisica.pessoa.enderecos.length > 0
+                                    ? props.client.pessoaFisica.pessoa.enderecos.map((telephone, index) => {
+                                        return <PostalAdressCard postalAdress={telephone} index={index} key={index} />
+                                    })
+                                    : ''}
+                                {props.client.pessoaFisica.pessoa.enderecos.length < 3
+                                    ? <PostalAdressCardNew />
+                                    : ''}
                             </form>
                         </div>
                     </div>
@@ -180,13 +200,16 @@ const userInfo: React.FC<PageUserInfoProps> = (props) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    return(
-        {
-            props: {
-                user: userTeste
-            }
+    const { userIdCookie } = context.req.cookies;
+
+    const response = await fetch(`http://localhost:3008/cliente/BuscaPorId/${userIdCookie}`);
+    const data = await response.json();
+
+    return {
+        props: {
+            client: data,
         }
-    )
+    }
 }
 
 export default userInfo;

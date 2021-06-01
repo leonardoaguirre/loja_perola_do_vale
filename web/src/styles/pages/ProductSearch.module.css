@@ -155,17 +155,17 @@
 
 .productSearch .buy .buttonContainer .addCart {
 	padding: 0.4rem 0;
-	border: none;
-	background-color: var(--primary);
-	color: white;
+	border: 1px solid var(--primary);
+	color: var(--primary);
+	background-color: white;
 	font: 400 2rem Roboto;
 	margin: 0.5rem 0;
 	transition: 0.2s;
 }
 
 .productSearch .buy .buttonContainer .addCart:hover {
-	background-color: #c58215;
-	color: #4d4526;
+	background-color: var(--primary);
+	color: #ffffff;
 }
 
 .productSearch .buy .buttonContainer .buyButton {

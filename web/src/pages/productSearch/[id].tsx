@@ -7,6 +7,7 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import LoadingIcon from '../../components/LoadingIcon';
 import PageFooter from '../../components/PageFooter';
 import PageHeader from '../../components/PageHeader';
+import ShippingCalc from '../../components/ShippingCalc';
 import SubHeader from '../../components/SubHeader';
 import styles from '../../styles/pages/ProductSearch.module.css';
 
@@ -74,7 +75,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
                                 size={36}
                             />
                             {props.product.imagens.map((img, index) => (
-                                    <figure className={styles.imageItem} onClick={handleImagePick}>
+                                    <figure className={styles.imageItem} onClick={handleImagePick} key={index}>
                                         <img src={`http://localhost:3008/${props.product.imagens[index].path}`} alt={props.product.nome} />
                                     </figure>
                             ))}
@@ -119,6 +120,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
                             <option value="6">6</option>
                         </select>
                     </div>
+                    <ShippingCalc produto={props.product} />
                     <div className={styles.buttonContainer}>
                         <button className={styles.addCart}>Adicionar ao carrinho</button>
                         <button className={styles.buyButton}>Comprar</button>

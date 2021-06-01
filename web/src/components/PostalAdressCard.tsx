@@ -2,6 +2,7 @@ import { useState, useEffect, ChangeEvent } from 'react';
 import styles from '../styles/components/PostalAdressCard.module.css';
 
 interface PostalAdress {
+    id: string;
     titulo?: string;
     rua: string;
     numero: string;
@@ -14,6 +15,7 @@ interface PostalAdress {
 
 interface PostalAdressCardProps {
     postalAdress: PostalAdress;
+    index: number;
 }
 
 const PostalAdressCard: React.FC<PostalAdressCardProps> = (props) => {

@@ -1,6 +1,7 @@
 import styles from '../styles/components/TelephoneCard.module.css';
 
 interface Telephone {
+    id: string;
     ddd: string;
     numero: string;
 }

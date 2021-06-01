@@ -9,19 +9,30 @@ import React, { useState, useContext, useEffect } from 'react';
 import UserTable from '../../components/UserTable';
 import styles from '../../styles/pages/Products.module.css';
 import { UserContext } from '../../contexts/UserContext';
+import Cookies from 'js-cookie';
 
-interface UserProps {
+interface ClientTableProps {
+    clients: Client[];
+}
+
+interface Client {
     id: string,
+    pessoaFisica: PessoaFisica,
+}
+
+interface PessoaFisica {
     nome: string,
     rg: string,
     cpf: string,
     dtNasc: string,
-    email: string,
-    senha: string
+    pessoa: Pessoa,
 }
 
+interface Pessoa {
+    email: string,
+}
 interface PageUserProps {
-    pessoas: UserProps[];
+    pessoas: Client[];
 }
 
 const Pageuser: React.FC<PageUserProps> = (props) => {
@@ -34,12 +45,22 @@ const Pageuser: React.FC<PageUserProps> = (props) => {
         setAtribute(event.target.value);
     }
 
+    const reloadTable = async () => {
+        const tokenCookie = Cookies.get("tokenCookie");
+
+        const pessoa = { headers: { 'authorization': tokenCookie }, method: "GET" };
+
+        const response = await fetch('http://localhost:3008/Cliente/listar', pessoa);
+
+        setTableItens(await response.json());
+    }
+
     const handleSearch = async (event, atribute: string, search: string) => {
         event.preventDefault();
 
         if (search.length > 0) {
 
-            const response = await fetch(`http://localhost:3008/Pessoa/Buscar/${atribute}/${search}`, { method: 'GET' });
+            const response = await fetch(`http://localhost:3008/Cliente/Buscar/${atribute}/${search}`, { method: 'GET' });
 
             const result = await response.json();
 
@@ -51,12 +72,16 @@ const Pageuser: React.FC<PageUserProps> = (props) => {
             } else {
                 setTableItens([{
                     id: '',
-                    nome: '',
-                    rg: '',
-                    cpf: '',
-                    dtNasc: '',
-                    email: '',
-                    senha: ''
+                    pessoaFisica: {
+                        nome: '',
+                        rg: '',
+                        cpf: '',
+                        dtNasc: '',
+                        pessoa: {
+                            email: ''
+                        }
+                    }
+
                 }]);
                 setErro(result);
             }
@@ -87,7 +112,7 @@ const Pageuser: React.FC<PageUserProps> = (props) => {
                         {erro.constraints.message != '' ? erro.constraints.message : ''}
                     </div>
                 </div>
-                <UserTable users={tableItens} />
+                <UserTable clients={tableItens} reload={reloadTable} />
                 <div className={styles.actionsContainer}>
                     <div className={styles.buttonContainer}>
                         <Link href="/userForm">
@@ -108,7 +133,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     const pessoa = { headers: { 'authorization': tokenCookie }, method: "GET" };
 
-    const response = await fetch('http://localhost:3008/Pessoa/listar', pessoa);
+    const response = await fetch('http://localhost:3008/Cliente/listar', pessoa);
 
 
 
