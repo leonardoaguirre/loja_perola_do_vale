@@ -25,5 +25,21 @@ class PessoaFisicaRepository extends Repository<PessoaFisica>{
     async existeRg(rg: string) {
         return this.findOne({ where: { rg: rg } });
     }
+    async verificaAlteracao(pessoaFisica : PessoaFisica, id : string){
+        const validacoes = new Array<AppError>();
+
+        const cpfExist = await this.findOne({ where: { cpf: pessoaFisica.cpf } });
+
+        if(cpfExist && (id !== cpfExist.pessoaFisicaId)){
+            validacoes.push(new AppError("Este cpf ja foi registrado!", "cpf"));
+        }
+        const rgExist = await this.findOne({ where: { cpf: pessoaFisica.cpf } });
+
+        if(rgExist && (id !== rgExist.pessoaFisicaId)){
+            validacoes.push(new AppError("Este rg ja foi registrado!", "rg"));
+        }
+
+        return validacoes;
+    }
 }
 export{PessoaFisicaRepository};

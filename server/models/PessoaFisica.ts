@@ -14,12 +14,12 @@ class PessoaFisica {
 
     @IsNumberString({ no_symbols: true }, { message: "O rg deve conter somente numeros" })
     @Length(9, 9, { message: "O rg deve ter 9 caracteres" })
-    @Column({ nullable: false, length: 9, unique: true, })
+    @Column({ nullable: false, length: 9})
     rg: string;
 
     @IsNumberString({ no_symbols: true }, { message: "O cpf deve conter somente numeros" })
     @Length(11, 11, { message: "O cpf deve ter 11 caracteres" })
-    @Column({ nullable: false, length: 11, unique: true })
+    @Column({ nullable: false, length: 11})
     cpf: string;
 
     @IsDateString({ strict: true }, { message: "A data precisa ser valida" },)
