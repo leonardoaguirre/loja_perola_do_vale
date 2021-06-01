@@ -3,6 +3,7 @@ import { PessoaFisicaRepository } from '../repositorios/PessoaFisicaRepository';
 import { EntityManager, getCustomRepository } from 'typeorm';
 import { PessoaFisica } from '../models/PessoaFisica';
 import { Cliente } from '../models/Cliente';
+import { AppError } from '../errors/AppError';
 
 class ControlePessoaFisica {
     async adicionar(request: Request, response: Response, pessoa, manager: EntityManager) {
@@ -34,13 +35,12 @@ class ControlePessoaFisica {
             throw error;
         }
     }
-    async alterar(request: Request, response: Response, cliente : Cliente, manager: EntityManager) {
+    async alterar(request: Request, response: Response, cliente: Cliente, manager: EntityManager) {
         const { nome, rg, cpf, dtNasc } = request.body;
 
         const pessoaFisicaRepository = getCustomRepository(PessoaFisicaRepository);
 
         const pessoaFisica = pessoaFisicaRepository.create({
-            pessoa: cliente.pessoaFisica.pessoa,
             nome,
             rg,
             cpf,
@@ -51,12 +51,17 @@ class ControlePessoaFisica {
             if (valida.length > 0) {
                 throw valida;
             }
-            const verifica = await pessoaFisicaRepository.verifica(pessoaFisica);
+            const verifica = await pessoaFisicaRepository.verificaAlteracao(pessoaFisica, cliente.pessoaFisica.pessoaFisicaId);
             if (verifica.length > 0) {
                 throw verifica;
             }
-            manager.update(PessoaFisica, cliente.pessoaFisica.pessoa.id, pessoaFisica)
-                .catch(error => { throw error });
+            await manager.update(PessoaFisica, cliente.pessoaFisica.pessoaFisicaId, pessoaFisica)
+                .then(res => {
+                    if (res.affected < 1) {
+                        throw new AppError('Update sem sucesso!', 'update');
+                    }
+                })
+                .catch(err => { throw err })
 
         } catch (error) {
             throw error;
