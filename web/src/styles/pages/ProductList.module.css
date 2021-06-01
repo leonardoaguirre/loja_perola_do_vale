@@ -12,8 +12,21 @@
     padding: 1.6rem 0;
 }
 
+.productList .productContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.productList .listContainer {
+    display: flex;
+    flex-direction: row;
+}
+
 .productList ul {
     margin: 1rem 0;
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .productList li {

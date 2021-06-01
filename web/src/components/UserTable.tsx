@@ -54,7 +54,9 @@ interface Pessoa {
 const UserTable: React.FC<ClientTableProps> = (props) => {
 
     const cliquei = async (event) => {
-        console.log("cliquei na tr")
+        const linha: HTMLElement = event.target.parentNode;
+        
+        linha.className = `${styles.selected}`;
     }
 
     const alterUser = async (event) => {
@@ -88,7 +90,7 @@ const UserTable: React.FC<ClientTableProps> = (props) => {
 
     return (
         <div className={styles.clientTable}>
-            <table id="table" className={styles.table}>
+            <table id="table" className={styles.table} onClick={cliquei}>
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -103,7 +105,7 @@ const UserTable: React.FC<ClientTableProps> = (props) => {
                 </thead>
                 <tbody>
                     {props.clients.map((client, key) => (
-                        <tr key={key} onClick={cliquei}>
+                        <tr key={key}>
                             <td>{client.id}</td>
                             <td>{client.pessoaFisica.nome}</td>
                             <td>{client.pessoaFisica.rg}</td>

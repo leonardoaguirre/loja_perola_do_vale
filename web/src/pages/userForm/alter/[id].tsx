@@ -1,6 +1,6 @@
 import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next';
 import { useRouter } from 'next/router'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import LoadingIcon from '../../../components/LoadingIcon';
 import PageFooter from '../../../components/PageFooter';
 import PageHeaderAdministration from '../../../components/PageHeaderAdministration';
@@ -37,6 +37,14 @@ const userAlterForm: React.FC<PageClientInfoProps> = (props) => {
         return <LoadingIcon />;
     }
 
+    const [cliente, setCliente] = useState({});
+    const [email, setEmail] = useState<string>(props.client.pessoaFisica.pessoa.email);
+    const [nome, setNome] = useState<string>(props.client.pessoaFisica.nome);
+    const [rg, setRg] = useState<string>(props.client.pessoaFisica.rg);
+    const [cpf, setCpf] = useState<string>(props.client.pessoaFisica.cpf);
+    const [dtnasc, setDtnasc] = useState<string>(props.client.pessoaFisica.dtNasc);
+
+
     const router = useRouter();
     // useEffect(() => {
     //     // Prefetch the dashboard page
@@ -48,17 +56,13 @@ const userAlterForm: React.FC<PageClientInfoProps> = (props) => {
         event.preventDefault();
 
         if (props.client.id) {
-            await fetch('http://localhost:3008/Cliente/Alterar/' + props.client.id, {
+            await fetch(`http://localhost:3008/Cliente/Alterar/${props.client.id}`, {
                 body: JSON.stringify({
-                    nome: event.target.nome.value,
-                    email: event.target.email.value,
-                    rg: event.target.rg.value,
-                    cpf: event.target.cpf.value,
-                    dtNasc: event.target.dtNasc.value,
-                    telefones: [{
-                        ddd: event.target.ddd.value,
-                        numero: event.target.numero.value
-                    }]
+                    nome: nome,
+                    email: email,
+                    rg: rg,
+                    cpf: cpf,
+                    dtNasc: dtnasc
                 }),
                 headers: new Headers({
                     'Content-Type': 'application/json',
@@ -67,39 +71,14 @@ const userAlterForm: React.FC<PageClientInfoProps> = (props) => {
                 method: "PATCH",
             })
             router.push('/User');
-        } else {
-            const res = await fetch("http://localhost:3008/Cliente/Adicionar", {
-                body: JSON.stringify({
-                    nome: event.target.nome.value,
-                    email: event.target.email.value,
-                    rg: event.target.rg.value,
-                    cpf: event.target.cpf.value,
-                    dtNasc: event.target.dtNasc.value,
-                    telefones: [{
-                        ddd: event.target.ddd.value,
-                        numero: event.target.numero.value
-                    }]
-                }),
-                headers: new Headers({
-                    'Content-Type': 'application/json'
-                }),
-                method: "post",
-            })
-
-            const result = await res.json();
-            // result.user => 'Ada Lovelace'
-            console.log(result);
-            return {
-                props: { retorno: result, },
-            }
         }
-
     }
-   const handleChange = (event) =>{
-        // this.setState({value: event.target.value});
-      }
 
- 
+    // const handleChange = (event) =>{
+    //     setCliente({ ...cliente, [event.currentTarget.name]: event.currentTarget.value})
+    // }
+
+
     return (
         <div className={styles.container}>
             <PageHeaderAdministration />
@@ -110,55 +89,85 @@ const userAlterForm: React.FC<PageClientInfoProps> = (props) => {
                         <div className={styles.email}>
                             <label htmlFor="email">Email: </label>
                             <div className={styles.inputContainer}>
-                                <input type="email" placeholder="Email" name="email" defaultValue={props.client.pessoaFisica.pessoa.email} onChange={handleChange}/>
+                                <input
+                                    type="email"
+                                    placeholder="Email"
+                                    name="email"
+                                    defaultValue={email}
+                                    onChange={event => setEmail(event.target.value)}
+                                    autoComplete="off"
+                                    disabled
+                                />
                             </div>
                         </div>
                         <div className={styles.password}>
                             <label htmlFor="password">Senha: </label>
                             <div className={styles.inputContainer}>
-                                <input type="password" placeholder="Senha" name="senha" defaultValue="***********" disabled/>
+                                <input
+                                    type="password"
+                                    placeholder="Senha"
+                                    name="senha"
+                                    defaultValue="***********"
+                                    autoComplete="off"
+                                    disabled
+                                />
                             </div>
                         </div>
                         <div className={styles.name}>
                             <label htmlFor="name">Nome: </label>
                             <div className={styles.inputContainer}>
-                                <input type="text" placeholder="Nome" name="nome" defaultValue={props.client.pessoaFisica.nome} />
+                                <input
+                                    type="text"
+                                    placeholder="Nome"
+                                    name="nome"
+                                    defaultValue={nome}
+                                    onChange={event => setNome(event.target.value)}
+                                    autoComplete="off"
+                                />
                             </div>
                         </div>
                         <div className={styles.identificationRg}>
                             <label htmlFor="rg">RG: </label>
                             <div className={styles.inputContainer}>
-                                <input type="number" placeholder="RG" name="rg" defaultValue={props.client.pessoaFisica.rg} />
+                                <input
+                                    type="number"
+                                    placeholder="RG"
+                                    name="rg"
+                                    defaultValue={rg}
+                                    onChange={event => setRg(event.target.value)}
+                                    autoComplete="off"
+                                />
                             </div>
                         </div>
                         <div className={styles.identificationCpf}>
                             <label htmlFor="cpf">CPF: </label>
                             <div className={styles.inputContainer}>
-                                <input type="number" placeholder="CPF" name="cpf" defaultValue={props.client.pessoaFisica.cpf} />
+                                <input
+                                    type="number"
+                                    placeholder="CPF"
+                                    name="cpf"
+                                    defaultValue={cpf}
+                                    onChange={event => setCpf(event.target.value)}
+                                    autoComplete="off"
+                                />
                             </div>
                         </div>
                         <div className={styles.birthDate}>
                             <label htmlFor="dataNascimento">Data de nascimento: </label>
                             <div className={styles.inputContainer}>
-                                <input type="date" placeholder="Data de nascimento" name="dtNasc" defaultValue={props.client.pessoaFisica.dtNasc} />
+                                <input
+                                    type="date"
+                                    placeholder="Data de nascimento"
+                                    name="dtNasc"
+                                    defaultValue={dtnasc}
+                                    onChange={event => setDtnasc(event.target.value)}
+                                    autoComplete="off"
+                                />
                             </div>
                         </div>
-                        {/* <div className={styles.telephone}>
-                            <label htmlFor="telephone">DDD: </label>
-                            <div className={styles.inputContainer}>
-                                <input type="number" placeholder="xx" name="ddd" defaultValue={retorno.telefones[0].ddd} autoComplete="off" />
-                            </div>
-                        </div>
-                        <div className={styles.telephone}>
-                            <label htmlFor="telephone">Telefone: </label>
-                            <div className={styles.inputContainer}>
-                                <input type="number" placeholder="xxxx-xxx" name="numero" defaultValue={retorno.telefones[0].numero} autoComplete="off" />
-                            </div>
-                        </div> */}
                         <div className={styles.buttonsContainer}>
                             <div className={styles.create}>
                                 <input type="submit" value="Alterar" />
-                                {/* <p>{retorno}</p> */}
                             </div>
                             <div className={styles.reset}>
                                 <input type="reset" />
@@ -172,7 +181,7 @@ const userAlterForm: React.FC<PageClientInfoProps> = (props) => {
     );
 }
 // export const getStaticPaths: GetStaticPaths = async (context) => {
-    
+
 //     // const { tokenCookie } = context.req.cookies;
 
 //     // const pessoa = { headers: { 'authorization': tokenCookie }, method: "GET" };
@@ -183,7 +192,7 @@ const userAlterForm: React.FC<PageClientInfoProps> = (props) => {
 //     // const paths = data.map(pessoa => {
 //     //     return { params: { id: '' } }
 //     // });
-    
+
 //     const paths = [{ params: { id: '' } }]
 //     return {
 //         paths,

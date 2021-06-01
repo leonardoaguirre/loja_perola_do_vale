@@ -59,6 +59,10 @@ interface Adress {
     cep: string
 }
 
+interface Erro {
+    constraints: {};
+    property: string;
+}
 
 const userInfo: React.FC<PageClientInfoProps> = (props) => {
 
@@ -72,10 +76,12 @@ const userInfo: React.FC<PageClientInfoProps> = (props) => {
     const [rg, setRg] = useState<string>(props.client.pessoaFisica.rg);
     const [dtnasc, setDtnasc] = useState<string>(props.client.pessoaFisica.dtNasc);
 
+    const [erro, setErro] = useState<Erro[]>([]);
+
     useEffect(() => {
 
     }, [])
-    
+
 
 
     const handleSubmitForm = async (event) => {
@@ -98,11 +104,18 @@ const userInfo: React.FC<PageClientInfoProps> = (props) => {
 
         const response = await fetch(`http://localhost:3008/Cliente/Alterar/${props.client.id}`, cliente)
 
-        console.log(response);
-
         const result = await response.json();
 
-        console.log(result);
+        if (response.ok) {
+            alert("Usuário alterado com sucesso!")
+            setErro([]);
+        } else {
+            // setErro(result);
+            const alerta = result.map(err => Object.values(err.constraints).map((tipoErro,key)=> {return tipoErro}));
+            alert(alerta)
+            {/* {erro.length>0 ? erro.map((err)=> err.property === "nome" ? Object.values(err.constraints).map((tipoErro,key)=> <p key={key}>{tipoErro}</p>) : "") : ""} */ }
+
+        }
     }
 
     return (
@@ -145,22 +158,58 @@ const userInfo: React.FC<PageClientInfoProps> = (props) => {
                                 </div>
                                 <div className={styles.inputs}>
                                     <div className={styles.inputContainer}>
-                                        <input type="text" name="nome" defaultValue={props.client.pessoaFisica.nome} onChange={event => setNome(event.target.value)}/>
+                                        <input
+                                            type="text"
+                                            name="nome"
+                                            autoComplete="off"
+                                            defaultValue={props.client.pessoaFisica.nome}
+                                            onChange={event => setNome(event.target.value)}
+                                        />
+                                    </div>
+                                    {/* {erro.length>0 ? erro.map((err)=> err.property === "nome" ? Object.values(err.constraints).map((tipoErro,key)=> <p key={key}>{tipoErro}</p>) : "") : ""} */}
+                                    <div className={styles.inputContainer}>
+                                        <input
+                                            type="number"
+                                            name="rg" autoComplete="off"
+                                            defaultValue={props.client.pessoaFisica.rg}
+                                            onChange={event => setRg(event.target.value)}
+                                        />
                                     </div>
                                     <div className={styles.inputContainer}>
-                                        <input type="number" name="rg" defaultValue={props.client.pessoaFisica.rg} onChange={event => setRg(event.target.value)}/>
+                                        <input
+                                            type="number"
+                                            name="cpf"
+                                            autoComplete="off"
+                                            defaultValue={props.client.pessoaFisica.cpf}
+                                            onChange={event => setCpf(event.target.value)}
+                                        />
                                     </div>
                                     <div className={styles.inputContainer}>
-                                        <input type="number" name="cpf" defaultValue={props.client.pessoaFisica.cpf} onChange={event => setCpf(event.target.value)}/>
+                                        <input
+                                            type="date"
+                                            name="dtNasc"
+                                            autoComplete="off"
+                                            defaultValue={props.client.pessoaFisica.dtNasc}
+                                            onChange={event => setDtnasc(event.target.value)}
+                                        />
                                     </div>
                                     <div className={styles.inputContainer}>
-                                        <input type="date" name="dtNasc" defaultValue={props.client.pessoaFisica.dtNasc} onChange={event => setDtnasc(event.target.value)}/>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            autoComplete="off"
+                                            value={props.client.pessoaFisica.pessoa.email}
+                                            disabled
+                                        />
                                     </div>
                                     <div className={styles.inputContainer}>
-                                        <input type="email" name="email" autoComplete="off" value={props.client.pessoaFisica.pessoa.email} disabled />
-                                    </div>
-                                    <div className={styles.inputContainer}>
-                                        <input type="password" name="senha" autoComplete="off" value="***********" disabled />
+                                        <input
+                                            type="password"
+                                            name="senha"
+                                            autoComplete="off"
+                                            value="***********"
+                                            disabled
+                                        />
                                     </div>
                                     <div className={styles.actions}>
                                         <input type="submit" value="Alterar" />

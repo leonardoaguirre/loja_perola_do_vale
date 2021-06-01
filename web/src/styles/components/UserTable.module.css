@@ -10,6 +10,10 @@
     max-width: 2880px;
 }
 
+.clientTable .table .selected {
+    background-color: blue;
+}
+
 .clientTable .table thead tr th {
     background-color: #a7baff;
     font-weight: bold;

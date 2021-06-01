@@ -42,65 +42,7 @@ interface Category {
     descricao: string;
 }
 
-
-const productListTeste: Product[] = [{
-    id: "1",
-    nome: "Chave de fenda",
-    marca: "Phillips",
-    descricao: "allahu akbar",
-    valorVenda: 89.10,
-    codigoBarra: "123",
-    quantidade: 1,
-    peso: 6,
-    altura: 4,
-    largura: 1,
-    comprimento: 7,
-    imagens: [{
-        id: "1",
-        originalName: "bnasoçrh",
-        mimetype: "image/png",
-        destination: "/images/chave.jpg",
-        filename: "nabeoçjqagadlfj",
-        path: "/images/chave.jpg",
-        size: 36527
-    }],
-    categorias: [{
-        id: "1",
-        descricao: "Ferramenta"
-    }]
-},
-{
-    id: "2",
-    nome: "chave de fenda abafjse ahseosf jsd ajhofs a baoeadl daogehoa aeaj diajfah dag fhgaoesh fuisfjkad hdads",
-    marca: "Phillips",
-    descricao: "allahu akbar",
-    valorVenda: 128.90,
-    codigoBarra: "123",
-    quantidade: 1,
-    peso: 6,
-    altura: 4,
-    largura: 1,
-    comprimento: 7,
-    imagens: [{
-        id: "1",
-        originalName: "bnasoçrh",
-        mimetype: "image/png",
-        destination: "/images/chave.jpg",
-        filename: "nabeoçjqagadlfj",
-        path: "/images/chave.jpg",
-        size: 36527
-    }],
-    categorias: [{
-        id: "1",
-        descricao: "Ferramenta"
-    }]
-}]
-
 const ProductList: React.FC<ProductListProps> = (props) => {
-
-    useEffect(() => {
-
-    }, [])
 
     return (
         <div className={styles.container}>
@@ -112,6 +54,36 @@ const ProductList: React.FC<ProductListProps> = (props) => {
                     {props.products.map((product, index) => (
                         <ProductItem product={product} index={index} />
                     ))}
+                    {props.products.map((product, index) => (
+                        <ProductItem product={product} index={index} />
+                    ))}
+                    {props.products.map((product, index) => (
+                        <ProductItem product={product} index={index} />
+                    ))}
+                    {props.products.map((product, index) => (
+                        <ProductItem product={product} index={index} />
+                    ))}
+                    {props.products.map((product, index) => (
+                        <ProductItem product={product} index={index} />
+                    ))}
+                    {props.products.map((product, index) => (
+                        <ProductItem product={product} index={index} />
+                    ))}
+                    {props.products.map((product, index) => (
+                        <ProductItem product={product} index={index} />
+                    ))}
+                    {props.products.map((product, index) => (
+                        <ProductItem product={product} index={index} />
+                    ))}
+                    {props.products.map((product, index) => (
+                        <ProductItem product={product} index={index} />
+                    ))}
+                    {props.products.map((product, index) => (
+                        <ProductItem product={product} index={index} />
+                    ))}
+                    {props.products.map((product, index) => (
+                        <ProductItem product={product} index={index} />
+                    ))}
                 </ul>
             </div>
             <PageFooter />
@@ -120,13 +92,17 @@ const ProductList: React.FC<ProductListProps> = (props) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    return (
-        {
+    const response = await fetch('http://localhost:3008/Produto/Listar');
+
+    if (response.status == 200) {
+        const data = await response.json();
+        return {
             props: {
-                products: productListTeste
+                products: data,
             }
         }
-    )
+    }
 }
+
 
 export default ProductList;
