@@ -145,16 +145,16 @@ const userInfo: React.FC<PageClientInfoProps> = (props) => {
                                 </div>
                                 <div className={styles.inputs}>
                                     <div className={styles.inputContainer}>
-                                        <input type="text" name="nome" onChange={event => setNome(event.target.value)}/>
+                                        <input type="text" name="nome" defaultValue={props.client.pessoaFisica.nome} onChange={event => setNome(event.target.value)}/>
                                     </div>
                                     <div className={styles.inputContainer}>
-                                        <input type="number" name="rg" onChange={event => setRg(event.target.value)}/>
+                                        <input type="number" name="rg" defaultValue={props.client.pessoaFisica.rg} onChange={event => setRg(event.target.value)}/>
                                     </div>
                                     <div className={styles.inputContainer}>
-                                        <input type="number" name="cpf" onChange={event => setCpf(event.target.value)}/>
+                                        <input type="number" name="cpf" defaultValue={props.client.pessoaFisica.cpf} onChange={event => setCpf(event.target.value)}/>
                                     </div>
                                     <div className={styles.inputContainer}>
-                                        <input type="date" name="dtNasc" onChange={event => setDtnasc(event.target.value)}/>
+                                        <input type="date" name="dtNasc" defaultValue={props.client.pessoaFisica.dtNasc} onChange={event => setDtnasc(event.target.value)}/>
                                     </div>
                                     <div className={styles.inputContainer}>
                                         <input type="email" name="email" value={props.client.pessoaFisica.pessoa.email} disabled />

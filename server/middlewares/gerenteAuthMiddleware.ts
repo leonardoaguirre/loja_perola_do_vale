@@ -6,11 +6,11 @@ import { AppError } from '../errors/AppError';
 
 export default async function gerenteAuthMiddleware(req: Request, res: Response, next: NextFunction) {
     const authorization = req.headers.authorization
-
     if (!authorization) {
         return res.status(401);
     }
 
+    
     const token = authorization.replace('Bearer', '').trim();
 
     try {

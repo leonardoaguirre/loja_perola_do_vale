@@ -79,9 +79,12 @@ class ControleCliente {
         const { id } = request.body;
 
         try {
-            const existe = await clienteRepository.findOne(id);
+            const existe = await clienteRepository.findOne({ id: id });
             if (existe) {
-                await clienteRepository.delete(id);
+                // await clienteRepository.delete({ pessoaFisica: { pessoa: { id: existe.pessoaFisica.pessoa.id } } });
+                const controlePessoa =  new ControlePessoa();
+                controlePessoa.deletar(existe.pessoaFisica.pessoa.id);
+                
                 return response.status(200).json({ message: 'O cliente foi deletado com sucesso' });
             } else {
                 throw new AppError('Cliente a ser deletado nao foi encontrado', 'cliente');
@@ -137,7 +140,7 @@ class ControleCliente {
                 if (res == true) {
                     const token = jwt.sign({ id: clienteExiste.id }, process.env.SECRET_KEY, { expiresIn: '7d' });
 
-                    return response.status(200).json({ message: "Usuario logado com sucesso!", token, pessoa: { id: clienteExiste.id, nome : clienteExiste.pessoaFisica.nome, email: clienteExiste.pessoaFisica.pessoa.email } });
+                    return response.status(200).json({ message: "Usuario logado com sucesso!", token, pessoa: { id: clienteExiste.id, nome: clienteExiste.pessoaFisica.nome, email: clienteExiste.pessoaFisica.pessoa.email } });
                 } else {
                     throw new AppError("senha inválidos", "login");
                 }

@@ -2,12 +2,16 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import styles from '../styles/components/PageHeaderAdministration.module.css';
+import { useContext } from 'react';
+import { UserContext } from '../contexts/UserContext';
 
 interface PageHeaderAdministrationProps {
 
 }
 
 const PageHeaderAdministration: React.FC<PageHeaderAdministrationProps> = (props) => {
+    const { user, logoutUser } = useContext(UserContext);
+
     return (
         <header className={styles.pageHeader}>
             <div className={styles.topBarContainer}>
@@ -27,10 +31,20 @@ const PageHeaderAdministration: React.FC<PageHeaderAdministrationProps> = (props
                             <img src="/icons/account_circle-black-36dp.svg" alt="Usuário" title="Minha Conta" />
                         </a>
                     </Link>
-                    <div className={styles.userInfo}>
-                        <strong>Hideki Yamakawa</strong>
-                        <span>Gerente de vendas</span>
-                    </div>
+
+                    {user ? (
+                        <div className={styles.userInfo}>
+                            <strong>{user.nome}</strong>
+                            <span>Gerente</span>
+                        </div>
+                    ) : (
+                        <div className={styles.userInfo}>
+                            <strong>Funcionario não localizado</strong>
+                            <span>(cargo)</span>+
+                        </div>
+                    )
+                    }
+
                 </div>
 
                 <div className={styles.userActions}>
