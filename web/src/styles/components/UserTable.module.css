@@ -43,3 +43,49 @@
     background-color: #4b79f7;
     color: white;
 }
+
+.actionsContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.actionsContainer button {
+    width: 12rem;
+    height: 4rem;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.actionsContainer .buttonContainer {
+    display: flex;
+    flex-direction: row;
+    padding: 2rem 2rem;
+}
+
+.actionsContainer .buttonContainer .createButton {
+    background-color: #068601;
+    color: white;
+}
+
+.actionsContainer .buttonContainer .updateButton {
+    background-color: #bdba00;
+    color: black;
+    margin: 0 1rem;
+}
+
+.actionsContainer .buttonContainer .updateButton:disabled {
+    background: gray;
+    color: white;
+}
+
+.actionsContainer .buttonContainer .deleteButton {
+    background-color: #e73b3b;
+    color: white;
+}
+
+.actionsContainer .buttonContainer .deleteButton:disabled {
+    background: gray;
+}

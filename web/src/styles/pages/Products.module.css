@@ -30,6 +30,8 @@
 }
 
 .products .actionsContainer .buttonContainer {
+    display: flex;
+    flex-direction: row;
     padding: 2rem 2rem;
 }
 
@@ -41,6 +43,7 @@
 .products .actionsContainer .buttonContainer .updateButton {
     background-color: #bdba00;
     color: black;
+    margin: 0 1rem;
 }
 
 .products .actionsContainer .buttonContainer .deleteButton {

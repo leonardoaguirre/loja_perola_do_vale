@@ -18,10 +18,9 @@
 .itemContainer {
     display: flex;
     flex-direction: column;
-    height: 35rem;
-    width: 26rem;
+    height: 33rem;
     background-color: white;
-    padding: 1rem;
+    padding: 1.5rem;
     position: relative;
 }
 
@@ -32,8 +31,8 @@
 }
 
 .itemContainer figure {
-    min-height: 20rem;
-    min-width: 20rem;
+    min-height: 17rem;
+    min-width: 17rem;
     display: flex;
 	flex-direction: column;
 	align-content: center;
@@ -43,14 +42,26 @@
 }
 
 .itemContainer figure img{
-    max-height: 20rem;
-    max-width: 20rem;
+    max-height: 17rem;
+    max-width: 17rem;
+}
+
+.itemContainer .productInfo {
+    height: 11.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .itemContainer h2 {
     font-size: 1.6rem;
     font-weight: 400;
     margin-top: 0.6rem;
+    display: -webkit-box;
+   -webkit-line-clamp: 3; /* número de linhas à mostrar */
+   -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .itemContainer h2:first-letter {
@@ -61,7 +72,6 @@
     margin-top: 0.3rem;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
 }
 
 .itemContainer .price .oldPrice {

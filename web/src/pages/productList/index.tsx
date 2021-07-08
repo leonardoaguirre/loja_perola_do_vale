@@ -66,25 +66,10 @@ const ProductList: React.FC<ProductListProps> = (props) => {
                     {props.products.map((product, index) => (
                         <ProductItem product={product} index={index} />
                     ))}
-                    {props.products.map((product, index) => (
-                        <ProductItem product={product} index={index} />
-                    ))}
-                    {props.products.map((product, index) => (
-                        <ProductItem product={product} index={index} />
-                    ))}
-                    {props.products.map((product, index) => (
-                        <ProductItem product={product} index={index} />
-                    ))}
-                    {props.products.map((product, index) => (
-                        <ProductItem product={product} index={index} />
-                    ))}
-                    {props.products.map((product, index) => (
-                        <ProductItem product={product} index={index} />
-                    ))}
-                    {props.products.map((product, index) => (
-                        <ProductItem product={product} index={index} />
-                    ))}
                 </ul>
+                <div className={styles.pagination}>
+                    
+                </div>
             </div>
             <PageFooter />
         </div>

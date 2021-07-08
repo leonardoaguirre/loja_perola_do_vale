@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import React, { useState } from 'react';
 import LoadingIcon from '../../components/LoadingIcon';
 import PageFooter from '../../components/PageFooter';
-import PageHeaderAdministration from '../../components/PageHeaderAdministration';
+import PageHeader from '../../components/PageHeader';
 import styles from '../../styles/pages/UserForm.module.css';
 
 
@@ -53,7 +53,7 @@ function userForm() {
 
     return (
         <div className={styles.container}>
-            <PageHeaderAdministration />
+            <PageHeader />
             <div className={styles.userForm}>
                 <h1>Cadastrar-se</h1>
                 {process.env.API_ADRESS}

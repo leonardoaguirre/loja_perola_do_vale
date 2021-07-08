@@ -2,6 +2,7 @@ import { Button } from '@material-ui/core';
 import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import styles from '../styles/components/UserTable.module.css';
 
 // var table = document.getElementById("table");
@@ -53,20 +54,48 @@ interface Pessoa {
 
 const UserTable: React.FC<ClientTableProps> = (props) => {
 
-    const cliquei = async (event) => {
-        const linha: HTMLElement = event.target.parentNode;
-        
-        linha.className = `${styles.selected}`;
+    const [lineSelected, setLineSelected] = useState(null);
+
+    useEffect(() => {
+        if (lineSelected) {
+            for (let i = 0; i < 2; i++) {
+                document.getElementsByClassName(`${styles.buttonContainer}`)[0].children[i].removeAttribute('disabled')
+            }
+        } else {
+            for (let i = 0; i < 2; i++) {
+                document.getElementsByClassName(`${styles.buttonContainer}`)[0].children[i].setAttribute('disabled', 'disabled')
+            }
+        }
+    }, [lineSelected])
+
+
+    const selecionaLinha = async (event) => {
+
+        const linha = event.target.parentNode;
+
+        if (!linha.className) {
+            if (lineSelected) {
+                document.getElementsByClassName(`${styles.selected}`)[0].removeAttribute('class');
+            }
+            linha.className += ` ${styles.selected}`;
+            setLineSelected(linha);
+        } else {
+            linha.removeAttribute('class');
+            setLineSelected(null);
+        }
+    }
+
+    const removeLinha = async (event) => {
+        const linha: HTMLElement = event.target.parentNode.parentNode.parentNode.parentNode;
+        linha.parentNode.removeChild(linha);
     }
 
     const alterUser = async (event) => {
         event.preventDefault()
     }
 
-    const deleteUser = async (event, userid) => {
-        event.preventDefault()
+    const deleteUser = async (userid) => {
 
-        console.log(event.target.key);
         await fetch('http://localhost:3008/Cliente/Deletar', {
             body: JSON.stringify({
                 id: userid,
@@ -81,7 +110,6 @@ const UserTable: React.FC<ClientTableProps> = (props) => {
                 const result = await res.json();
                 // result.user => 'Ada Lovelace'
                 console.log(result);
-                props.reload();
                 // return {
                 //     props: { retorno: result, },
                 // }
@@ -90,7 +118,7 @@ const UserTable: React.FC<ClientTableProps> = (props) => {
 
     return (
         <div className={styles.clientTable}>
-            <table id="table" className={styles.table} onClick={cliquei}>
+            <table id="table" className={styles.table} onClick={selecionaLinha}>
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -99,20 +127,18 @@ const UserTable: React.FC<ClientTableProps> = (props) => {
                         <th>CPF</th>
                         <th>Data de Nascimennto</th>
                         <th>Email</th>
-                        <th>Alterar</th>
-                        <th>Excluir</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {props.clients.map((client, key) => (
-                        <tr key={key}>
+                    {props.clients.map((client, index) => (
+                        <tr key={index}>
                             <td>{client.id}</td>
                             <td>{client.pessoaFisica.nome}</td>
                             <td>{client.pessoaFisica.rg}</td>
                             <td>{client.pessoaFisica.cpf}</td>
                             <td>{client.pessoaFisica.dtNasc}</td>
                             <td>{client.pessoaFisica.pessoa.email}</td>
-                            <td>
+                            {/* <td>
                                 <div className={styles.buttonContainer}>
                                     <Link href={`/userForm/alter/${client.id}`}>
                                         <a><button className={styles.updateButton}>Alterar</button></a>
@@ -125,12 +151,29 @@ const UserTable: React.FC<ClientTableProps> = (props) => {
                                         <a><button className={styles.deleteButton} onClick={(event) => deleteUser(event, client.id)}>Excluir</button></a>
                                     </Link>
                                 </div>
-                            </td>
+                            </td> */}
 
                         </tr>
                     ))}
                 </tbody>
             </table>
+            <div className={styles.actionsContainer}>
+                <div className={styles.buttonContainer}>
+                    <button
+                        className={styles.deleteButton}
+                        onClick={() => deleteUser(props.clients[lineSelected.rowIndex - 1].id)}
+                        disabled
+                    >
+                        Excluir
+                    </button>
+                    {/* <Link href={`/userForm/alter/${props.clients[lineSelected.rowIndex - 1].id}`}>
+                        <a><button className={styles.updateButton} disabled>Alterar</button></a>
+                    </Link> */}
+                    <Link href="/userForm">
+                        <button className={styles.createButton}>Cadastrar</button>
+                    </Link>
+                </div>
+            </div>
         </div>
     )
 }
