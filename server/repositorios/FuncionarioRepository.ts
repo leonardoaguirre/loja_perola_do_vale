@@ -56,6 +56,5 @@ class FuncionarioRepository extends Repository<Funcionario>{
         .andWhere("funcionario.id = :idFunc", {idFunc : id})
         .getOne();
     }
-
 }
 export { FuncionarioRepository };
