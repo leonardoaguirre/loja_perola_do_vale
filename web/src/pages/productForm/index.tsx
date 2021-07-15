@@ -43,6 +43,8 @@ function productForm() {
     const [isCategorySelectActive, setIsCategorySelectActive] = useState(false);
     const [isProviderSelectActive, setIsProviderSelectActive] = useState(false);
 
+    const [isUploadDisabled, setIsUploadDisabled] = useState<boolean>(true);
+    const [limit, setLimit] = useState<number>(5);
     const [uploadedFiles, setUploadedFiles] = useState<UploadedFiles[]>([]);
 
 
@@ -85,16 +87,18 @@ function productForm() {
     };
 
     useEffect(() => {
-        const categories = [{ id: '1', name: 'Eletrônicos' }, { id: '2', name: 'Ferramentas' }, { id: '3', name: 'Escritório' }, { id: '4', name: 'Eletrônicos' }, { id: '5', name: 'Ferramentas' }, { id: '6', name: 'Escritório' }, { id: '7', name: 'Eletrônicos' }, { id: '8', name: 'Ferramentas' }, { id: '9', name: 'Escritório' }];
-        const providers = [{ id: '1', name: 'MJR Cunha Distribuidora de Materiais para Construção' },
-        { id: '2', name: 'Construjá Distribuidora de Materiais para Construção Ltda' },
-        { id: '3', name: 'Granstoque Atacadista de Materiais Para Construção' }];
-        const categoriesSelected = [{ id: '1', name: 'Eletrônicos' },
-        { id: '2', name: 'Ferramentas' },
-        { id: '3', name: 'Escritório' }]
+    //     const categories = [{ id: '1', name: 'Eletrônicos' }, { id: '2', name: 'Ferramentas' }, { id: '3', name: 'Escritório' }, { id: '4', name: 'Eletrônicos' }, { id: '5', name: 'Ferramentas' }, { id: '6', name: 'Escritório' }, { id: '7', name: 'Eletrônicos' }, { id: '8', name: 'Ferramentas' }, { id: '9', name: 'Escritório' }];
+    //     const providers = [{ id: '1', name: 'MJR Cunha Distribuidora de Materiais para Construção' },
+    //     { id: '2', name: 'Construjá Distribuidora de Materiais para Construção Ltda' },
+    //     { id: '3', name: 'Granstoque Atacadista de Materiais Para Construção' }];
+    //     const categoriesSelected = [{ id: '1', name: 'Eletrônicos' },
+    //     { id: '2', name: 'Ferramentas' },
+    //     { id: '3', name: 'Escritório' }]
 
-        setCategories(categories);
-        setProviders(providers);
+    //     setCategories(categories);
+    //     setProviders(providers);
+        const providersData = fillProviders();
+
     }, [])
 
     useEffect(() => {
@@ -126,20 +130,32 @@ function productForm() {
     //     })))
     // }
 
-    const handleUpload = files => {
-        const uploadedFilesNew = files.map(file => ({
-            file,
-            id: uniqueId(),
-            name: file.name,
-            readableSize: filesize(file.size),
-            preview: URL.createObjectURL(file),
-            progress: 0,
-            uploaded: false,
-            error: false,
-            url: null,
-        }))
 
-        setUploadedFiles(uploadedFiles.concat(uploadedFilesNew));
+    useEffect(() => {
+        if (uploadedFiles.length < 5) {
+            setIsUploadDisabled(false);
+            setLimit(5 - uploadedFiles.length);
+        } else {
+            setIsUploadDisabled(true);
+        }
+    },[uploadedFiles]);
+
+    const handleUpload = files => {
+        if (uploadedFiles.length < 5) {
+            const uploadedFilesNew = files.map(file => ({
+                file,
+                id: uniqueId(),
+                name: file.name,
+                readableSize: filesize(file.size),
+                preview: URL.createObjectURL(file),
+                progress: 0,
+                uploaded: false,
+                error: false,
+                url: null,
+            }))
+    
+            setUploadedFiles(uploadedFiles.concat(uploadedFilesNew));
+        }
     };
 
     const updateFile = (id, data) => {
@@ -158,6 +174,13 @@ function productForm() {
 
     function componentWillUnmount() {
         uploadedFiles.forEach(file => URL.revokeObjectURL(file.preview));
+    }
+
+    const fillProviders = async () => {
+        const response = await fetch("http://localhost:3008/fornecedor/listar");
+        const data = await response.json();
+
+        return data;
     }
 
     return (
@@ -279,7 +302,12 @@ function productForm() {
                         <div className={styles.image}>
                             <label htmlFor="imagem">Imagem</label>
                             <div className={styles.inputContainer}>
-                                <Upload onUpload={handleUpload} />
+                                <Upload 
+                                    onUpload={handleUpload} 
+                                    filesLength={uploadedFiles.length} 
+                                    filesLimit={limit}
+                                    isDisabled={isUploadDisabled}
+                                />
                                 {!!uploadedFiles.length && (
                                     <FileList files={uploadedFiles} onDelete={handleDeleteUploadedFiles} />
                                 )}
@@ -288,9 +316,6 @@ function productForm() {
                         <div className={styles.buttonsContainer}>
                             <div className={styles.create}>
                                 <input type="submit" value="Cadastrar" />
-                            </div>
-                            <div className={styles.reset}>
-                                <input type="reset" />
                             </div>
                         </div>
                     </form>
