@@ -75,8 +75,8 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
                                 size={36}
                             />
                             {props.product.imagens.map((img, index) => (
-                                    <figure className={styles.imageItem} onClick={handleImagePick} key={index}>
-                                        <img src={`http://localhost:3008/${props.product.imagens[index].path}`} alt={props.product.nome} />
+                                    <figure className={styles.imageItem} key={index}>
+                                        <img src={`http://localhost:3008/${props.product.imagens[index].path}`} alt={props.product.nome} onClick={handleImagePick} />
                                     </figure>
                             ))}
                             <MdKeyboardArrowRight
@@ -133,12 +133,12 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    // const response = await fetch(`http://localhost:3008/produto/listar`);
-    // const data = await response.json();
+    const response = await fetch(`http://localhost:3008/produto/listar`);
+    const data = await response.json();
 
-    const paths = [{
-        params: { id: '' }
-    }]
+    const paths = data.map(product => {
+        return { params: { id: product.id } }
+    });
 
     return {
         paths,

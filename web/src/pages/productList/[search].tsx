@@ -65,6 +65,8 @@ const ProductList: React.FC<ProductListProps> = (props) => {
         return <LoadingIcon />;
     }
 
+    const { query } = useRouter();
+
     return (
         <div className={styles.container}>
             <PageHeader />
@@ -83,12 +85,12 @@ const ProductList: React.FC<ProductListProps> = (props) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    // const response = await fetch(`http://localhost:3008/produto/listar`);
-    // const data = await response.json();
+    const response = await fetch(`http://localhost:3008/produto/listar`);
+    const data = await response.json();
 
-    const paths = [{
-        params: { search: '' }
-    }]
+    const paths = data.map(product => {
+        return { params: { search: 'a' } }
+    });
 
     return {
         paths,
@@ -103,7 +105,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
     const response = await fetch(`http://localhost:3008/produto/procurar/${search}`);
     const data = await response.json();
 
-    console.log(data, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
     return {
         props: {

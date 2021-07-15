@@ -113,13 +113,6 @@ const Pageuser: React.FC<PageUserProps> = (props) => {
                     </div>
                 </div>
                 <UserTable clients={tableItens} reload={reloadTable} />
-                <div className={styles.actionsContainer}>
-                    <div className={styles.buttonContainer}>
-                        <Link href="/userForm">
-                            <button className={styles.createButton}>Cadastrar</button>
-                        </Link>
-                    </div>
-                </div>
             </div>
             <PageFooter />
         </div>

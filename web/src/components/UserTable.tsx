@@ -1,31 +1,9 @@
-import { Button } from '@material-ui/core';
-import { GetStaticProps } from 'next';
-import Link from 'next/link';
-import React, { useState } from 'react';
-import styles from '../styles/components/UserTable.module.css';
-
-// var table = document.getElementById("table");
-// var lines = table.getElementsByTagName("tr");
-
-// for (var i = 0; i < lines.length; i++) {
-//     var line = lines[i];
-
-//     line.addEventListener("click", function () {
-//         selectLine(this, false);
-//     });
-// }
-
-// function selectLine(line, multiples) {
-//     if (!multiples) {
-//         var lines = line.parentElement.getElementsByTagName("tr");
-//         for (var i = 0; i < lines.length; i++) {
-//             var line_ = lines[i];
-//             line_.classList.remove(styles.selected);
-//         }
-//     }
-//     line.classList.toggle(styles.selected);
-// }
-
+import { Button } from "@material-ui/core";
+import { GetStaticProps } from "next";
+import Link from "next/link";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import styles from "../styles/components/UserTable.module.css";
 
 
 interface ClientTableProps {
@@ -34,113 +12,136 @@ interface ClientTableProps {
 }
 
 interface Client {
-    id: string,
-    pessoaFisica: PessoaFisica,
+    id: string;
+    pessoaFisica: PessoaFisica;
 }
 
 interface PessoaFisica {
-    nome: string,
-    rg: string,
-    cpf: string,
-    dtNasc: string,
-    pessoa: Pessoa,
+    nome: string;
+    rg: string;
+    cpf: string;
+    dtNasc: string;
+    pessoa: Pessoa;
 }
 
 interface Pessoa {
-    email: string,
+    email: string;
 }
 
-
 const UserTable: React.FC<ClientTableProps> = (props) => {
+    const [lineSelected, setLineSelected] = useState(null);
 
-    const cliquei = async (event) => {
+    const selecionaLinha = async (event) => {
         const linha: HTMLElement = event.target.parentNode;
-        
-        linha.className = `${styles.selected}`;
-    }
+
+        if (linha.tagName == "TR") {
+            if (!linha.className) {
+                if (lineSelected) {
+                    document
+                        .getElementsByClassName(`${styles.selected}`)[0]
+                        .removeAttribute("class");
+                }
+                linha.className += ` ${styles.selected}`;
+                setLineSelected(linha);
+            } else {
+                linha.removeAttribute("class");
+                setLineSelected(null);
+            }
+        }
+    };
+
+    const removeLinha = async (trIndex: number) => {
+        var el: any = document.getElementById("table");
+        el.deleteRow(trIndex);
+        setLineSelected(null);
+    };
 
     const alterUser = async (event) => {
-        event.preventDefault()
-    }
+        event.preventDefault();
+    };
 
-    const deleteUser = async (event, userid) => {
-        event.preventDefault()
-
-        console.log(event.target.key);
-        await fetch('http://localhost:3008/Cliente/Deletar', {
+    const deleteUser = async (userid: string, trIndex: number) => {
+        await fetch("http://localhost:3008/Cliente/Deletar", {
             body: JSON.stringify({
                 id: userid,
             }),
             headers: new Headers({
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
             }),
             method: "DELETE",
-        })
-            .then(async (res) => {
-                const result = await res.json();
-                // result.user => 'Ada Lovelace'
-                console.log(result);
-                props.reload();
-                // return {
-                //     props: { retorno: result, },
-                // }
-            }).catch((err) => console.log(err))
-    }
+        }).then(async (res) => {
+            const result = await res.json();
+            if (res.ok) {
+                removeLinha(trIndex);
+            } else {
+                throw res;
+            }
+            
+            // result.user => 'Ada Lovelace'
+            // return {
+            //     props: { retorno: result, },
+            // }
+        }).catch((err) => console.log(err));
+    };
 
     return (
         <div className={styles.clientTable}>
-            <table id="table" className={styles.table} onClick={cliquei}>
+            <table id="table" className={styles.table}>
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Nome</th>
                         <th>Rg</th>
                         <th>CPF</th>
                         <th>Data de Nascimennto</th>
                         <th>Email</th>
-                        <th>Alterar</th>
-                        <th>Excluir</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {props.clients.map((client, key) => (
-                        <tr key={key}>
-                            <td>{client.id}</td>
+                <tbody onClick={selecionaLinha}>
+                    {props.clients.map((client, index) => (
+                        <tr key={index}>
                             <td>{client.pessoaFisica.nome}</td>
                             <td>{client.pessoaFisica.rg}</td>
                             <td>{client.pessoaFisica.cpf}</td>
                             <td>{client.pessoaFisica.dtNasc}</td>
                             <td>{client.pessoaFisica.pessoa.email}</td>
-                            <td>
-                                <div className={styles.buttonContainer}>
-                                    <Link href={`/userForm/alter/${client.id}`}>
-                                        <a><button className={styles.updateButton}>Alterar</button></a>
-                                    </Link>
-                                </div>
-                            </td>
-                            <td>
-                                <div className={styles.buttonContainer}>
-                                    <Link href="/userForm">
-                                        <a><button className={styles.deleteButton} onClick={(event) => deleteUser(event, client.id)}>Excluir</button></a>
-                                    </Link>
-                                </div>
-                            </td>
-
                         </tr>
                     ))}
                 </tbody>
             </table>
+            <div className={styles.actionsContainer}>
+                <div className={styles.buttonContainer}>
+                    <button
+                        id="deletebtn"
+                        className={styles.deleteButton}
+                        onClick={() =>
+                            deleteUser(props.clients[lineSelected.rowIndex - 1].id, lineSelected.rowIndex)
+                        }
+                        disabled={!lineSelected}
+                    >
+                        Excluir
+                    </button>
+                    <a
+                        href={
+                            lineSelected
+                                ? `/userForm/alter/${props.clients[lineSelected.rowIndex - 1].id
+                                }`
+                                : ""
+                        }
+                    >
+                        <button id="updatebtn" className={styles.updateButton} disabled={!lineSelected}>
+                            Alterar
+                        </button>
+                    </a>
+                    <Link href="/userForm">
+                        <a>
+                            <button className={styles.createButton}>Cadastrar</button>
+                        </a>
+                    </Link>
+                </div>
+            </div>
         </div>
-    )
-}
+    );
+};
 
-// export const getStaticProps : GetStaticProps = async () => {
-//     const response = await fetch("http://localhost:3008/pessoa/listar")
-//     const data = await response.json();
-//     return {
-//         props: {client: Client,},
-//         revalidate: 0
-//     }
-// }
 export default UserTable;

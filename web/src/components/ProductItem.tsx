@@ -59,27 +59,25 @@ const ProductItem: React.FC<ProductItemProps> = (props) => {
                                 <figure>
                                     <img src={props.product.imagens[0].path} alt={props.product.nome} />
                                 </figure>
-                                <h2>{props.product.nome.length > 93
-                                    ? `${props.product.nome.slice(0, 93)}...`
-                                    : props.product.nome}
-                                </h2>
-                                <div className={styles.price}>
-                                    <strong className={styles.oldPrice}><span>R$</span>{(props.product.valorVenda * 1.1).toFixed(2)}</strong>
-                                    <strong className={styles.currentPrice}><span>R$</span>{parseFloat(toString(props.product.valorVenda)).toFixed(2)}</strong>
-                                    <span className={styles.installment}>10x de R$ {`${(props.product.valorVenda / 10).toFixed(2)} sem juros`}</span>
+                                <div className={styles.productInfo}>
+                                    <h2 title={props.product.nome}>{props.product.nome}</h2>
+                                    <div className={styles.price}>
+                                        <strong className={styles.oldPrice}><span>R$</span>{(props.product.valorVenda * 1.1).toFixed(2)}</strong>
+                                        <strong className={styles.currentPrice}><span>R$</span>{parseFloat(toString(props.product.valorVenda)).toFixed(2)}</strong>
+                                        <span className={styles.installment}>10x de R$ {`${(props.product.valorVenda / 10).toFixed(2)} sem juros`}</span>
+                                    </div>
                                 </div>
                             </div>
                             : <div className={styles.content}>
                                 <figure>
-                                    <img src={`http://localhost:3008/${props.product.imagens[0].path}`} alt={props.product.nome} />
+                                    <img src={`http://localhost:3008/${props.product.imagens[0].path}`} alt={props.product.nome} title={props.product.nome} />
                                 </figure>
-                                <h2>{props.product.nome.length > 93
-                                    ? `${props.product.nome.slice(0, 93)}...`
-                                    : props.product.nome}
-                                </h2>
-                                <div className={styles.price}>
-                                    <strong className={styles.currentPrice}><span>R$</span>{parseFloat(toString(props.product.valorVenda)).toFixed(2)}</strong>
-                                    <span className={styles.installment}>10x de R$ {`${(props.product.valorVenda / 10).toFixed(2)} sem juros`}</span>
+                                <div className={styles.productInfo}>
+                                    <h2 title={props.product.nome}>{props.product.nome}</h2>
+                                    <div className={styles.price}>
+                                        <strong className={styles.currentPrice}><span>R$</span>{parseFloat(toString(props.product.valorVenda)).toFixed(2)}</strong>
+                                        <span className={styles.installment}>10x de R$ {`${(props.product.valorVenda / 10).toFixed(2)} sem juros`}</span>
+                                    </div>
                                 </div>
                             </div>}
                     </div>
