@@ -39,6 +39,11 @@ class FornecedorRepository extends Repository<Fornecedor>{
             }
         });
     }
-
+    async buscarNomes() {
+        return this.createQueryBuilder("fornecedor")
+        .leftJoinAndSelect("fornecedor.pessoaJuridica", "pessoaJuridica")
+            .select(['fornecedor.id','pessoaJuridica.nomeFantasia'])
+            .getMany();
+    }
 }
 export { FornecedorRepository };

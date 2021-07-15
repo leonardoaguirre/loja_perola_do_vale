@@ -80,6 +80,18 @@ class ControleFornecedor {
                 }
             })
     }
+    async listarNomes(request: Request, response: Response) {
+        const fornecedorRepository = getCustomRepository(FornecedorRepository);
+
+        await fornecedorRepository.buscarNomes()
+            .then(all => {
+                if (all.length > 0) {
+                    return response.status(200).json(all);
+                } else {
+                    return response.status(400).json(new AppError('Nenhum fornecedor encontrado', 'fornecedor'));
+                }
+            })
+    }
     async buscarPorId(request: Request, response: Response) {
         const id = request.params.idFornecedor;
         const fornecedorRepository = getCustomRepository(FornecedorRepository);
