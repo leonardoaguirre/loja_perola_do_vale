@@ -1,0 +1,77 @@
+.footer {
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--secondary);
+  color: white;
+}
+
+.topBarContainer {
+  width: 85%;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topBarContainer a {
+  transition: 0.2s;
+}
+
+.topBarContainer a:hover {
+  opacity: 0.6;
+}
+
+.logoContainter a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#logoImg {
+  height: 10rem;
+}
+
+#logoTitle {
+  height: 7rem;
+}
+
+.linksContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.linksContainer a {
+  display: inline-flex;
+}
+
+.linksContainer img {
+  height: 2rem;
+  width: 2rem;
+}
+
+.mapLocation {
+  padding-right: 1.2rem;
+  border-right: 2px solid white;
+}
+
+.socialMedias a {
+  padding: 1rem;
+}
+
+.footerContent {
+  width: 85%;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  padding-bottom: 2rem;
+}
+
+.footerContent p {
+  font-size: 0.7rem;
+}

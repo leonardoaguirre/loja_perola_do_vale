@@ -10,6 +10,7 @@ import LoadingIcon from '../components/LoadingIcon';
 import { Button } from 'react-bootstrap';
 import Header from '../components/Header';
 import Navigation from '../components/Navigation';
+import Footer from '../components/Footer';
 
 export default function Home() {
     //dotenv.config({path : "../.env.local"});
@@ -27,7 +28,7 @@ export default function Home() {
                 <Banner source={images} />
                 <Button variant="primary">Primary</Button>{' '}
             </div>
-            <PageFooter />
+            <Footer />
         </div>
     )
 }
