@@ -5,7 +5,6 @@ import { Categoria } from '../models/Categoria';
 import { ProdutoRepository } from '../repositorios/ProdutoRepository';
 import { ControleCategoria } from './ControleCategoria';
 import fs from 'fs';
-import path from 'path';
 import { ControleImgs } from './ControleImgs';
 import { Imagem } from '../models/Imagem';
 import { Produto } from '../models/Produto';
@@ -16,16 +15,19 @@ class ControleProduto {
         const { nome, marca, descricao, valorVenda, codBarra, quantidade, peso, altura, largura, comprimento } = request.body;
         const categoriasBody: string[] = request.body.categorias;
 
-
         const categorias = new Array<Categoria>();
+        const imgs = new Array<Imagem>();
         const controleCategoria = new ControleCategoria();
         const controleImgs = new ControleImgs();
 
         for (const cat of categoriasBody) {
             categorias.push(await controleCategoria.buscaCategoria(cat));
         }
+        for (const img of await controleImgs.getImgs(request)) {
+            imgs.push(img);
+        }
 
-        const produto = produtoRepository.create({
+        const produto: Produto = produtoRepository.create({
             nome,
             marca,
             descricao,
@@ -36,18 +38,15 @@ class ControleProduto {
             altura,
             largura,
             comprimento,
-            categorias: categorias
+            categorias: categorias,
         });
-        //variavel de retorno da insercao das imagens fora do try
-        let imgs = new Array<Imagem>();
+
         try {
             if (request.files.length == 0) {
-                throw new AppError("O produto deve conter pelo menos 1 imagem", 'produto')
+                throw new AppError("O produto deve conter pelo menos 1 imagem.", 'produto')
             }
-            await getManager().transaction(async transactionalEntityManager => {
 
-                const prod = await transactionalEntityManager.save(produto);
-                imgs = await controleImgs.adicionar(request, response, prod, transactionalEntityManager);
+            await getManager().transaction(async transactionalEntityManager => {
 
                 const valida = await produtoRepository.validaDados(produto);
                 if (valida.length > 0) {
@@ -57,6 +56,7 @@ class ControleProduto {
                 if (verifica) {
                     throw new AppError('Produto ja cadastrado', 'produto');
                 }
+                await controleImgs.adicionar(request, response, await transactionalEntityManager.save(produto), transactionalEntityManager);
             });
 
             return response.status(200).json({ message: 'Produto cadastrado com sucesso' });
@@ -74,11 +74,11 @@ class ControleProduto {
     async alterar(request: Request, response: Response) {
         const produtoRepository = getCustomRepository(ProdutoRepository);
         const { nome, marca, descricao, valorVenda, codBarra, quantidade, peso, altura, largura, comprimento } = request.body;
-        let categoriasBody: string[];
-        categoriasBody.push(request.body.categorias);
+        const categoriasBody: string[] = request.body.categorias;
+
         const id = request.params.idProduto;
 
-
+        const imgs = Array<Imagem>();
         const categorias = new Array<Categoria>();
         const controleCategoria = new ControleCategoria();
         const controleImgs = new ControleImgs();
@@ -96,7 +96,7 @@ class ControleProduto {
             largura,
             comprimento,
         });
-        let imgs = Array<Imagem>();
+
 
         try {
             if (request.files.length == 0) {
@@ -108,9 +108,6 @@ class ControleProduto {
                 if (!prodExiste) {
                     throw new AppError('Produto não existe', 'produto');
                 }
-                await controleImgs.deletar(request, response, prodExiste, transactionalEntityManager);
-
-                imgs = await controleImgs.adicionar(request, response, prodExiste, transactionalEntityManager);
 
                 const valida = await produtoRepository.validaDados(produto);
                 if (valida.length > 0) {
@@ -120,26 +117,44 @@ class ControleProduto {
                 if (verifica && (prodExiste.codBarra !== produto.codBarra) && (produto.codBarra == verifica.codBarra)) {
                     throw new AppError('Codigo de barra ja cadastrado', 'produto');
                 }
-
-                categoriasBody.forEach(async cat => {
-                    console.log(cat);
+                for (const cat of categoriasBody) {
                     categorias.push(await controleCategoria.buscaCategoria(cat));
-                })
-                prodExiste.categorias = prodExiste.categorias.filter((catEx, i) => {
-                    catEx.id != categorias[i].id;
-                })
-                await transactionalEntityManager.save(prodExiste);
-
-                await transactionalEntityManager.update(Produto, id, produto);
-
+                }
                 for (const img of prodExiste.imagens) {
+                    await transactionalEntityManager.delete(Imagem, img.id);
                     fs.rm(img.path, { recursive: true, force: true, }, (error) => {
                         if (error) throw error;
                     })
                 }
+
+                const produtoAlterado = transactionalEntityManager.merge(Produto, prodExiste, {
+                    nome: produto.nome,
+                    marca: produto.marca,
+                    descricao: produto.descricao,
+                    valorVenda: produto.valorVenda,
+                    codBarra: produto.codBarra,
+                    quantidade: produto.quantidade,
+                    peso: produto.peso,
+                    altura: produto.altura,
+                    largura: produto.largura,
+                    comprimento: produto.comprimento,
+                    categorias: categorias,
+                })
+                for (const img of await controleImgs.getImgs(request)) {
+                    img.produto = produtoAlterado;
+                    imgs.push(img);
+                }
+                produtoAlterado.imagens = imgs;
+
+                await transactionalEntityManager.save(produtoAlterado)
+                    .then(async () => {
+                        await transactionalEntityManager.save(imgs)
+                            .catch(res => { throw res })
+                    })
+                    .catch(res => { throw res })
             });
 
-            return response.status(200).json({ message: 'Produto cadastrado com sucesso' });
+            return response.status(200).json({ message: 'Produto alterado com sucesso' });
 
         } catch (error) {
             //exclui somente as imagens que foram tentadas a serem inseridas
@@ -188,7 +203,7 @@ class ControleProduto {
         })
     }
     async buscarPorId(request: Request, response: Response) {
-        const id  = request.params.idProduto;
+        const id = request.params.idProduto;
         const produtoRepository = getCustomRepository(ProdutoRepository);
 
         try {
@@ -223,11 +238,11 @@ class ControleProduto {
 
         await produtoRepository.procura(pesquisa)
             .then(res => {
-                if(res.length==0){
-                    throw new AppError('Nenhum produto encontrado','produto');
+                if (res.length == 0) {
+                    throw new AppError('Nenhum produto encontrado', 'produto');
                 }
                 return response.status(200).json(res);
-            }).catch(err=>{
+            }).catch(err => {
                 return response.status(400).json(err);
             })
     }
