@@ -14,11 +14,7 @@ class CategoriaRepository extends Repository<Categoria>{
             })
     }
     async buscaPorId(busca: string) {
-        return await this.findOne({
-            where: {
-                id: busca
-            }
-        });
+        return this.findOne({id : busca});
     }
 
 }
