@@ -7,6 +7,9 @@ import styles from '../styles/pages/Home.module.css';
 import * as dotenv from 'dotenv';
 import { useEffect } from 'react';
 import LoadingIcon from '../components/LoadingIcon';
+import { Button } from 'react-bootstrap';
+import Header from '../components/Header';
+import Navigation from '../components/Navigation';
 
 export default function Home() {
     //dotenv.config({path : "../.env.local"});
@@ -17,11 +20,12 @@ export default function Home() {
             <Head>
                 <title>Início | Ferragens Pérola do Vale</title>
             </Head>
-            <PageHeader />
-            <SubHeader />
+            <Header />
+            <Navigation />
             <div className={styles.home}>
                 Promoção
                 <Banner source={images} />
+                <Button variant="primary">Primary</Button>{' '}
             </div>
             <PageFooter />
         </div>

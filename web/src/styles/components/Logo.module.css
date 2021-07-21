@@ -1,0 +1,15 @@
+.logoContainter a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  nav-index: 1;
+}
+
+.logoContainter a #logoImg {
+  height: 5.5rem;
+}
+
+.logoContainter a #logoTitle {
+  height: 4.5rem;
+}

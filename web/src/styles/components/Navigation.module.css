@@ -1,0 +1,16 @@
+.navigation {
+  font-size: 1.2rem;
+}
+
+.navigationItensContainer {
+  align-items: center;
+}
+
+.navigationItensContainer > a {
+  margin: 0 1rem;
+}
+
+.navigationContent {
+  width: 95%;
+  max-width: 1280px;
+}
