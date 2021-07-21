@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FormEvent, ChangeEvent } from 'react';
 import { uniqueId } from 'lodash';
 import filesize from 'filesize';
 import { MdAddBox } from "react-icons/md";
@@ -12,31 +12,47 @@ import styles from '../../styles/pages/ProductForm.module.css';
 import Upload from '../../components/Upload';
 
 interface UploadedFiles {
+    file: File,
     id: string,
     preview: string,
     name: string,
     readableSize: string,
     uploaded: boolean,
     error: boolean,
-    progress: number,
     url: string
 }
 
 interface Category {
     id: string;
-    name: string;
+    descricao: string;
 }
 
 interface Provider {
     id: string;
-    name: string;
+    pessoaJuridica: {
+        nomeFantasia: string;
+    }
 }
 
 function productForm() {
 
+    const [formData, setFormData] = useState({
+        nome: '',
+        marca: '',
+        descricao: '',
+        valorVenda: '',
+        codBarra: '',
+        quantidade: '',
+        peso: '',
+        altura: '',
+        largura: '',
+        comprimento: ''
+        // fornecedor: ''
+    });
+
     const [categories, setCategories] = useState<Category[]>([]);
     const [providers, setProviders] = useState<Provider[]>([]);
-    
+
     const [categoriesSelected, setCategoriesSelected] = useState<Category[]>([]);
     const [providersSelected, setProvidersSelected] = useState<Provider[]>([]);
 
@@ -46,6 +62,8 @@ function productForm() {
     const [isUploadDisabled, setIsUploadDisabled] = useState<boolean>(true);
     const [limit, setLimit] = useState<number>(5);
     const [uploadedFiles, setUploadedFiles] = useState<UploadedFiles[]>([]);
+
+    const [images, setImages] = useState<File[]>([]);
 
 
     const handleSelectCategory = (event) => {
@@ -62,7 +80,7 @@ function productForm() {
         setIsCategorySelectActive(false);
     }
 
-    const handleDeleteCategory = (category : Category) => {
+    const handleDeleteCategory = (category: Category) => {
         setCategoriesSelected(categoriesSelected.filter(categoryKeep => categoryKeep !== category));
         setCategories(categories.concat(category));
     };
@@ -81,23 +99,24 @@ function productForm() {
         setIsProviderSelectActive(false);
     }
 
-    const handleDeleteProvider = (provider : Provider) => {
+    const handleDeleteProvider = (provider: Provider) => {
         setProvidersSelected(providersSelected.filter(providerKeep => providerKeep !== provider));
         setProviders(providers.concat(provider));
     };
 
     useEffect(() => {
-    //     const categories = [{ id: '1', name: 'Eletrônicos' }, { id: '2', name: 'Ferramentas' }, { id: '3', name: 'Escritório' }, { id: '4', name: 'Eletrônicos' }, { id: '5', name: 'Ferramentas' }, { id: '6', name: 'Escritório' }, { id: '7', name: 'Eletrônicos' }, { id: '8', name: 'Ferramentas' }, { id: '9', name: 'Escritório' }];
-    //     const providers = [{ id: '1', name: 'MJR Cunha Distribuidora de Materiais para Construção' },
-    //     { id: '2', name: 'Construjá Distribuidora de Materiais para Construção Ltda' },
-    //     { id: '3', name: 'Granstoque Atacadista de Materiais Para Construção' }];
-    //     const categoriesSelected = [{ id: '1', name: 'Eletrônicos' },
-    //     { id: '2', name: 'Ferramentas' },
-    //     { id: '3', name: 'Escritório' }]
+        //     const categories = [{ id: '1', name: 'Eletrônicos' }, { id: '2', name: 'Ferramentas' }, { id: '3', name: 'Escritório' }, { id: '4', name: 'Eletrônicos' }, { id: '5', name: 'Ferramentas' }, { id: '6', name: 'Escritório' }, { id: '7', name: 'Eletrônicos' }, { id: '8', name: 'Ferramentas' }, { id: '9', name: 'Escritório' }];
+        //     const providers = [{ id: '1', name: 'MJR Cunha Distribuidora de Materiais para Construção' },
+        //     { id: '2', name: 'Construjá Distribuidora de Materiais para Construção Ltda' },
+        //     { id: '3', name: 'Granstoque Atacadista de Materiais Para Construção' }];
+        //     const categoriesSelected = [{ id: '1', name: 'Eletrônicos' },
+        //     { id: '2', name: 'Ferramentas' },
+        //     { id: '3', name: 'Escritório' }]
 
-    //     setCategories(categories);
-    //     setProviders(providers);
-        const providersData = fillProviders();
+        //     setCategories(categories);
+        //     setProviders(providers);
+        fillProviders();
+        fillCategories();
 
     }, [])
 
@@ -138,9 +157,9 @@ function productForm() {
         } else {
             setIsUploadDisabled(true);
         }
-    },[uploadedFiles]);
+    }, [uploadedFiles]);
 
-    const handleUpload = files => {
+    const handleUpload = (files: File[]) => {
         if (uploadedFiles.length < 5) {
             const uploadedFilesNew = files.map(file => ({
                 file,
@@ -153,7 +172,7 @@ function productForm() {
                 error: false,
                 url: null,
             }))
-    
+
             setUploadedFiles(uploadedFiles.concat(uploadedFilesNew));
         }
     };
@@ -177,10 +196,73 @@ function productForm() {
     }
 
     const fillProviders = async () => {
-        const response = await fetch("http://localhost:3008/fornecedor/listar");
-        const data = await response.json();
+        const response = await fetch("http://localhost:3008/fornecedor/ListarNomes");
+        const data: Provider[] = await response.json();
 
-        return data;
+        setProviders(data);
+    }
+
+    const fillCategories = async () => {
+        const response = await fetch("http://localhost:3008/categoria/listar");
+        const data: Category[] = await response.json();
+
+        setCategories(data);
+    }
+
+    function handleInputChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+        const { name, value } = event.target;
+
+        setFormData({ ...formData, [name]: value })
+    }
+
+    async function handleSubmit(event: FormEvent) {
+        event.preventDefault();
+
+        const { nome,
+            marca,
+            descricao,
+            valorVenda,
+            codBarra,
+            quantidade,
+            peso,
+            altura,
+            largura,
+            comprimento
+        } = formData;
+
+        const categories = categoriesSelected;
+        // const providers = providersSelected;
+
+        const data = new FormData();
+
+        data.append('nome', nome);
+        data.append('codBarra', codBarra);
+        data.append('marca', marca);
+        data.append('descricao', descricao);
+        data.append('quantidade', quantidade);
+        data.append('altura', altura);
+        data.append('largura', largura);
+        data.append('comprimento', comprimento);
+        data.append('valorVenda', valorVenda);
+        data.append('peso', peso);
+        categories.forEach((category) => { data.append('categorias', category.id) });
+
+        if (uploadedFiles) {
+            uploadedFiles.forEach((img) => { data.append('images', img.file) });
+        } else {
+            return 0;
+        }
+
+        await fetch('http://localhost:3008/produto/adicionar', {
+            body: data,
+            method: 'POST'
+        }).then((res) => {
+            if (res.ok) {
+                console.log(res)
+            } else {
+                console.log(res)
+            }
+        });
     }
 
     return (
@@ -189,36 +271,60 @@ function productForm() {
             <div className={styles.productForm}>
                 <h1>Cadastrar Produto</h1>
                 <div className={styles.formContainer}>
-                    <form encType="multipart/form-data">
+                    <form encType="multipart/form-data" onSubmit={handleSubmit}>
                         <div className={styles.name}>
                             <label htmlFor="nome">Nome</label>
                             <div className={styles.inputContainer}>
-                                <input type="text" placeholder="Nome" name="nome" autoComplete="off" required />
+                                <input type="text" placeholder="Nome" name="nome" autoComplete="off" onChange={handleInputChange} required />
                             </div>
                         </div>
                         <div className={styles.brand}>
                             <label htmlFor="marca">Marca</label>
                             <div className={styles.inputContainer}>
-                                <input type="text" placeholder="Marca" name="marca" autoComplete="off" required />
+                                <input type="text" placeholder="Marca" name="marca" autoComplete="off" onChange={handleInputChange} required />
                             </div>
                         </div>
                         <div className={styles.description}>
                             <label htmlFor="descricao">Descrição</label>
                             <div className={styles.inputContainer}>
-                                <textarea placeholder="Descrição" name="descricao" autoComplete="off" required />
+                                <textarea placeholder="Descrição" name="descricao" autoComplete="off" onChange={handleInputChange} required />
+                            </div>
+                        </div>
+                        <div className={styles.qtd}>
+                            <label htmlFor="quantidade">Quantidade</label>
+                            <div className={styles.inputContainer}>
+                                <input type="text" placeholder="quantidade" name="quantidade" autoComplete="off" onChange={handleInputChange} required />
+                            </div>
+                        </div>
+                        <div className={styles.peso}>
+                            <label htmlFor="Peso">Peso</label>
+                            <div className={styles.inputContainer}>
+                                <input type="text" placeholder="Peso" name="peso" autoComplete="off" onChange={handleInputChange} required />
+                            </div>
+                        </div>
+                        <div className={styles.altura}>
+                            <label htmlFor="altura">Altura</label>
+                            <div className={styles.inputContainer}>
+                                <input type="text" placeholder="Altura" name="altura" autoComplete="off" onChange={handleInputChange} required />
                             </div>
                         </div>
                         <div className={styles.size}>
-                            <label htmlFor="tamanho">Tamanho</label>
+                            <label htmlFor="largura">Largura</label>
                             <div className={styles.inputContainer}>
-                                <input type="text" placeholder="Tamanho" name="tamanho" autoComplete="off" required />
+                                <input type="text" placeholder="Largura" name="largura" autoComplete="off" onChange={handleInputChange} required />
+                            </div>
+                        </div>
+                        <div className={styles.comprimento}>
+                            <label htmlFor="comprimento">comprimento</label>
+                            <div className={styles.inputContainer}>
+                                <input type="text" placeholder="comprimento" name="comprimento" autoComplete="off" onChange={handleInputChange} required />
                             </div>
                         </div>
                         <div className={styles.salePrice}>
-                            <label htmlFor="precoDeVenda">Preço de venda</label>
+                            <label htmlFor="valorVenda">Preço de venda</label>
                             <div className={styles.inputContainer}>
                                 <div className={styles.currency}>R$</div>
-                                <input type="text" placeholder="" name="precoDeVenda" autoComplete="off" required />
+                                <input type="text" placeholder="" name="valorVenda" autoComplete="off" onChange={handleInputChange} required />
                             </div>
                         </div>
                         <div className={styles.provider}>
@@ -228,12 +334,12 @@ function productForm() {
                                     <select name="fornecedor" onChange={handleSelectProvider}>
                                         <option value="0">Selecione um fonecedor</option>
                                         {providers.map(provider => (
-                                            <option key={provider.id} value={provider.id}>{provider.name}</option>
+                                            <option key={provider.id} value={provider.id}>{provider.pessoaJuridica.nomeFantasia}</option>
                                         ))}
                                     </select>
                                     {providersSelected.length > 0
-                                    ? <div className={styles.cancelSelect}><button onClick={handleCancelSelectProvider}>Cancelar</button></div>
-                                    : ''}
+                                        ? <div className={styles.cancelSelect}><button onClick={handleCancelSelectProvider}>Cancelar</button></div>
+                                        : ''}
                                 </div>
                                 : <button className={styles.addProvider} onClick={handleAddProvider}>
                                     <span>Adicionar fornecedor</span>
@@ -243,9 +349,9 @@ function productForm() {
                                     />
                                 </button>}
                             <div className={styles.providersSelected}>
-                            {providersSelected.map(providerSelected => (
+                                {providersSelected.map(providerSelected => (
                                     <div key={providerSelected.id} className={styles.providerItemSelected}>
-                                        <div>{providerSelected.name}</div>
+                                        <div>{providerSelected.pessoaJuridica.nomeFantasia}</div>
                                         <button onClick={() => handleDeleteProvider(providerSelected)}>
                                             <img src="/icons/close_black_36dp.svg" alt="x" title="Excluir" />
                                         </button>
@@ -260,12 +366,12 @@ function productForm() {
                                     <select name="categoria" onChange={handleSelectCategory}>
                                         <option value="0">Selecione uma categoria</option>
                                         {categories.map(category => (
-                                            <option key={category.id} value={category.id}>{category.name}</option>
+                                            <option key={category.id} value={category.id}>{category.descricao}</option>
                                         ))}
                                     </select>
                                     {categoriesSelected.length > 0
-                                    ? <div className={styles.cancelSelect}><button onClick={handleCancelSelectCategory}>Cancelar</button></div>
-                                    : ''}
+                                        ? <div className={styles.cancelSelect}><button onClick={handleCancelSelectCategory}>Cancelar</button></div>
+                                        : ''}
                                 </div>
                                 : <button className={styles.addCategory} onClick={handleAddCategory}>
                                     <span>Adicionar categoria</span>
@@ -278,7 +384,7 @@ function productForm() {
                             <div className={styles.categoriesSelected}>
                                 {categoriesSelected.map(categorySelected => (
                                     <div key={categorySelected.id} className={styles.categoryItemSelected}>
-                                        <div>{categorySelected.name}</div>
+                                        <div>{categorySelected.descricao}</div>
                                         <button onClick={() => handleDeleteCategory(categorySelected)}>
                                             <img src="/icons/close_black_36dp.svg" alt="x" title="Excluir" />
                                         </button>
@@ -287,24 +393,26 @@ function productForm() {
                             </div>
                         </div>
                         <div className={styles.barcode}>
-                            <label htmlFor="codigo de barra">Código de barra</label>
+                            <label htmlFor="codBarra">Código de barra</label>
                             <div className={styles.inputContainer}>
                                 <input
+                                    name="codBarra"
                                     type="text"
                                     placeholder="Código de barra"
                                     minLength={12}
                                     maxLength={13}
                                     autoComplete="off"
                                     required
+                                    onChange={handleInputChange}
                                 />
                             </div>
                         </div>
                         <div className={styles.image}>
                             <label htmlFor="imagem">Imagem</label>
                             <div className={styles.inputContainer}>
-                                <Upload 
-                                    onUpload={handleUpload} 
-                                    filesLength={uploadedFiles.length} 
+                                <Upload
+                                    onUpload={handleUpload}
+                                    filesLength={uploadedFiles.length}
                                     filesLimit={limit}
                                     isDisabled={isUploadDisabled}
                                 />
