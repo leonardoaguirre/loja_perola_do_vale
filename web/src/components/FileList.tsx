@@ -15,7 +15,6 @@ interface UploadedFiles {
     readableSize: string,
     uploaded: boolean,
     error: boolean,
-    progress: number,
     url: string
 }
 
