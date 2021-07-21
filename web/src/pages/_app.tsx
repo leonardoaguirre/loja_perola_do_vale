@@ -1,5 +1,5 @@
 import '../styles/global.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import '../custom.scss';
 import * as dotenv from 'dotenv';
 
 import { UserProvider } from '../contexts/UserContext';
