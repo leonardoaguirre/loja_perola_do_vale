@@ -62,9 +62,9 @@ const ProductItem: React.FC<ProductItemProps> = (props) => {
                                 <div className={styles.productInfo}>
                                     <h2 title={props.product.nome}>{props.product.nome}</h2>
                                     <div className={styles.price}>
-                                        <strong className={styles.oldPrice}><span>R$</span>{(props.product.valorVenda * 1.1).toFixed(2)}</strong>
-                                        <strong className={styles.currentPrice}><span>R$</span>{parseFloat(toString(props.product.valorVenda)).toFixed(2)}</strong>
-                                        <span className={styles.installment}>10x de R$ {`${(props.product.valorVenda / 10).toFixed(2)} sem juros`}</span>
+                                        <strong className={styles.oldPrice}><span>R$</span>{(props.product.valorVenda * 1.1).toFixed(2).replace('.', ',')}</strong>
+                                        <strong className={styles.currentPrice}><span>R$</span>{parseFloat(toString(props.product.valorVenda)).toFixed(2).replace('.', ',')}</strong>
+                                        <span className={styles.installment}>10x de R$ {`${(props.product.valorVenda / 10).toFixed(2).replace('.', ',')} sem juros`}</span>
                                     </div>
                                 </div>
                             </div>
@@ -75,8 +75,8 @@ const ProductItem: React.FC<ProductItemProps> = (props) => {
                                 <div className={styles.productInfo}>
                                     <h2 title={props.product.nome}>{props.product.nome}</h2>
                                     <div className={styles.price}>
-                                        <strong className={styles.currentPrice}><span>R$</span>{parseFloat(toString(props.product.valorVenda)).toFixed(2)}</strong>
-                                        <span className={styles.installment}>10x de R$ {`${(props.product.valorVenda / 10).toFixed(2)} sem juros`}</span>
+                                        <strong className={styles.currentPrice}><span>R$</span>{parseFloat(toString(props.product.valorVenda)).toFixed(2).replace('.', ',')}</strong>
+                                        <span className={styles.installment}>10x de R$ {`${(props.product.valorVenda / 10).toFixed(2).replace('.', ',')} sem juros`}</span>
                                     </div>
                                 </div>
                             </div>}

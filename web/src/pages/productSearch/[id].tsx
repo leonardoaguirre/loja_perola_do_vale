@@ -105,8 +105,8 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
                 </section>
                 <section className={styles.buy}>
                     <div className={styles.price}>
-                        <strong className={styles.currentPrice}><span className={styles.currence}>R$</span>{parseFloat(toString(props.product.valorVenda)).toFixed(2)}</strong>
-                        <span className={styles.installment}><span className={styles.times}>10x</span> de <span className={styles.currence}>R$</span> <span className={styles.dividedValue}>{(props.product.valorVenda / 10).toFixed(2)}</span> sem juros</span>
+                        <strong className={styles.currentPrice}><span className={styles.currence}>R$</span>{parseFloat(toString(props.product.valorVenda)).toFixed(2).replace('.', ',')}</strong>
+                        <span className={styles.installment}><span className={styles.times}>10x</span> de <span className={styles.currence}>R$</span> <span className={styles.dividedValue}>{(props.product.valorVenda / 10).toFixed(2).replace('.', ',')}</span> sem juros</span>
                         <hr />
                     </div>
                     <div className={styles.amount}>
