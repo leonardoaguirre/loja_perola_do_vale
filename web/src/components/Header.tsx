@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 
 import { UserContext } from "../contexts/UserContext";
@@ -17,6 +18,8 @@ import Logo from "./Logo";
 interface HeaderProps { }
 
 const Header: React.FC<HeaderProps> = (props) => {
+  const router = useRouter();
+
   const { user, logoutUser } = useContext(UserContext);
 
   const [search, setSearch] = useState("");
@@ -24,6 +27,10 @@ const Header: React.FC<HeaderProps> = (props) => {
   const handleInputSearch = (event) => {
     setSearch(event.target.value);
   };
+
+  const handleSearch = () => {
+    router.push(`http://localhost:3000/productList/${search}`);
+  }
 
   return (
     <Container fluid color="secondary">
@@ -42,7 +49,7 @@ const Header: React.FC<HeaderProps> = (props) => {
                   aria-label="Large"
                   aria-describedby="inputGroup-sizing-sm"
                 />
-                <Button className={styles.searchButton} variant="light" id="button-addon2">
+                <Button className={styles.searchButton} variant="light" id="button-addon2" onClick={handleSearch}>
                   {/* <Link href={`/productList/${search}`}>
                     <a>
                       <img
