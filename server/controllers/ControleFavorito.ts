@@ -67,6 +67,24 @@ class ControleFavorito {
             return response.status(400).json(error);
         }
     }
+    async verificaFavorito(request: Request, response: Response){
+        const favoritoRepository = getCustomRepository(FavoritoRepository);
+        const { idProduto, idPessoa } = request.params;
+        let favoritado = false;
+
+        try {
+            await favoritoRepository.findOne({ where: { pessoa: { id: idPessoa },produto : {id : idProduto} }})
+            .then(async res=>{
+                if(res){
+                   favoritado =true;
+                }
+                const nFavoritos = await favoritoRepository.findAndCount({where : {produto : {id : idProduto}}});
+                return response.status(200).json({favoritado, nFavoritos: nFavoritos[1]});
+            })
+        } catch (error) {
+            return response.status(400).json(error);
+        }
+    }
     async deletar(request: Request, response: Response) {
         const favoritoRepository = getCustomRepository(FavoritoRepository);
         const { idFavorito } = request.body;
