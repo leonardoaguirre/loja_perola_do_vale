@@ -8,11 +8,11 @@ class Favorito {
     @PrimaryGeneratedColumn("increment")
     id: Int32Array;
 
-    @OneToOne(() => Pessoa, { eager: true, onDelete: 'NO ACTION', onUpdate: 'NO ACTION' })
+    @OneToOne(() => Pessoa, { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' })
     @JoinColumn({ name: "id_pessoa_fk", referencedColumnName: 'id' })
     pessoa: Pessoa;
 
-    @OneToOne(() => Produto, { eager: true, onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+    @OneToOne(() => Produto, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     @JoinColumn({ name: "id_produto_fk", referencedColumnName: 'id' })
     produto: Produto
 

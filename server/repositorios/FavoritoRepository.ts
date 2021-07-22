@@ -9,7 +9,7 @@ class FavoritoRepository extends Repository<Favorito>{
         return await validate(Favorito);
     }
     async verifica(favorito: Favorito) {
-        return await this.find(favorito)
+        return await this.findOne(favorito)
             .then(result => {
                 return result;
             })

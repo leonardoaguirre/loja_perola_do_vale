@@ -17,18 +17,19 @@ class ControleFavorito {
             produto: { id: idProduto }
         })
         try {
-            if(await favoritoRepository.verifica(favorito)){
-                throw new AppError('Este item ja foi favoritado!','favorito');
-            }
             const prodExiste = await controleProduto.buscaProduto(favorito.produto.id);
             const pessoaExiste = await controlePessoa.buscaPessoa(favorito.pessoa.id);
-            
-            if (prodExiste && pessoaExiste) {
-                favoritoRepository.save(favorito);
-                return response.status(200).json('Favorito adicionado com sucesso!');
-            } else {
+
+            if (!prodExiste && !pessoaExiste) {
                 throw new AppError('Produto ou pessoa inexistente!', 'erro')
             }
+            const favExiste = await favoritoRepository.verifica(favorito)
+            if (favExiste) {
+                throw new AppError('Este item ja foi favoritado!', 'favorito');
+            }
+            favoritoRepository.save(favorito);
+            return response.status(200).json('Favorito adicionado com sucesso!');
+
         } catch (error) {
             return response.status(400).json(error);
         }
@@ -38,7 +39,7 @@ class ControleFavorito {
         const favoritoRepository = getCustomRepository(FavoritoRepository);
 
         try {
-            await favoritoRepository.find().then((res) => {
+            await favoritoRepository.find({loadRelationIds : true}).then((res) => {
                 if (res.length > 0) {
                     return response.status(200).json(res);
                 } else {
@@ -54,7 +55,7 @@ class ControleFavorito {
         const idPessoa = request.params.idPessoa;
 
         try {
-            await favoritoRepository.find({ where: { pessoa: { id: idPessoa } } }).then((res) => {
+            await favoritoRepository.find({ where: { pessoa: { id: idPessoa } },loadRelationIds:true }).then((res) => {
                 if (res) {
                     return response.status(200).json(res);
                 } else {
