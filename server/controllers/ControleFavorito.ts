@@ -71,15 +71,17 @@ class ControleFavorito {
         const favoritoRepository = getCustomRepository(FavoritoRepository);
         const { idProduto, idPessoa } = request.params;
         let favoritado = false;
+        let idFavorito = null;
 
         try {
             await favoritoRepository.findOne({ where: { pessoa: { id: idPessoa }, produto: { id: idProduto } } })
                 .then(async res => {
                     if (res) {
                         favoritado = true;
+                        idFavorito = res.id
                     }
                     const nFavoritos = await favoritoRepository.findAndCount({ where: { produto: { id: idProduto } } });
-                    return response.status(200).json({ favoritado, nFavoritos: nFavoritos[1], idFavorito : res.id });
+                    return response.status(200).json({ favoritado, nFavoritos: nFavoritos[1], idFavorito });
                 })
         } catch (error) {
             return response.status(400).json(error);
