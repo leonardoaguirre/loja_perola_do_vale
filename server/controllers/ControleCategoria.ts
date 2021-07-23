@@ -49,7 +49,7 @@ class ControleCategoria {
     }
     async buscaPorId(request: Request, response: Response) {
         const categoriaRepository = getCustomRepository(CategoriaRepository);
-        const id = request.params.idcategoria;
+        const id = request.params.idCategoria;
 
         await categoriaRepository.buscaPorId(id)
             .then((result) => {

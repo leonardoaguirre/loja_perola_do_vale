@@ -15,6 +15,5 @@ produtoRoutes.get('/BuscarPorId/:idProduto',controleProduto.buscarPorId);
 produtoRoutes.post('/Adicionar',upload.array('images',5),controleProduto.adicionar);
 produtoRoutes.patch('/Alterar/:idProduto',upload.array('images',5),controleProduto.alterar);
 produtoRoutes.delete('/Deletar',controleProduto.deletar);
-produtoRoutes.post('/Teste',upload.array("images",5),controleImgs.teste);
 
 export{produtoRoutes};
