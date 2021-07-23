@@ -105,6 +105,24 @@ class ControleFavorito {
             return response.status(400).json(error);
         }
     }
+    async deletarPorId(request: Request, response: Response) {
+        const favoritoRepository = getCustomRepository(FavoritoRepository);
+        const { idFavorito } = request.body;
+
+        try {
+            await favoritoRepository.findOne(idFavorito).then(async res => {
+                if (res) {
+                    await favoritoRepository.delete(res);
+                    return response.status(200).json({ message: "Favorito foi deletado com sucessso!" });
+                } else {
+                    throw new AppError("O favorito a ser deletado nao foi encontrado", 'favorito');
+                }
+            }).catch(erro=>{throw erro});
+
+        } catch (error) {
+            return response.status(400).json(error);
+        }
+    }
 
 }
 export { ControleFavorito };
