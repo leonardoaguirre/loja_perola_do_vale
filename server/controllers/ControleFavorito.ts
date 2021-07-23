@@ -79,7 +79,7 @@ class ControleFavorito {
                         favoritado = true;
                     }
                     const nFavoritos = await favoritoRepository.findAndCount({ where: { produto: { id: idProduto } } });
-                    return response.status(200).json({ favoritado, nFavoritos: nFavoritos[1] });
+                    return response.status(200).json({ favoritado, nFavoritos: nFavoritos[1], idFavorito : res.id });
                 })
         } catch (error) {
             return response.status(400).json(error);
