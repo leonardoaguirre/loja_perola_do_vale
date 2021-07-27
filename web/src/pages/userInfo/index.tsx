@@ -249,9 +249,10 @@ const userInfo: React.FC<PageClientInfoProps> = (props) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { userIdCookie } = context.req.cookies;
+    const { user } = context.req.cookies;
+    const userData = JSON.parse(user);
 
-    const response = await fetch(`http://localhost:3008/cliente/BuscaPorId/${userIdCookie}`);
+    const response = await fetch(`http://localhost:3008/cliente/BuscaPorId/${userData.id}`);
     const data = await response.json();
 
     return {

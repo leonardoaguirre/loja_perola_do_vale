@@ -147,7 +147,15 @@ class ControleFuncionario {
                 if (res == true) {
                     const token = jwt.sign({ id: funcExiste.id }, process.env.SECRET_KEY, { expiresIn: '7d' });
 
-                    return response.status(200).json({ message: "Usuario logado com sucesso!", token, pessoa: { id: funcExiste.id, nome : funcExiste.pessoaFisica.nome, email: funcExiste.pessoaFisica.pessoa.email } });
+                    return response.status(200).json({
+                        message: "Usuario logado com sucesso!", 
+                        token, 
+                        pessoa: { 
+                            id: funcExiste.id,
+                            idPessoa: funcExiste.pessoaFisica.pessoa.id,
+                            nome : funcExiste.pessoaFisica.nome, 
+                            email: funcExiste.pessoaFisica.pessoa.email 
+                        }});
                 } else {
                     throw new AppError("senha inválidos", "login");
                 }

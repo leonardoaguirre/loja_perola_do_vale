@@ -138,7 +138,15 @@ class ControleCliente {
                 if (res == true) {
                     const token = jwt.sign({ id: clienteExiste.id }, process.env.SECRET_KEY, { expiresIn: '7d' });
 
-                    return response.status(200).json({ message: "Usuario logado com sucesso!", token, pessoa: { id: clienteExiste.id, nome: clienteExiste.pessoaFisica.nome, email: clienteExiste.pessoaFisica.pessoa.email } });
+                    return response.status(200).json({ 
+                        message: "Usuario logado com sucesso!", 
+                        token, 
+                        pessoa: { 
+                            id: clienteExiste.id, 
+                            idPessoa: clienteExiste.pessoaFisica.pessoa.id, 
+                            nome: clienteExiste.pessoaFisica.nome, 
+                            email: clienteExiste.pessoaFisica.pessoa.email 
+                        }});
                 } else {
                     throw new AppError("senha inválidos", "login");
                 }

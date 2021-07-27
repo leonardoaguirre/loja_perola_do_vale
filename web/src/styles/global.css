@@ -1,4 +1,7 @@
 :root {
+
+  font-size: 85%;
+
   font-family: "Roboto", sans-serif;
   font-family: "Poppins", sans-serif;
 
@@ -33,47 +36,21 @@
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
 }
+/* 
+@media (min-width: 1280px) {
+  html {
+    font-size: 85%;
+  }
+}
 
 @media (min-width: 1080px) {
   html {
-    font-size: 93.75%;
+    font-size: 83%;
   }
 }
 
 @media (min-width: 720px) {
   html {
-    font-size: 87.5%;
+    font-size: 81%;
   }
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background-color: var(--background);
-  color: var(--text);
-}
-
-body,
-input,
-button,
-textarea {
-  font: 400 1.5rem Roboto;
-}
-
-textarea {
-  resize: none;
-}
-
-button {
-  cursor: pointer;
-  outline: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
+} */

@@ -6,6 +6,11 @@ import LoadingIcon from '../../components/LoadingIcon';
 import { UserContext } from '../../contexts/UserContext';
 import styles from '../../styles/pages/Login.module.css';
 
+interface Pessoa {
+    id: string;
+    nome: string;
+    email: string;
+}
 
 function Login() {
     const { loginUser } = useContext(UserContext);

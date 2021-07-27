@@ -5,9 +5,9 @@ import { useRouter } from 'next/router';
 
 interface User {
     id: string;
+    idPessoa: string;
     nome: string;
     email: string;
-    token: string;
 }
 
 interface UserContextData {
@@ -23,15 +23,15 @@ interface UserContextProviderProps {
 export const UserContext = createContext({} as UserContextData);
 
 export function UserProvider({ children }: UserContextProviderProps) {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<User>(null);
     const router= useRouter();
 
     useEffect(() => {
         // const userToken = localStorage.getItem('@userToken');
-        const user = localStorage.getItem('@user');
+        const userCookie: User = Cookies.getJSON('user');
 
-        if (user) {
-            setUser(JSON.parse(user))
+        if (userCookie) {
+            setUser(userCookie);
         }
 
     }, []);
@@ -39,10 +39,10 @@ export function UserProvider({ children }: UserContextProviderProps) {
     function loginUser(user: User, token: string) {
         setUser(user);
         // sessionStorage.setItem('@userToken', token);
-        localStorage.setItem('@user', JSON.stringify(user));
         Cookies.set('tokenCookie', token);
-        Cookies.set('userIdCookie', user.id);
-        
+        // Cookies.set('userIdCookie', user.id);
+        // Cookies.set('userName', user.nome);
+        Cookies.set('user', user);
         console.log('Usuário logado');
     }
 
@@ -50,6 +50,7 @@ export function UserProvider({ children }: UserContextProviderProps) {
         setUser(null);
         Cookies.remove('tokenCookie');
         Cookies.remove('userIdCookie');
+        Cookies.remove('user');
         localStorage.clear();
         console.log('Usuário deslogado');
         router.push('/');
