@@ -70,20 +70,27 @@ class ControleFavorito {
     }
     async verificaFavorito(request: Request, response: Response) {
         const favoritoRepository = getCustomRepository(FavoritoRepository);
-        const { idProduto, idPessoa } = request.params;
+        const { idProduto } = request.params;
+        const idPessoa = request.query.idPessoa;
         let favoritado = false;
         let idFavorito = null;
 
         try {
-            await favoritoRepository.findOne({ where: { pessoa: { id: idPessoa }, produto: { id: idProduto } } })
-                .then(async res => {
-                    if (res) {
-                        favoritado = true;
-                        idFavorito = res.id
-                    }
-                    const nFavoritos = await favoritoRepository.findAndCount({ where: { produto: { id: idProduto } } });
-                    return response.status(200).json({ favoritado, nFavoritos: nFavoritos[1], idFavorito });
-                })
+            if (idPessoa && idPessoa.length === 36) {
+                await favoritoRepository.findOne({ where: { pessoa: { id: idPessoa }, produto: { id: idProduto } } })
+                    .then(async res => {
+                        if (res) {
+                            favoritado = true;
+                            idFavorito = res.id
+                        }
+                        const nFavoritos = await favoritoRepository.findAndCount({ where: { produto: { id: idProduto } } });
+                        return response.status(200).json({ favoritado, nFavoritos: nFavoritos[1], idFavorito });
+                    })
+            } else {
+                const nFavoritos = await favoritoRepository.findAndCount({ where: { produto: { id: idProduto } } });
+                return response.status(200).json({ nFavoritos: nFavoritos[1] });
+            }
+
         } catch (error) {
             return response.status(400).json(error);
         }
@@ -100,7 +107,7 @@ class ControleFavorito {
                 } else {
                     throw new AppError("O favorito a ser deletado nao foi encontrado", 'favorito');
                 }
-            }).catch(erro=>{throw erro});
+            }).catch(erro => { throw erro });
 
         } catch (error) {
             return response.status(400).json(error);
@@ -111,14 +118,14 @@ class ControleFavorito {
         const { idFavorito } = request.body;
 
         try {
-                await favoritoRepository.findOne({ id: idFavorito }).then(async res => {
+            await favoritoRepository.findOne({ id: idFavorito }).then(async res => {
                 if (res) {
                     await favoritoRepository.delete(res.id.toString());
                     return response.status(200).json({ message: "Favorito foi deletado com sucessso!" });
                 } else {
                     throw new AppError("O favorito a ser deletado nao foi encontrado", 'favorito');
                 }
-            }).catch(erro=>{throw erro});
+            }).catch(erro => { throw erro });
 
         } catch (error) {
             return response.status(400).json(error);
