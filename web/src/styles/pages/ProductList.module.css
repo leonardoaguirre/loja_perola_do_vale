@@ -12,21 +12,22 @@
     padding: 1.6rem 0;
 }
 
-.productList ul {
-    margin: 1rem 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+.col {
+    padding: 1rem 0.2rem;
 }
 
-.productList li {
-    list-style: none;
-    display: inline-flex;
-    margin: 0.5rem;
-    flex-wrap: wrap;
+.pagination {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
-@media (max-width: 1030px) {
-    .productList ul {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
+.pagination li a span:last-child {
+    display: none;
 }
+
+.pagination li span span {
+    display: none;
+}
+
