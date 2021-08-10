@@ -18,9 +18,6 @@ export default function Home() {
 
     return (
         <div className={styles.container} >
-            <Head>
-                <title>Início | Ferragens Pérola do Vale</title>
-            </Head>
             <Header />
             <Navigation />
             <div className={styles.home}>
