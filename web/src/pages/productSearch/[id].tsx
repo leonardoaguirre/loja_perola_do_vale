@@ -15,6 +15,7 @@ import { Button } from 'react-bootstrap';
 import { UserContext } from '../../contexts/UserContext';
 import Cookies from 'js-cookie';
 import api from '../../services/api';
+import Head from 'next/head';
 
 interface ProductSearchProps {
   product: Product;
@@ -65,7 +66,9 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
     return <LoadingIcon />;
   }
 
-  const { user, logoutUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
+
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
   const [mainImage, setMainImage] = useState<string>(`http://localhost:3008/${props.product.imagens[0].path}`);
 
@@ -73,15 +76,19 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
   const [favImg, setFavImg] = useState<string>('/icons/favorite_border_gray_36dp.svg');
 
   useEffect(() => {
-    const idPessoa = Cookies.getJSON('user').idPessoa;
-
-    api.get(`http://localhost:3008/favorito/verificaFavorito/${idPessoa}/${props.product.id}`).then((res) => {
+    const user = Cookies.getJSON("user");
+    let idPessoa = '';
+    if (user) {
+      idPessoa = user.idPessoa;
+      setIsDisabled(false);
+    }
+    // buscar dados de favorito
+    api.get(`favorito/verificaFavorito/${props.product.id}?idPessoa=${user ? idPessoa : ''}`).then((res) => {
       setFavorite(res.data);
     }).catch((res) => {
       console.log(res);
     });
-    
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (favorite.favoritado) {
@@ -134,6 +141,9 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
 
   return (
     <div className={styles.container}>
+      <Head>
+        <title>{props.product.nome} | Ferragens Pérola do Vale</title>
+      </Head>
       <Header />
       <Navigation />
       <div className={styles.productSearch}>
@@ -181,7 +191,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
             <strong className={styles.currentPrice}><span className={styles.currence}>R$</span>{parseFloat(toString(props.product.valorVenda)).toFixed(2).replace('.', ',')}</strong>
             <span className={styles.installment}><span className={styles.times}>10x</span> de <span className={styles.currence}>R$</span> <span className={styles.dividedValue}>{(props.product.valorVenda / 10).toFixed(2).replace('.', ',')}</span> sem juros</span>
             <div className={styles.fav}>
-              <Button variant="outline-primary" onClick={handleFavorite}>
+              <Button id="btnfav" variant="outline-primary" onClick={handleFavorite} disabled={isDisabled}>
                 <img
                   className={styles.favImg}
                   src={favImg}
