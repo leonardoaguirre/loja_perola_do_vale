@@ -1,0 +1,23 @@
+.container {
+  height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.loading {
+  margin: auto;
+  width: 10rem;
+  height: 10rem;
+  border: 0.4rem solid #fca31138;
+  border-top-color: #fca311;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

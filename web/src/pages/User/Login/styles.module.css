@@ -1,0 +1,132 @@
+.container {
+	height: 100vh;
+	width: 100vw;
+	margin: 0 auto;
+
+	display: flex;
+	flex-direction: column;
+}
+
+.container form {
+	z-index: 10;
+	margin: auto;
+	border: 1px solid black;
+	box-shadow: 8px 8px 25px #2a4370;
+	padding: 6rem 10rem;
+	background-color: #bcd3ff;
+}
+
+.container form .header {
+	display: inline-flex;
+	align-items: center;
+}
+
+.container form .header img {
+	width: 6rem;
+	margin-right: 1rem;
+}
+
+.container form label {
+	display: block;
+	padding: 1rem 0 0.8rem;
+	font-size: 1.5rem;
+}
+
+.container form input {
+	border-radius: 7px;
+	border: none;
+	outline: none;
+}
+
+.container form .email input,
+.container form .password input {
+	padding: 1rem;
+	
+	width: 27rem;
+}
+
+.container form .actionsContainer .buttonContainer {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.container form .actionsContainer .buttonContainer input {
+	padding: 0.7rem 1.3rem;
+	margin: 2rem 0 1rem 0;
+	box-shadow: 0 4px #999;
+
+	width: 9rem;
+	height: 3.8rem;
+
+	cursor: pointer;
+
+	background-color: #ebfff0;
+}
+
+.container form .actionsContainer .buttonContainer input:hover {
+	background-color: #4bb94b;
+	transition: 0.2s;
+}
+
+.container form .actionsContainer .buttonContainer input:active {
+	box-shadow: 0 1px #666;
+  	transform: translateY(4px);
+	transition: none;
+}
+
+.container form .actionsContainer .passwordForgotten {
+	display: flex;
+	justify-content: center;
+	margin-top: 1rem;
+
+	font-size: 1.3rem;
+
+	color: #2042ff;
+}
+
+.container form .actionsContainer .register {
+	display: flex;
+	justify-content: center;
+	font-size: 1.5rem;
+	margin-top: 1rem;
+}
+
+.container form .actionsContainer .register span a {
+	margin-left: 0.3rem;
+	color: #2042ff;
+}
+
+.container form .errorMessage {
+	color: #FF0000;
+	margin-top: 1.4rem;
+}
+
+.container form .errorMessage p {
+	text-align: center;
+}
+.container form .actionsContainer .register{
+	display: flex;
+	justify-content: center;
+	margin-top: 1rem;
+
+	font-size: 1.3rem;
+
+	color: #2042ff;
+}
+.container form .actionsContainer .register p{
+	margin-right: 0.5rem;
+	color: #505050;
+}
+.container form .actionsContainer .employeLogin {
+	display: flex;
+	justify-content: center;
+	margin-top: 1rem;
+
+	font-size: 1.3rem;
+
+	color: #2042ff;
+}
+.container form .actionsContainer .employeLogin p{
+	margin-right: 0.5rem;
+	color: #505050;
+}

@@ -23,7 +23,6 @@ export default function Home() {
             <div className={styles.home}>
                 Promoção
                 <Banner source={images} />
-                <Button variant="primary">Primary</Button>{' '}
             </div>
             <Footer />
         </div>
