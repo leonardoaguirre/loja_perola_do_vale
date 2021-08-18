@@ -1,9 +1,12 @@
-import { GetServerSideProps } from 'next';
 import Link from 'next/link';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import React, { useContext, useState } from 'react';
-import LoadingIcon from '../../components/LoadingIcon';
-import { UserContext } from '../../contexts/UserContext';
+
+import { UserContext } from '../../../contexts/UserContext';
+
+import LoadingIcon from '../../../components/LoadingIcon';
+
 import styles from '../../styles.module.css';
 
 

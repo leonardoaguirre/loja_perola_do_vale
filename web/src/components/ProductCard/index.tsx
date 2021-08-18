@@ -1,7 +1,8 @@
+import Link from 'next/link';
 import { useState } from 'react';
 import { Card } from 'react-bootstrap';
+
 import styles from '../styles.module.css';
-import Link from 'next/link';
 
 interface ProductCardProps {
   product: Product;

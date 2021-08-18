@@ -1,25 +1,27 @@
-import PageFooter from "../../components/PageFooter";
-import PageHeader from "../../components/PageHeader";
-import AccountMenu from "../../components/AccountMenu";
+import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+
+import { UserContext } from "../../../contexts/UserContext";
+
+import Header from "../../../components/Header";
+import Footer from "../../../components/Footer";
+import AccountMenu from "../../../components/AccountMenu";
+import Nav from "../../../components/Nav";
+import LoadingIcon from "../../../components/LoadingIcon";
+import TelephoneCard from "../../../components/TelephoneCard/Card";
+import TelephoneCardNew from "../../../components/TelephoneCard/New";
+import PostalAdressCard from "../../../components/PostalAdressCard/Card";
+import PostalAdressCardNew from "../../../components/PostalAdressCard/New";
 
 import styles from "./styles.module.css";
-import SubHeader from "../../components/SubHeader";
-import TelephoneCard from "../../components/TelephoneCard";
-import TelephoneCardNew from "../../components/TelephoneCardNew";
-import PostalAdressCard from "../../components/PostalAdressCard";
-import { GetServerSideProps, GetStaticProps } from "next";
-import PostalAdressCardNew from "../../components/PostalAdressCardNew";
-import { FormEvent, useContext, useEffect, useState } from "react";
-import { UserContext } from "../../contexts/UserContext";
-import Cookies from "js-cookie";
-import LoadingIcon from "../../components/LoadingIcon";
-import { useRouter } from "next/router";
 
-interface PageClientInfoProps {
-	client: Client
+interface PageCostumerAccountProps {
+	costumer: Costumer
 }
 
-interface Client {
+interface Costumer {
 	id: string,
 	pessoaFisica: PessoaFisica,
 }
@@ -64,17 +66,17 @@ interface Erro {
 	property: string;
 }
 
-const userInfo: React.FC<PageClientInfoProps> = (props) => {
+const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 
 	const { isFallback } = useRouter();
 	if (isFallback) {
 		return <LoadingIcon />;
 	}
 
-	const [nome, setNome] = useState<string>(props.client.pessoaFisica.nome);
-	const [cpf, setCpf] = useState<string>(props.client.pessoaFisica.cpf);
-	const [rg, setRg] = useState<string>(props.client.pessoaFisica.rg);
-	const [dtnasc, setDtnasc] = useState<string>(props.client.pessoaFisica.dtNasc);
+	const [nome, setNome] = useState<string>(props.costumer.pessoaFisica.nome);
+	const [cpf, setCpf] = useState<string>(props.costumer.pessoaFisica.cpf);
+	const [rg, setRg] = useState<string>(props.costumer.pessoaFisica.rg);
+	const [dtnasc, setDtnasc] = useState<string>(props.costumer.pessoaFisica.dtNasc);
 
 	const [erro, setErro] = useState<Erro[]>([]);
 
@@ -102,7 +104,7 @@ const userInfo: React.FC<PageClientInfoProps> = (props) => {
 			method: "PATCH",
 		};
 
-		const response = await fetch(`http://localhost:3008/Cliente/Alterar/${props.client.id}`, cliente)
+		const response = await fetch(`http://localhost:3008/Cliente/Alterar/${props.costumer.id}`, cliente)
 
 		const result = await response.json();
 
@@ -120,9 +122,9 @@ const userInfo: React.FC<PageClientInfoProps> = (props) => {
 
 	return (
 		<div className={styles.container}>
-			<PageHeader />
-			<SubHeader />
-			<div className={styles.userInfo}>
+			<Header />
+			<Nav />
+			<div className={styles.userAccount}>
 				<div className={styles.pageTitle}>
 					<h1>Minha Conta</h1>
 				</div>
@@ -162,7 +164,7 @@ const userInfo: React.FC<PageClientInfoProps> = (props) => {
 											type="text"
 											name="nome"
 											autoComplete="off"
-											defaultValue={props.client.pessoaFisica.nome}
+											defaultValue={props.costumer.pessoaFisica.nome}
 											onChange={event => setNome(event.target.value)}
 										/>
 									</div>
@@ -171,7 +173,7 @@ const userInfo: React.FC<PageClientInfoProps> = (props) => {
 										<input
 											type="number"
 											name="rg" autoComplete="off"
-											defaultValue={props.client.pessoaFisica.rg}
+											defaultValue={props.costumer.pessoaFisica.rg}
 											onChange={event => setRg(event.target.value)}
 										/>
 									</div>
@@ -180,7 +182,7 @@ const userInfo: React.FC<PageClientInfoProps> = (props) => {
 											type="number"
 											name="cpf"
 											autoComplete="off"
-											defaultValue={props.client.pessoaFisica.cpf}
+											defaultValue={props.costumer.pessoaFisica.cpf}
 											onChange={event => setCpf(event.target.value)}
 										/>
 									</div>
@@ -189,7 +191,7 @@ const userInfo: React.FC<PageClientInfoProps> = (props) => {
 											type="date"
 											name="dtNasc"
 											autoComplete="off"
-											defaultValue={props.client.pessoaFisica.dtNasc}
+											defaultValue={props.costumer.pessoaFisica.dtNasc}
 											onChange={event => setDtnasc(event.target.value)}
 										/>
 									</div>
@@ -198,7 +200,7 @@ const userInfo: React.FC<PageClientInfoProps> = (props) => {
 											type="email"
 											name="email"
 											autoComplete="off"
-											value={props.client.pessoaFisica.pessoa.email}
+											value={props.costumer.pessoaFisica.pessoa.email}
 											disabled
 										/>
 									</div>
@@ -219,23 +221,23 @@ const userInfo: React.FC<PageClientInfoProps> = (props) => {
 							</form>
 							<h3>Telefones</h3>
 							<form id={styles.telephoneForm}>
-								{props.client.pessoaFisica.pessoa.telefones.length > 0
-									? props.client.pessoaFisica.pessoa.telefones.map((telephone, index) => {
+								{props.costumer.pessoaFisica.pessoa.telefones.length > 0
+									? props.costumer.pessoaFisica.pessoa.telefones.map((telephone, index) => {
 										return <TelephoneCard telephone={telephone} index={index} key={index} />
 									})
 									: ''}
-								{props.client.pessoaFisica.pessoa.telefones.length < 3
+								{props.costumer.pessoaFisica.pessoa.telefones.length < 3
 									? <TelephoneCardNew />
 									: ''}
 							</form>
 							<h3>Endereços</h3>
 							<form id={styles.postalAdressForm}>
-								{props.client.pessoaFisica.pessoa.enderecos.length > 0
-									? props.client.pessoaFisica.pessoa.enderecos.map((telephone, index) => {
+								{props.costumer.pessoaFisica.pessoa.enderecos.length > 0
+									? props.costumer.pessoaFisica.pessoa.enderecos.map((telephone, index) => {
 										return <PostalAdressCard postalAdress={telephone} index={index} key={index} />
 									})
 									: ''}
-								{props.client.pessoaFisica.pessoa.enderecos.length < 3
+								{props.costumer.pessoaFisica.pessoa.enderecos.length < 3
 									? <PostalAdressCardNew />
 									: ''}
 							</form>
@@ -243,7 +245,7 @@ const userInfo: React.FC<PageClientInfoProps> = (props) => {
 					</div>
 				</div>
 			</div>
-			<PageFooter />
+			<Footer />
 		</div>
 	)
 }
@@ -262,4 +264,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 }
 
-export default userInfo;
+export default UserAccount;

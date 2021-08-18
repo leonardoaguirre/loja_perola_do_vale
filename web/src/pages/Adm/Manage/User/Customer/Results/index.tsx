@@ -1,18 +1,15 @@
-import { GetServerSideProps, GetStaticProps } from 'next';
-import { route } from 'next/dist/next-server/server/router';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import PageFooter from '../../components/PageFooter';
-import PageHeaderAdministration from '../../components/PageHeaderAdministration';
-import ProductsTable from '../../components/ProductsTable';
-import React, { useState, useContext, useEffect } from 'react';
-import UserTable from '../../components/UserTable';
-import styles from '../../styles/pages/Products.module.css';
-import { UserContext } from '../../contexts/UserContext';
+import { GetServerSideProps } from 'next';
+import React, { useState } from 'react';
 import Cookies from 'js-cookie';
 
-interface ClientTableProps {
-  clients: Client[];
+import Header from '../../../../../../components/Header';
+import Footer from '../../../../../../components/Footer';
+import UserTable from '../../../../../../components/UserTable';
+
+import styles from './styles.module.css';
+
+interface PageUserProps {
+  pessoas: Client[];
 }
 
 interface Client {
@@ -30,9 +27,6 @@ interface PessoaFisica {
 
 interface Pessoa {
   email: string,
-}
-interface PageUserProps {
-  pessoas: Client[];
 }
 
 const PageUser: React.FC<PageUserProps> = (props) => {
@@ -96,8 +90,8 @@ const PageUser: React.FC<PageUserProps> = (props) => {
 
   return (
     <div className={styles.container}>
-      <PageHeaderAdministration />
-      <div className={styles.products}>
+      <Header />
+      <div className={styles.content}>
         <div className={styles.filters}>
           <select value={atribute} onChange={handleChange}>
             <option value="nome">Nome</option>
@@ -114,7 +108,7 @@ const PageUser: React.FC<PageUserProps> = (props) => {
         </div>
         <UserTable clients={tableItens} reload={reloadTable} />
       </div>
-      <PageFooter />
+      <Footer />
     </div>
   );
 }

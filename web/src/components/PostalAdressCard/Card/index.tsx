@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import styles from './styles.module.css';
 
 interface PostalAdress {
@@ -19,17 +18,6 @@ interface PostalAdressCardProps {
 }
 
 const PostalAdressCard: React.FC<PostalAdressCardProps> = (props) => {
-
-  const [inputSize, setInputSize] = useState(0);
-
-  function resizeInput() {
-    //setInputSize(inputSize);
-  }
-
-  useEffect(() => {
-    resizeInput();
-  }, []);
-
   return (
     <div className={styles.postalAdress}>
       <header>

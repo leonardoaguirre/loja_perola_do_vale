@@ -2,17 +2,17 @@ import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext, useState } from 'react';
-import LoadingIcon from '../../components/LoadingIcon';
-import { UserContext } from '../../contexts/UserContext';
+
+import LoadingIcon from '../../../components/LoadingIcon';
+import { UserContext } from '../../../contexts/UserContext';
+
 import styles from './styles.module.css';
 
-interface Pessoa {
-  id: string;
-  nome: string;
-  email: string;
+interface LoginProps {
+  
 }
 
-function Login() {
+const Login: React.FC<LoginProps> = (props) => {
   const { loginUser } = useContext(UserContext);
   const [erro, setErro] = useState({ constraints: { message: "" } });
   const router = useRouter();

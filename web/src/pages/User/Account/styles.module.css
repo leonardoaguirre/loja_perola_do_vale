@@ -1,120 +1,120 @@
 .container {
-	margin: 0 auto;
-	
-	display: flex;
-	flex-direction: column;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
 }
 
-.userInfo {
-	width: 95%;
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 1.6rem 0;
+.userAccount {
+  width: 95%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.6rem 0;
 }
 
-.userInfo .pageTitle h1 {
-	color: var(--secondary);
-	font-weight: 500;
+.pageTitle h1 {
+  color: var(--secondary);
+  font-weight: 500;
 }
 
-.userInfo .content {
-	display: flex;
+.content {
+  display: flex;
 }
 
-.userInfo .content .leftContent {
-	margin-right: 3rem;
+.leftContent {
+  margin-right: 3rem;
 }
 
-.userInfo .content .rightContent {
-	margin: 0 auto;
-	width: 100%;
+.rightContent {
+  margin: 0 auto;
+  width: 100%;
 }
 
-.userInfo .content .rightContent header h2 {
-	font-weight: normal;
-	margin-bottom: 3rem;
+.rightContent header h2 {
+  font-weight: normal;
+  margin-bottom: 3rem;
 }
 
-.userInfo .content .rightContent .formContainer #userForm {
-	display: flex;
-	justify-content: center;
-	position: relative;
-	right: 10rem;
+#userForm {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  right: 10rem;
 }
 
-.userInfo .content .rightContent .formContainer #userForm .labels label {
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-	text-align: end;
-	margin: 1.7rem 1rem;
-	height: 4rem;
+.labels label {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: end;
+  margin: 1.7rem 1rem;
+  height: 4rem;
 }
 
-.userInfo .content .rightContent .formContainer #userForm .inputs {
-	width: 55%;
+.inputs {
+  width: 55%;
 }
 
-.userInfo .content .rightContent .formContainer #userForm .inputs .inputContainer {
-    background-color: var(--quinary);
-    padding: 1rem 2rem;
-	margin: 1.7rem 1rem;
+.inputContainer {
+  background-color: var(--quinary);
+  padding: 1rem 2rem;
+  margin: 1.7rem 1rem;
 }
 
-.userInfo .content .rightContent .formContainer #userForm .inputs .inputContainer input {
-	height: 2rem;
-    width: 100%;
-    border: none;
+.inputContainer input {
+  height: 2rem;
+  width: 100%;
+  border: none;
 }
 
-.userInfo .content .rightContent .formContainer #userForm .inputs .inputContainer input:disabled {
-	background-color: inherit;
+.inputContainer input:disabled {
+  background-color: inherit;
 }
 
-.userInfo .content .rightContent .formContainer #userForm .inputs .inputContainer input:focus {
-	outline: 0;
+.inputContainer input:focus {
+  outline: 0;
 }
 
-.userInfo .content .rightContent .formContainer #userForm .inputs .actions {
-	display: flex;
-	justify-content: center;
+.actions {
+  display: flex;
+  justify-content: center;
 }
 
-.userInfo .content .rightContent .formContainer #userForm .inputs .actions input {
-	padding: 1rem 2rem;
-	font-size: 1.8rem;
-	background-color: inherit;
-	color: var(--primary);
-	border: 1px solid var(--primary);
-	cursor: pointer;
+.actions input {
+  padding: 1rem 2rem;
+  font-size: 1.8rem;
+  background-color: inherit;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  cursor: pointer;
 
-	transition: 0.2s;
+  transition: 0.2s;
 }
 
-.userInfo .content .rightContent .formContainer #userForm .inputs .actions input:hover {
-	background-color: var(--primary);
-	color: white;
+.actions input:hover {
+  background-color: var(--primary);
+  color: white;
 }
 
-.userInfo .content .rightContent .formContainer h3 {
-	margin-top: 4rem;
+.formContainer h3 {
+  margin-top: 4rem;
 }
 
-.userInfo .content .rightContent .formContainer #telephoneForm {
-	display: flex;
-	flex-wrap: wrap;
-	width: 90%;
-	justify-content: flex-start;
-	margin: 1rem auto;
-	align-items: center;
+#telephoneForm {
+  display: flex;
+  flex-wrap: wrap;
+  width: 90%;
+  justify-content: flex-start;
+  margin: 1rem auto;
+  align-items: center;
 }
 
-.userInfo .content .rightContent .formContainer #postalAdressForm {
-	display: flex;
-	flex-wrap: wrap;
-	width: 90%;
-	height: fit-content;
-	justify-content: flex-start;
-	margin: 1rem auto;
-	align-items: center;
+#postalAdressForm {
+  display: flex;
+  flex-wrap: wrap;
+  width: 90%;
+  height: fit-content;
+  justify-content: flex-start;
+  margin: 1rem auto;
+  align-items: center;
 }

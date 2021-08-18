@@ -1,21 +1,23 @@
-import { toString } from 'lodash';
+import Head from 'next/head';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
-import { useContext, useState, useEffect } from 'react';
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
-import Header from '../../components/Header';
-
-import LoadingIcon from '../../components/LoadingIcon';
-import PageFooter from '../../components/PageFooter';
-import ShippingCalc from '../../components/ShippingCalc';
-import styles from '../../styles/pages/ProductSearch.module.css';
-import Navigation from '../../components/Navigation';
-import Footer from '../../components/Footer';
-import { Button } from 'react-bootstrap';
-import { UserContext } from '../../contexts/UserContext';
 import Cookies from 'js-cookie';
-import api from '../../services/api';
-import Head from 'next/head';
+import { toString } from 'lodash';
+import { useContext, useState, useEffect } from 'react';
+
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
+import { Button } from 'react-bootstrap';
+
+import { UserContext } from '../../../contexts/UserContext';
+import api from '../../../services/api';
+
+import Header from '../../../components/Header';
+import Footer from '../../../components/Footer';
+import Nav from '../../../components/Nav';
+import LoadingIcon from '../../../components/LoadingIcon';
+import Shipping from '../../../components/Shipping/ShippingCalc';
+
+import styles from './styles.module.css';
 
 interface ProductSearchProps {
   product: Product;
@@ -145,7 +147,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
         <title>{props.product.nome} | Ferragens Pérola do Vale</title>
       </Head>
       <Header />
-      <Navigation />
+      <Nav />
       <div className={styles.productSearch}>
         <section className={styles.product}>
           <div className={styles.imageContainer}>
@@ -216,7 +218,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
               <option value="6">6</option>
             </select>
           </div>
-          <ShippingCalc produto={props.product} />
+          <Shipping produto={props.product} />
           <div className={styles.buttonContainer}>
             <button className={styles.addCart}>Adicionar ao carrinho</button>
             <button className={styles.buyButton}>Comprar</button>

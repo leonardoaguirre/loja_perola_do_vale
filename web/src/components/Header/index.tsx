@@ -1,9 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
-
-import { UserContext } from "../../contexts/UserContext";
-
 import {
   Container,
   Row,
@@ -12,8 +9,12 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
-import styles from "./styles.module.css";
+
+import { UserContext } from "../../contexts/UserContext";
+
 import Logo from "../Logo/index";
+
+import styles from "./styles.module.css";
 
 interface HeaderProps { }
 

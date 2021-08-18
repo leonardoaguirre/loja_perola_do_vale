@@ -1,6 +1,8 @@
-import styles from './styles.module.css';
-import Logo from '../Logo/index';
 import Link from 'next/link';
+
+import Logo from '../Logo/index';
+
+import styles from './styles.module.css';
 
 interface FooterProps {
 

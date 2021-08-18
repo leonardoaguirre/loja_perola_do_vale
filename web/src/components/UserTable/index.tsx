@@ -1,8 +1,6 @@
-import { Button } from "@material-ui/core";
-import { GetStaticProps } from "next";
 import Link from "next/link";
 import React, { useState } from "react";
-import { useEffect } from "react";
+
 import styles from "../styles/components/UserTable.module.css";
 
 
