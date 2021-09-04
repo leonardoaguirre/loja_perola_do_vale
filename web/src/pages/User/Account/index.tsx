@@ -73,10 +73,10 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 		return <LoadingIcon />;
 	}
 
-	const [nome, setNome] = useState<string>(props.costumer.pessoaFisica.nome);
-	const [cpf, setCpf] = useState<string>(props.costumer.pessoaFisica.cpf);
-	const [rg, setRg] = useState<string>(props.costumer.pessoaFisica.rg);
-	const [dtnasc, setDtnasc] = useState<string>(props.costumer.pessoaFisica.dtNasc);
+	const [nome, setNome] = useState<string>(props.costumer?.pessoaFisica.nome);
+	const [cpf, setCpf] = useState<string>(props.costumer?.pessoaFisica.cpf);
+	const [rg, setRg] = useState<string>(props.costumer?.pessoaFisica.rg);
+	const [dtnasc, setDtnasc] = useState<string>(props.costumer?.pessoaFisica.dtNasc);
 
 	const [erro, setErro] = useState<Erro[]>([]);
 
@@ -164,7 +164,7 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 											type="text"
 											name="nome"
 											autoComplete="off"
-											defaultValue={props.costumer.pessoaFisica.nome}
+											defaultValue={props.costumer?.pessoaFisica.nome}
 											onChange={event => setNome(event.target.value)}
 										/>
 									</div>
@@ -173,7 +173,7 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 										<input
 											type="number"
 											name="rg" autoComplete="off"
-											defaultValue={props.costumer.pessoaFisica.rg}
+											defaultValue={props.costumer?.pessoaFisica.rg}
 											onChange={event => setRg(event.target.value)}
 										/>
 									</div>
@@ -182,7 +182,7 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 											type="number"
 											name="cpf"
 											autoComplete="off"
-											defaultValue={props.costumer.pessoaFisica.cpf}
+											defaultValue={props.costumer?.pessoaFisica.cpf}
 											onChange={event => setCpf(event.target.value)}
 										/>
 									</div>
@@ -191,7 +191,7 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 											type="date"
 											name="dtNasc"
 											autoComplete="off"
-											defaultValue={props.costumer.pessoaFisica.dtNasc}
+											defaultValue={props.costumer?.pessoaFisica.dtNasc}
 											onChange={event => setDtnasc(event.target.value)}
 										/>
 									</div>
@@ -200,7 +200,7 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 											type="email"
 											name="email"
 											autoComplete="off"
-											value={props.costumer.pessoaFisica.pessoa.email}
+											value={props.costumer?.pessoaFisica.pessoa.email}
 											disabled
 										/>
 									</div>
@@ -221,23 +221,23 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 							</form>
 							<h3>Telefones</h3>
 							<form id={styles.telephoneForm}>
-								{props.costumer.pessoaFisica.pessoa.telefones.length > 0
-									? props.costumer.pessoaFisica.pessoa.telefones.map((telephone, index) => {
+								{props.costumer?.pessoaFisica.pessoa.telefones.length > 0
+									? props.costumer?.pessoaFisica.pessoa.telefones.map((telephone, index) => {
 										return <TelephoneCard telephone={telephone} index={index} key={index} />
 									})
 									: ''}
-								{props.costumer.pessoaFisica.pessoa.telefones.length < 3
+								{props.costumer?.pessoaFisica.pessoa.telefones.length < 3
 									? <TelephoneCardNew />
 									: ''}
 							</form>
 							<h3>Endereços</h3>
 							<form id={styles.postalAdressForm}>
-								{props.costumer.pessoaFisica.pessoa.enderecos.length > 0
-									? props.costumer.pessoaFisica.pessoa.enderecos.map((telephone, index) => {
+								{props.costumer?.pessoaFisica.pessoa.enderecos.length > 0
+									? props.costumer?.pessoaFisica.pessoa.enderecos.map((telephone, index) => {
 										return <PostalAdressCard postalAdress={telephone} index={index} key={index} />
 									})
 									: ''}
-								{props.costumer.pessoaFisica.pessoa.enderecos.length < 3
+								{props.costumer?.pessoaFisica.pessoa.enderecos.length < 3
 									? <PostalAdressCardNew />
 									: ''}
 							</form>
@@ -259,7 +259,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	return {
 		props: {
-			client: data,
+			costumer: data,
 		}
 	}
 }

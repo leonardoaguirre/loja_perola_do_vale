@@ -15,5 +15,20 @@ $secondary:     #14213d;
 $font-family-sans-serif:      "Roboto", sans-serif;
 $font-family-monospace:       "Poppins", sans-serif;
 
+
+// .carousel-item-next {
+//   transition: transform 0s ease-in-out;
+// }
+// .carousel-item-prev {
+//     transition: transform 0s ease-in-out;
+// }
+// .carousel-item-left {
+//     transform: translateX(-100%);
+// }
+// .carousel-item-right {
+//     transform: translateX(100%);
+// }
+
+
 // Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';

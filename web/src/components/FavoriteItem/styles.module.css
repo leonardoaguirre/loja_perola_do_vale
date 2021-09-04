@@ -1,0 +1,96 @@
+.favoriteItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+
+  border: 1px solid rgb(188, 188, 188);
+  border-radius: 5px;
+  padding: 1rem 1.5rem;
+
+  background-color: white;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+}
+
+.image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 2rem;
+  border: 1px solid rgb(226, 226, 226);
+}
+
+.image img {
+  width: 12rem;
+  max-width: 12rem;
+}
+
+.mainContent {
+
+}
+
+.mainContent h2 {
+  font-size: 1.2rem;
+  margin: 0.8rem 0 1rem 0;
+}
+
+.price {
+  display: flex;
+  flex-direction: row;
+  width: 20rem;
+}
+
+.currentPrice strong {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: red;
+}
+
+.currentPrice strong:first-child {
+  margin-right: 0.3rem;
+}
+
+.currentPrice span {
+  margin-left: 0.5rem;
+  color: gray;
+}
+
+.oldPrice {
+  text-decoration: line-through;
+  color: gray;
+  font-size: 1.1rem;
+}
+
+.time {
+  margin-left: 2rem;
+  position: relative;
+  bottom: -5px;
+}
+
+.time span {
+  border: 1px solid rgb(255, 97, 97);
+  padding: 0.1rem 0.7rem;
+  border-radius: 15px;
+  color: rgb(255, 97, 97);
+}
+
+.aside {
+  margin-left: 1.5rem;
+  text-align: right;
+  color: gray;
+  font-size: 1rem;
+}
+
+.aside p,
+.aside div {
+  margin-bottom: 1rem;
+}
+
+.aside a {
+  color: rgb(94, 94, 255) !important;
+}

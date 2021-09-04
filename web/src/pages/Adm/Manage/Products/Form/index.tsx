@@ -8,7 +8,7 @@ import Footer from '../../../../../components/Footer';
 import FileList from '../../../../../components/FileList';
 import Dropzone from '../../../../../components/Dropzone';
 
-import styles from '../../styles.module.css';
+import styles from './styles.module.css';
 
 
 interface UploadedFiles {

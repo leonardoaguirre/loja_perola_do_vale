@@ -30,7 +30,11 @@ const Header: React.FC<HeaderProps> = (props) => {
   };
 
   const handleSearch = () => {
-    router.push(`http://localhost:3000/productList/${search}`);
+    if (search) {
+      router.push(`http://localhost:3000/products/list/${search}`);
+    } else {
+      alert("Preencha o campo de pesquisa!");
+    }
   }
 
   return (
@@ -62,7 +66,7 @@ const Header: React.FC<HeaderProps> = (props) => {
             <Col xs={2}>
               <div className={styles.userContainer}>
                 {user ? (
-                  <Link href="/userInfo">
+                  <Link href="/user/account">
                     <a>
                       <img
                         src="/icons/account_circle-black-36dp.svg"
@@ -72,12 +76,12 @@ const Header: React.FC<HeaderProps> = (props) => {
                     </a>
                   </Link>
                 ) : (
-                  <Link href="/login">
+                  <Link href="/user/login">
                     <a>
                       <img
                         src="/icons/account_circle-black-36dp.svg"
                         alt="Usuário"
-                        title="Minha Conta"
+                        title="Entrar"
                       />
                     </a>
                   </Link>
@@ -87,7 +91,7 @@ const Header: React.FC<HeaderProps> = (props) => {
                   <div className={styles.userInfo}>
                     <strong>{user.nome}</strong>
                     <div className={styles.log}>
-                      <Link href="/userInfo">
+                      <Link href="/user/account">
                         <a>Minha Conta</a>
                       </Link>
                       <button onClick={logoutUser}>Sair</button>
@@ -96,7 +100,7 @@ const Header: React.FC<HeaderProps> = (props) => {
                 ) : (
                   <div className={styles.userInfo}>
                     <div className={styles.log}>
-                      <Link href="/login">
+                      <Link href="/user/login">
                         <a>Entrar</a>
                       </Link>
                     </div>
@@ -118,7 +122,7 @@ const Header: React.FC<HeaderProps> = (props) => {
                   </Link>
                 </div>
                 <div className={styles.favoriteItens}>
-                  <Link href="/favoriteItens">
+                  <Link href="/user/favorites">
                     <a>
                       <img
                         src="/icons/favorite_border-black-36dp.svg"

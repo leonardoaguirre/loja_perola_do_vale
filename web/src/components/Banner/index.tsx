@@ -1,4 +1,6 @@
-import { Carousel } from 'react-responsive-carousel';
+import { Carousel } from "react-bootstrap";
+
+import styles from './styles.module.css'
 
 interface BannerProps {
   source: string[];
@@ -7,12 +9,16 @@ interface BannerProps {
 const Banner: React.FC<BannerProps> = (props) => {
 
   return (
-    <Carousel autoPlay={true} infiniteLoop={true}>
-
+    <Carousel className={styles.banner}>
       {props.source.map((source, index) => {
-        return <div key={index}><img src={`${source}`} key={index} /></div>
+        return (
+          <Carousel.Item className={styles.item} key={index}>
+            <img
+              src={source}
+            />
+          </Carousel.Item>
+        )
       })}
-
     </Carousel>
   );
 };

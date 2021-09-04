@@ -9,8 +9,11 @@ import LoadingIcon from '../../../components/LoadingIcon';
 
 import styles from '../../styles.module.css';
 
+interface LoginProps {
+  
+}
 
-function Login() {
+const Login: React.FC<LoginProps> = (props) =>  {
   const { loginUser } = useContext(UserContext);
   const [erro, setErro] = useState({ constraints: { message: "" } });
   const router = useRouter();

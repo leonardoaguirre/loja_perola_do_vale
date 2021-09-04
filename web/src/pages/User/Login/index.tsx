@@ -69,7 +69,7 @@ const Login: React.FC<LoginProps> = (props) => {
             {erro.constraints.message == "" ? "" : <p>{erro.constraints.message}</p>}
           </div>
           <div className={styles.buttonContainer}>
-            <input type="submit" value="Entrar" />
+            <button type="submit">Entrar</button>
           </div>
           <div className={styles.passwordForgotten}>
             <Link href="/esquecisenha">
@@ -84,10 +84,10 @@ const Login: React.FC<LoginProps> = (props) => {
               </Link>
             </span>
           </div>
-          <div className={styles.employeLogin}>
+          <div className={styles.employeeLogin}>
             <p>Você é nosso colaborador?</p>
             <span>
-              <Link href="/funcLogin">
+              <Link href="/Adm/Login">
                 <a>Entre por aqui!</a>
               </Link>
             </span>

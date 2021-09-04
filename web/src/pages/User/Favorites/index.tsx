@@ -1,4 +1,10 @@
-interface FavoriteProps {
+import Header from "../../../components/Header";
+import Footer from "../../../components/Footer";
+
+import styles from './styles.module.css';
+import FavoriteItem from "../../../components/FavoriteItem";
+
+interface FavoritesProps {
   favorite: Favorite;
   products: Product[];
 }
@@ -41,11 +47,16 @@ interface Category {
   descricao: string;
 }
 
-const FavoriteList: React.FC<FavoriteProps> = (props) => {
+const Favorites: React.FC<FavoritesProps> = (props) => {
   return (
     <>
+      <Header />
+      <div className={styles.favorites}>
+        <FavoriteItem />
+      </div>
+      <Footer />
     </>
   );
 }
 
-export default FavoriteList;
+export default Favorites;

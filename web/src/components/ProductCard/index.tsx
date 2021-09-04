@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Card } from 'react-bootstrap';
 
-import styles from '../styles.module.css';
+import styles from './styles.module.css';
 
 interface ProductCardProps {
   product: Product;
@@ -51,7 +51,7 @@ const ProductCard: React.FC<ProductCardProps> = (props) => {
 
   return (
     <Card key={props.index} className={styles.item}>
-      <Link href={`/productSearch/${props.product.id}`}>
+      <Link href={`/products/info/${props.product.id}`}>
         <a>
           <Card.Header className={styles.header}>
             {hasDiscount
@@ -61,7 +61,7 @@ const ProductCard: React.FC<ProductCardProps> = (props) => {
           {hasDiscount
             ? <div className={`${styles.content} ${styles.hasDiscount}`}>
               <figure className={styles.figure}>
-                <Card.Img className={styles.img} variant="top" src={`http://localhost:3008/${props.product.imagens[0].path}`} alt={Capitalize(props.product.nome)} title={Capitalize(props.product.nome)} />
+                <Card.Img className={styles.img} variant="top" src={`http://localhost:3008/${props.product.imagens[0].path}`} alt={Capitalize(props.product.nome)} title={Capitalize(props.product.nome)} loading="lazy" />
               </figure>
               <Card.Body className={styles.body}>
                 <Card.Title className={styles.title} title={Capitalize(props.product.nome)}>{Capitalize(props.product.nome)}</Card.Title>

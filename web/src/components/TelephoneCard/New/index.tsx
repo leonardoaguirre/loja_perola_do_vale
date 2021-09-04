@@ -5,7 +5,7 @@ import styles from './styles.module.css';
 function TelephoneCardNew() {
   return (
     <div className={styles.telephoneCardNew}>
-      <Link href="/telephoneForm">
+      <Link href="/forms/telephone">
         <a>
           <div className={styles.border}>
             <div title="Adicionar telefone">

@@ -1,9 +1,9 @@
 import Link from 'next/link';
 
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
-import styles from '../../styles/pages/Error404.module.css';
+import styles from './404.module.css';
 
 function Error404() {
   return (
