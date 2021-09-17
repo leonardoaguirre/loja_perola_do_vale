@@ -56,8 +56,9 @@ class ControleFavorito {
         const idPessoa = request.params.idPessoa;
 
         try {
-            await favoritoRepository.find({ where: { pessoa: { id: idPessoa } }, loadRelationIds: true }).then((res) => {
-                if (res) {
+            await favoritoRepository.find({ where: { pessoa: { id: idPessoa } }/*, loadRelationIds: true*/ }).then((res) => {
+                if (res.length>0) {
+                    // delete res['pessoa']
                     return response.status(200).json(res);
                 } else {
                     throw new AppError("Favoritos nao encontrados", 'favorito');

@@ -1,44 +1,68 @@
 import styles from './styles.module.css';
+import { Product } from '../../models/Product';
+import { Favorite } from '../../models/Favorite';
+import { capitalize } from '@material-ui/core';
+import { useState } from 'react';
+import { remove } from 'js-cookie';
 
 interface FavoriteItemProps {
-
+  favorite: Favorite;
+  deleteFavorite(idFavorito: number, event): void;
+  index: number;
 }
 
 const FavoriteItem: React.FC<FavoriteItemProps> = (props) => {
+
+  const [hasDiscount, setHasDiscount] = useState<boolean>(false);
+
   return (
-    <div className={styles.favoriteItem}>
+    <div id={`item${props.index}`} className={styles.favoriteItem}>
       <div className={styles.main}>
         <div className={styles.image}>
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAA21BMVEX///8AAAAYGBgXFxccHBwUFBQaGhoGBgYNDQ2bm5seHh4SEhJMTEwjIyMqKioiIiIzMzODg4P5+flVVVVpaWlZWVmpqanExMQ4ODjV1dUtLS3GxsZDQ0NKSkoyMjKWlpb/9/F5eXmOjo7/ZQDy8vKgoKD+kGCysrJxcXE+Pj7/YgC6urpkZGR6enrq6uqHh4f8dBzb29v7kFD87uT/WQDzkE//bwr2bgL4f0D238T/18j92s39zLL+iVD+/O76bi76ZhT9sIb8mW7/wZ/7o3z+1Lr9uZ7659f9lV4eHsmoAAAUQUlEQVR4nO2dC3viOJaGkXWxIiGZexwHSJEiDVQIbKZramane2p7dnZ3+v//oj1HhiRVwbLshgpk+FJN8nQI8cuRzkU6chqNs8466yj0588fv9enLx/e+qr2qT99z/fly8f/+PDWV7VP/enTl1dGfG+EYLac8gt+fHmXhB//8iknRMAv75Hwc65PYMpPn96jDf/6n3/75Rf49+tfP//9l1/fI+HfG42vnQ/w9c+//d74+dO7JPz6X7/99vEfjcbff3q3hB//+5//8/nrOyb88PnXxt8+//yeCT/9s/G/W8L3l9N8T/gubdjYEv7+Tm349V+//d/XXz//6+tPP8GX79CGHz9/+vgp/w8/vUdCl5J+/G1TPb1Hwi+buuJ9Vk9//reoD79fxfjLh7e+qn3qHz+91u8f3vqqzjrrrLPOOuuss84666x/M61Qnbe+igNqMOz2+/3l1Vtfx8F0Qwllgtvl7K2v5EC6F3GcLhZpc9R/n4jToeYxjtJ0mY7eFeLq/nbe788HtyxK9OThod1ctNLF+r1MxsebRUwI/CPECptZAFzPu4s0M4vl4OobTd/6Wmuocz9CNBnhI4mTdLyYzWb37V53tMgUTbLM5jIg0Ty5KDK90MhFYkFyQrtoDWf3s8v2pN9tLsbWJCiFgkcqH9/6iivqMXVYMYnkhnA8bA0vLi7uHh76gDhctFrj7FlWnRjhdc4Xx1KQfCLGrdE4nTxMHubgeHrLfrfbbHaf1eyv3vqaK2m14QMTxlvCdGTHEC26y163P3+YzL/XaREOgU86ws0sBI2bxixA3f6ouWzfgGDMbh7h8+1JEV6QWKKAkD4RZk3D0HOOmotFs9e+vb29uX2hh1MinCZEbgil8zMuJtpmwhQ4z8VwPF7AWM3HZg80h4/e8pQI7wFQg14SktiMFAOJVmrNeNjFBO6FuqNT8qVtojUHAaLexAyQAsKICmFtomw6/E6L7JQI54RzKqKIgim3szCO2ZAx5DaJYMq2nNLWRuNMnBLhkkSMQaoSwUjdAhJCF0zh2FWKc5GYb5Wok8pp+pIlgJCwLSEGDqJbgqH7YfC/eRQJAVYWdCtNTomwq3MTKb4hBL6YyCxyhELojSN6qfikCJuOMAEbSvk0SIm0lLksJ9J5JPlWJ0U44gqrBkafCF2RYTjDryjNs53vdUKEnaEEP8ME2ApSt2fChOaEXO7gOy3ChYSwF3EX8p8IY6KEwE84D7Ho+E6nRNjoE80pf0UYMeF8qUJPAwFTMPCn+QPopAgxp9lkbS4l3bgSLTB8yMRQ4KMCQiZzYZMJHNQnRejy0jwEPPEhYWSQ2xjKI0ojjILKOV3Doigip7T6tuJkEw82dUUuzS14WMgFImdfQngirNEk1kZBMDml2gIS0/g53m1ri1jrMdaHinFnXHE31Do1HHIBRu4eT2s18Wq7hhG/dDWSpkgI8ZCQ4cVsCvNVDB2hChqinavZYDCYXR7Fm3H7NP3kU9CH4AiVobFax2QxzZ9lRhYIdUJKh+j0vveUPZD+4O2HdJfkBsQMdGNFGLgtSHQUDNFWboUL0hpZCoSKlJjlagLJAkxerqkUksPXb77o0cncQJUY+fgGUaqxdhVjurm6GWk2MyCEJM9LuOpiKqS5MtbiOrlhDF7y7kdweDTtu6nnqogtos7yMbbFuVa95jiKCWVD35L+HXhdjXBKaILrBtKaDBiHb23Gy24+NpHRIYr76/t7cBVPz7hq9botAXmc6ha/TGdOqBJZEsUwDyOwnxsO0lgINm+eJDxezLtjvnUP7Vdv+WNr7ggZWxa+RmdJcEFAU7D93eNqOl09Pg66OOStltkxeNXOFIQXtmNIrRbzfgrDTdF54c+DBRObwBhovzTY5ZhIsCxp7v+C96rpEAhVHCu9LnrKLeHGJoRMvrfWGqa1keThwJf4B9Xp9pYLIEz0RcEzLom2RpDx9etvXXH4HiGDg17hH1YPCJM4NrrgOldSImB/53RbGSIyEh13wj5ZAiH4RXm/+/tLoiApL5qkjzCDDRkd7Or2ofaylxPuNsSM0CwhxX72nsQ2Jkfd13HTd4R292rwSpKMypbn59uEZyQ50MXtRbNub4g2THZmJ20SJYLscDJP6iiS0KM24mVzjoR2vItwSqRVuu99gRnWJcc8E69H86GR2ix2OcsBiYzfhCBLYCaWPOct9egIuRntSry7JDFsUfIKM8JsobM9Aq0cITW7kq8plCIRKQgjz89KiCFHkZ7u1pZwV2lxCRk3I6WNUmsCudvxDtPVEAlFssudrIlNZHnaeUWYITf7v7Q9aTrqDY1mya6gPoKiilyWvsSKxZb09n9pOzRdXV2tVtVmRKeZE+64wlUsM1a+QNVoNGEijg/e9Te9ny/cXqi2y5sKhXcH4qHRSu1whtcQ6bgJeI0JSbQ+8HrG4xqqGK4oS0WSGJutww3ZnTsbTl5/B6NhSbjPdUeUPuyOwGqC6ybMJLTVHWaLRWrH/TIf/yTI2gxP1A6HskbThNS39ySipUHlj2jm1pgSO065NcNut9sfGjN8CJwYxYRzkihSWPq/0DUkBodcWXzANUPOKZOcwQg1rX6/2bRJGtjDhYR6J2GfWB0Xlf4v9Ug0PVy46PRwtTDWGqJ21koXw+Yotc2uHY/TSRBid1lgw05KIN6HVA0rmLBxiLFryQHKOKYmERy+4smi209tthiOhv2bgJG6IXztaaZC2rDptdJQXhwqM73fNFkKka9t4/I2H/eb1p3+aZnyZKqQcBXHUBuWB3x4L6KYyhCnW0fabb5o8NYyYkxQbNWLEj7qpv1ebznR5Z6iWUT4SPhYBeWbHcYtGYZd8PX95fVWlwERZpBvvjBJuGurREIYspkZNvsPk8l8GReskj1rMhkZkejXg+yKSMXCwlwSC5mGPBEc9Hw9wD3IweBucHlb/vyWM6GS4Mwi7DqIkBAQh+li1L5tP7QjKhdlDqcbk9sd6+FXhNoorHkhIRCKQ54Inn/Svrjb9F5fl/vfy7yFhLrWEuymiHIbSrnMhsvBbXu9jBldlPgbINwVE66IVsKbll5egiFQ1qTJ2I27y8tHv9UnSJgjXlyXh6IJAkoVaxFRLtiGEK2YPpjhYLC+vSFKyZLBUEgoTOQj7NiURIJTynFP0WDzR6zGqWcTqzJhZ4SDVGiJLZScCiR0gJqTi2br4fpmPUhZklj/OC0kjCIWeWZxp8UhZac0EvD7Iyc1XlD/qlQ1wscEI0QitUIfwyOlsKtSYsAgvQHvXs0uZj1tTOGeRAmhgNLCSxhxxZBNRHlTVaSyNPJvRr0gvLkuzfSuIfpRwaAyADaqdZTbj2M3bHZFFpdXg1mbWEhWvTOxgPCaqESknp/stAR48Nx4m74xIBR+wodKhDPgg6tQickRZaJ0zOEXUXA+j6Z19zgY3BCbZdTrEQsI74lQ2vfe1CKsZsMBjYCOu8N1CUxCeBSQtjHs5iJ3Lbu+ghciJssS7wZYAeGM2Ij6LhdGKYXfGtFnRBZM6KJFOSFjxlqe5gcIE3wQOhYR9iSSdWrnl+v1LUmysW3XIIQCmMtyQkqjKoQwSu/uciNeXJUTJtj8QRf5OUlAzIzSm/5t8mDtcjB5mBAFhN46toDwjphI+1z/xtOg8BBHCOFjs9mHdHI+n09At8tlScJ1aZXJbDQcZ86GAtJLHutNS+Jcmv66N18SBm9AHcILArlSCaF+InRGjMoIr0h+ea5EEEL7m3jwCKVKMpuMh86CGO4FdZ3dWDD2pe3O+/0RUfDNOoQwvjX3VQxIyKoSUkwRMITCCAcDlRBOl0yB8fQIAcGZgmfFUz+ICP4lMc1us2sIjGRTZx6uidGxn5A6X0qfXE0AYRTx/N0QVBlmy1bMLiI8N0JbGZ4dgbDLsD1fuNzUaigwhosmicHdMm8NVUDYJpBQBBKKHDEqixZgwyfCKITwscVhWBqNJnSdzHhsOU9OIZVJ0rQ1JJIpw71Oq5DQ+uvanNB1Gm+NWE4oYJTic+FNSQIIG0ts54asJkrcsTt3xkLhONU8k8zaoSAc7Oyv8goJVRwwSvMTRRvC8lEKhJvTSFFiAwhnzq0wIALbKZUfPheYvVka60hAao5Fh3/vq9iGUYgNX7qaIMLtKA0i7CxcjS9kjCe5kg0hFBhGkFiSBYsxdY29jsZjQ+npwnCE1I1SN063mTcrIWTuubggkVgVsO14r12JCJUZ1dQ5Gs1GmVTU1f6tOKZYSvmL0mJPw7Wf0GVt6P2NYXwzD8sJ8c0AwEBCbC7DZm4pE5m3kqbzOYwebO6WLWwElX5D+AgNlb5Nsw0h+G7IEuGhAiGrQNjobQ5UGNeDrZPuwzyT7qhMBqOV42AtWU3yjNI4gJAa7g7kYpUYRJhbEHPqMMLGfEPo9ta46bfnVuDJrSyCMYq29M9CT8SHVygjhHjIrAOEej+YMLdhMCGkV+4kOvbJxsIu171MweyDYBZHEr6hyha+i+dh7F3JxswbCFXCc8G1s1AbooBwHLgLeI23+LB4Y4GYZb3bnqVQ9kt0PniQpHQ9sJAwY9JPiNECF8FywQQLIYw2gFUIG52BwV0UIFRAuKTM4LlDgRaMy5d0iz2NLrGhy9poJnNCJSoTVmlSue4LsJdMsvnNMgG0mDJ0PZOQvZkiQniLAmzIxxYXh7QJivhMuUPmeGrOZOE2RN1hN740rcnNEj674wcq7L5sxaOUkx2b30/a2pC3xpwLm4QS4klAPBFYlXDAJRKm7ZvlqKVENppcBv54ISGLSwijPPPWCeMMk+lQQpYTWtWqQnivkdCm7dvetDOdVmj+KLZhFPtK53ytjeJi9HahppwQCoONCZnNqhFe4WEfIFyvfe/7LhXGQxV7G/GfCJ+rp3JPg3J3pWJ4IrCsxv9Gj3iLD20X63bAntU3KiS02pstbOJh9FxalBJOZ/cgPLeaLAYzUJU+o0fmCNPbh6pdEcXVk/RusF5lAoq2bwmtnzAXkZJ6V/F2a5XlNrydVD3/4IsWPsI1Y1xVs6FTBwgF71ZuE5suHOHwdr43QhilvhHfgyItX/Om7Hm9NIRQaxZVJ+w0t4QhzQUv5auASwhzG/JIcaEjVoFQseqEjb5EwtFt5duvFmfeytsHtCUUrjzE4/2BhDHniepXJ8RDujpr3varHgn0zUM/Ic5DQTfVE1WBnqYTU2qSGoQPcU643BshlCu+vdWckCqT35GKJ1EoYRQZU4OwjTcQsN11r2qnZ/E81N5+vHyUgo/BZQy0IQ0mpLUIbzeE86pt8551mgDCKFJulYbibZnCCeuM0jviCNs/jHAOoxSztpZbieJREjoPJeW1bDjbElb90bqjtK0xHgqqUvCkWlgaGC0aF8SwshaYXbp0Td7dh8qnVos9jfISTjPhCClrCZ1YGhrxGwMyNnUOaFznNnwoW1p7pUJCKr2Encx1Koj8PjBusyWUsN4RlKvc00wqt7IW21D4CcfiVW0RlHkPSKuWDR+5G6XzygO8OKfR3ni4q3oKJDS6FqFyhJP9ERp/1va8Q1qttkDCsMbV77SyuQ0rt5TXrS3yXozo5Q5pqA0tq0M4zZCwv0fCxN9ivO1re9FuEmxDXsuGGa617XMeWuXdedzYENsqEp1XiMGept4odYT93v4IoT4sW010ozTPaXQUbkNbK1o4wmSfhBkr3ZnBHVK8+RukpVQF5qUY8WvNQ/Q0+yVUsfdY4WYebnfXgqsnIMyS2oR7HaWWl+zjOxsq5QgpD62eauc0K413e+4u95e1WS0DCHEecte26wjV4TxN5/q6S+TguvJBwOJoUdZtInAVI8rcjai4znfXgghtrZym4fb0axx09IzSqJyQ8rHB1nJtWDhhVsvTNPZOmEgSYEOqWxnUFVbRCoTRcRBm3HtINifEeYjtya5bLZiw7gH+fdswjst7hF3S5hZpIhHsabJanqax/3lIhZ+QbnuEXSueCCesfROGPROKOC7pZN/a8EVtEWbDWhVwY++Ehns3dF9XT9i5F2bDWjlNY/+EmgfMw5eEoZ5GhdyNYpf2TKh02XmLV4SBo7TeWltj/54m4sFnZqoRqloVcGPvhKzU02wJ6YnaMBNl85BuRimt6EvB0xzFPEx02amguoT2KCI+3vgj4GRXLcLMHgMhdpuUED6fP6xIqI6ktjClo7Qu4bF4GhvLgHmIQzQ/FQT/Qj1N6X3uCrRvT8P98XBMtXBH0fDvTCAoj0I9zZHMw6Tk/GG6gI8WfOBfUUzx1jHDZndUcvahUX+dprH/UerPSxsd1D0hMV5tn3g3ql6q7s5M4wA29PrSXJeEyA1h6I7JyUSLXEiI+UklwmOpnhT1+tJctQiPZRXD+D1NrtMm1N5okasWIeSlR5F5l5xWz1WLMD2WnMYf8XPVIkyOJC8V/rw0V715eCQ2ZAebh2N6HISJ/74Yuep5mmPJvKV3nSZXLcJ6PVGN/UcLdqhRqo5k/1DJQ+U04yPJS03IyZZambepGy36tQiHu1vywZeSuPyG+VA9ub+N0Q0nvCOprZnTwG+p8dakuw+OPOA9hsru1+dakyXe5HRE4tAukDtik5p35a1nw8VuQtwhleV3tARCjVfbJN42v5e6w4hfj7DePOwX5jSCHWge2iOJ+Ifzpa0jqYANPVSNb49l74kfLGszx1EfmoOt0xzHzgxm3v7VRKeTjvgqlgeK+K26+4d7jfhtjPj++4KifmzE33NOgxE/hFBXJvzBEb/pifjlnuZ+42kqjFIX8Y/ClwZH/Mqe5hzxC3WO+Lt1jvh+nSP+Dp0jvkfniL9b54jv1zni79A54nt0jvi7VRzxaWDEr95tciR7wMrfuZer3h7wkezM2CggWvzYFeE9R3wVkyoRv8Kqflo34i/r2nB3Xmqp9y945KoV8ZMjOVEi9MHm4ZHscqvD9WIcyQnLH9+L8f+/8/xpvNP3dAAAAABJRU5ErkJggg==" alt="" />
+          <img src={`http://localhost:3008/${props.favorite.produto.imagens[0].path}`} alt={capitalize(props.favorite.produto.nome)} title={capitalize(props.favorite.produto.nome)} loading="lazy" />
         </div>
         <div className={styles.mainContent}>
-          <h2>Xiaomi mi anc & tico-c, fones de ouvido intra-auriculares originais</h2>
+          <h2>{props.favorite.produto.nome}</h2>
           <div className={styles.price}>
             <div className={styles.values}>
               <div className={styles.currentPrice}>
                 <strong>R$</strong>
-                <strong>279,96</strong>
+                <strong>{parseFloat(props.favorite.produto.valorVenda.toString()).toFixed(2).replace('.', ',')}</strong>
                 <span>/ item</span>
               </div>
-              <div className={styles.oldPrice}>
-                <span>R$ </span>
-                <span>279,96</span>
-                <span> / item</span>
+              {hasDiscount ?
+                <div className={styles.oldPrice}>
+                  <span>R$ </span>
+                  <span>{(props.favorite.produto.valorVenda * 1.1).toFixed(2).replace('.', ',')}</span>
+                  <span> / item</span>
+                </div>
+                : ''
+              }
+            </div>
+            {hasDiscount ?
+              <div className={styles.time}>
+                <span>2 dias restantes</span>
               </div>
-            </div>
-            <div className={styles.time}>
-              <span>2 dias restantes</span>
-            </div>
+              : ''
+            }
           </div>
         </div>
       </div>
       <div className={styles.aside}>
-        <p>Adicionado em 3 de junho de 2021</p>
-        <div><a>Remover</a></div>
+        <p>Adicionado em <span>
+          {new Date(props.favorite.created_at).toLocaleDateString("pt-br", {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+          })}
+        </span></p>
+        <div><a onClick={() => props.deleteFavorite(props.favorite.id, props.index)}>Remover</a></div>
         <div><a>Encontre produtos similares</a></div>
       </div>
     </div>
   );
 }
+
+
 
 export default FavoriteItem;

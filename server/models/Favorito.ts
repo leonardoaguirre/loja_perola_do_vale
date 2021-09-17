@@ -12,8 +12,8 @@ class Favorito {
     @JoinColumn({ name: "id_pessoa_fk", referencedColumnName: 'id' })
     pessoa: Pessoa;
 
-    @ManyToOne(() => Produto, produto => produto.id, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
-    @JoinColumn({ name: "id_produto_fk", referencedColumnName: 'id' })
+    @ManyToOne(() => Produto, produto => produto.id, { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' , eager : true})
+    @JoinColumn({ name: "id_produto_fk", referencedColumnName: 'id'})
     produto: Produto
 
     @CreateDateColumn()
