@@ -1,6 +1,8 @@
 .pageHeader {
+  height: 95px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   background-color: var(--primary);
 }
 

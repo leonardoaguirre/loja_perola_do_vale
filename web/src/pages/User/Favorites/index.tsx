@@ -1,12 +1,14 @@
+import { useState } from 'react';
+import { GetServerSideProps } from "next";
+
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
+import FavoriteItem from "../../../components/FavoriteItem";
+
+import { Favorite } from '../../../models/Favorite';
 
 import styles from './styles.module.css';
-import FavoriteItem from "../../../components/FavoriteItem";
-import { Favorite } from '../../../models/Favorite';
-import { GetServerSideProps, GetStaticProps } from "next";
 import api from "../../../services/api";
-import { useState } from 'react';
 
 interface FavoritesProps {
   favorites: Favorite[];
@@ -14,7 +16,7 @@ interface FavoritesProps {
 
 const Favorites: React.FC<FavoritesProps> = (props) => {
 
-  const [nfavorites, setNfavorites] = useState<number>(props.favorites.length);
+  const [nfavorites, setNfavorites] = useState<number>(props.favorites?.length);
 
   const deleteFavorite = (idFavorito: number, index: number) => {
     console.log("deleteFavorite", document.getElementById(`item${index}`));
@@ -31,7 +33,7 @@ const Favorites: React.FC<FavoritesProps> = (props) => {
   } 
 
   return (
-    <>
+    <div className={styles.container}>
       <Header />
       {nfavorites > 0 ?
         <div id="favorite" className={styles.favorites}>
@@ -39,42 +41,35 @@ const Favorites: React.FC<FavoritesProps> = (props) => {
           return <FavoriteItem favorite={favorite} deleteFavorite={deleteFavorite} index={index} key={index}/>
         })}
         </div>
-        : <h2>Você não possui nenhum favorito!</h2>
+        : <div className={styles.favorites}><h2>Você não possui nenhum favorito!</h2></div>
       }
       <Footer />
-    </>
+    </div>
   );
 }
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { user } = context.req.cookies;
 	const userData = JSON.parse(user);
 
-  // let data = [];
-
-  // api.get(`favorito/ListarPorPessoa/${userData.id}`).then(
-  //   (res) => {
-  //     if (res.status === 200){
-  //       data = res.data;
-  //     }
-  //     console.log(res.status);
-  //   }
-  // ).catch(
-  //   (error) => {
-  //     console.log(error.status)
-  //     data = [];
-  //   }
-  // )
-
-  const response = await fetch(`http://localhost:3008/favorito/ListarPorPessoa/${userData.idPessoa}`);
-	const data = await response.json();
-
+  const data = await fetchData(userData.idPessoa);
 
   return {
     props: {
-      favorites: data
+      favorites: data.favorites
     }
   }
 }
 
+const fetchData = async (idPessoa) => await 
+api.get(`favorito/ListarPorPessoa/${idPessoa}`)
+  .then(res => ({
+    error: false,
+    favorites: res.data,
+  }))
+  .catch(() => ({
+    error: true,
+    favorites: null,
+  }));
 
 export default Favorites;
