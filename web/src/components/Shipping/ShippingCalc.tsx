@@ -1,10 +1,7 @@
 import { useState } from 'react';
 
 import styles from './styles.module.css';
-<<<<<<< HEAD
-=======
 import api from '../../services/api';
->>>>>>> fd48286fcb1f5d2cd4dd2a39f7afe4a2cd56f5cd
 
 interface ShippingCalcProps {
   produto: Product;
