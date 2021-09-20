@@ -51,7 +51,7 @@ const ProductCard: React.FC<ProductCardProps> = (props) => {
 
   return (
     <Card key={props.index} className={styles.item}>
-      <Link href={`/products/info/${props.product.id}`}>
+      <Link href={`/Products/Info/${props.product.id}`}>
         <a>
           <Card.Header className={styles.header}>
             {hasDiscount

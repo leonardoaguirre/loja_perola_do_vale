@@ -31,7 +31,7 @@ const Header: React.FC<HeaderProps> = (props) => {
 
   const handleSearch = () => {
     if (search) {
-      router.push(`http://localhost:3000/products/list/${search}`);
+      router.push(`http://localhost:3000/Products/List/${search}`);
     } else {
       alert("Preencha o campo de pesquisa!");
     }
@@ -66,7 +66,7 @@ const Header: React.FC<HeaderProps> = (props) => {
             <Col xs={2}>
               <div className={styles.userContainer}>
                 {user ? (
-                  <Link href="/user/account">
+                  <Link href="/User/Account">
                     <a>
                       <img
                         src="/icons/account_circle-black-36dp.svg"
@@ -76,7 +76,7 @@ const Header: React.FC<HeaderProps> = (props) => {
                     </a>
                   </Link>
                 ) : (
-                  <Link href="/user/login">
+                  <Link href="/User/Login">
                     <a>
                       <img
                         src="/icons/account_circle-black-36dp.svg"
@@ -91,7 +91,7 @@ const Header: React.FC<HeaderProps> = (props) => {
                   <div className={styles.userInfo}>
                     <strong>{user.nome}</strong>
                     <div className={styles.log}>
-                      <Link href="/user/account">
+                      <Link href="/User/Account">
                         <a>Minha Conta</a>
                       </Link>
                       <button onClick={logoutUser}>Sair</button>
@@ -100,7 +100,7 @@ const Header: React.FC<HeaderProps> = (props) => {
                 ) : (
                   <div className={styles.userInfo}>
                     <div className={styles.log}>
-                      <Link href="/user/login">
+                      <Link href="/User/Login">
                         <a>Entrar</a>
                       </Link>
                     </div>
@@ -111,7 +111,7 @@ const Header: React.FC<HeaderProps> = (props) => {
             <Col xs={1}>
               <div className={styles.userActions}>
                 <div className={styles.shoppingCart}>
-                  <Link href="/shoppingCart">
+                  <Link href="/User/Cart">
                     <a>
                       <img
                         src="/icons/shopping_cart-black-36dp.svg"
@@ -122,7 +122,7 @@ const Header: React.FC<HeaderProps> = (props) => {
                   </Link>
                 </div>
                 <div className={styles.favoriteItens}>
-                  <Link href="/user/favorites">
+                  <Link href="/User/Favorites">
                     <a>
                       <img
                         src="/icons/favorite_border-black-36dp.svg"
