@@ -18,6 +18,7 @@ import LoadingIcon from '../../../components/LoadingIcon';
 import Shipping from '../../../components/Shipping/ShippingCalc';
 
 import styles from './styles.module.css';
+import { CartContext } from '../../../contexts/CartContext';
 
 interface ProductSearchProps {
   product: Product;
@@ -76,6 +77,8 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
 
   const [favorite, setFavorite] = useState<Favorite>({ idFavorito: null, favoritado: false, nFavoritos: 0 });
   const [favImg, setFavImg] = useState<string>('/icons/favorite_border_gray_36dp.svg');
+
+  const { addToCart } = useContext(CartContext)
 
   useEffect(() => {
     const user = Cookies.getJSON("user");
@@ -139,6 +142,12 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
         console.log(res);
       });
     }
+  }
+
+  const sendToCart = (idprod: string) => {
+    const qt = document.getElementById('amount') as HTMLSelectElement
+
+    addToCart({ id: idprod, qtd: parseInt(qt.value) })
   }
 
   return (
@@ -220,7 +229,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
           </div>
           <Shipping produto={props.product} />
           <div className={styles.buttonContainer}>
-            <button className={styles.addCart}>Adicionar ao carrinho</button>
+            <button className={styles.addCart} onClick={() => sendToCart(props.product.id)}>Adicionar ao carrinho</button>
             <button className={styles.buyButton}>Comprar</button>
           </div>
         </section>

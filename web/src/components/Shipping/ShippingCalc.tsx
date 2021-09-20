@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import styles from './ShippingCalc.module.css';
+import styles from './styles.module.css';
 
 interface ShippingCalcProps {
   produto: Product;
@@ -14,10 +14,10 @@ interface Shipping {
 }
 
 interface Product {
-  peso: number;
-  altura: number;
-  largura: number;
-  comprimento: number;
+  peso?: number;
+  altura?: number;
+  largura?: number;
+  comprimento?: number;
 }
 
 interface Cep {
