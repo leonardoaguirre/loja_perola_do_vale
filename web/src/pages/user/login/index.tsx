@@ -79,7 +79,7 @@ const Login: React.FC<LoginProps> = (props) => {
           <div className={styles.register}>
             <p>Não possui uma conta?</p>
             <span>
-              <Link href="/userForm">
+              <Link href="/user/form">
                 <a>Cadastre-se</a>
               </Link>
             </span>
@@ -87,7 +87,7 @@ const Login: React.FC<LoginProps> = (props) => {
           <div className={styles.employeeLogin}>
             <p>Você é nosso colaborador?</p>
             <span>
-              <Link href="/Adm/Login">
+              <Link href="/adm/login">
                 <a>Entre por aqui!</a>
               </Link>
             </span>
