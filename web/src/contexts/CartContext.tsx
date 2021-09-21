@@ -51,7 +51,7 @@ export function CartProvider({ children }: CartContextProviderProps) {
         Cookies.set('cartProducts', newProds)
 
         //redireciona para o cart para dar reload e exibbir o novo vetor de produtos
-        router.push('/User/Cart');
+        router.push('/user/cart');
         return newProds//retorna o vetor para a redundancia do addToCart()
     }
 

@@ -111,7 +111,7 @@ const Header: React.FC<HeaderProps> = (props) => {
             <Col xs={1}>
               <div className={styles.userActions}>
                 <div className={styles.shoppingCart}>
-                  <Link href="/shoppingCart">
+                  <Link href="/user/cart">
                     <a>
                       <img
                         src="/icons/shopping_cart-black-36dp.svg"
