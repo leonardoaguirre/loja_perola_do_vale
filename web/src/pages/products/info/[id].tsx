@@ -19,43 +19,12 @@ import Shipping from '../../../components/Shipping/ShippingCalc';
 
 import styles from './styles.module.css';
 import { CartContext } from '../../../contexts/CartContext';
+import { Product } from '../../../models/Product';
 
 interface ProductSearchProps {
   product: Product;
   fav: Favorite;
 }
-
-interface Product {
-  id: string;
-  nome: string;
-  marca: string;
-  descricao: string;
-  valorVenda: number;
-  codigoBarra: string;
-  quantidade: number;
-  peso: number;
-  altura: number;
-  largura: number;
-  comprimento: number;
-  imagens: Image[];
-  categorias: Category[];
-}
-
-interface Image {
-  id: string;
-  originalName: string;
-  mimetype: string;
-  destination: string;
-  filename: string;
-  path: string;
-  size: number;
-}
-
-interface Category {
-  id: string;
-  descricao: string;
-}
-
 interface Favorite {
   idFavorito: number;
   favoritado: boolean;
@@ -77,6 +46,8 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
 
   const [favorite, setFavorite] = useState<Favorite>({ idFavorito: null, favoritado: false, nFavoritos: 0 });
   const [favImg, setFavImg] = useState<string>('/icons/favorite_border_gray_36dp.svg');
+
+  const [produtoAtual, setProdutoAtual] = useState<Product[]>([{ ...props.product, quantidade: 1 }])
 
   const { addToCart } = useContext(CartContext)
 
@@ -144,10 +115,31 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
     }
   }
 
-  const sendToCart = (idprod: string) => {
-    const qt = document.getElementById('amount') as HTMLSelectElement
+  const sendToCart = (prod: Product) => {//envia as informacoes do produto mostrado ao context do carrinho
+    addToCart({
+      id: prod.id,
+      altura: prod.altura,
+      largura: prod.largura,
+      comprimento: prod.comprimento,
+      peso: prod.peso,
+      quantidade: produtoAtual[0].quantidade,
+      nome: prod.nome,
+      marca: prod.marca,
+      descricao: prod.descricao,
+      valorVenda: prod.valorVenda,
+      codigoBarra: prod.codigoBarra,
+      imagens: prod.imagens,
+      categorias: prod.categorias
+    })
+  }
 
-    addToCart({ id: idprod, qtd: parseInt(qt.value) })
+  const getQtd = () => {// onChange do select de quantidade do produto
+    const qt = document.getElementById('amount') as HTMLSelectElement //captura a quantidade do select option
+
+    const p = produtoAtual // clona o produto atual via hook
+
+    p[0].quantidade = parseInt(qt.value) //atribui a quantidade selecionada
+    setProdutoAtual(p)//atibui corretamente ao hook a quantidade selecionada
   }
 
   return (
@@ -218,7 +210,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
           </div>
           <div className={styles.amount}>
             <label htmlFor="quantidade">Quantidade</label>
-            <select name="quantidade" id="amount">
+            <select name="quantidade" id="amount" onChange={() => getQtd()}>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -227,9 +219,9 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
               <option value="6">6</option>
             </select>
           </div>
-          <Shipping produto={props.product} />
+          <Shipping produtos={produtoAtual} />
           <div className={styles.buttonContainer}>
-            <button className={styles.addCart} onClick={() => sendToCart(props.product.id)}>Adicionar ao carrinho</button>
+            <button className={styles.addCart} onClick={() => sendToCart(props.product)}>Adicionar ao carrinho</button>
             <button className={styles.buyButton}>Comprar</button>
           </div>
         </section>

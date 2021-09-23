@@ -14,15 +14,13 @@ class correiosServices {
                 return response.status(400).json(error);
             });
     }
+    
     async calculaFrete(request: Request, response: Response) {
         // const { cep, peso, comprimento, altura, largura, diametro } = request.body;
         const produtos: Produto[] = request.body.produtos
         const { cep } = request.body
-
-        console.log(produtos);
         
         const calculos = await Calculos.calcularCmCubico(produtos)
-        
         
         const args = {
             nCdServico: ['04014', '04510'],
