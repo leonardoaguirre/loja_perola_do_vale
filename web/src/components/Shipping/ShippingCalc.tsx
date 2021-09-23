@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import styles from './styles.module.css';
 import api from '../../services/api';
-
+import { Product } from '../../models/Product'
 interface ShippingCalcProps {
-  produto: Product;
+  produtos: Product[];
 }
 
 interface Shipping {
@@ -12,13 +12,6 @@ interface Shipping {
   Valor: string;
   PrazoEntrega: string;
   MsgErro?: string;
-}
-
-interface Product {
-  peso?: number;
-  altura?: number;
-  largura?: number;
-  comprimento?: number;
 }
 
 interface Cep {
@@ -40,13 +33,10 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
 
   const calcShipping = async (event) => {
     if (cepPesquisa.length == 8) {
-      const frete = {
+      const frete =
+      {
         cep: cepPesquisa,
-        peso: props.produto.peso,
-        comprimento: props.produto.comprimento,
-        altura: props.produto.altura,
-        largura: props.produto.largura,
-        diametro: 0
+        produtos: props.produtos
       }
 
       api.get(`Correios/ConsultaCep/${cepPesquisa}`).then(
@@ -101,12 +91,12 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
               <tr>
                 <td className={styles.tipo}>Sedex</td>
                 <td className={styles.prazo}>{`${fretes[0].PrazoEntrega} dias úteis`}</td>
-                <td className={styles.valor}>{fretes[0].Valor}</td>
+                <td className={styles.valor}>R${fretes[0].Valor}</td>
               </tr>
               <tr>
                 <td className={styles.tipo}>PAC</td>
                 <td className={styles.prazo}>{`${fretes[1].PrazoEntrega} dias úteis`}</td>
-                <td className={styles.valor}>{fretes[1].Valor}</td>
+                <td className={styles.valor}>R${fretes[1].Valor}</td>
               </tr>
             </tbody>
           </table>
