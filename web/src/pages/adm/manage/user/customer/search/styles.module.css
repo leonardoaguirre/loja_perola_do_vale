@@ -1,0 +1,51 @@
+.container {
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.custumerSearch {
+  width: 95%;
+  max-width: 2880px;
+  min-height: calc(100vh - 245px);
+  margin: 0 auto;
+  padding: 1.6rem 0;
+}
+
+.actionsContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.actionsContainer button {
+  width: 12rem;
+  height: 4rem;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  padding: 2rem 2rem;
+}
+
+.createButton {
+  background-color: #068601;
+  color: white;
+}
+
+.updateButton {
+  background-color: #bdba00;
+  color: black;
+  margin: 0 1rem;
+}
+
+.deleteButton {
+  background-color: #e73b3b;
+  color: white;
+}

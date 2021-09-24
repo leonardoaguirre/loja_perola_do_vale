@@ -244,35 +244,38 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const data = await response.json();
 
   const paths = data.map(product => {
-    return { params: { id: product.id } }
+    return { params: { id: '' } }
   });
 
   return {
     paths,
-    fallback: true
+    fallback: true,
   }
 
 }
 
+const fetchData = async (url: string) => await 
+api.get(url)
+.then(res => ({
+  error: false,
+  data: res.data
+}))
+.catch(() => ({
+  error: true,
+  data: null,
+}));
+
+
 export const getStaticProps: GetStaticProps = async (context) => {
   const { id } = context.params;
-
-  // const { user } = context;
-
-  // const idPessoa = 'aa02c964-3898-46d5-a497-ad0baf67471b';
-
-  const response = await fetch(`http://localhost:3008/produto/buscarporid/${id}`);
-  const data = await response.json();
-
-  // const responseFav = await fetch(`http://localhost:3008/favorito/verificaFavorito/${idPessoa}/${id}`);
-  // const dataFav = await responseFav.json();
-
-  // console.log(dataFav);
+  
+  const { data } = await fetchData(`Produto/BuscarporId/${toString(id)}`);
 
   return {
     props: {
       product: data
-    }
+    },
+    revalidate: 5 // em build 600
   }
 }
 
