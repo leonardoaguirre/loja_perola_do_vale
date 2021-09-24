@@ -7,20 +7,27 @@ import Header from "../../../components/Header";
 import { CartContext } from "../../../contexts/CartContext";
 import { Product } from "../../../models/Product";
 import Shipping from '../../../components/Shipping/ShippingCalc';
+import LoadingIcon from "../../../components/LoadingIcon";
+import { useRouter } from "next/router";
 
 interface CartProps {
     products: Product[];
 }
 const Cart: React.FC<CartProps> = (props) => {
+
+    const { isFallback } = useRouter();
+	if (isFallback) {
+		return <LoadingIcon />;
+	}
+    
     const { products, addToCart, changeQt, removeFromCart } = useContext(CartContext)
 
     const [subtotal, setSubTotal] = useState<number>(0);
 
     useEffect(() => {
-        if(products.length>0){
+        if (products.length > 0) {
             calcSubtotal()
         }
-        
     }, [products])
 
     const removeItem = (id: string) => {
@@ -29,6 +36,7 @@ const Cart: React.FC<CartProps> = (props) => {
 
         removeFromCart(id);
     }
+
     const OnChangeQt = (idProd: string, qt: string) => {
         changeQt(idProd, parseInt(qt))
         calcSubtotal()
@@ -37,8 +45,8 @@ const Cart: React.FC<CartProps> = (props) => {
     const calcSubtotal = () => {
         let sum: number = 0
 
-        props.products.map((prod, i) => {
-            sum += prod.valorVenda * products[i].qtd
+        products.map((prod, i) => {
+            sum += props.products[i].valorVenda * prod.quantidade
         })
 
         setSubTotal(sum);
@@ -66,19 +74,19 @@ const Cart: React.FC<CartProps> = (props) => {
                             {
                                 products.map((prod, i) => {
                                     return (
-                                        <tr id={`item-${props.products[i].id}`}>
+                                        <tr id={`item-${prod.id}`}>
                                             <td>
-                                                <Link href={`/Products/Info/${prod.id}`}>
+                                                <Link href={`/products/info/${prod.id}`}>
                                                     <a>
-                                                        <img src={`http://localhost:3008/${props.products[i].imagens[0].path}`}
-                                                            alt={capitalize(props.products[i].nome)} title={capitalize(props.products[i].nome)} width={150} height={150} />
+                                                        <img src={`http://localhost:3008/${prod.imagens[0].path}`}
+                                                            alt={capitalize(prod.nome)} title={capitalize(prod.nome)} width={150} height={150} />
                                                     </a>
                                                 </Link>
                                             </td>
-                                            <td>{props.products[i].nome}</td>
-                                            <td><input type="number" defaultValue={products[i].qtd} onChange={(e) => OnChangeQt(props.products[i].id, e.target.value)} /></td>
+                                            <td>{prod.nome}</td>
+                                            <td><input type="number" defaultValue={prod.quantidade} onChange={(e) => OnChangeQt(prod.id, e.target.value)} /></td>
                                             <td><span>R$</span>{parseFloat(props.products[i].valorVenda.toString()).toFixed(2).replace('.', ',')}</td>
-                                            <td><button onClick={() => removeItem(props.products[i].id)}>X</button></td>
+                                            <td><button onClick={() => removeItem(prod.id)}>X</button></td>
                                         </tr>
                                     )
                                 })
@@ -102,20 +110,26 @@ const Cart: React.FC<CartProps> = (props) => {
                     </div>
                     <div>
                         <h3>Calcular Frete :</h3>
-                        <Shipping produto={props.products[0]}></Shipping>
+                        <Shipping produtos={products}></Shipping>
                     </div>
                     <div>
-                        <Link href={"/Products/List/a"} >
-                        <a>
-                            <button>Continuar Comprando</button>
-                        </a>
+                        <Link href={"/products/list/a"} >
+                            <a>
+                                <button>Continuar Comprando</button>
+                            </a>
                         </Link>
                     </div>
                     <div>
                         <button>Finalizar Compra</button>
                     </div>
                 </div>
-                : ''
+                : <div>
+                    <Link href={"/products/list/a"} >
+                        <a>
+                            <button>Voltar para as Compras</button>
+                        </a>
+                    </Link>
+                </div>
             }
             <Footer />
         </>

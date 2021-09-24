@@ -2,11 +2,7 @@ import React from 'react';
 import { createContext, useState, ReactNode, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
-
-interface Product {
-    id: string;
-    qtd: number;
-}
+import { Product } from "../models/Product";
 
 interface CartContextData {
     products: Product[];
@@ -32,7 +28,6 @@ export function CartProvider({ children }: CartContextProviderProps) {
         if (cartProducts) {//verifica se o vetor nao esta vazio 
             setProducts(cartProducts);//armazena o vetor de produtos no context
         }
-
     }, []);
 
     function addToCart(product: Product) {
@@ -58,10 +53,10 @@ export function CartProvider({ children }: CartContextProviderProps) {
     function changeQt(idProd: string, n: number) {
         const index = products.findIndex(prod => prod.id == idProd)//procura o index no vetor que representa o produto com base no id do produto
 
-        if (products[index].qtd >= 1) {//verifica se a quantidade e maior ou igual a 1 para nao zerar a quantidade
+        if (products[index].quantidade >= 1) {//verifica se a quantidade e maior ou igual a 1 para nao zerar a quantidade
             const newProds = products;
-            newProds[index].qtd = n;//armazena a nova quantidade que foi passada
-            
+            newProds[index].quantidade = n;//armazena a nova quantidade que foi passada
+
             // armazena o novo vetor no cookie e no context
             setProducts(newProds)
             Cookies.set('cartProducts', newProds)
