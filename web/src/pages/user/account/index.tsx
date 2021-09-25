@@ -234,7 +234,7 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 							<form id={styles.postalAdressForm}>
 								{props.costumer?.pessoaFisica.pessoa.enderecos.length > 0
 									? props.costumer?.pessoaFisica.pessoa.enderecos.map((telephone, index) => {
-										return <PostalAdressCard postalAdress={telephone} index={index} key={index} />
+										return <PostalAdressCard postalAdress={telephone} key={index} />
 									})
 									: ''}
 								{props.costumer?.pessoaFisica.pessoa.enderecos.length < 3

@@ -1,20 +1,8 @@
+import { Adress } from '../../../models/Costumer';
 import styles from './styles.module.css';
 
-interface PostalAdress {
-  id: string;
-  titulo?: string;
-  rua: string;
-  numero: string;
-  complemento?: string;
-  bairro: string;
-  cidade: string;
-  estado: string;
-  cep: string;
-}
-
 interface PostalAdressCardProps {
-  postalAdress: PostalAdress;
-  index: number;
+  postalAdress: Adress;
 }
 
 const PostalAdressCard: React.FC<PostalAdressCardProps> = (props) => {
