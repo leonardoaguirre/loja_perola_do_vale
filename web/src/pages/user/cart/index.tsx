@@ -9,6 +9,7 @@ import { Product } from "../../../models/Product";
 import Shipping from '../../../components/Shipping/ShippingCalc';
 import LoadingIcon from "../../../components/LoadingIcon";
 import { useRouter } from "next/router";
+import ShippingCalc from "../../../components/Shipping/ShippingCalc";
 
 interface CartProps {
     products: Product[];
@@ -16,13 +17,14 @@ interface CartProps {
 const Cart: React.FC<CartProps> = (props) => {
 
     const { isFallback } = useRouter();
-	if (isFallback) {
-		return <LoadingIcon />;
-	}
-    
-    const { products, addToCart, changeQt, removeFromCart } = useContext(CartContext)
+    if (isFallback) {
+        return <LoadingIcon />;
+    }
+
+    const { products, changeQt, removeFromCart } = useContext(CartContext)
 
     const [subtotal, setSubTotal] = useState<number>(0);
+    const [frete, setFrete] = useState<number>();
 
     useEffect(() => {
         if (products.length > 0) {
@@ -37,9 +39,13 @@ const Cart: React.FC<CartProps> = (props) => {
         removeFromCart(id);
     }
 
-    const OnChangeQt = (idProd: string, qt: string) => {
-        changeQt(idProd, parseInt(qt))
-        calcSubtotal()
+    const OnChangeQt = (idProd: string, e: HTMLInputElement) => {
+        if (changeQt(idProd, parseInt(e.value))) {
+            calcSubtotal()
+        }else{
+            e.value = '1'
+        }
+        
     }
 
     const calcSubtotal = () => {
@@ -50,6 +56,11 @@ const Cart: React.FC<CartProps> = (props) => {
         })
 
         setSubTotal(sum);
+    }
+    const getFrete = (frete)=>{
+        console.log(frete.Valor);
+        
+        setFrete(parseFloat(frete.Valor.replace(',','.')))
     }
 
     return (
@@ -84,7 +95,7 @@ const Cart: React.FC<CartProps> = (props) => {
                                                 </Link>
                                             </td>
                                             <td>{prod.nome}</td>
-                                            <td><input type="number" defaultValue={prod.quantidade} onChange={(e) => OnChangeQt(prod.id, e.target.value)} /></td>
+                                            <td><input type="number" defaultValue={prod.quantidade} onChange={(e) => OnChangeQt(prod.id, e.target)} /></td>
                                             <td><span>R$</span>{parseFloat(props.products[i].valorVenda.toString()).toFixed(2).replace('.', ',')}</td>
                                             <td><button onClick={() => removeItem(prod.id)}>X</button></td>
                                         </tr>
@@ -104,23 +115,28 @@ const Cart: React.FC<CartProps> = (props) => {
                         </div>
                         <div>
                             <label>{products.length} Produto(s) <span>R${subtotal.toFixed(2).replace(`.`, `,`)}</span></label>
-                            <label>Total: <span>R${subtotal.toFixed(2).replace(`.`, `,`)}</span></label>
-                            <label>Em ate 10x sem juros de R${(subtotal / 10).toFixed(2).replace(`.`, `,`)}</label>
+                            <label>Frete: <span>R${frete ? frete.toFixed(2).replace(`.`, `,`) : `--`}</span></label>
+                            <label>Total: <span>R${frete ? (subtotal+frete).toFixed(2).replace(`.`, `,`) : subtotal.toFixed(2).replace(`.`, `,`) }</span></label>
+                            <label>Em ate 10x sem juros de R${frete ?((subtotal+frete)/10).toFixed(2).replace(`.`, `,`) : (subtotal / 10).toFixed(2).replace(`.`, `,`)}</label>
                         </div>
                     </div>
                     <div>
                         <h3>Calcular Frete :</h3>
-                        <Shipping produtos={products}></Shipping>
+                        <ShippingCalc produtos={products} getFrete={getFrete}/>
                     </div>
                     <div>
                         <Link href={"/products/list/a"} >
                             <a>
-                                <button>Continuar Comprando</button>
+                                <button>Voltar para as Compras</button>
                             </a>
                         </Link>
                     </div>
                     <div>
-                        <button>Finalizar Compra</button>
+                        <Link href={"/forms/checkout"}>
+                            <a>
+                                <button>Continuar</button>
+                            </a>
+                        </Link>
                     </div>
                 </div>
                 : <div>

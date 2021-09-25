@@ -8,7 +8,8 @@ interface CartContextData {
     products: Product[];
     addToCart: (product: Product) => void;
     removeFromCart: (idProd: string) => void;
-    changeQt: (idProd: string, n: number) => void;
+    changeQt: (idProd: string, n: number) => boolean;
+    clearCart : () =>void;
 }
 
 interface CartContextProviderProps {
@@ -53,16 +54,21 @@ export function CartProvider({ children }: CartContextProviderProps) {
     function changeQt(idProd: string, n: number) {
         const index = products.findIndex(prod => prod.id == idProd)//procura o index no vetor que representa o produto com base no id do produto
 
-        if (products[index].quantidade >= 1) {//verifica se a quantidade e maior ou igual a 1 para nao zerar a quantidade
+        if (n >= 1) {//verifica se a quantidade e maior ou igual a 1 para nao zerar a quantidade
             const newProds = products;
             newProds[index].quantidade = n;//armazena a nova quantidade que foi passada
 
             // armazena o novo vetor no cookie e no context
             setProducts(newProds)
             Cookies.set('cartProducts', newProds)
+            return true
         } else {
             alert('Quantidade nao pode ser menor que 1');
+            return false
         }
+    }
+    function clearCart(){
+        Cookies.set('cartProducts', []);
     }
 
     return (
@@ -72,6 +78,7 @@ export function CartProvider({ children }: CartContextProviderProps) {
                 addToCart,
                 removeFromCart,
                 changeQt,
+                clearCart,
             }}
         >
             {children}

@@ -142,6 +142,8 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
     setProdutoAtual(p)//atibui corretamente ao hook a quantidade selecionada
   }
 
+  const getF =()=>{}//metodo vazio para implementar getFrete shippingcalc erro getFrete is Not a function por causa do reaproveitamento do componente
+  
   return (
     <div className={styles.container}>
       <Head>
@@ -219,7 +221,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
               <option value="6">6</option>
             </select>
           </div>
-          <Shipping produtos={produtoAtual} />
+          <Shipping produtos={produtoAtual} getFrete={getF}/>
           <div className={styles.buttonContainer}>
             <button className={styles.addCart} onClick={() => sendToCart(props.product)}>Adicionar ao carrinho</button>
             <button className={styles.buyButton}>Comprar</button>
