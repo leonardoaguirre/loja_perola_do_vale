@@ -51,7 +51,7 @@ export function CartProvider({ children }: CartContextProviderProps) {
         return newProds//retorna o vetor para a redundancia do addToCart()
     }
 
-    function changeQt(idProd: string, n: number) {
+    function changeQt(idProd: string, n: number): boolean {
         const index = products.findIndex(prod => prod.id == idProd)//procura o index no vetor que representa o produto com base no id do produto
 
         if (n >= 1) {//verifica se a quantidade e maior ou igual a 1 para nao zerar a quantidade

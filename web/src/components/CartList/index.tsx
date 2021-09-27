@@ -8,7 +8,7 @@ import React from 'react';
 interface CartListProps {
   products: Product[];
   removeFromCart(id: string): void;
-  changeQt(idProd: string, qt: number): void;
+  changeQt(idProd: string, qt: number): boolean;
   calcSubtotal(): void;
 }
 
@@ -17,16 +17,18 @@ const CartList: React.FC<CartListProps> = (props) => {
   let refs = useRef([React.createRef(), React.createRef()]);
 
   const removeItem = (id: string) => {
-    const item = document.getElementById(`item-${id}`)
-    console.log(item);
-    item.removeChild
+    const item = document.getElementById(`item-${id}`);
+    item.removeChild;
 
     props.removeFromCart(id);
   }
 
-  const OnChangeQt = (idProd: string, qt: string) => {
-    props.changeQt(idProd, parseInt(qt));
-    props.calcSubtotal();
+  const OnChangeQt = (idProd: string, e: HTMLInputElement) => {
+    if (props.changeQt(idProd, parseInt(e.value))) {
+      props.calcSubtotal();
+    } else {
+      e.value = '1';
+    }
   }
 
   return (
@@ -53,7 +55,7 @@ const CartList: React.FC<CartListProps> = (props) => {
                 </div>
                 <div className={styles.name}>{product.nome}</div>
                 <div className={`${styles.qtd} ${styles.center}`}>
-                  <input type="number" defaultValue={1} onChange={(e) => OnChangeQt(product.id, e.target.value)} />
+                  <input type="number" defaultValue={1} onChange={(e) => OnChangeQt(product.id, e.target)} />
                   <button onClick={() => removeItem(product.id)}>Remover</button>
                 </div>
                 <div className={`${styles.price} ${styles.center}`}><span>R$</span>{parseFloat(props.products[index].valorVenda.toString()).toFixed(2).replace('.', ',')}</div>
