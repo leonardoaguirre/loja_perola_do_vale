@@ -94,6 +94,7 @@ const Header: React.FC<HeaderProps> = (props) => {
                       <Link href="/user/account">
                         <a>Minha Conta</a>
                       </Link>
+                      <div className={styles.divider}></div>
                       <button onClick={logoutUser}>Sair</button>
                     </div>
                   </div>
