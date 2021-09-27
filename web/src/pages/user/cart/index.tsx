@@ -23,8 +23,8 @@ const Cart: React.FC<CartProps> = (props) => {
     return <LoadingIcon />;
   }
 
-  const { products, changeQt, removeFromCart } = useContext(CartContext)
-
+  const { products, changeQt, removeFromCart } = useContext(CartContext);
+  const [frete, setFrete] = useState<number>();
   const [subtotal, setSubTotal] = useState<number>(0);
 
   useEffect(() => {
@@ -41,6 +41,10 @@ const Cart: React.FC<CartProps> = (props) => {
     })
 
     setSubTotal(sum);
+  }
+
+  const getFrete = (frete) => {
+    setFrete(parseFloat(frete.Valor.replace(',', '.')))
   }
 
   return (
@@ -77,16 +81,16 @@ const Cart: React.FC<CartProps> = (props) => {
                         <label>{products.length} Produto(s)</label><span className={styles.price}>R${subtotal.toFixed(2).replace(`.`, `,`)}</span>
                       </div>
                       <div className={styles.row}>
-                        <label>Frete</label><span></span>
+                        <label>Frete</label><span>R${frete ? frete.toFixed(2).replace(`.`, `,`) : `--`}</span>
                       </div>
                     </div>
                     <hr />
                     <div className={styles.bottom}>
                       <div className={`${styles.row} ${styles.total}`}>
-                        <label>Total</label><span className={styles.price}>R${subtotal.toFixed(2).replace(`.`, `,`)}</span>
+                        <label>Total</label><span className={styles.price}>R${frete ? (subtotal + frete).toFixed(2).replace(`.`, `,`) : subtotal.toFixed(2).replace(`.`, `,`)}</span>
                       </div>
                       <div className={`${styles.row} ${styles.installment}`}>
-                        <label>Em até 10x sem juros de</label><span>R${(subtotal / 10).toFixed(2).replace(`.`, `,`)}</span>
+                        <label>Em até 10x sem juros de</label><span>R${frete ? ((subtotal + frete) / 10).toFixed(2).replace(`.`, `,`) : (subtotal / 10).toFixed(2).replace(`.`, `,`)}</span>
                       </div>
                     </div>
                   </div>
@@ -94,11 +98,15 @@ const Cart: React.FC<CartProps> = (props) => {
                 <hr />
                 <div className={styles.frete}>
                   <h3>Calcular Frete</h3>
-                  <Shipping produtos={products}></Shipping>
+                  <Shipping produtos={products} getFrete={getFrete} />
                 </div>
                 <hr />
                 <div className={styles.buy}>
-                  <button>Finalizar Compra</button>
+                  <Link href={"/forms/checkout"}>
+                    <a>
+                      <button>Continuar</button>
+                    </a>
+                  </Link>
                 </div>
                 <div className={styles.keep}>
                   <Link href={"/products/list/a"} >
@@ -107,7 +115,7 @@ const Cart: React.FC<CartProps> = (props) => {
                     </a>
                   </Link>
                 </div>
-              </div>
+              </div >
               : <div>
                 <Link href={"/products/list/a"} >
                   <a>
@@ -116,11 +124,11 @@ const Cart: React.FC<CartProps> = (props) => {
                 </Link>
               </div>
             }
-          </div>
-        </div>
-      </div>
+          </div >
+        </div >
+      </div >
       <Footer />
-    </div>
+    </div >
   );
 }
 
