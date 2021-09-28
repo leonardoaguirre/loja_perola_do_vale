@@ -9,7 +9,7 @@ interface CartContextData {
     addToCart: (product: Product) => void;
     removeFromCart: (idProd: string) => void;
     changeQt: (idProd: string, n: number) => boolean;
-    clearCart : () =>void;
+    clearCart: () => void;
 }
 
 interface CartContextProviderProps {
@@ -24,7 +24,7 @@ export function CartProvider({ children }: CartContextProviderProps) {
     const router = useRouter();
 
     useEffect(() => {//hook para persistir os produtos no context
-        const cartProducts: Product[] = Cookies.getJSON('cartProducts');// captura o vetor presente no cookie
+        const cartProducts: Product[] = JSON.parse(localStorage.getItem('cartProducts'));// captura o vetor presente no cookie
 
         if (cartProducts) {//verifica se o vetor nao esta vazio 
             setProducts(cartProducts);//armazena o vetor de produtos no context
@@ -36,7 +36,8 @@ export function CartProvider({ children }: CartContextProviderProps) {
         newProds.push(product)
 
         setProducts(newProds)
-        Cookies.set('cartProducts', newProds);
+        Cookies.set('cartProducts', newProds.map(prod => { return { id: prod.id } }));
+        localStorage.setItem('cartProducts', JSON.stringify(newProds))
     }
 
     function removeFromCart(idProd: string) {
@@ -44,7 +45,8 @@ export function CartProvider({ children }: CartContextProviderProps) {
 
         // armazena o novo vetor no cookie e no context
         setProducts(newProds)
-        Cookies.set('cartProducts', newProds)
+        Cookies.set('cartProducts', newProds.map(prod => { return { id: prod.id } }))
+        localStorage.setItem('cartProducts', JSON.stringify(newProds))
 
         //redireciona para o cart para dar reload e exibbir o novo vetor de produtos
         router.push('/user/cart');
@@ -60,15 +62,19 @@ export function CartProvider({ children }: CartContextProviderProps) {
 
             // armazena o novo vetor no cookie e no context
             setProducts(newProds)
-            Cookies.set('cartProducts', newProds)
+            Cookies.set('cartProducts', newProds.map(prod => { return { id: prod.id } }))
+            localStorage.setItem('cartProducts', JSON.stringify(newProds))
+
             return true
         } else {
             alert('Quantidade nao pode ser menor que 1');
             return false
         }
     }
-    function clearCart(){
-        Cookies.set('cartProducts', []);
+    function clearCart() {
+        Cookies.remove('cartProducts');
+        localStorage.setItem('cartProducts', '');
+        setProducts([])
     }
 
     return (

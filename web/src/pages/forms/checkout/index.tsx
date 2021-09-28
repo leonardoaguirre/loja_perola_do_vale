@@ -26,7 +26,7 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
         return <LoadingIcon />;
     }
 
-    const { products } = useContext(CartContext)
+    const { products ,clearCart} = useContext(CartContext)
     const [endEntrega, setEndEntrega] = useState<Adress>(props.costumer.pessoaFisica.pessoa.enderecos[0] || null);
     const [tipoPagamento, setTipoPagamento] = useState<number>();
     const [frete, setFrete] = useState<number>(0)
@@ -71,8 +71,9 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
         api.post('Venda/Adicionar', venda)
             .then((res) => {
                 console.log(res.data);
-                
+                clearCart()
                 if (res.status === 200) {
+
                     router.push('/user/orderSuccess')
                 }
             }).catch((error) => {
