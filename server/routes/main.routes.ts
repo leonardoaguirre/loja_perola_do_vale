@@ -11,6 +11,7 @@ import { produtoRoutes } from './produto.routes';
 import { categoriaRoutes } from './categoria.routes';
 import { favoritoRoutes } from "./favorito.routes";
 import { correioRoutes } from './correios.routes';
+import { vendaRoutes } from "./venda.routes";
 
 const routes = Router();
 
@@ -26,7 +27,7 @@ routes.use("/Produto", produtoRoutes);
 routes.use("/Categoria", categoriaRoutes);
 routes.use("/Favorito", favoritoRoutes);
 routes.use("/Correios",correioRoutes);
-
+routes.use("/Venda", vendaRoutes)
 
 
 

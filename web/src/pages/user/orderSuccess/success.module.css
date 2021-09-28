@@ -1,0 +1,64 @@
+.container {
+    height: 100vh;
+    width: 100vw;
+    margin: 0 auto;
+}
+
+.success {
+    width: 95%;
+    max-width: 1280px;
+    margin: 10rem auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.success img {
+    width: 20rem;
+}
+
+.success .rightContainer {
+    margin: 3rem;
+    width: 40rem;
+}
+
+.success .rightContainer h1 {
+    font-size: 6rem;
+}
+
+.success .rightContainer h2 {
+    font-size: 2.5rem;
+    color: #727272;
+}
+
+.success .rightContainer a {
+    color: var(--secondary);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.success .rightContainer a:hover {
+    opacity: 0.7;
+}
+
+.success .rightContainer a img {
+    width: 3rem;
+    height: 3rem;
+    margin-left: 0.5rem;
+}
+
+@media (max-width: 700px) {
+    .success img {
+        width: 10rem;
+    }
+    .success .rightContainer h1 {
+        font-size: 2rem;
+    }
+    .success .rightContainer h2 {
+        font-size: 1rem;
+    }
+    .success .rightContainer a {
+        font-size: 0.8rem;
+    }
+}
