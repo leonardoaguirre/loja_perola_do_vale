@@ -42,10 +42,24 @@ const Header: React.FC<HeaderProps> = (props) => {
       <Row>
         <header className={styles.pageHeader}>
           <div className={styles.topBarContainer}>
-            <Col xs={3}>
-              <Logo imgheight="5.5rem" titleheight="4.5rem" color="black" />
+            <Col xs={6} sm={5} md={3} lg={3} xl={3}>
+              <div className={styles.logo}>
+                {/* <Logo color="black" /> */}
+                <img 
+                  id={styles.logoImg} 
+                  src="/icons/logo.png" 
+                  alt="Logo Ferragens Pérola do Vale" 
+                  title="Logo Ferragens Pérola do Vale" 
+                />
+                <img 
+                  id={styles.logoTitle} 
+                  src="/icons/ferragens-perola-do-vale-preto.png" 
+                  alt="Logo título Ferragens Pérola do Vale" 
+                  title="Logo título Ferragens Pérola do Vale" 
+                />
+              </div>
             </Col>
-            <Col xs={4}>
+            <Col xs={12} sm={12} md={5} lg={4} xl={5}>
               <InputGroup className={styles.inputContainer} size="lg">
                 <FormControl
                   className={styles.searchInput}
@@ -63,7 +77,7 @@ const Header: React.FC<HeaderProps> = (props) => {
                 </Button>
               </InputGroup>
             </Col>
-            <Col xs={2}>
+            <Col xs={3} sm={4} md={2} lg={3} xl={3}>
               <div className={styles.userContainer}>
                 {user ? (
                   <Link href="/user/account">
@@ -92,7 +106,7 @@ const Header: React.FC<HeaderProps> = (props) => {
                     <strong>{user.nome}</strong>
                     <div className={styles.log}>
                       <Link href="/user/account">
-                        <a>Minha Conta</a>
+                        <a>Minha&nbsp;Conta</a>
                       </Link>
                       <div className={styles.divider}></div>
                       <button onClick={logoutUser}>Sair</button>
@@ -109,7 +123,7 @@ const Header: React.FC<HeaderProps> = (props) => {
                 )}
               </div>
             </Col>
-            <Col xs={1}>
+            <Col xs={3} sm={3} md={2} lg={1} xl={1}>
               <div className={styles.userActions}>
                 <div className={styles.shoppingCart}>
                   <Link href="/user/cart">

@@ -75,7 +75,7 @@ const ProductList: React.FC<ProductListProps> = (props) => {
         <Container>
           <Row className={styles.row} xs={2} md={3} lg={4}>
             {props.products.map((product, index) => (
-              <Col className={styles.col}>
+              <Col key={index} className={styles.col}>
                 <ProductCard product={product} index={index} key={index} />
               </Col>
             ))}

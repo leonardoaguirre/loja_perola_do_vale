@@ -48,15 +48,29 @@
 
 .imgContainer {
   object-fit: cover;
-  width: 128px;
-  height: 128px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
   margin: 1rem;
   box-shadow: 4px 4px 10px 3px rgba(0,0,0,0.03);
 }
 
+.imgContainer a {
+  width: 10rem;
+  height: 15rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+
 .imgContainer img {
-  width: 100%;
-  height: 100%;
+  max-width: 10rem;
+  max-height: 10rem;
 }
 
 .name {

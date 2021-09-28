@@ -15,22 +15,15 @@
   justify-content: center;
 }
 
-.productSearch hr {
-  height: 1px;
-  background-color: rgb(219, 219, 219);
-  border: none;
-}
-
 .product {
-  width: 65rem;
-  height: 35rem;
+  width: 100%;
+  height: fit-content;
   background-color: white;
   margin-right: 1rem;
   display: flex;
 }
 
 .imageContainer {
-  margin-right: 1rem;
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -39,9 +32,10 @@
 }
 
 .mainImage {
-  min-width: 30rem;
-  min-height: 25rem;
+  width: 25rem;
+  height: 25rem;
   margin-bottom: 1rem;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -50,24 +44,26 @@
 }
 
 .mainImage img {
-  max-width: 25rem;
-  max-height: 25rem;
+  max-width: 20rem;
+  max-height: 20rem;
 }
 
 .imageCollection {
+  width: 100%;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
 }
 
 .imageItem {
-  min-width: 6rem;
-  min-height: 6rem;
   margin: 0.8rem;
   display: flex;
   flex-direction: column;
   align-content: center;
   align-items: center;
   justify-content: center;
+  border: 1px solid #e4e4e4;
+  padding: 5px;
 }
 
 .imageCollection button {
@@ -76,24 +72,23 @@
 }
 
 .imageItem img {
+  width: 100%;
   max-width: 6.5rem;
   max-height: 6.5rem;
-  border: 1px solid #e4e4e4;
   padding: 0.1rem;
 }
 
+.arrow {
+  min-width: 2rem;
+}
+
 .infoContainer {
-  min-width: 27rem;
   margin: 0 1.4rem;
 }
 
 .infoContainer h1 {
-  font-size: 1.6rem;
+  font-size: 1.3rem;
   margin-top: 2rem;
-}
-
-.infoContainer h1::first-letter {
-  text-transform: uppercase;
 }
 
 .brand {
@@ -110,10 +105,9 @@
 }
 
 .buy {
-  width: 25rem;
-  height: 35rem;
+  width: 100%;
+  height: 100%;
   background-color: white;
-
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -121,10 +115,15 @@
   padding: 2rem;
 }
 
-.price {
+.right {
   display: flex;
   flex-direction: column;
-  align-content: center;
+}
+
+.price {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .currentPrice {
@@ -148,11 +147,11 @@
 }
 
 .fav {
-	text-align: end;
+	/* text-align: end;
 	position: absolute;
 	right: 80px;
 	display: flex;
-	justify-content: flex-end;
+	justify-content: flex-end; */
 }
 
 .fav button {
@@ -183,7 +182,7 @@
   border: 1px solid var(--primary);
   color: var(--primary);
   background-color: white;
-  font: 400 1.3rem Roboto;
+  font-size: 1.2rem;
   margin: 0.2rem 0;
   transition: 0.2s;
 }
@@ -198,7 +197,8 @@
   border: none;
   background-color: #139c2a;
   color: white;
-  font: 500 1.6rem Roboto;
+  font-size: 1.3rem;
+  font-weight: 700;
   letter-spacing: 0.2rem;
   margin: 0.3rem 0;
   transition: 0.2s;

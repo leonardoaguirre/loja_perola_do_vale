@@ -26,6 +26,23 @@
   opacity: 0.6;
 }
 
+.topBarContainer > div {
+  padding: 0 1.2rem;
+}
+
+.logo {
+  min-width: 165px;
+  max-width: 250px;
+}
+
+.logo img:first-child {
+  width: 30%;
+}
+
+.logo img:last-child {
+  width: 70%;
+}
+
 .searchInput::placeholder {
   font-size: 1rem;
 }
@@ -145,4 +162,73 @@
 
 .favoriteItens a {
   nav-index: 8;
+}
+
+.topBarContainer > :nth-child(1) {
+  order: 1;
+}
+.topBarContainer > :nth-child(2) {
+  order: 2;
+}
+.topBarContainer > :nth-child(3) {
+  order: 3;
+}
+.topBarContainer > :nth-child(4) {
+  order: 4;
+}
+
+@media (max-width: 767px) {
+  .inputContainer {
+    margin-top: 8px;
+  }
+
+  .logo {
+    min-width: 144px;
+    max-width: 200px;
+  }
+
+  .pageHeader {
+    height: 124px;
+  }
+
+  .topBarContainer {
+    flex-wrap: wrap;
+  }
+
+  .topBarContainer > div {
+    padding: 0;
+  }
+
+  .topBarContainer > :nth-child(1) {
+    order: 1;
+  }
+  .topBarContainer > :nth-child(2) {
+    order: 4;
+  }
+  .topBarContainer > :nth-child(3) {
+    order: 2;
+  }
+  .topBarContainer > :nth-child(4) {
+    order: 3;
+  }
+}
+
+@media(max-width: 575px) {
+  .userInfo {
+    display: none;
+  }
+
+  .userContainer {
+    padding: 0 21px;
+  }
+
+  .userContainer a img,
+  .userActions img {
+    max-width: 4rem;
+    min-width: 2rem;
+    max-height: 4rem;
+    min-height: 2rem;
+    width: 100%;
+    height: 100%;
+  }
 }
