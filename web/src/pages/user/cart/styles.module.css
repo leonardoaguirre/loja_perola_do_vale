@@ -64,7 +64,7 @@
   width: 300px;
 }
 
-.buy,
+.buy a,
 .keep {
   display: flex;
   flex-direction: column;

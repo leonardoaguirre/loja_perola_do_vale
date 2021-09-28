@@ -10,10 +10,11 @@
 .topBarContainer {
   width: 85%;
   max-width: 1280px;
-  margin: 0 auto;
+  margin: auto auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .topBarContainer a {
@@ -24,18 +25,34 @@
   opacity: 0.6;
 }
 
-.logoContainter a {
+.logo {
+  width: 100%;
+  /* min-width: 165px;
+  max-width: 250px; */
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
   align-items: center;
   justify-content: center;
 }
 
-#logoImg {
-  height: 10rem;
+.logo img:first-child {
+  min-width: 50px;
+  max-width: 70px;
+  width: 30%;
 }
 
-#logoTitle {
-  height: 7rem;
+.logo img:last-child {
+  min-width: 100px;
+  max-width: 180px;
+  width: 70%;
+}
+
+.logoContainter a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .linksContainer {
@@ -82,4 +99,27 @@
 .footerContent p {
   font-size: 0.7rem;
   text-align: center;
+}
+
+@media(max-width: 767px) {
+  .footer {
+    height: 200px;
+  }
+}
+
+@media(max-width: 575px) {
+  .linksContainer img {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .logo img:first-child {
+    min-width: 40px;
+    max-width: 50px;
+  }
+  
+  .logo img:last-child {
+    min-width: 100px;
+    max-width: 140px;
+  }
 }

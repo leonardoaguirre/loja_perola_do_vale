@@ -6,7 +6,7 @@ import { toString } from 'lodash';
 import { useContext, useState, useEffect } from 'react';
 
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
-import { Button } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 
 import { UserContext } from '../../../contexts/UserContext';
 import api from '../../../services/api';
@@ -142,8 +142,8 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
     setProdutoAtual(p)//atibui corretamente ao hook a quantidade selecionada
   }
 
-  const getF =()=>{}//metodo vazio para implementar getFrete shippingcalc erro getFrete is Not a function por causa do reaproveitamento do componente
-  
+  const getF = () => { }//metodo vazio para implementar getFrete shippingcalc erro getFrete is Not a function por causa do reaproveitamento do componente
+
   return (
     <div className={styles.container}>
       <Head>
@@ -152,81 +152,103 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
       <Header />
       <Nav />
       <div className={styles.productSearch}>
-        <section className={styles.product}>
-          <div className={styles.imageContainer}>
-            <figure className={styles.mainImage}>
-              <img src={mainImage} alt={props.product.nome} title={props.product.nome} />
-            </figure>
-            <div className={styles.imageCollection}>
-              <MdKeyboardArrowLeft
-                color="black"
-                size={36}
-              />
-              {props.product.imagens.map((img, index) => (
-                <figure className={styles.imageItem} key={index}>
-                  <img src={`http://localhost:3008/${props.product.imagens[index].path}`} alt={props.product.nome} onClick={handleImagePick} />
-                </figure>
-              ))}
-              <MdKeyboardArrowRight
-                color="black"
-                size={36}
-              />
-            </div>
-          </div>
-          <div className={styles.infoContainer}>
-            <h1>{props.product.nome}</h1>
-            <section className={styles.generalInfo}>
-              <div className={styles.brand}>{props.product.marca}</div>
-              <hr />
-              <div className={styles.description}>{props.product.descricao}</div>
-              <hr />
-            </section>
-            <section className={styles.phisicsDimentions}>
-              <label htmlFor="dimention">Dimenções: </label>
-              <span className={styles.dimention}>
-                <span className={styles.height} title="altura">{`${props.product.altura} x `}</span>
-                <span className={styles.widht} title="largura">{`${props.product.largura} x `}</span>
-                <span className={styles.length} title="comprimento">{`${props.product.comprimento}`}</span>
-              </span>
-            </section>
-          </div>
-        </section>
-        <section className={styles.buy}>
-          <div className={styles.price}>
-            <strong className={styles.currentPrice}><span className={styles.currence}>R$</span>{parseFloat(toString(props.product.valorVenda)).toFixed(2).replace('.', ',')}</strong>
-            <span className={styles.installment}><span className={styles.times}>10x</span> de <span className={styles.currence}>R$</span> <span className={styles.dividedValue}>{(props.product.valorVenda / 10).toFixed(2).replace('.', ',')}</span> sem juros</span>
-            <div className={styles.fav}>
-              <Button id="btnfav" variant="outline-primary" onClick={handleFavorite} disabled={isDisabled}>
-                <img
-                  className={styles.favImg}
-                  src={favImg}
-                  alt="Coração"
-                  title="Favoritar"
-                />
-                <div className={styles.favCont}>
-                  {favorite.nFavoritos}
+        <Container>
+          <Row>
+            <Col xs={12} lg={8}>
+              <section className={styles.product}>
+                <Row>
+                  <Col xs={12} md={6} xl={6}>
+                    <div className={styles.imageContainer}>
+                      <figure className={styles.mainImage}>
+                        <img src={mainImage} alt={props.product.nome} title={props.product.nome} />
+                      </figure>
+                      <div className={styles.imageCollection}>
+                        <div className={styles.arrow}>
+                          <MdKeyboardArrowLeft
+                            color="black"
+                            size={36}
+                          />
+                        </div>
+                        {props.product.imagens.map((img, index) => (
+                          <figure className={styles.imageItem} key={index}>
+                            <img src={`http://localhost:3008/${props.product.imagens[index].path}`} alt={props.product.nome} onClick={handleImagePick} />
+                          </figure>
+                        ))}
+                        <div className={styles.arrow}>
+                          <MdKeyboardArrowRight
+                            color="black"
+                            size={36}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </Col>
+                  <Col xs={12} md={6} xl={6}>
+                    <div className={styles.infoContainer}>
+                      <h1>{props.product.nome}</h1>
+                      <section className={styles.generalInfo}>
+                        <div className={styles.brand}>{props.product.marca}</div>
+                        <hr />
+                        <div className={styles.description}>{props.product.descricao}</div>
+                        <hr />
+                      </section>
+                      <section className={styles.phisicsDimentions}>
+                        <label htmlFor="dimention">Dimenções: </label>
+                        <span className={styles.dimention}>
+                          <span className={styles.height} title="altura">{`${props.product.altura} x `}</span>
+                          <span className={styles.widht} title="largura">{`${props.product.largura} x `}</span>
+                          <span className={styles.length} title="comprimento">{`${props.product.comprimento}`}</span>
+                        </span>
+                      </section>
+                    </div>
+                  </Col>
+                </Row>
+              </section>
+            </Col>
+            <Col xs={12} lg={4}>
+              <section className={styles.buy}>
+                <div>
+                  <div className={styles.price}>
+                    <div className={styles.right}>
+                      <strong className={styles.currentPrice}><span className={styles.currence}>R$</span>{parseFloat(toString(props.product.valorVenda)).toFixed(2).replace('.', ',')}</strong>
+                      <span className={styles.installment}><span className={styles.times}>10x</span> de <span className={styles.currence}>R$</span> <span className={styles.dividedValue}>{(props.product.valorVenda / 10).toFixed(2).replace('.', ',')}</span> sem juros</span>
+                    </div>
+                    <div className={styles.fav}>
+                      <Button id="btnfav" variant="outline-primary" onClick={handleFavorite} disabled={isDisabled}>
+                        <img
+                          className={styles.favImg}
+                          src={favImg}
+                          alt="Coração"
+                          title="Favoritar"
+                        />
+                        <div className={styles.favCont}>
+                          {favorite.nFavoritos}
+                        </div>
+                      </Button>{' '}
+                    </div>
+                  </div>
+                  <hr />
                 </div>
-              </Button>{' '}
-            </div>
-            <hr />
-          </div>
-          <div className={styles.amount}>
-            <label htmlFor="quantidade">Quantidade</label>
-            <select name="quantidade" id="amount" onChange={() => getQtd()}>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-            </select>
-          </div>
-          <Shipping produtos={produtoAtual} getFrete={getF}/>
-          <div className={styles.buttonContainer}>
-            <button className={styles.addCart} onClick={() => sendToCart(props.product)}>Adicionar ao carrinho</button>
-            <button className={styles.buyButton}>Comprar</button>
-          </div>
-        </section>
+                <div className={styles.amount}>
+                  <label htmlFor="quantidade">Quantidade</label>
+                  <select name="quantidade" id="amount" onChange={() => getQtd()}>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                  </select>
+                </div>
+                <Shipping produtos={produtoAtual} getFrete={getF} />
+                <div className={styles.buttonContainer}>
+                  <button className={styles.addCart} onClick={() => sendToCart(props.product)}>Adicionar ao carrinho</button>
+                  <button className={styles.buyButton}>Comprar</button>
+                </div>
+              </section>
+            </Col>
+          </Row>
+        </Container>
       </div>
       <Footer />
     </div>
@@ -248,21 +270,21 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 }
 
-const fetchData = async (url: string) => await 
-api.get(url)
-.then(res => ({
-  error: false,
-  data: res.data
-}))
-.catch(() => ({
-  error: true,
-  data: null,
-}));
+const fetchData = async (url: string) => await
+  api.get(url)
+    .then(res => ({
+      error: false,
+      data: res.data
+    }))
+    .catch(() => ({
+      error: true,
+      data: null,
+    }));
 
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const { id } = context.params;
-  
+
   const { data } = await fetchData(`Produto/BuscarporId/${toString(id)}`);
 
   return {
