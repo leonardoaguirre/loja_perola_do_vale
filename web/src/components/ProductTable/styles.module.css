@@ -1,20 +1,96 @@
-.productsTable table {
+.productTable img {
+    width: 4rem;
+    height: 4rem;
+}
+
+.productTable .filters {
+    display: flex;
+    flex-direction: column;
+}
+
+.productTable .table {
     border-collapse: collapse;
     width: 100%;
     margin: 0 auto;
     max-width: 2880px;
 }
 
-.productsTable table tr th {
-    background-color: #a7baff;
+.productTable .table .selected {
+    background-color: blue;
 }
 
-.productsTable table tr td, .productsTable table tr th {
+.productTable .table thead tr th {
+    background-color: #a7baff;
+    font-weight: bold;
+    padding: 1rem 2rem;
+}
+
+.productTable .table tr td {
+    cursor: pointer;
+}
+
+.productTable .table tr td, .productTable table tr th {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
 }
   
-.productsTable table tr:nth-child(even) {
+.productTable .table tr:nth-child(even) {
     background-color: #dfe5fa;
+}
+
+.productTable .table tr:hover td {
+    background-color: #d0dcff;
+    color: white;
+}
+
+.productTable .table tr.selected td {
+    background-color: #4b79f7;
+    color: white;
+}
+
+.actionsContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.actionsContainer button {
+    width: 12rem;
+    height: 4rem;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.actionsContainer .buttonContainer {
+    display: flex;
+    flex-direction: row;
+    padding: 2rem 2rem;
+}
+
+.actionsContainer .buttonContainer .createButton {
+    background-color: #068601;
+    color: white;
+}
+
+.actionsContainer .buttonContainer .updateButton {
+    background-color: #bdba00;
+    color: black;
+    margin: 0 1rem;
+}
+
+.actionsContainer .buttonContainer .updateButton:disabled {
+    background: gray;
+    color: white;
+}
+
+.actionsContainer .buttonContainer .deleteButton {
+    background-color: #e73b3b;
+    color: white;
+}
+
+.actionsContainer .buttonContainer .deleteButton:disabled {
+    background: gray;
 }

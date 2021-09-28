@@ -101,14 +101,8 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
       {isRequestSuccess ?
         <div>
           <div className={styles.postalAdress}>{`${cep.logradouro}, ${cep.bairro}, ${cep.localidade}, ${cep.uf}`}</div>
+          <div><strong>Tipo de Entrega</strong></div>
           <table>
-            <thead>
-              <tr>
-                <th className={styles.tipo}>Tipo de envio</th>
-                <th className={styles.prazo}>Estimativa de entrega</th>
-                <th className={styles.valor}>Preço</th>
-              </tr>
-            </thead>
             <tbody>
               <input type="radio" name="radio-sedex" id="radio-sedex" checked={tipoEntrega == 0} onChange={() => setTipoEntrega(0)} />
               <tr>

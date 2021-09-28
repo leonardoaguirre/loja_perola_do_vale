@@ -58,6 +58,12 @@
   border-right: 2px solid white;
 }
 
+.socialMedias {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
 .socialMedias a {
   padding: 1rem;
 }
@@ -75,4 +81,5 @@
 
 .footerContent p {
   font-size: 0.7rem;
+  text-align: center;
 }

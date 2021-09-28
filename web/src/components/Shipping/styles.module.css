@@ -8,6 +8,7 @@
   justify-content: flex-start;
   align-items: center;
   margin: 1rem 0;
+  height: 2.5rem;
 }
 
 .shippingCalc .search input {
@@ -34,6 +35,19 @@
   flex-wrap: wrap;
   margin: 1rem 0;
   color: #777777;
+}
+
+.shippingCalc table {
+  width: 100%;
+}
+
+.shippingCalc table tbody tr {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.shippingCalc table caption {
+  text-align: top;
 }
 
 .shippingCalc table thead {

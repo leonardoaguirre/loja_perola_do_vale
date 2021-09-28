@@ -3,14 +3,14 @@ import React, { useState } from "react";
 
 import styles from "./styles.module.css";
 import api from '../../services/api';
-import { Customer } from '../../models/Customer';
+import { Provider } from '../../models/Provider';
 
 
-interface ClientTableProps {
-  customers: Customer[];
+interface ProviderTableProps {
+  providers: Provider[];
 }
 
-const UserTable: React.FC<ClientTableProps> = (props) => {
+const ProviderTable: React.FC<ProviderTableProps> = (props) => {
   const [lineSelected, setLineSelected] = useState(null);
 
   const selecionaLinha = async (event) => {
@@ -40,7 +40,7 @@ const UserTable: React.FC<ClientTableProps> = (props) => {
 
   const deleteUser = (userid: string, trIndex: number) => {
     console.log(userid)
-    api.delete("Cliente/Deletar", {
+    api.delete("Fornecedor/Deletar", {
       data: {
         id: userid
       }
@@ -49,7 +49,7 @@ const UserTable: React.FC<ClientTableProps> = (props) => {
         if (res.status === 200) {
           removeLinha(trIndex);
         } else {
-          console.log("Falha ao deletar cliente");
+          console.log("Falha ao deletar fornecedor");
         }
       }
     ).catch(
@@ -60,25 +60,25 @@ const UserTable: React.FC<ClientTableProps> = (props) => {
   }
 
   return (
-    <div className={styles.clientTable}>
+    <div className={styles.providerTable}>
       <table id="table" className={styles.table}>
         <thead>
           <tr>
-            <th>Nome</th>
-            <th>Rg</th>
-            <th>CPF</th>
-            <th>Data de Nascimento</th>
+            <th>Nome Fantasia</th>
+            <th>CNPJ</th>
             <th>Email</th>
+            <th>Telefone</th>
+            <th>Endereço</th>
           </tr>
         </thead>
         <tbody onClick={selecionaLinha}>
-          {props.customers.map((client, index) => (
+          {props.providers.map((provider, index) => (
             <tr key={index}>
-              <td>{client.pessoaFisica.nome}</td>
-              <td>{client.pessoaFisica.rg}</td>
-              <td>{client.pessoaFisica.cpf}</td>
-              <td>{client.pessoaFisica.dtNasc}</td>
-              <td>{client.pessoaFisica.pessoa.email}</td>
+              <td>{provider.pessoaJuridica.nomeFantasia}</td>
+              <td>{provider.pessoaJuridica.cnpj}</td>
+              <td>{provider.pessoaJuridica.pessoa.email}</td>
+              {/* <td>{provider.pessoaJuridica.pessoa.telefones[0]}</td> // TODO: listar telefones */}
+              {/* <td>{provider.pessoaJuridica.pessoa.enderecos[0]}</td> // TODO: listar enderecos */}
             </tr>
           ))}
         </tbody>
@@ -89,7 +89,7 @@ const UserTable: React.FC<ClientTableProps> = (props) => {
             id="deletebtn"
             className={styles.deleteButton}
             onClick={() =>
-              deleteUser(props.customers[lineSelected.rowIndex - 1].id, lineSelected.rowIndex)
+              deleteUser(props.providers[lineSelected.rowIndex - 1].id, lineSelected.rowIndex)
             }
             disabled={!lineSelected}
           >
@@ -98,7 +98,7 @@ const UserTable: React.FC<ClientTableProps> = (props) => {
           <a
             href={
               lineSelected
-                ? `/adm/manage/user/customer/form/${props.customers[lineSelected.rowIndex - 1].id
+                ? `/adm/manage/provider/Form/${props.providers[lineSelected.rowIndex - 1].id
                 }`
                 : ""
             }
@@ -107,7 +107,7 @@ const UserTable: React.FC<ClientTableProps> = (props) => {
               Alterar
             </button>
           </a>
-          <Link href="/user/form">
+          <Link href="/">
             <a>
               <button className={styles.createButton}>Cadastrar</button>
             </a>
@@ -118,4 +118,4 @@ const UserTable: React.FC<ClientTableProps> = (props) => {
   );
 };
 
-export default UserTable;
+export default ProviderTable;

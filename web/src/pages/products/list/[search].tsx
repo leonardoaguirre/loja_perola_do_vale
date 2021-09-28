@@ -85,7 +85,7 @@ const ProductList: React.FC<ProductListProps> = (props) => {
 
         </div>
       </div>
-      <Pagination className={styles.pagination}>
+      {/* <Pagination className={styles.pagination}>
         <Pagination.First title="Primeiro" />
         <Pagination.Prev title="Anterior" />
         <Pagination.Ellipsis />
@@ -99,7 +99,7 @@ const ProductList: React.FC<ProductListProps> = (props) => {
         <Pagination.Ellipsis />
         <Pagination.Next title="Próximo" />
         <Pagination.Last title="Último" />
-      </Pagination>
+      </Pagination> */}
       <Footer />
     </div>
   )
