@@ -79,6 +79,16 @@
   font-size: 1.3rem;
   font-weight: 700;
   border: none;
+  transition: 0.2s;
+}
+
+.buy button:hover {
+  background-color: var(--secondary);
+}
+
+.buy a,
+.buy a:hover{
+  text-decoration: none;
 }
 
 .keep  {

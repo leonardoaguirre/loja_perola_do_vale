@@ -6,7 +6,7 @@ export class Product {
   nome: string;
   marca: string;
   descricao: string;
-  valorVenda: number;
+  valorVenda: string;
   codigoBarra: string;
   quantidade?: number;
   peso?: number;
