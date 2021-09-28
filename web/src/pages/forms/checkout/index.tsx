@@ -26,7 +26,7 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
         return <LoadingIcon />;
     }
 
-    const { products ,clearCart} = useContext(CartContext)
+    const { products, clearCart } = useContext(CartContext)
     const [endEntrega, setEndEntrega] = useState<Adress>(props.costumer.pessoaFisica.pessoa.enderecos[0] || null);
     const [tipoPagamento, setTipoPagamento] = useState<number>();
     const [frete, setFrete] = useState<number>(0)
@@ -106,9 +106,12 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
                     }
                 </div>
                 <div>
-                    <h2>Opcoes de frete</h2>
-                    {products.length > 0 ?
-                        <ShippingCalc produtos={products} getFrete={getFrete} freteAuto={endEntrega} ></ShippingCalc> : ``
+                    {products.length > 0 && endEntrega ?
+                        <>
+                            <h2>Opcoes de frete</h2>
+                            <ShippingCalc produtos={products} getFrete={getFrete} freteAuto={endEntrega} ></ShippingCalc>
+                        </>
+                        : ``
                     }
 
                 </div>
