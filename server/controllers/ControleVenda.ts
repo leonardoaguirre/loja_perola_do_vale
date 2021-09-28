@@ -44,7 +44,6 @@ class ControleVenda {
             if (erros.length > 0) {
                 throw erros
             }
-            console.log(venda.formaPagamento);
 
             await vendaRepository.save(venda)
 

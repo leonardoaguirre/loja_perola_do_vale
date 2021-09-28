@@ -128,7 +128,6 @@ class ControleCliente {
         const clienteRepository = getCustomRepository(ClienteRepository);
         const { email, senha } = request.body;
         const encrypt = new Encrypt();
-        console.log(email, senha);
 
         try {
             const clienteExiste = await clienteRepository.existeEmail(email);
