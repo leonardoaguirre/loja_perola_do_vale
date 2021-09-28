@@ -1,6 +1,6 @@
 import { capitalize } from "@material-ui/core";
 import { GetServerSideProps } from "next";
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
 import CardPayment from "../../../components/CardPayment";
 import Footer from "../../../components/Footer";
@@ -13,6 +13,7 @@ import ShippingCalc from "../../../components/Shipping/ShippingCalc";
 import { CartContext } from "../../../contexts/CartContext";
 import { Adress, Costumer } from "../../../models/Costumer";
 import { Product } from "../../../models/Product"
+import api from "../../../services/api";
 
 interface CheckoutProps {
     products: Product[];
@@ -54,10 +55,35 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
         setFrete(parseFloat(frete.Valor.replace(',', '.')))
     }
 
+    const checkout = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+
+        const venda = {
+            valorFrete: frete,
+            idPessoa: props.costumer.pessoaFisica.pessoa.id,
+            formaPagamento: {
+                nomeTitular: props.costumer.pessoaFisica.nome,
+            },
+            destino: endEntrega,
+            produtos: products,
+        }
+        console.log(venda);
+        api.post('Venda/Adicionar', venda)
+            .then((res) => {
+                console.log(res.data);
+                
+                if (res.status === 200) {
+                    router.push('/user/orderSuccess')
+                }
+            }).catch((error) => {
+                console.log(error);
+            })
+
+    }
     return (
         <>
             <Header />
-            <form action="">
+            <form action="post" onSubmit={(e) => checkout(e)}>
                 <div>
                     <h2>Endereco de entrega</h2>
                     {props.costumer.pessoaFisica.pessoa.enderecos.length > 0
