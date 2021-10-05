@@ -3,12 +3,15 @@ import Link from 'next/link';
 import { Product } from '../../models/Product';
 import styles from './styles.module.css';
 import api from '../../services/api';
+import { useRouter } from 'next/router';
 
 interface ProductTableProps {
   products: Product[];
 }
 
 const ProductTable: React.FC<ProductTableProps> = (props) => {
+
+  const router = useRouter();
 
   const [lineSelected, setLineSelected] = useState(null);
 
@@ -59,6 +62,10 @@ const ProductTable: React.FC<ProductTableProps> = (props) => {
     )
   }
 
+  const onClickButton = (url: string, event: any) => {
+    router.push(url);
+  }
+
 
   return (
     <div className={styles.productTable}>
@@ -86,35 +93,37 @@ const ProductTable: React.FC<ProductTableProps> = (props) => {
           ))}
         </tbody>
       </table>
-      <div className={styles.actionsContainer}>
-        <div className={styles.buttonContainer}>
-          <button
-            id="deletebtn"
-            className={styles.deleteButton}
-            onClick={() =>
-              deleteProduct(props.products[lineSelected.rowIndex - 1].id, lineSelected.rowIndex)
-            }
-            disabled={!lineSelected}
-          >
-            Excluir
-          </button>
-          <a
-            href={
-              lineSelected
-                ? `/adm/manage/products/form/${props.products[lineSelected.rowIndex - 1].id
-                }`
-                : ""
-            }
-          >
-            <button id="updatebtn" className={styles.updateButton} disabled={!lineSelected}>
-              Alterar
-            </button>
-          </a>
-          <Link href="/">
-            <a>
-              <button className={styles.createButton}>Cadastrar</button>
-            </a>
-          </Link>
+      <div className={styles.bContainer}>
+        <div className={styles.aContainer}>
+          <div className={styles.actions}>
+            <div className={styles.hover}>
+              <div className={styles.edit}>
+                <button
+                  title="editar"
+                  className={lineSelected ? styles.active : styles.disabled}
+                  disabled={!lineSelected}
+                  onClick={(event) => 
+                    onClickButton(`/adm/manage/products/form/${props.products[lineSelected.rowIndex - 1].id}`, event)
+                  }
+                >
+                  <img src="/icons/edit_white_36dp.svg" alt="editar" />
+                </button>
+              </div>
+              <div className={styles.delete}>
+                <button
+                  title="excluir"
+                  id="deletebtn"
+                  className={lineSelected ? styles.active : styles.disabled}
+                  onClick={() =>
+                    deleteProduct(props.products[lineSelected.rowIndex - 1].id, lineSelected.rowIndex)
+                  }
+                  disabled={!lineSelected}
+                >
+                  <img src="/icons/delete_white_36dp.svg" alt="deletar" />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

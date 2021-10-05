@@ -1,0 +1,24 @@
+Lista de coisas a fazer no projeto
+
+- Corrigir login, ao dar falha no fetch não há validação
+
+- Estilizar telas do adm
+
+- Criar form de telefone
+
+- Criar form de endereço
+
+- Ajustar imagem do produto no carrinho
+
+- Corrigir animação do banner ou trocar de componente
+
+- Estilizar tela de checkout
+
+- Corrigir carrinho bugado
+
+- Estilizar tela de login, user e adm
+
+- Corrigir fontes dentro da aplicação
+
+- Criar componente para realizar a conversão de preços
+

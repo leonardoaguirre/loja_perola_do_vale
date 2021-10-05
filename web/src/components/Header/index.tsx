@@ -10,6 +10,8 @@ import {
   Button,
 } from "react-bootstrap";
 
+import Input from '../Input';
+
 import { UserContext } from "../../contexts/UserContext";
 
 import Logo from "../Logo/index";
@@ -24,10 +26,6 @@ const Header: React.FC<HeaderProps> = (props) => {
   const { user, logoutUser } = useContext(UserContext);
 
   const [search, setSearch] = useState("");
-
-  const handleInputSearch = (event) => {
-    setSearch(event.target.value);
-  };
 
   const handleSearch = () => {
     if (search) {
@@ -60,22 +58,11 @@ const Header: React.FC<HeaderProps> = (props) => {
               </div>
             </Col>
             <Col xs={12} sm={12} md={5} lg={4} xl={5}>
-              <InputGroup className={styles.inputContainer} size="lg">
-                <FormControl
-                  className={styles.searchInput}
-                  onChange={handleInputSearch}
-                  placeholder="Busque seu produto aqui"
-                  aria-label="Large"
-                  aria-describedby="inputGroup-sizing-sm"
-                />
-                <Button className={styles.searchButton} variant="light" id="button-addon2" onClick={handleSearch}>
-                  <img
-                    src="/icons/search-black-36dp.svg"
-                    alt="Lupa"
-                    title="Buscar"
-                  />
-                </Button>
-              </InputGroup>
+              <Input 
+                handleInputChange={(value) => setSearch(value)}
+                handleSubmit={handleSearch}
+                placeholder="Busque seu produto aqui"
+              ></Input>
             </Col>
             <Col xs={3} sm={4} md={2} lg={3} xl={3}>
               <div className={styles.userContainer}>
