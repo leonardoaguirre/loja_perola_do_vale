@@ -1,7 +1,6 @@
 import styles from './styles.module.css';
 import { Product } from '../../models/Product';
 import Link from 'next/link';
-import { capitalize } from '@material-ui/core';
 import { useRef } from 'react';
 import React from 'react';
 
@@ -49,7 +48,7 @@ const CartList: React.FC<CartListProps> = (props) => {
                   <Link href={`/products/info/${product.id}`}>
                     <a>
                       <img src={`http://localhost:3008/${product.imagens[0].path}`}
-                        alt={capitalize(product.nome)} title={capitalize(product.nome)} />
+                        alt={product.nome} title={product.nome} />
                     </a>
                   </Link>
                 </div>

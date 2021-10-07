@@ -1,4 +1,3 @@
-import { capitalize } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { Product } from "../../models/Product";
 
@@ -33,7 +32,7 @@ const OrderResume: React.FC<OrderResumeProps> = (props) => {
                                 <tr id={`item-${prod.id}`}>
                                     <td>
                                         <img src={`http://localhost:3008/${prod.imagens[0].path}`}
-                                            alt={capitalize(prod.nome)} title={capitalize(prod.nome)} width={50} height={50} />
+                                            alt={prod.nome} title={prod.nome} width={50} height={50} />
                                     </td>
                                     <td>{prod.nome}</td>
                                     <td>{prod.quantidade}</td>
