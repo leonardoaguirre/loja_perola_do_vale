@@ -3,14 +3,20 @@ import styles from './styles.module.css';
 
 interface PostalAdressCardProps {
   postalAdress: Adress;
+  selectable?: boolean;
+  selected?: boolean;
 }
 
-const PostalAdressCard: React.FC<PostalAdressCardProps> = (props) => {
+const PostalAdressCard: React.FC<PostalAdressCardProps> = ({
+  postalAdress,
+  selectable,
+  selected,
+}) => {
   return (
-    <div className={styles.postalAdress}>
+    <div className={selectable ? selected ? `${styles.postalAdress} ${styles.selectable} ${styles.selected}` : `${styles.postalAdress} ${styles.selectable}` : styles.postalAdress}>
       <header>
         <div className={styles.postalAdressTitle}>
-          <strong>{props.postalAdress.titulo}</strong>
+          <strong>{postalAdress.titulo}</strong>
         </div>
         <div className={styles.postalAdressActions}>
           <button>
@@ -23,13 +29,13 @@ const PostalAdressCard: React.FC<PostalAdressCardProps> = (props) => {
       </header>
       <div className={styles.content}>
         <div className={styles.adress}>
-          <div>{`${props.postalAdress.rua}, nº ${props.postalAdress.numero}`}</div>
+          <div>{`${postalAdress.rua}, ${postalAdress.numero}`}</div>
         </div>
         <div className={styles.complementAndDistrict}>
-          <div>{`${props.postalAdress.complemento} | ${props.postalAdress.bairro}`}</div>
+          <div>{`${postalAdress.complemento} | ${postalAdress.bairro}`}</div>
         </div>
         <div className={styles.location}>
-          <div>{`${props.postalAdress.cidade}, ${props.postalAdress.estado} - ${props.postalAdress.cep}`}</div>
+          <div>{`${postalAdress.cidade}, ${postalAdress.estado} - ${postalAdress.cep}`}</div>
         </div>
       </div>
     </div>

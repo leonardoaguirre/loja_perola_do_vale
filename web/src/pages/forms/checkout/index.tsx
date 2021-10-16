@@ -15,22 +15,31 @@ import { Product } from "../../../models/Product"
 import api from "../../../services/api";
 import Stepper from '../../../components/Stepper/index';
 
+import styles from './styles.module.css';
+import { Modal, Button, Container, Row, Col } from 'react-bootstrap';
+import { BsCardChecklist, BsFillCheckCircleFill } from "react-icons/bs";
+import { MdDoneOutline, MdOutlineShoppingCart, MdPayment } from "react-icons/md";
+import { AiOutlineUser } from 'react-icons/ai';
+
 interface CheckoutProps {
   products: Product[];
   costumer: Costumer;
 }
 
 const Checkout: React.FC<CheckoutProps> = (props) => {
+
   const { isFallback } = useRouter();
   if (isFallback) {
     return <LoadingIcon />;
   }
 
-  const { products, clearCart } = useContext(CartContext)
+  const { products, clearCart } = useContext(CartContext);
   const [endEntrega, setEndEntrega] = useState<Adress>(props.costumer.pessoaFisica.pessoa.enderecos[0] || null);
   const [tipoPagamento, setTipoPagamento] = useState<number>();
-  const [frete, setFrete] = useState<number>(0)
-  const [total, setTotal] = useState<number>(0)
+  const [frete, setFrete] = useState<number>(0);
+  const [total, setTotal] = useState<number>(0);
+
+  const [modalShow, setModalShow] = useState(false);
 
 
   const radioChange = (end: Adress) => {
@@ -82,73 +91,148 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
 
   }
   return (
-    <>
+    <div className={styles.container}>
       <Header />
-      <Stepper></Stepper>
-      {/* <form action="post" onSubmit={(e) => checkout(e)}>
-        <div>
-          <h2>Endereco de entrega</h2>
-          {props.costumer.pessoaFisica.pessoa.enderecos.length > 0
-            ?
-            props.costumer?.pessoaFisica.pessoa.enderecos.map((end, index) => {
-              return (
-                <div key={index}>
-                  <label>
-                    <input type="radio" name={`${index}`} id={`radio-${index}`}
-                      checked={end === endEntrega} onChange={e => radioChange(end)} />
-                    <PostalAdressCard postalAdress={end} />
-                  </label>
+      <div className={styles.checkoutContainer}>
+        <Stepper
+          currentStep={3}
+          steps={[
+            {
+              title: "Carrinho",
+              icon: () => <MdOutlineShoppingCart color="#14213d" />
+            },
+            {
+              title: "Idenfiticação",
+              icon: () => <AiOutlineUser color="#14213d" />
+            },
+            {
+              title: "Conferência",
+              icon: () => <BsCardChecklist color="#14213d" />
+            },
+            {
+              title: "Pagamento",
+              icon: () => <MdPayment color="#14213d" />
+            },
+            {
+              title: "Concluído",
+              icon: () => <MdDoneOutline color="#14213d" />
+            },
+          ]}
+        >
+        </Stepper>
+        <form action="post" onSubmit={(e) => checkout(e)}>
+          <Container fluid>
+            <Row id={styles.firstRow} className="justify-content-sm-center">
+              <Col xs={5}>
+                <h2>Endereço de entrega</h2>
+                <div className={styles.postalAdressContainer}>
+                  <PostalAdressCard postalAdress={endEntrega} />
                 </div>
 
-              )
-            })
-            :
-            <PostalAdressCardNew />
-          }
-        </div>
-        <div>
-          {products.length > 0 && endEntrega ?
-            <>
-              <h2>Opcoes de frete</h2>
-              <ShippingCalc produtos={products} getFrete={getFrete} freteAuto={endEntrega} ></ShippingCalc>
-            </>
-            : ``
-          }
+                <Button variant="primary" onClick={() => setModalShow(true)}>
+                  Trocar de Endereço
+                </Button>
 
-        </div>
-        {frete > 0 ?
-          <>
-            <div>
-              <h2>Resumo da compra</h2>
-              {
-                <OrderResume products={products} frete={frete} />
-              }
-            </div>
-            <div>
-              <h2>Formas de pagamento</h2>
-              <label>
-                <input type="radio" checked={tipoPagamento == 1} onChange={e => radioPaymentChange(1)} />
-                Cartão
-              </label>
-              <label>
-                <input type="radio" checked={tipoPagamento == 2} onChange={e => radioPaymentChange(2)} />
-                Boleto
-              </label>
-              {
-                tipoPagamento == 1 ? <CardPayment valorTotal={total} />
-                  : tipoPagamento == 2 ? <h3>Clique em Finalizar compra</h3> : ``
-              }
-              <h3>Total da Compra: R${total.toFixed(2).replace('.', ',')}</h3>
-            </div>
-            <button type="submit">Finalizar Compra</button>
-          </>
-          : ''}
-      </form> */}
+                <MyModal
+                  show={modalShow}
+                  onHide={() => setModalShow(false)}
+                >
+                  <div className={styles.cards}>
+                    {props.costumer.pessoaFisica.pessoa.enderecos.length > 0 ?
+                      props.costumer?.pessoaFisica.pessoa.enderecos.map((end, index) => {
+                        return (
+                          <div className={styles.item} key={index}>
+                            <div
+                              className={styles.wrapper}
+                              onClick={() => { setEndEntrega(end); setModalShow(false) }}
+                            >
+                              <div className={styles.maxWidth}>
+                                <PostalAdressCard postalAdress={end} selected={endEntrega === end} selectable={true} />
+                              </div>
+                            </div>
+                          </div>
+                        )
+                      })
+                      :
+                      <div className={styles.item}><PostalAdressCardNew /></div>
+                    }
+                  </div>
+                  {props.costumer?.pessoaFisica.pessoa.enderecos.length < 3
+                    ? <div className={styles.wrapper}><div className={styles.cardNew}><PostalAdressCardNew /></div></div>
+                    : ''}
+                </MyModal>
+                {products.length > 0 && endEntrega ?
+                  <div className={styles.shippingOptions}>
+                    <h2>Opcoes de frete</h2>
+                    <div className={styles.shipping}>
+                      <ShippingCalc dontShowInput={true} dontShowAdress={true} produtos={products} getFrete={getFrete} freteAuto={endEntrega} ></ShippingCalc>
+                    </div>
+                  </div>
+                  : ``
+                }
+              </Col>
+              <Col xs={5}>
+                <>
+                  <div>
+                    <h2>Resumo da compra</h2>
+                    {
+                      <OrderResume products={products} frete={frete} />
+                    }
+                  </div>
+                  {/* <div>
+                      <h2>Formas de pagamento</h2>
+                      <label>
+                        <input type="radio" checked={tipoPagamento == 1} onChange={e => radioPaymentChange(1)} />
+                        Cartão
+                      </label>
+                      <label>
+                        <input type="radio" checked={tipoPagamento == 2} onChange={e => radioPaymentChange(2)} />
+                        Boleto
+                      </label>
+                      {
+                        tipoPagamento == 1 ? <CardPayment valorTotal={total} />
+                          : tipoPagamento == 2 ? <h3>Clique em Finalizar compra</h3> : ``
+                      }
+                      <h3>Total da Compra: R$ {total.toFixed(2).replace('.', ',')}</h3>
+                    </div>
+                    <button type="submit">Finalizar Compra</button> */}
+                </>
+              </Col>
+            </Row>
+          </Container>
+        </form>
+      </div>
       <Footer />
-    </>
+    </div>
   )
 
 }
+
+
+const MyModal = (props) => {
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      scrollable
+    >
+      <Modal.Header>
+        <Modal.Title id="contained-modal-title-vcenter">
+          <h4>Escolha o endereço de entrega</h4>
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {props.children}
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>Concluído</Button>
+      </Modal.Footer>
+    </Modal>
+  )
+}
+
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { user, cartProducts } = context.req.cookies;

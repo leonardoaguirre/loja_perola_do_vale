@@ -22,3 +22,4 @@ Lista de coisas a fazer no projeto
 
 - Criar componente para realizar a conversão de preços
 
+- Deixar front independente do backend

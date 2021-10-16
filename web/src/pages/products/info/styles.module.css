@@ -15,9 +15,13 @@
   justify-content: center;
 }
 
+.row {
+  height: fit-content;
+}
+
 .product {
   width: 100%;
-  height: fit-content;
+  height: 100%;
   background-color: white;
   margin-right: 1rem;
   display: flex;
@@ -101,6 +105,10 @@
 }
 
 .phisicsDimentions {
+  margin: 1rem 0;
+}
+
+.shipping {
   margin: 1rem 0;
 }
 
