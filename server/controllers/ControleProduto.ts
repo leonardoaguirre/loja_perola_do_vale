@@ -193,14 +193,22 @@ class ControleProduto {
     }
     async listar(request: Request, response: Response) {
         const produtoRepository = getCustomRepository(ProdutoRepository);
+        const query = request.query.pagina
+        const pagina = query ? parseInt(query.toString()) : 1
+        const itensPorPagina: number = 30
 
-        await produtoRepository.find().then(result => {
-            if (result.length > 0) {
-                return response.status(200).json(result);
-            } else {
-                return response.status(400).json(new AppError('Nenhum produto encontrado', 'produto'));
-            }
+        await produtoRepository.findAndCount({
+            skip: (pagina - 1) * itensPorPagina,
+            take: itensPorPagina
         })
+            .then(result => {
+                if (result[0].length > 0) {
+                    result[1] = Math.ceil(result[1] / itensPorPagina)
+                    return response.status(200).json(result);
+                } else {
+                    return response.status(400).json(new AppError('Nenhum produto encontrado', 'produto'));
+                }
+            })
     }
     async buscarPorId(request: Request, response: Response) {
         const id = request.params.idProduto;
@@ -235,12 +243,16 @@ class ControleProduto {
     async procurar(request: Request, response: Response) {
         const pesquisa = request.params.pesquisa;
         const produtoRepository = getCustomRepository(ProdutoRepository);
+        const query = request.query.pagina
+        const pagina = query ? parseInt(query.toString()) : 1
+        const itensPorPagina: number = 1
 
-        await produtoRepository.procura(pesquisa)
+        await produtoRepository.procura(pesquisa, pagina, itensPorPagina)
             .then(res => {
-                if (res.length == 0) {
+                if (res[0].length == 0) {
                     throw new AppError('Nenhum produto encontrado', 'produto');
                 }
+                res[1] = Math.ceil(res[1] / itensPorPagina)
                 return response.status(200).json(res);
             }).catch(err => {
                 return response.status(400).json(err);
