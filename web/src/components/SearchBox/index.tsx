@@ -3,12 +3,12 @@ import { Customer } from '../../models/Customer';
 import { useState, useEffect } from 'react';
 
 import styles from './styles.module.css';
+import Input from '../Input';
 
 interface SearchBoxProps {
   filterOptions?: Options[];
-  handleSearch(event: any, searchStr: string, atribute: string): void;
+  handleSearch(searchStr: string, atribute: string): void;
   error: any;
-  // passInformation(tableData?: Customer[], error?: any, isActive?: boolean): void;
 }
 
 interface Options {
@@ -19,15 +19,8 @@ interface Options {
 
 const SearchBox: React.FC<SearchBoxProps> = (props) => {
 
-  // const [isActive, setIsActive] = useState<boolean>(false);
   const [atribute, setAtribute] = useState(props.filterOptions ? props.filterOptions[0].value : null);
   const [searchStr, setSearchStr] = useState('');
-  // const [tableData, setTableData] = useState<Customer[]>();
-
-
-  // useEffect(() => {
-  //   props.passInformation(tableData, error, isActive);
-  // },[error])
 
   return (
     <div className={styles.search}>
@@ -40,13 +33,19 @@ const SearchBox: React.FC<SearchBoxProps> = (props) => {
           </select>
           : ''
         }
-        <div className={styles.search}>
+        {/* <div className={styles.inputContainer}>
           <input type="search" value={searchStr} onChange={(event) => setSearchStr(event.target.value)} placeholder="Digite aqui sua pesquisa..." autoComplete="off" />
           <button onClick={(event) => props.handleSearch(event, searchStr, atribute)} className={styles.searchButton}>
             Buscar
           </button>
           {props.error != '' ? props.error : ''}
-        </div>
+        </div> */}
+        <Input
+          handleInputChange={(value) => setSearchStr(value)}
+          handleSubmit={() => props.handleSearch(searchStr, atribute)}
+          placeholder="Digite aqui sua pesquisa"
+        />
+        <p>{props.error != '' ? props.error : ''}</p>
       </div>
     </div>
   )

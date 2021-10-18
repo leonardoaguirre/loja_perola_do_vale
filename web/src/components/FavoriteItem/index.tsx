@@ -1,7 +1,6 @@
 import styles from './styles.module.css';
 import { Product } from '../../models/Product';
 import { Favorite } from '../../models/Favorite';
-import { capitalize } from '@material-ui/core';
 import { useState } from 'react';
 import { remove } from 'js-cookie';
 
@@ -19,7 +18,7 @@ const FavoriteItem: React.FC<FavoriteItemProps> = (props) => {
     <div id={`item${props.index}`} className={styles.favoriteItem}>
       <div className={styles.main}>
         <div className={styles.image}>
-          <img src={`http://localhost:3008/${props.favorite.produto.imagens[0].path}`} alt={capitalize(props.favorite.produto.nome)} title={capitalize(props.favorite.produto.nome)} loading="lazy" />
+          <img src={`http://localhost:3008/${props.favorite.produto.imagens[0].path}`} alt={props.favorite.produto.nome} title={props.favorite.produto.nome} loading="lazy" />
         </div>
         <div className={styles.mainContent}>
           <h2>{props.favorite.produto.nome}</h2>

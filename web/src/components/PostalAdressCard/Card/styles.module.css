@@ -1,10 +1,11 @@
 .postalAdress {
   border: 1px solid var(--primary);
-  margin: 2rem;
+  /* margin: 2rem; */
   height: fit-content;
   flex: 1 1 30rem;
-  max-width: 40rem;
-  min-width: 25rem;
+  width: 100%;
+  /* max-width: 40rem;
+  min-width: 25rem; */
 }
 
 .postalAdress header {
@@ -12,7 +13,7 @@
   align-items: center;
   background-color: var(--primary);
   justify-content: space-between;
-  padding: 0.5rem 0;
+  padding: 0.4rem 0;
 }
 
 .postalAdress header .postalAdressTitle {
@@ -30,24 +31,37 @@
 }
 
 .postalAdress header button img {
-  width: 2.5rem;
+  width: 2rem;
 }
 
 .postalAdress .content {
-  padding: 2rem;
+  padding: 1rem 1.4rem;
 }
 
-.postalAdress .content .adress {
+.adress,
+.complementAndDistrict,
+.location {
   display: flex;
-  padding: 1rem 0;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 0.4rem 0;
 }
 
-.postalAdress .content .complementAndDistrict {
-  display: flex;
-  padding: 1rem 0;
+.selectable {
+  margin: 0;
+  border: 1px solid #b7b7b7;
 }
 
-.postalAdress .content .location {
-  display: flex;
-  padding: 1rem 0;
+.selectable header {
+  background-color: #b7b7b7;
+  color: white;
+}
+
+.selected {
+  border: 1px solid var(--primary);
+}
+
+.selected header {
+  background-color: var(--primary);
+  color: white;
 }

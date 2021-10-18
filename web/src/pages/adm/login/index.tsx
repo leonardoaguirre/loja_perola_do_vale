@@ -48,7 +48,11 @@ const Login: React.FC<LoginProps> = (props) =>  {
 
           setErro(err);
         }
-      })
+      }).catch(
+        (error) => {
+          console.log(error);
+        }
+      )
   }
   return (
     <div className={styles.container}>

@@ -153,7 +153,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
       <Nav />
       <div className={styles.productSearch}>
         <Container>
-          <Row>
+          <Row className={styles.row}>
             <Col xs={12} lg={8}>
               <section className={styles.product}>
                 <Row>
@@ -240,7 +240,9 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
                     <option value="6">6</option>
                   </select>
                 </div>
-                <Shipping produtos={produtoAtual} getFrete={getF} />
+                <div className={styles.shipping}>
+                  <Shipping produtos={produtoAtual} getFrete={getF} />
+                </div>
                 <div className={styles.buttonContainer}>
                   <button className={styles.addCart} onClick={() => sendToCart(props.product)}>Adicionar ao carrinho</button>
                   <button className={styles.buyButton}>Comprar</button>

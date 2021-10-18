@@ -4,8 +4,12 @@ import styles from './styles.module.css';
 import api from '../../services/api';
 import { Product } from '../../models/Product'
 import { Adress } from '../../models/Costumer';
+
 interface ShippingCalcProps {
   produtos: Product[];
+  dontShowInput?: boolean;
+  dontShowAdress?: boolean;
+  dontShowTable?: boolean;
   getFrete?(frete: Shipping): void;
   freteAuto?: Adress;
 }
@@ -44,15 +48,17 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
       }
       api.get(`Correios/ConsultaCep/${cepPesquisa}`).then(
         (res_cep) => {
-
           api.post("Correios/CalculaFrete", frete).then(
             (res_frete) => {
-
-              setCep(res_cep.data);
-              setFretes(res_frete.data);
-              setIsRequestSuccess(true);
-              setMsgErro("");
-              setTipoEntrega(0)
+              if (res_frete.data.Erro != 0) {
+                setCep(res_cep.data);
+                setFretes(res_frete.data);
+                setIsRequestSuccess(true);
+                setMsgErro("");
+                setTipoEntrega(0)
+              } else {
+                setMsgErro("Houve uma falha ao realizar o calculo do frete!")
+              }
             }
           ).catch(
             (error) => {
@@ -94,30 +100,72 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
 
   return (
     <div className={styles.shippingCalc}>
-      <div className={styles.search}>
-        <input type="text" name="cep" value={cepPesquisa} placeholder="CEP" onChange={event => setCepPesquisa(event.target.value)} required disabled={inputCepdisabled} />
-        <button onClick={calcShipping} disabled={inputCepdisabled}>Buscar</button>
-      </div>
+      {!props.dontShowInput ?
+        <div className={styles.search}>
+          <input type="text" name="cep" value={cepPesquisa} placeholder="CEP" onChange={event => setCepPesquisa(event.target.value)} required disabled={inputCepdisabled} />
+          <button onClick={calcShipping} disabled={inputCepdisabled}>Buscar</button>
+        </div>
+        :
+        <></>
+      }
       {isRequestSuccess ?
         <div>
-          <div className={styles.postalAdress}>{`${cep.logradouro}, ${cep.bairro}, ${cep.localidade}, ${cep.uf}`}</div>
-          <div><strong>Tipo de Entrega</strong></div>
-          <table>
-            <tbody>
-              <input type="radio" name="radio-sedex" id="radio-sedex" checked={tipoEntrega == 0} onChange={() => setTipoEntrega(0)} />
-              <tr>
-                <td className={styles.tipo}>Sedex</td>
-                <td className={styles.prazo}>{`${fretes[0].PrazoEntrega} dias úteis`}</td>
-                <td className={styles.valor}>R${fretes[0].Valor}</td>
-              </tr>
-              <input type="radio" name="radio-pac" id="radio-pac" checked={tipoEntrega == 1} onChange={() => setTipoEntrega(1)} />
-              <tr>
-                <td className={styles.tipo}>PAC</td>
-                <td className={styles.prazo}>{`${fretes[1].PrazoEntrega} dias úteis`}</td>
-                <td className={styles.valor}>R${fretes[1].Valor}</td>
-              </tr>
-            </tbody>
-          </table>
+          {!props.dontShowAdress ?
+            <div className={styles.postalAdress}>{`${cep.logradouro}, ${cep.bairro}, ${cep.localidade}, ${cep.uf}`}</div>
+            :
+            <></>
+          }
+          {/* Table */}
+          {/* {!props.dontShowTable ?
+            <>
+              <div><strong>Tipos de Entrega</strong></div>
+              <table>
+                <tbody>
+                  <input type="radio" name="radio-sedex" id="radio-sedex" checked={tipoEntrega == 0} onChange={() => setTipoEntrega(0)} />
+                  <tr>
+                    <td className={styles.tipo}>Sedex</td>
+                    <td className={styles.prazo}>{`${fretes[0].PrazoEntrega} dias úteis`}</td>
+                    <td className={styles.valor}>R${fretes[0].Valor}</td>
+                  </tr>
+                  <input type="radio" name="radio-pac" id="radio-pac" checked={tipoEntrega == 1} onChange={() => setTipoEntrega(1)} />
+                  <tr>
+                    <td className={styles.tipo}>PAC</td>
+                    <td className={styles.prazo}>{`${fretes[1].PrazoEntrega} dias úteis`}</td>
+                    <td className={styles.valor}>R${fretes[1].Valor}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </>
+            :
+            <></>
+          } */}
+          {/* Cards */}
+          {!props.dontShowTable ?
+            <>
+              <div><strong>Tipos de Entrega</strong></div>
+              <div className={styles.optionList}>
+                <div className={tipoEntrega == 0 ? `${styles.item} ${styles.selected}` : styles.item} onClick={() => setTipoEntrega(0)}>
+                  <input type="radio" name="radio-sedex" id="radio-sedex" checked={tipoEntrega == 0} onChange={() => setTipoEntrega(0)} />
+                  <div>
+                    <div className={styles.tipo}>Sedex</div>
+                    <div className={styles.prazo}>{`${fretes[0].PrazoEntrega} dias úteis`}</div>
+                    <div className={styles.valor}>R$ {fretes[0].Valor}</div>
+                  </div>
+                </div>
+                <div className={tipoEntrega == 1 ? `${styles.item} ${styles.selected}` : styles.item} onClick={() => setTipoEntrega(1)}>
+                  <input type="radio" name="radio-pac" id="radio-pac" checked={tipoEntrega == 1} onChange={() => setTipoEntrega(1)} />
+                  <div>
+                    <div className={styles.tipo}>PAC</div>
+                    <div className={styles.prazo}>{`${fretes[1].PrazoEntrega} dias úteis`}</div>
+                    <div className={styles.valor}>R$ {fretes[1].Valor}</div>
+                  </div>
+                </div>
+              </div>
+            </>
+            :
+            <></>
+          }
+
         </div>
         : msgErro
           ? <div>{msgErro}</div>

@@ -68,3 +68,64 @@
 .shippingCalc table tbody .valor {
   text-align: right;
 }
+
+.optionList {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  gap: 0.8rem;
+  width: 50%;
+  min-width: 110px;
+  max-width: 180px;
+  padding: 0.5rem;
+  border: 2px solid #b4b4b4;
+  color: var(--gray);
+  cursor: pointer;
+}
+
+.selected {
+  border: 2px solid var(--primary);
+  color: #563705;
+}
+
+.item input[type="radio"] {
+  position: relative;
+  bottom: -8px;
+}
+
+.tipo {
+  font-size: 1.3rem;
+}
+
+.item input[type='radio']:after {
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  top: -2px;
+  left: -1px;
+  position: relative;
+  background-color: #d1d3d1;
+  content: '';
+  display: inline-block;
+  visibility: visible;
+  border: 2px solid white;
+}
+
+.item input[type='radio']:checked:after {
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  top: -2px;
+  left: -1px;
+  position: relative;
+  background-color: #fca311;
+  content: '';
+  display: inline-block;
+  visibility: visible;
+  border: 2px solid white;
+}

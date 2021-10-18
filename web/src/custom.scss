@@ -30,3 +30,12 @@ $font-family-sans-serif: "Lato", sans-serif;
 
 // Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';
+
+.nav-link {
+  padding: 0;
+  margin: 0.5rem 1rem;
+}
+
+.modal-body {
+  padding: 1.6rem;
+}

@@ -1,4 +1,3 @@
-import { capitalize } from "@material-ui/core";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import React, { useContext, useEffect, useRef, useState } from "react";
