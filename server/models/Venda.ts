@@ -1,4 +1,4 @@
-import { IsDate, IsDateString, IsDecimal, IsNumberString, Length } from "class-validator";
+import { IsDate, IsDateString, IsDecimal, IsNumberString, Length, Matches, } from "class-validator";
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Endereco } from "./Endereco";
 import { Pessoa } from "./Pessoa";
@@ -8,7 +8,8 @@ enum Status {
     EM_APROVACAO = "Em andamento...",
     COMPRA_APROVADA = "Compra aprovada",
     PEDIDO_ENVIADO = "Pedido enviado",
-    PEDIDO_CANCELADO = "Pedido cancelado"
+    PEDIDO_CANCELADO = "Pedido cancelado",
+    PEDIDO_FINALIZADO = "Pedido concluido"
 }
 
 @Entity("venda")
@@ -31,6 +32,7 @@ class Venda {
     @Column({ nullable: false, type: 'decimal', precision: 5, scale: 2 })
     valorTotal: number;
 
+    @Matches(/^[A-Z]{2}[1-9]{9}[A-Z]{2}$/, { message: 'Codigo de rastreio invalido!' })
     @Length(0, 13, { message: "A codigo de rastreio deve ter 13 caracteres" })
     @Column({ length: 13, nullable: true })
     codRastreio: string;
@@ -41,7 +43,7 @@ class Venda {
     @UpdateDateColumn()
     updated_at: Date;
 
-    @ManyToOne(()=>FormaPagamento, forma => forma.id, {onDelete:'NO ACTION' , onUpdate: 'NO ACTION'})
+    @ManyToOne(() => FormaPagamento, forma => forma.id, { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' })
     @JoinColumn({ name: "id_pagamento_fk", referencedColumnName: 'id' })
     formaPagamento: FormaPagamento
 
@@ -62,7 +64,7 @@ class ItemVenda {
     @PrimaryGeneratedColumn('uuid')
     id?: string;
 
-    @ManyToOne(()=>Produto, produto => produto.id, {onDelete : 'NO ACTION', onUpdate:'NO ACTION'})
+    @ManyToOne(() => Produto, produto => produto.id, { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' })
     @JoinColumn({ name: "id_produto_fk", referencedColumnName: "id" })
     produto: Produto
 
@@ -72,13 +74,13 @@ class ItemVenda {
 
     @IsDecimal({ decimal_digits: '1,2', force_decimal: true }, { message: "Valor subtotal é invalido(centavos separado com ponto(.)" })
     @Column({ nullable: false, type: 'decimal', precision: 5, scale: 2 })
-    valorSubTotal : number;
-    
+    valorSubTotal: number;
+
     @IsNumberString({ no_symbols: true }, { message: "Quantidade invalida" })
-    @Column({ nullable: false})
+    @Column({ nullable: false })
     quantidade: number;
 
-    @ManyToOne(()=>Venda, venda=> venda.id ,{onDelete:'NO ACTION', onUpdate : 'NO ACTION'})
+    @ManyToOne(() => Venda, venda => venda.id, { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' })
     venda?: Venda;
 }
 
@@ -90,7 +92,7 @@ class FormaPagamento {
     // @IsDateString({strict :true}, { message: 'Data invalida' })
     // @IsDate({})
     @CreateDateColumn({})
-    @Column({ type: 'date'})
+    @Column({ type: 'date' })
     dtVencimento: Date;
 
     @Length(7, 50, { message: "O nome deve ter entre 7 e 50 caracteres" })
@@ -98,4 +100,4 @@ class FormaPagamento {
     nomeTitular: string;
 }
 
-export { Venda, FormaPagamento ,ItemVenda };
+export { Venda, FormaPagamento, ItemVenda, Status };
