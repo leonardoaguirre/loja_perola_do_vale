@@ -32,6 +32,7 @@ interface Cep {
 const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
 
   const [isRequestSuccess, setIsRequestSuccess] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [cepPesquisa, setCepPesquisa] = useState<string>(props.freteAuto ? props.freteAuto.cep : '');
   const [fretes, setFretes] = useState<Shipping[]>([]);
   const [cep, setCep] = useState<Cep>();
@@ -108,68 +109,56 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
         :
         <></>
       }
-      {isRequestSuccess ?
+      {(isLoading ? (
         <div>
-          {!props.dontShowAdress ?
-            <div className={styles.postalAdress}>{`${cep.logradouro}, ${cep.bairro}, ${cep.localidade}, ${cep.uf}`}</div>
-            :
-            <></>
-          }
-          {/* Table */}
-          {/* {!props.dontShowTable ?
-            <>
-              <div><strong>Tipos de Entrega</strong></div>
-              <table>
-                <tbody>
-                  <input type="radio" name="radio-sedex" id="radio-sedex" checked={tipoEntrega == 0} onChange={() => setTipoEntrega(0)} />
-                  <tr>
-                    <td className={styles.tipo}>Sedex</td>
-                    <td className={styles.prazo}>{`${fretes[0].PrazoEntrega} dias úteis`}</td>
-                    <td className={styles.valor}>R${fretes[0].Valor}</td>
-                  </tr>
-                  <input type="radio" name="radio-pac" id="radio-pac" checked={tipoEntrega == 1} onChange={() => setTipoEntrega(1)} />
-                  <tr>
-                    <td className={styles.tipo}>PAC</td>
-                    <td className={styles.prazo}>{`${fretes[1].PrazoEntrega} dias úteis`}</td>
-                    <td className={styles.valor}>R${fretes[1].Valor}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </>
-            :
-            <></>
-          } */}
-          {/* Cards */}
-          {!props.dontShowTable ?
-            <>
-              <div><strong>Tipos de Entrega</strong></div>
-              <div className={styles.optionList}>
-                <div className={tipoEntrega == 0 ? `${styles.item} ${styles.selected}` : styles.item} onClick={() => setTipoEntrega(0)}>
-                  <input type="radio" name="radio-sedex" id="radio-sedex" checked={tipoEntrega == 0} onChange={() => setTipoEntrega(0)} />
-                  <div>
-                    <div className={styles.tipo}>Sedex</div>
-                    <div className={styles.prazo}>{`${fretes[0].PrazoEntrega} dias úteis`}</div>
-                    <div className={styles.valor}>R$ {fretes[0].Valor}</div>
-                  </div>
-                </div>
-                <div className={tipoEntrega == 1 ? `${styles.item} ${styles.selected}` : styles.item} onClick={() => setTipoEntrega(1)}>
-                  <input type="radio" name="radio-pac" id="radio-pac" checked={tipoEntrega == 1} onChange={() => setTipoEntrega(1)} />
-                  <div>
-                    <div className={styles.tipo}>PAC</div>
-                    <div className={styles.prazo}>{`${fretes[1].PrazoEntrega} dias úteis`}</div>
-                    <div className={styles.valor}>R$ {fretes[1].Valor}</div>
-                  </div>
-                </div>
-              </div>
-            </>
-            :
-            <></>
-          }
-
+          {(!props.dontShowAdress ? (
+            ''
+          ) : (
+            ''
+          ))}
         </div>
-        : msgErro
-          ? <div>{msgErro}</div>
-          : ''}
+      ) : (
+        (isRequestSuccess ? (
+          <div>
+            {(!props.dontShowAdress ? (
+              <div className={styles.postalAdress}>{`${cep.logradouro}, ${cep.bairro}, ${cep.localidade}, ${cep.uf}`}</div>
+            ) : (
+              <></>
+            ))}
+            {(!props.dontShowTable ? (
+              <>
+                <div><strong>Tipos de Entrega</strong></div>
+                <div className={styles.optionList}>
+                  <div className={tipoEntrega == 0 ? `${styles.item} ${styles.selected}` : styles.item} onClick={() => setTipoEntrega(0)}>
+                    <input type="radio" name="radio-sedex" id="radio-sedex" checked={tipoEntrega == 0} onChange={() => setTipoEntrega(0)} />
+                    <div>
+                      <div className={styles.tipo}>Sedex</div>
+                      <div className={styles.prazo}>{`${fretes[0].PrazoEntrega} dias úteis`}</div>
+                      <div className={styles.valor}>R$ {fretes[0].Valor}</div>
+                    </div>
+                  </div>
+                  <div className={tipoEntrega == 1 ? `${styles.item} ${styles.selected}` : styles.item} onClick={() => setTipoEntrega(1)}>
+                    <input type="radio" name="radio-pac" id="radio-pac" checked={tipoEntrega == 1} onChange={() => setTipoEntrega(1)} />
+                    <div>
+                      <div className={styles.tipo}>PAC</div>
+                      <div className={styles.prazo}>{`${fretes[1].PrazoEntrega} dias úteis`}</div>
+                      <div className={styles.valor}>R$ {fretes[1].Valor}</div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <></>
+            ))}
+          </div>
+        ) : (
+          (msgErro ? (
+            <div>{msgErro}</div>
+          ) : (
+            ''
+          ))
+        ))
+      ))}
     </div>
   )
 }

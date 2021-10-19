@@ -19,7 +19,7 @@
   width: 0%;
   height: 2px;
   background-color: black;
-  transition: 0.7s;
+  transition: 2s 1s;
 }
 
 .ghostLine {

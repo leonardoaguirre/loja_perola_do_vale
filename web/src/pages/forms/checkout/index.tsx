@@ -126,41 +126,45 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
               <Col xs={5}>
                 <h2>Endereço de entrega</h2>
                 <div className={styles.postalAdressContainer}>
-                  <PostalAdressCard postalAdress={endEntrega} />
+                  {endEntrega ? <PostalAdressCard postalAdress={endEntrega} /> : <PostalAdressCardNew />}
                 </div>
 
                 <Button variant="primary" onClick={() => setModalShow(true)}>
                   Trocar de Endereço
                 </Button>
 
-                <MyModal
-                  show={modalShow}
-                  onHide={() => setModalShow(false)}
-                >
-                  <div className={styles.cards}>
-                    {props.costumer.pessoaFisica.pessoa.enderecos.length > 0 ?
-                      props.costumer?.pessoaFisica.pessoa.enderecos.map((end, index) => {
-                        return (
-                          <div className={styles.item} key={index}>
-                            <div
-                              className={styles.wrapper}
-                              onClick={() => { setEndEntrega(end); setModalShow(false) }}
-                            >
-                              <div className={styles.maxWidth}>
-                                <PostalAdressCard postalAdress={end} selected={endEntrega === end} selectable={true} />
+                {endEntrega ?
+                  <MyModal
+                    show={modalShow}
+                    onHide={() => setModalShow(false)}
+                  >
+                    <div className={styles.cards}>
+                      {props.costumer.pessoaFisica.pessoa.enderecos.length > 0 ?
+                        props.costumer?.pessoaFisica.pessoa.enderecos.map((end, index) => {
+                          return (
+                            <div className={styles.item} key={index}>
+                              <div
+                                className={styles.wrapper}
+                                onClick={() => { setEndEntrega(end); setModalShow(false) }}
+                              >
+                                <div className={styles.maxWidth}>
+                                  <PostalAdressCard postalAdress={end} selected={endEntrega === end} selectable={true} />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        )
-                      })
-                      :
-                      <div className={styles.item}><PostalAdressCardNew /></div>
-                    }
-                  </div>
-                  {props.costumer?.pessoaFisica.pessoa.enderecos.length < 3
-                    ? <div className={styles.wrapper}><div className={styles.cardNew}><PostalAdressCardNew /></div></div>
-                    : ''}
-                </MyModal>
+                          )
+                        })
+                        :
+                        <div className={styles.item}><PostalAdressCardNew /></div>
+                      }
+                    </div>
+                    {props.costumer?.pessoaFisica.pessoa.enderecos.length < 3
+                      ? <div className={styles.wrapper}><div className={styles.cardNew}><PostalAdressCardNew /></div></div>
+                      : ''}
+                  </MyModal>
+                  :
+                  <></>
+                }
                 {products.length > 0 && endEntrega ?
                   <div className={styles.shippingOptions}>
                     <h2>Opcoes de frete</h2>
