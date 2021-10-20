@@ -129,3 +129,21 @@
   visibility: visible;
   border: 2px solid white;
 }
+
+.tipoP {
+  /* width: 100%; */
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.content p {
+  margin: 0;
+}
+
+.content p:first-child {
+  margin-bottom: 0.3rem;
+}

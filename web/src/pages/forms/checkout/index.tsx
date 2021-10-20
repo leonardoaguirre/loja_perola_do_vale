@@ -169,7 +169,14 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
                   <div className={styles.shippingOptions}>
                     <h2>Opcoes de frete</h2>
                     <div className={styles.shipping}>
-                      <ShippingCalc dontShowInput={true} dontShowAdress={true} produtos={products} getFrete={getFrete} freteAuto={endEntrega} ></ShippingCalc>
+                      <ShippingCalc
+                        produtos={products} 
+                        getFrete={getFrete} 
+                        freteAuto={endEntrega} 
+                        dontShowInput={true} 
+                        dontShowAdress={true}
+                        hasPlaceholder={true}
+                      />
                     </div>
                   </div>
                   : ``

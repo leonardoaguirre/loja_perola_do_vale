@@ -4,12 +4,14 @@ import styles from './styles.module.css';
 import api from '../../services/api';
 import { Product } from '../../models/Product'
 import { Adress } from '../../models/Costumer';
+import { Card, Placeholder } from 'react-bootstrap';
 
 interface ShippingCalcProps {
   produtos: Product[];
   dontShowInput?: boolean;
   dontShowAdress?: boolean;
   dontShowTable?: boolean;
+  hasPlaceholder?: boolean;
   getFrete?(frete: Shipping): void;
   freteAuto?: Adress;
 }
@@ -41,6 +43,7 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
   const [inputCepdisabled, setInputCepdisabled] = useState<boolean>(false)
 
   const calcShipping = async () => {
+    setIsLoading(true);
     if (cepPesquisa.length == 8) {
       const frete =
       {
@@ -56,15 +59,18 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
                 setFretes(res_frete.data);
                 setIsRequestSuccess(true);
                 setMsgErro("");
-                setTipoEntrega(0)
+                setTipoEntrega(0);
+                setIsLoading(false);
               } else {
-                setMsgErro("Houve uma falha ao realizar o calculo do frete!")
+                setMsgErro("Houve uma falha ao realizar o calculo do frete!");
+                setIsLoading(false);
               }
             }
           ).catch(
             (error) => {
               console.log(error);
               setIsRequestSuccess(false);
+              setIsLoading(false);
             }
           )
         }
@@ -73,12 +79,19 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
           console.log(error);
           setMsgErro("Cep não encontrado!")
           setIsRequestSuccess(false);
+          setIsLoading(false);
         }
-      )
+      );
     } else {
       setMsgErro("Cep inválido!");
     }
   }
+
+  useEffect(() => {
+    if (isLoading) {
+      props.getFrete({Codigo: null, Valor: '0', PrazoEntrega: null, MsgErro: null});
+    }
+  }, [isLoading])
 
   useEffect(() => {
     if (fretes.length > 0) {//verifica se o vetor de fretes nao esta vazio
@@ -97,8 +110,6 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
     if (cepPesquisa.length > 7) calcShipping()
   }, [cepPesquisa])
 
-
-
   return (
     <div className={styles.shippingCalc}>
       {!props.dontShowInput ?
@@ -107,12 +118,59 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
           <button onClick={calcShipping} disabled={inputCepdisabled}>Buscar</button>
         </div>
         :
-        <></>
+        ''
       }
       {(isLoading ? (
         <div>
           {(!props.dontShowAdress ? (
+            (props.hasPlaceholder ? (
+              <Placeholder />
+            ) : (
+              ''
+            ))
+          ) : (
             ''
+          ))}
+          {(!props.dontShowTable ? (
+            <>
+              {(props.hasPlaceholder ? (
+                <>
+                  <div><strong>Tipos de Entrega</strong></div>
+                  <div className={styles.optionList}>
+                    <div className={styles.item}>
+                      <input type="radio" name="radio-sedex" id="radio-sedex" />
+                      <div className={styles.content}>
+                        <Placeholder as="p" aria-hidden="true" animation="wave">
+                          <Placeholder xs={8} size="lg" />
+                        </Placeholder>
+                        <Placeholder as="p" aria-hidden="true" animation="wave">
+                          <Placeholder xs={10} size="sm" />
+                        </Placeholder>
+                        <Placeholder as="p" aria-hidden="true" animation="wave">
+                          <Placeholder xs={10} size="sm" />
+                        </Placeholder>
+                      </div>
+                    </div>
+                    <div className={styles.item}>
+                      <input type="radio" name="radio-pac" id="radio-pac" />
+                      <div className={styles.content}>
+                        <Placeholder as="p" aria-hidden="true" animation="wave">
+                          <Placeholder xs={8} size="lg" />
+                        </Placeholder>
+                        <Placeholder as="p" aria-hidden="true" animation="wave">
+                          <Placeholder xs={10} size="sm" />
+                        </Placeholder>
+                        <Placeholder as="p" aria-hidden="true" animation="wave">
+                          <Placeholder xs={10} size="sm" />
+                        </Placeholder>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                ''
+              ))}
+            </>
           ) : (
             ''
           ))}

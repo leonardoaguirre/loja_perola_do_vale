@@ -39,7 +39,6 @@ const Stepper: React.FC<StepperProps> = (props) => {
 
   return (
     <div className={styles.container}>
-      {console.log(props.steps)}
       <div className={styles.progress}>
         <div className={styles.start}>
           <div ref={lineEl} className={styles.line}></div>
