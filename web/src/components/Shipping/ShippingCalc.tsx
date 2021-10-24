@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
+import { Placeholder } from 'react-bootstrap';
 
-import styles from './styles.module.css';
-import api from '../../services/api';
-import { Product } from '../../models/Product'
 import { Adress } from '../../models/Costumer';
-import { Card, Placeholder } from 'react-bootstrap';
+import { Product } from '../../models/Product';
+import api from '../../services/api';
+import styles from './styles.module.css';
 
 interface ShippingCalcProps {
   produtos: Product[];
@@ -32,6 +32,8 @@ interface Cep {
 
 
 const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
+
+  const [showFretes, setShowFretes] = useState(false);
 
   const [isRequestSuccess, setIsRequestSuccess] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -89,7 +91,10 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
 
   useEffect(() => {
     if (isLoading) {
-      props.getFrete({Codigo: null, Valor: '0', PrazoEntrega: null, MsgErro: null});
+      props.getFrete({ Codigo: null, Valor: '0', PrazoEntrega: null, MsgErro: null });
+      setShowFretes(false);
+    } else {
+      setShowFretes(true);
     }
   }, [isLoading])
 
@@ -186,21 +191,23 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
             {(!props.dontShowTable ? (
               <>
                 <div><strong>Tipos de Entrega</strong></div>
-                <div className={styles.optionList}>
-                  <div className={tipoEntrega == 0 ? `${styles.item} ${styles.selected}` : styles.item} onClick={() => setTipoEntrega(0)}>
-                    <input type="radio" name="radio-sedex" id="radio-sedex" checked={tipoEntrega == 0} onChange={() => setTipoEntrega(0)} />
-                    <div>
-                      <div className={styles.tipo}>Sedex</div>
-                      <div className={styles.prazo}>{`${fretes[0].PrazoEntrega} dias úteis`}</div>
-                      <div className={styles.valor}>R$ {fretes[0].Valor}</div>
+                <div className={styles.fade}>
+                  <div className={styles.optionList}>
+                    <div className={tipoEntrega == 0 ? `${styles.item} ${styles.selected}` : styles.item} onClick={() => setTipoEntrega(0)}>
+                      <input type="radio" name="radio-sedex" id="radio-sedex" checked={tipoEntrega == 0} onChange={() => setTipoEntrega(0)} />
+                      <div>
+                        <div className={styles.tipo}>Sedex</div>
+                        <div className={styles.prazo}>{`${fretes[0].PrazoEntrega} dias úteis`}</div>
+                        <div className={styles.valor}>R$ {fretes[0].Valor}</div>
+                      </div>
                     </div>
-                  </div>
-                  <div className={tipoEntrega == 1 ? `${styles.item} ${styles.selected}` : styles.item} onClick={() => setTipoEntrega(1)}>
-                    <input type="radio" name="radio-pac" id="radio-pac" checked={tipoEntrega == 1} onChange={() => setTipoEntrega(1)} />
-                    <div>
-                      <div className={styles.tipo}>PAC</div>
-                      <div className={styles.prazo}>{`${fretes[1].PrazoEntrega} dias úteis`}</div>
-                      <div className={styles.valor}>R$ {fretes[1].Valor}</div>
+                    <div className={tipoEntrega == 1 ? `${styles.item} ${styles.selected}` : styles.item} onClick={() => setTipoEntrega(1)}>
+                      <input type="radio" name="radio-pac" id="radio-pac" checked={tipoEntrega == 1} onChange={() => setTipoEntrega(1)} />
+                      <div>
+                        <div className={styles.tipo}>PAC</div>
+                        <div className={styles.prazo}>{`${fretes[1].PrazoEntrega} dias úteis`}</div>
+                        <div className={styles.valor}>R$ {fretes[1].Valor}</div>
+                      </div>
                     </div>
                   </div>
                 </div>

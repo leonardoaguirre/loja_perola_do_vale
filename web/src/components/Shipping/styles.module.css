@@ -130,10 +130,6 @@
   border: 2px solid white;
 }
 
-.tipoP {
-  /* width: 100%; */
-}
-
 .content {
   width: 100%;
   display: flex;
@@ -146,4 +142,21 @@
 
 .content p:first-child {
   margin-bottom: 0.3rem;
+}
+
+.fade {
+  animation: fade;
+  animation-duration: 0.4s;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }

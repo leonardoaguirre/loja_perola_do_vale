@@ -36,6 +36,16 @@ h1, h2, h3, h4, h5, h6, strong {
   font-family: "PT Sans", sans-serif;
   text-transform: uppercase;
 }
+
+#paymentRef ul[role='tablist'] {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+
 /* 
 @media (min-width: 1280px) {
   html {

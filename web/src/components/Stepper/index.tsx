@@ -14,6 +14,7 @@ interface StepperProps {
 
 interface Step {
   title: string;
+  path: string;
   icon: () => JSX.Element;
 }
 
@@ -34,7 +35,9 @@ const Stepper: React.FC<StepperProps> = (props) => {
   }, [currentStep])
 
   const handleSelectedKey = (url: string) => {
-    router.push(`http://localhost:3000/${url}`)
+    if (url) {
+      router.push(`http://localhost:3000/${url}`);
+    }
   }
 
   return (
@@ -47,22 +50,34 @@ const Stepper: React.FC<StepperProps> = (props) => {
       </div>
       <Nav
         className={styles.nav}
-        activeKey="/home"
         onSelect={(selectedKey) => handleSelectedKey(selectedKey)}
       >
         {props.steps.map((step, i) => {
           return (
-            <Nav.Item key={i}>
-              <Nav.Link eventKey="user/cart">
-                <div className={styles.navLinkContent}>
-                  <div className={styles.imgContainer}>
-                    <div className={(i + 1) == currentStep ? styles.currentStep : (i + 1) > currentStep ? styles.nextStep : styles.step }>
-                      {(i + 1) >= currentStep ? step.icon() : <BsFillCheckCircleFill color="#fca311"/> }
+            <Nav.Item key={i} style={{ 'width': `${(100 / numberOfSteps)}%` }}>
+              {((i + 1) >= currentStep ? (
+                <Nav.Link className={styles.navLink} eventKey="">
+                  <div className={styles.navLinkContent}>
+                    <div className={styles.imgContainer}>
+                      <div className={(i + 1) == currentStep ? styles.currentStep : (i + 1) > currentStep ? styles.nextStep : styles.step}>
+                        {(i + 1) >= currentStep ? step.icon() : <BsFillCheckCircleFill color="#ffffff" />}
+                      </div>
                     </div>
+                    <div className={styles.title}>{step.title}</div>
                   </div>
-                  <div className={styles.title}>{step.title}</div>
-                </div>
-              </Nav.Link>
+                </Nav.Link>
+              ) : (
+                <Nav.Link className={styles.navLink} eventKey={step.path}>
+                  <div className={styles.navLinkContent}>
+                    <div className={styles.imgContainer}>
+                      <div className={(i + 1) == currentStep ? styles.currentStep : (i + 1) > currentStep ? styles.nextStep : styles.step}>
+                        {(i + 1) >= currentStep ? step.icon() : <BsFillCheckCircleFill color="#ffffff" />}
+                      </div>
+                    </div>
+                    <div className={styles.title}>{step.title}</div>
+                  </div>
+                </Nav.Link>
+              ))}
             </Nav.Item>
           )
         })}

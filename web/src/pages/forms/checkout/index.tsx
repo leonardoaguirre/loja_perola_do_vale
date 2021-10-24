@@ -16,10 +16,11 @@ import api from "../../../services/api";
 import Stepper from '../../../components/Stepper/index';
 
 import styles from './styles.module.css';
-import { Modal, Button, Container, Row, Col } from 'react-bootstrap';
-import { BsCardChecklist, BsFillCheckCircleFill } from "react-icons/bs";
+import { Modal, Button, Container, Row, Col, Tabs, Tab } from 'react-bootstrap';
+import { BsCardChecklist, BsFillCheckCircleFill, BsCreditCard2Back } from "react-icons/bs";
 import { MdDoneOutline, MdOutlineShoppingCart, MdPayment } from "react-icons/md";
 import { AiOutlineUser } from 'react-icons/ai';
+import { BiBarcode } from 'react-icons/bi';
 
 interface CheckoutProps {
   products: Product[];
@@ -41,6 +42,17 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
 
   const [modalShow, setModalShow] = useState(false);
 
+  const [currentStepNumber, setCurrentStepNumber] = useState<number>(4);
+
+  const [activeTab, setActiveTab] = useState<string>('cartao');
+
+  const tabColor = (tab: string) => {
+    if (activeTab == tab) {
+      return '#14213d';
+    } else {
+      return '#a3a3a3';
+    }
+  }
 
   const radioChange = (end: Adress) => {
     setEndEntrega(end);
@@ -51,7 +63,13 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
 
   useEffect(() => {
     if (products.length > 0) {
-      setTotal(calculaTotal())
+      setTotal(calculaTotal());
+    }
+  }, [products])
+
+  useEffect(() => {
+    if (products.length > 0) {
+      setTotal(calculaTotal());
     }
   }, [frete])
 
@@ -92,34 +110,8 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
   }
   return (
     <div className={styles.container}>
-      <Header />
-      <div className={styles.checkoutContainer}>
-        <Stepper
-          currentStep={3}
-          steps={[
-            {
-              title: "Carrinho",
-              icon: () => <MdOutlineShoppingCart color="#14213d" />
-            },
-            {
-              title: "Idenfiticação",
-              icon: () => <AiOutlineUser color="#14213d" />
-            },
-            {
-              title: "Conferência",
-              icon: () => <BsCardChecklist color="#14213d" />
-            },
-            {
-              title: "Pagamento",
-              icon: () => <MdPayment color="#14213d" />
-            },
-            {
-              title: "Concluído",
-              icon: () => <MdDoneOutline color="#14213d" />
-            },
-          ]}
-        >
-        </Stepper>
+      <Header headerType="checkout" currentStep={currentStepNumber} />
+      {/*
         <form action="post" onSubmit={(e) => checkout(e)}>
           <Container fluid>
             <Row id={styles.firstRow} className="justify-content-sm-center">
@@ -167,13 +159,13 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
                 }
                 {products.length > 0 && endEntrega ?
                   <div className={styles.shippingOptions}>
-                    <h2>Opcoes de frete</h2>
+                    <h3>Opcoes de frete</h3>
                     <div className={styles.shipping}>
                       <ShippingCalc
-                        produtos={products} 
-                        getFrete={getFrete} 
-                        freteAuto={endEntrega} 
-                        dontShowInput={true} 
+                        produtos={products}
+                        getFrete={getFrete}
+                        freteAuto={endEntrega}
+                        dontShowInput={true}
                         dontShowAdress={true}
                         hasPlaceholder={true}
                       />
@@ -190,30 +182,76 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
                       <OrderResume products={products} frete={frete} />
                     }
                   </div>
-                  {/* <div>
-                      <h2>Formas de pagamento</h2>
-                      <label>
-                        <input type="radio" checked={tipoPagamento == 1} onChange={e => radioPaymentChange(1)} />
-                        Cartão
-                      </label>
-                      <label>
-                        <input type="radio" checked={tipoPagamento == 2} onChange={e => radioPaymentChange(2)} />
-                        Boleto
-                      </label>
-                      {
-                        tipoPagamento == 1 ? <CardPayment valorTotal={total} />
-                          : tipoPagamento == 2 ? <h3>Clique em Finalizar compra</h3> : ``
-                      }
-                      <h3>Total da Compra: R$ {total.toFixed(2).replace('.', ',')}</h3>
-                    </div>
-                    <button type="submit">Finalizar Compra</button> */}
+                  <Button>Prosseguir</Button>
                 </>
               </Col>
             </Row>
           </Container>
         </form>
+      </div> */}
+      <div id="paymentRef" className={styles.paymentContainer}>
+        <h2>Formas de pagamento</h2>
+        <Tabs
+          id="controlled-tab-example"
+          activeKey={activeTab}
+          onSelect={(tab) => setActiveTab(tab)}
+          className="mb-3"
+        >
+          <Tab
+            id="cartaoTab"
+            eventKey="cartao"
+            title={
+              <div className={styles.tabTitle}>
+                <div className={styles.svgContainer}>
+                  <BsCreditCard2Back color={tabColor('cartao')} />
+                </div>
+                <strong style={{ color: tabColor('cartao') }}>Cartão</strong>
+              </div>
+            }
+            className={styles.tab}
+          >
+            <CardPayment valorTotal={total} />
+          </Tab>
+          <Tab
+            eventKey="boleto"
+            title={
+              <div className={styles.tabTitle}>
+                <div className={styles.svgContainer}>
+                  <BiBarcode color={tabColor('boleto')} />
+                </div>
+                <strong style={{ color: tabColor('boleto') }}>Boleto</strong>
+              </div>
+            }
+            className={styles.tab}
+          >
+            Boleto
+          </Tab>
+        </Tabs>
       </div>
-      <Footer />
+      {/* <label>
+          <input type="radio" checked={tipoPagamento == 1} onChange={e => radioPaymentChange(1)} />
+          Cartão
+        </label>
+        <label>
+          <input type="radio" checked={tipoPagamento == 2} onChange={e => radioPaymentChange(2)} />
+          Boleto
+        </label>
+        {
+              ((tipoPagamento == 1) ?
+                (
+                  <CardPayment valorTotal={total} />
+                ) : ((tipoPagamento == 2) ?
+                  (
+                    <h3>Clique em Finalizar compra</h3>
+                  ) : (
+                    ''
+                  )
+                )
+              )
+            }
+        <h3>Total da Compra: R$ {total.toFixed(2).replace('.', ',')}</h3>
+      <button type="submit">Finalizar Compra</button> */}
+      {/* <Footer /> */}
     </div>
   )
 
