@@ -8,6 +8,7 @@ import fs from 'fs';
 import { ControleImgs } from './ControleImgs';
 import { Imagem } from '../models/Imagem';
 import { Produto } from '../models/Produto';
+import { ControleEstoque } from './ControleEstoque';
 
 class ControleProduto {
     async adicionar(request: Request, response: Response, next: NextFunction) {
@@ -213,6 +214,7 @@ class ControleProduto {
     async buscarPorId(request: Request, response: Response) {
         const id = request.params.idProduto;
         const produtoRepository = getCustomRepository(ProdutoRepository);
+        const controleEstoque = new ControleEstoque()
 
         try {
             const produto = await produtoRepository.buscaPorId(id);
@@ -220,8 +222,8 @@ class ControleProduto {
             if (!produto) {
                 throw new AppError('produto nao encontrado', 'produto');
             }
-
-            return response.status(200).json(produto);
+            const disponivel = await controleEstoque.consultaDisponibilidade(produto)
+            return response.status(200).json({ produto, disponivel });
         } catch (error) {
             return response.status(400).json(error);
         }

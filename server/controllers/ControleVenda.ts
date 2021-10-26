@@ -7,6 +7,7 @@ import { Produto } from '../models/Produto';
 import { ControlePessoa } from './ControlePessoa';
 import moment from 'moment';
 import { AppError } from '../errors/AppError';
+import { ControleEstoque } from './ControleEstoque';
 
 class ControleVenda {
     async adicionar(request: Request, response: Response) {
@@ -21,14 +22,14 @@ class ControleVenda {
             const pagamentoRepo = getRepository(FormaPagamento)
             const itemRepo = getRepository(ItemVenda)
 
-            await getManager().transaction(async () => {
+            await getManager().transaction(async manager => {
                 const itens = await vendaRepository.calculaTotaisItens(produtos)
                 const subtotal = await vendaRepository.calculaSubtotalVenda(itens)
 
                 const controlePesssoa = new ControlePessoa()
                 const pessoaExiste = await controlePesssoa.buscaPessoa(idPessoa)
 
-                const venda = vendaRepository.create({
+                const venda = manager.create(Venda, {
                     valorFrete: valorFrete,
                     subtotal,
                     valorTotal: subtotal + valorFrete,
@@ -47,7 +48,19 @@ class ControleVenda {
                     throw erros
                 }
 
-                await vendaRepository.save(venda)
+                await manager.save(venda)
+
+                const controleEstoque = new ControleEstoque()
+                let prodsIndisponiveis: AppError[]
+
+                venda.itensVenda.map(async item => {
+                    const estoque = await controleEstoque.buscaEstoque(item.produto)
+                    if (!await controleEstoque.consultaDisponibilidade(item.produto)) {
+                        prodsIndisponiveis.push(new AppError(`${item.produto.nome} nao disponivel`, 'produto'))
+                    }
+                    controleEstoque.retiraDoEstoque(estoque, manager, item.quantidade)
+                })
+                if (prodsIndisponiveis.length > 0) throw prodsIndisponiveis
             });
 
             return response.status(200).json({ message: 'Compra realizada com sucesso!' })
@@ -66,19 +79,25 @@ class ControleVenda {
             const vendaExiste = await vendaRepo.findOne(idVenda)
 
             if (!vendaExiste) throw new AppError('Venda não existe', 'venda')
+            await getManager().transaction(async manager => {
 
-            if (vendaExiste.status == Status.EM_APROVACAO || vendaExiste.status == Status.COMPRA_APROVADA) {
-                vendaExiste.status = Status.PEDIDO_CANCELADO
+                if (vendaExiste.status == Status.EM_APROVACAO || vendaExiste.status == Status.COMPRA_APROVADA) {
+                    vendaExiste.status = Status.PEDIDO_CANCELADO
 
-                vendaRepo.save(vendaExiste)
-                    .then(() => {
-                        return response.status(200).json({ message: 'Compra cancelada com sucesso!' })
-                    }).catch((error) => { throw error })
+                    await manager.save(vendaExiste)
+                        .catch((error) => { throw error })
 
-            } else {
-                throw new AppError('Não é possivel cancelar, o pedido ja foi enviado!', 'venda')
-            }
+                    const controleEstoque = new ControleEstoque()
+                    vendaExiste.itensVenda.map(async item => {
+                        const estoque = await controleEstoque.buscaEstoque(item.produto)
+                        controleEstoque.adicionaAoEstoque(estoque, manager, item.quantidade)
+                    })
+                } else {
+                    throw new AppError('Não é possivel cancelar, o pedido ja foi enviado!', 'venda')
+                }
+            })
 
+            return response.status(200).json({ message: 'Compra cancelada com sucesso!' })
         } catch (error) {
             return response.status(400).json(error)
         }
