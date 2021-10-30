@@ -1,14 +1,14 @@
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Nav } from 'react-bootstrap';
 
 import { BsCardChecklist, BsFillCheckCircleFill } from 'react-icons/bs';
 import { MdPayment, MdDoneOutline } from 'react-icons/md';
+import { StepperContext } from '../../contexts/StepperContext';
 
 import styles from './styles.module.css';
 
 interface StepperProps {
-  currentStep: number;
   steps: Step[];
 }
 
@@ -22,17 +22,24 @@ const Stepper: React.FC<StepperProps> = (props) => {
 
   const router = useRouter();
 
-  const [currentStep, setCurrentStep] = useState<number>(props.currentStep);
+  const { currentStep } = useContext(StepperContext);
+
+  const [step, setStep] = useState(0);
+
   const lineEl = useRef(null);
 
   const numberOfSteps: number = props.steps?.length;
 
   useEffect(() => {
+    setStep(currentStep);
+  }, [currentStep])
+
+  useEffect(() => {
     if (lineEl) {
-      let newWidth = ((100 / (numberOfSteps - 1)) * (currentStep - 1));
+      let newWidth = ((100 / (numberOfSteps - 1)) * (step - 1));
       lineEl.current.style.width = `${newWidth}%`;
     }
-  }, [currentStep])
+  }, [step])
 
   const handleSelectedKey = (url: string) => {
     if (url) {

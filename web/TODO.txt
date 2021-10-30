@@ -10,9 +10,6 @@ Lista de coisas a fazer no projeto
 
 - Ajustar imagem do produto no carrinho
 
-- Corrigir animação do banner ou trocar de componente
-
-- Estilizar tela de checkout
 
 - Corrigir carrinho bugado
 

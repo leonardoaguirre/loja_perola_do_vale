@@ -161,7 +161,6 @@ const Header: React.FC<HeaderProps> = ({
               <Col xs={6} sm={7} md={9} lg={9} xl={9}>
                 <div className={styles.center}>
                   <Stepper
-                    currentStep={currentStep}
                     steps={[
                       {
                         title: "Carrinho",
@@ -169,7 +168,7 @@ const Header: React.FC<HeaderProps> = ({
                         icon: () => <MdOutlineShoppingCart color="#000000" />
                       },
                       {
-                        title: "Idenfiticação",
+                        title: "Identificação",
                         path: "user/login",
                         icon: () => <AiOutlineUser color="#000000" />
                       },
