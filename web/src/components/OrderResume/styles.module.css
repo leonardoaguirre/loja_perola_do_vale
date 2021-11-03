@@ -16,8 +16,7 @@
 }
 
 .list {
-  /* width: calc(100% + 14px);
-  max-width: calc(100% + 12px); */
+  min-width: 257px;
   padding: 4px 8px; 
   overflow-y: auto;
   max-height: 206px;

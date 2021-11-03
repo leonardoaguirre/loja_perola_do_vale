@@ -3,13 +3,15 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 
 interface BankSlipPaymentProps {
   valorTotal: number;
+  onFinishSale: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
 const BankSlipPayment: React.FC<BankSlipPaymentProps> = ({
-  valorTotal
+  valorTotal,
+  onFinishSale
 }) => {
   return (
-    <div className={styles.container}>
+    <form onSubmit={(event) => onFinishSale(event)} className={styles.container}>
       <Container>
         <Row>
           <Col xs={12}>
@@ -19,11 +21,11 @@ const BankSlipPayment: React.FC<BankSlipPaymentProps> = ({
             <p>em 1x no cartão</p>
           </Col>
           <Col xs={12}>
-            <Button className={styles.finish}><strong>Fechar Pedido</strong></Button>
+            <Button type="submit" className={styles.finish}><strong>Fechar Pedido</strong></Button>
           </Col>
         </Row>
       </Container>
-    </div>
+    </form>
   );
 }
 

@@ -18,12 +18,14 @@ import styles from './styles.module.css';
 import { Modal, Button, Container, Row, Col, Tabs, Tab } from 'react-bootstrap';
 import { BsCardChecklist, BsFillCheckCircleFill, BsCreditCard2Back } from "react-icons/bs";
 import { MdDoneOutline, MdOutlineShoppingCart, MdPayment } from "react-icons/md";
-import { AiOutlineUser } from 'react-icons/ai';
+import { AiOutlineUser, AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import { BiBarcode, BiCreditCard, BiCreditCardFront } from 'react-icons/bi';
+import { IoIosArrowForward } from 'react-icons/io';
 import { StepperContext, StepperProvider } from '../../../contexts/StepperContext';
 import BankSlipPayment from "../../../components/BankSlipPayment";
 import CreditPayment from "../../../components/CardPayment/Credit";
 import DebtPayment from "../../../components/CardPayment/Debt";
+import { Head } from "next/document";
 
 interface CheckoutProps {
   products: Product[];
@@ -52,8 +54,6 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
 
   const [modalShow, setModalShow] = useState(false);
 
-  // const [currentStep, setCurrentStepNumber] = useState<number>(3);
-
   const [activeTab, setActiveTab] = useState<string>('credito');
   const [paymentMethod, setPaymentMethod] = useState<string>(activeTab);
 
@@ -66,30 +66,6 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
   }
 
   useEffect(() => {
-    // setTimeout(() => {
-    //   checkoutRef.current.className = `${styles.checkoutContainer}`;
-    //   paymentRef.current.className = `${styles.paymentContainer}`;
-    // }, 5000)
-  }, [stepAux])
-
-  useEffect(() => {
-    // if (currentStep == 4) {
-    //   console.log("4")
-    //   if (checkoutRef && paymentRef) {
-    //     checkoutRef.current.className = `${checkoutRef.current.className} ${styles.slideOutAnimation}`;
-    //     paymentRef.current.className = `${paymentRef.current.className} ${styles.slideInAnimation}`;
-    //   }
-    // } else if (currentStep == 3) {
-    //   console.log("3")
-    //   if (checkoutRef && paymentRef) {
-    //     checkoutRef.current.className = `${styles.checkoutContainer} ${styles.slideOutAnimationReverse}`;
-    //     paymentRef.current.className = `${styles.paymentContainer} ${styles.slideInAnimationReverse}`;
-    //   }
-    // }
-    console.log(stepAux, currentStep)
-
-
-
     if (stepAux < currentStep) {
       if (checkoutRef && paymentRef) {
         checkoutRef.current.className = `${styles.checkoutContainer} ${styles.slideOutAnimation}`;
@@ -147,7 +123,7 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
         console.log(res.data);
         clearCart()
         if (res.status === 200) {
-
+          setCurrentStepNumber(5)
           router.push('/user/orderSuccess')
         }
       }).catch((error) => {
@@ -155,6 +131,7 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
       })
 
   }
+
   return (
     <div className={styles.container}>
       <Header headerType="checkout" />
@@ -233,6 +210,7 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
                       </div>
                     </div>
                     <div className={styles.actions}>
+                      <Button id={styles.backToShop} onClick={() => router.push('/')}><AiOutlineArrowLeft />Voltar as Compras</Button>
                       <Button onClick={() => setCurrentStepNumber(4)}>Prosseguir</Button>
                     </div>
                   </div>
@@ -243,7 +221,7 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
         </div>
         <div id="paymentRef" ref={paymentRef} className={styles.paymentContainer}>
           <div className={styles.flexRow}>
-            <Button id={styles.backButton} onClick={() => setCurrentStepNumber(3)}>Voltar</Button>
+            <Button id={styles.backButton} onClick={() => setCurrentStepNumber(3)}><AiOutlineArrowLeft />Voltar</Button>
             <h2>Formas de pagamento</h2>
           </div>
           <Tabs
@@ -265,7 +243,7 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
               }
               className={styles.tab}
             >
-              <CreditPayment valorTotal={total} />
+              <CreditPayment valorTotal={total} onFinishSale={(event) => checkout(event)} />
             </Tab>
             <Tab
               id="debitoTab"
@@ -280,7 +258,7 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
               }
               className={styles.tab}
             >
-              <DebtPayment valorTotal={total} />
+              <DebtPayment valorTotal={total} onFinishSale={(event) => checkout(event)} />
             </Tab>
             <Tab
               eventKey="boleto"
@@ -294,7 +272,7 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
               }
               className={styles.tab}
             >
-              <BankSlipPayment valorTotal={total} />
+              <BankSlipPayment valorTotal={total} onFinishSale={(event) => checkout(event)} />
             </Tab>
           </Tabs>
         </div>

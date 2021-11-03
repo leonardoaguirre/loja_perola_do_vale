@@ -5,9 +5,12 @@ import { Button, Col, Container, Form, FormControl, InputGroup, Row } from 'reac
 
 interface CreditPaymentProps {
   valorTotal: number;
+  onFinishSale: (event: React.FormEvent<HTMLFormElement>) => void;
 }
+
 const CreditPayment: React.FC<CreditPaymentProps> = ({
-  valorTotal
+  valorTotal,
+  onFinishSale
 }) => {
 
   const [total, setTotal] = useState<number>(valorTotal);
@@ -34,7 +37,7 @@ const CreditPayment: React.FC<CreditPaymentProps> = ({
   }
   return (
     <>
-      <form className={styles.form}>
+      <form onSubmit={(event) => onFinishSale(event)} className={styles.form}>
         <Container>
           <Row>
             <Col xs={12}>
@@ -43,6 +46,7 @@ const CreditPayment: React.FC<CreditPaymentProps> = ({
                 <InputGroup>
                   <FormControl
                     placeholder=""
+                    required
                   />
                 </InputGroup>
               </div>
@@ -53,6 +57,7 @@ const CreditPayment: React.FC<CreditPaymentProps> = ({
                 <InputGroup>
                   <FormControl
                     placeholder=""
+                    required
                   />
                 </InputGroup>
               </div>
@@ -63,6 +68,7 @@ const CreditPayment: React.FC<CreditPaymentProps> = ({
                 <InputGroup>
                   <FormControl
                     placeholder=""
+                    required
                   />
                 </InputGroup>
               </div>
@@ -73,6 +79,7 @@ const CreditPayment: React.FC<CreditPaymentProps> = ({
                 <InputGroup>
                   <FormControl
                     placeholder=""
+                    required
                   />
                 </InputGroup>
               </div>
@@ -83,6 +90,7 @@ const CreditPayment: React.FC<CreditPaymentProps> = ({
                 <label><strong>Parcelas</strong></label>
                 <Form.Select
                   aria-label=""
+                  required
                   onChange={(event) => {
                     // @ts-ignore: Unreachable code error
                     setNParcelas(event.target.value)
@@ -100,7 +108,7 @@ const CreditPayment: React.FC<CreditPaymentProps> = ({
               <p>{`em ${nParcelas}x no cartão`}</p>
             </Col>
             <Col xs={12}>
-              <Button className={styles.finish}><strong>Fechar Pedido</strong></Button>
+              <Button type="submit" className={styles.finish}><strong>Fechar Pedido</strong></Button>
             </Col>
           </Row>
         </Container>

@@ -5,9 +5,11 @@ import { Button, Col, Container, Form, FormControl, InputGroup, Row } from 'reac
 
 interface DebtPaymentProps {
   valorTotal: number;
+  onFinishSale: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 const DebtPayment: React.FC<DebtPaymentProps> = ({
-  valorTotal
+  valorTotal,
+  onFinishSale,
 }) => {
   const [total, setTotal] = useState<number>(valorTotal);
   const [nParcelas, setNParcelas] = useState<number>(1);
@@ -33,7 +35,7 @@ const DebtPayment: React.FC<DebtPaymentProps> = ({
   }
   return (
     <>
-      <form className={styles.form}>
+      <form onSubmit={(event) => onFinishSale(event)} className={styles.form}>
         <Container>
           <Row>
             <Col xs={12}>
@@ -42,6 +44,7 @@ const DebtPayment: React.FC<DebtPaymentProps> = ({
                 <InputGroup>
                   <FormControl
                     placeholder=""
+                    required
                   />
                 </InputGroup>
               </div>
@@ -52,6 +55,7 @@ const DebtPayment: React.FC<DebtPaymentProps> = ({
                 <InputGroup>
                   <FormControl
                     placeholder=""
+                    required
                   />
                 </InputGroup>
               </div>
@@ -62,6 +66,7 @@ const DebtPayment: React.FC<DebtPaymentProps> = ({
                 <InputGroup>
                   <FormControl
                     placeholder=""
+                    required
                   />
                 </InputGroup>
               </div>
@@ -72,6 +77,7 @@ const DebtPayment: React.FC<DebtPaymentProps> = ({
                 <InputGroup>
                   <FormControl
                     placeholder=""
+                    required
                   />
                 </InputGroup>
               </div>
@@ -84,7 +90,7 @@ const DebtPayment: React.FC<DebtPaymentProps> = ({
               <p>em 1x no cartão</p>
             </Col>
             <Col xs={12}>
-              <Button className={styles.finish}><strong>Fechar Pedido</strong></Button>
+              <Button type="submit" className={styles.finish}><strong>Fechar Pedido</strong></Button>
             </Col>
           </Row>
         </Container>
