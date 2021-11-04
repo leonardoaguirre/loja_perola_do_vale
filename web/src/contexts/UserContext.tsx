@@ -51,7 +51,7 @@ export function UserProvider({ children }: UserContextProviderProps) {
         Cookies.remove('tokenCookie');
         Cookies.remove('userIdCookie');
         Cookies.remove('user');
-        localStorage.clear();
+        localStorage.setItem('cartProducts','');
         console.log('Usuário deslogado');
         router.push('/');
     }

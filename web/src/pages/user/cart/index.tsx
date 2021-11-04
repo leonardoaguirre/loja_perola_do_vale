@@ -27,9 +27,7 @@ const Cart: React.FC<CartProps> = (props) => {
   const [subtotal, setSubTotal] = useState<number>(0);
 
   useEffect(() => {
-    if (products.length > 0) {
-      calcSubtotal()
-    }
+    if (products.length > 0) calcSubtotal()
   }, [products])
 
   const calcSubtotal = () => {
@@ -38,6 +36,8 @@ const Cart: React.FC<CartProps> = (props) => {
     products.map((prod, i) => {
       sum += props.products[i].valorVenda * prod.quantidade
     })
+
+    console.warn(products);
 
     setSubTotal(sum);
   }
