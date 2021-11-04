@@ -1,7 +1,6 @@
 import { GetServerSideProps } from "next";
 import router, { useRouter } from "next/router";
-import React, { useContext, useEffect, useState } from "react";
-import CardPayment from "../../../components/CardPayment";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import Footer from "../../../components/Footer";
 import Header from "../../../components/Header";
 import LoadingIcon from "../../../components/LoadingIcon";
@@ -16,10 +15,17 @@ import api from "../../../services/api";
 import Stepper from '../../../components/Stepper/index';
 
 import styles from './styles.module.css';
-import { Modal, Button, Container, Row, Col } from 'react-bootstrap';
-import { BsCardChecklist, BsFillCheckCircleFill } from "react-icons/bs";
+import { Modal, Button, Container, Row, Col, Tabs, Tab } from 'react-bootstrap';
+import { BsCardChecklist, BsFillCheckCircleFill, BsCreditCard2Back } from "react-icons/bs";
 import { MdDoneOutline, MdOutlineShoppingCart, MdPayment } from "react-icons/md";
-import { AiOutlineUser } from 'react-icons/ai';
+import { AiOutlineUser, AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
+import { BiBarcode, BiCreditCard, BiCreditCardFront } from 'react-icons/bi';
+import { IoIosArrowForward } from 'react-icons/io';
+import { StepperContext, StepperProvider } from '../../../contexts/StepperContext';
+import BankSlipPayment from "../../../components/BankSlipPayment";
+import CreditPayment from "../../../components/CardPayment/Credit";
+import DebtPayment from "../../../components/CardPayment/Debt";
+import { Head } from "next/document";
 
 interface CheckoutProps {
   products: Product[];
@@ -34,24 +40,59 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
   }
 
   const { products, clearCart } = useContext(CartContext);
+  const { currentStep, setCurrentStepNumber } = useContext(StepperContext);
+
+  const [stepAux, setStepAux] = useState<number>(currentStep);
+
+  const checkoutRef = useRef(null);
+  const paymentRef = useRef(null);
+
   const [endEntrega, setEndEntrega] = useState<Adress>(props.costumer.pessoaFisica.pessoa.enderecos[0] || null);
-  const [tipoPagamento, setTipoPagamento] = useState<number>();
+  const [tipoPagamento, setTipoPagamento] = useState<string>();
   const [frete, setFrete] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
 
   const [modalShow, setModalShow] = useState(false);
 
+  const [activeTab, setActiveTab] = useState<string>('credito');
+  const [paymentMethod, setPaymentMethod] = useState<string>(activeTab);
 
-  const radioChange = (end: Adress) => {
-    setEndEntrega(end);
-  }
-  const radioPaymentChange = (n: number) => {
-    setTipoPagamento(n);
+  const tabColor = (tab: string) => {
+    if (activeTab == tab) {
+      return '#14213d';
+    } else {
+      return '#a3a3a3';
+    }
   }
 
   useEffect(() => {
+    if (stepAux < currentStep) {
+      if (checkoutRef && paymentRef) {
+        checkoutRef.current.className = `${styles.checkoutContainer} ${styles.slideOutAnimation}`;
+        paymentRef.current.className = `${styles.paymentContainer} ${styles.slideInAnimation}`;
+      }
+    } else if (stepAux > currentStep) {
+      if (checkoutRef && paymentRef) {
+        checkoutRef.current.className = `${styles.checkoutContainer} ${styles.slideOutAnimation} ${styles.reverse}`;
+        paymentRef.current.className = `${styles.paymentContainer} ${styles.slideInAnimation} ${styles.reverse}`;
+      }
+    }
+    setStepAux(currentStep);
+  }, [currentStep])
+
+  useEffect(() => {
+    setPaymentMethod(activeTab);
+  }, [activeTab])
+
+  useEffect(() => {
     if (products.length > 0) {
-      setTotal(calculaTotal())
+      setTotal(calculaTotal());
+    }
+  }, [products])
+
+  useEffect(() => {
+    if (products.length > 0) {
+      setTotal(calculaTotal());
     }
   }, [frete])
 
@@ -82,7 +123,7 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
         console.log(res.data);
         clearCart()
         if (res.status === 200) {
-
+          setCurrentStepNumber(5)
           router.push('/user/orderSuccess')
         }
       }).catch((error) => {
@@ -90,122 +131,154 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
       })
 
   }
+
   return (
     <div className={styles.container}>
-      <Header />
-      <div className={styles.checkoutContainer}>
-        <Stepper
-          currentStep={3}
-          steps={[
-            {
-              title: "Carrinho",
-              icon: () => <MdOutlineShoppingCart color="#14213d" />
-            },
-            {
-              title: "Idenfiticação",
-              icon: () => <AiOutlineUser color="#14213d" />
-            },
-            {
-              title: "Conferência",
-              icon: () => <BsCardChecklist color="#14213d" />
-            },
-            {
-              title: "Pagamento",
-              icon: () => <MdPayment color="#14213d" />
-            },
-            {
-              title: "Concluído",
-              icon: () => <MdDoneOutline color="#14213d" />
-            },
-          ]}
-        >
-        </Stepper>
-        <form action="post" onSubmit={(e) => checkout(e)}>
-          <Container fluid>
-            <Row id={styles.firstRow} className="justify-content-sm-center">
-              <Col xs={5}>
-                <h2>Endereço de entrega</h2>
-                <div className={styles.postalAdressContainer}>
-                  <PostalAdressCard postalAdress={endEntrega} />
-                </div>
+      <Header headerType="checkout" />
+      <div className={styles.pageContent}>
+        <div ref={checkoutRef} className={styles.checkoutContainer}>
+          <form action="post" onSubmit={(e) => checkout(e)}>
+            <Container fluid>
+              <Row id={styles.firstRow} className="justify-content-sm-center">
+                <Col xs={5}>
+                  <h2>Endereço de entrega</h2>
+                  <div className={styles.postalAdressContainer}>
+                    {endEntrega ? <PostalAdressCard postalAdress={endEntrega} /> : <PostalAdressCardNew />}
+                  </div>
 
-                <Button variant="primary" onClick={() => setModalShow(true)}>
-                  Trocar de Endereço
-                </Button>
+                  <Button variant="primary" onClick={() => setModalShow(true)}>
+                    Trocar de Endereço
+                  </Button>
 
-                <MyModal
-                  show={modalShow}
-                  onHide={() => setModalShow(false)}
-                >
-                  <div className={styles.cards}>
-                    {props.costumer.pessoaFisica.pessoa.enderecos.length > 0 ?
-                      props.costumer?.pessoaFisica.pessoa.enderecos.map((end, index) => {
-                        return (
-                          <div className={styles.item} key={index}>
-                            <div
-                              className={styles.wrapper}
-                              onClick={() => { setEndEntrega(end); setModalShow(false) }}
-                            >
-                              <div className={styles.maxWidth}>
-                                <PostalAdressCard postalAdress={end} selected={endEntrega === end} selectable={true} />
+                  {endEntrega ?
+                    <MyModal
+                      show={modalShow}
+                      onHide={() => setModalShow(false)}
+                    >
+                      <div className={styles.cards}>
+                        {props.costumer.pessoaFisica.pessoa.enderecos.length > 0 ?
+                          props.costumer?.pessoaFisica.pessoa.enderecos.map((end, index) => {
+                            return (
+                              <div className={styles.item} key={index}>
+                                <div
+                                  className={styles.wrapper}
+                                  onClick={() => { setEndEntrega(end); setModalShow(false) }}
+                                >
+                                  <div className={styles.maxWidth}>
+                                    <PostalAdressCard postalAdress={end} selected={endEntrega === end} selectable={true} />
+                                  </div>
+                                </div>
                               </div>
-                            </div>
-                          </div>
-                        )
-                      })
-                      :
-                      <div className={styles.item}><PostalAdressCardNew /></div>
-                    }
-                  </div>
-                  {props.costumer?.pessoaFisica.pessoa.enderecos.length < 3
-                    ? <div className={styles.wrapper}><div className={styles.cardNew}><PostalAdressCardNew /></div></div>
-                    : ''}
-                </MyModal>
-                {products.length > 0 && endEntrega ?
-                  <div className={styles.shippingOptions}>
-                    <h2>Opcoes de frete</h2>
-                    <div className={styles.shipping}>
-                      <ShippingCalc dontShowInput={true} dontShowAdress={true} produtos={products} getFrete={getFrete} freteAuto={endEntrega} ></ShippingCalc>
+                            )
+                          })
+                          :
+                          <div className={styles.item}><PostalAdressCardNew /></div>
+                        }
+                      </div>
+                      {props.costumer?.pessoaFisica.pessoa.enderecos.length < 3
+                        ? <div className={styles.wrapper}><div className={styles.cardNew}><PostalAdressCardNew /></div></div>
+                        : ''}
+                    </MyModal>
+                    :
+                    <></>
+                  }
+                  {products.length > 0 && endEntrega ?
+                    <div className={styles.shippingOptions}>
+                      <h3>Opcoes de frete</h3>
+                      <div className={styles.shipping}>
+                        <ShippingCalc
+                          produtos={products}
+                          getFrete={getFrete}
+                          freteAuto={endEntrega}
+                          dontShowInput={true}
+                          dontShowAdress={true}
+                          hasPlaceholder={true}
+                        />
+                      </div>
+                    </div>
+                    : ``
+                  }
+                </Col>
+                <Col xs={5}>
+                  <div className={styles.rightContainer}>
+                    <div className={styles.summaryContainer}>
+                      <h2>Resumo da compra</h2>
+                      <div className={styles.summary}>
+                        {
+                          <OrderResume products={products} frete={frete} />
+                        }
+                      </div>
+                    </div>
+                    <div className={styles.actions}>
+                      <Button id={styles.backToShop} onClick={() => router.push('/')}><AiOutlineArrowLeft />Voltar as Compras</Button>
+                      <Button onClick={() => setCurrentStepNumber(4)}>Prosseguir</Button>
                     </div>
                   </div>
-                  : ``
-                }
-              </Col>
-              <Col xs={5}>
-                <>
-                  <div>
-                    <h2>Resumo da compra</h2>
-                    {
-                      <OrderResume products={products} frete={frete} />
-                    }
+                </Col>
+              </Row>
+            </Container>
+          </form>
+        </div>
+        <div id="paymentRef" ref={paymentRef} className={styles.paymentContainer}>
+          <div className={styles.flexRow}>
+            <Button id={styles.backButton} onClick={() => setCurrentStepNumber(3)}><AiOutlineArrowLeft />Voltar</Button>
+            <h2>Formas de pagamento</h2>
+          </div>
+          <Tabs
+            id="controlled-tab-example"
+            activeKey={activeTab}
+            onSelect={(tab) => setActiveTab(tab)}
+            className="mb-3"
+          >
+            <Tab
+              id="creditoTab"
+              eventKey="credito"
+              title={
+                <div className={styles.tabTitle}>
+                  <div className={styles.svgContainer}>
+                    <BiCreditCardFront color={tabColor('credito')} />
                   </div>
-                  {/* <div>
-                      <h2>Formas de pagamento</h2>
-                      <label>
-                        <input type="radio" checked={tipoPagamento == 1} onChange={e => radioPaymentChange(1)} />
-                        Cartão
-                      </label>
-                      <label>
-                        <input type="radio" checked={tipoPagamento == 2} onChange={e => radioPaymentChange(2)} />
-                        Boleto
-                      </label>
-                      {
-                        tipoPagamento == 1 ? <CardPayment valorTotal={total} />
-                          : tipoPagamento == 2 ? <h3>Clique em Finalizar compra</h3> : ``
-                      }
-                      <h3>Total da Compra: R$ {total.toFixed(2).replace('.', ',')}</h3>
-                    </div>
-                    <button type="submit">Finalizar Compra</button> */}
-                </>
-              </Col>
-            </Row>
-          </Container>
-        </form>
+                  <strong style={{ color: tabColor('credito') }}>Crédito</strong>
+                </div>
+              }
+              className={styles.tab}
+            >
+              <CreditPayment valorTotal={total} onFinishSale={(event) => checkout(event)} />
+            </Tab>
+            <Tab
+              id="debitoTab"
+              eventKey="debito"
+              title={
+                <div className={styles.tabTitle}>
+                  <div className={styles.svgContainer}>
+                    <BiCreditCard color={tabColor('debito')} />
+                  </div>
+                  <strong style={{ color: tabColor('debito') }}>Débito</strong>
+                </div>
+              }
+              className={styles.tab}
+            >
+              <DebtPayment valorTotal={total} onFinishSale={(event) => checkout(event)} />
+            </Tab>
+            <Tab
+              eventKey="boleto"
+              title={
+                <div className={styles.tabTitle}>
+                  <div className={styles.svgContainer}>
+                    <BiBarcode color={tabColor('boleto')} />
+                  </div>
+                  <strong style={{ color: tabColor('boleto') }}>Boleto</strong>
+                </div>
+              }
+              className={styles.tab}
+            >
+              <BankSlipPayment valorTotal={total} onFinishSale={(event) => checkout(event)} />
+            </Tab>
+          </Tabs>
+        </div>
       </div>
-      <Footer />
     </div>
   )
-
 }
 
 

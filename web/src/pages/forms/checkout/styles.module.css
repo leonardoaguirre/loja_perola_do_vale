@@ -3,19 +3,65 @@
 
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
-.checkoutContainer {
+.pageContent {
   width: 95%;
   max-width: 1280px;
   min-height: calc(100vh - 245px);
   margin: 0 auto;
-  padding: 2rem 0;
+  padding: 1.2rem 0;
 
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   align-items: center;
+}
+
+.checkoutContainer,
+.paymentContainer {
+  width: 100%;
+  max-width: 1280px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+
+  position: absolute;
+}
+
+.paymentContainer {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.slideInAnimation {
+  display: flex;
+  
+  animation-name: slideIn;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-direction: normal;
+  animation-play-state: running;
+}
+
+.slideInAnimation.reverse {
+  animation-name: slideInReverse;
+}
+
+.slideOutAnimation {
+  display: flex;
+
+  animation-name: slideOut;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-direction: normal;
+  animation-play-state: running;
+}
+
+.slideOutAnimation.reverse {
+  animation-name: slideOutReverse;
 }
 
 .checkoutContainer form {
@@ -33,6 +79,7 @@
 .postalAdressContainer {
   margin: 1rem 0;
   width: 100%;
+  box-shadow: 6px 2px 17px -2px rgba(0,0,0,0.38);
 }
 
 .cardNew {
@@ -58,8 +105,148 @@
   margin: 1rem 0;
 }
 
+/* .shipping > div > div > div > div > div {
+  box-shadow: 6px 2px 17px -2px rgba(0,0,0,0.38);
+} */
+
 @media(max-width: 767px) {
-  .checkoutContainer {
+  .checkoutContainer,
+  .paymentContainer {
 		min-height: calc(100vh - 366px);
 	}
+}
+
+.paymentContainer button[role='tab'],
+.paymentContainer button[role='tab'] {
+  padding: 0rem 2rem;
+  margin: 0 0 -1px 0;
+}
+
+.tabTitle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 7rem;
+  height: 5rem;
+}
+
+.tabTitle strong {
+  color: #d3d3d3;
+}
+
+.svgContainer {
+  width: 100%;
+  height: 40px;
+}
+
+.tabTitle svg {
+  width: 100%;
+  height: 100%;
+}
+
+.flexRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.rightContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.summaryContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.summary {
+  height: fit-content;
+  max-height: 330px;
+  box-shadow: 6px 2px 17px -2px rgba(0,0,0,0.38);
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#backToShop,
+#backButton {
+  background-color: inherit;
+  border: none;
+  color: var(--bs-gray-600);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+#backButton {
+  position: relative;
+  left: -200px;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@keyframes slideInReverse {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+    display: flex;
+  }
+
+  90% {
+    transform: translateX(100%);
+    pointer-events: none;
+    opacity: 0;
+  }
+  
+  100% {
+    display: none;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+@keyframes slideOutReverse {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
 }

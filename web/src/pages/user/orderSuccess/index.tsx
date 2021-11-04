@@ -4,8 +4,16 @@ import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 
 import styles from './success.module.css';
+import { useContext, useEffect } from 'react';
+import { StepperContext } from '../../../contexts/StepperContext';
 
 function orderSuccess() {
+    const { currentStep, setCurrentStepNumber } = useContext(StepperContext);
+
+    useEffect(() => {
+        setCurrentStepNumber(3);
+    }, [])
+
     return (
         <div className={styles.container}>
             <Header />

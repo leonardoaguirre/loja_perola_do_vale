@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "bootstrap": "^5.0.2",
+    "bootstrap": "^5.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "filesize": "^7.0.0",
@@ -17,7 +17,7 @@
     "next": "^10.0.9",
     "node-sass": "^4.14.1",
     "react": "^17.0.1",
-    "react-bootstrap": "^1.6.1",
+    "react-bootstrap": "^2.0.0",
     "react-dom": "^17.0.1",
     "react-dropzone": "^11.3.2",
     "react-icons": "^4.3.1"

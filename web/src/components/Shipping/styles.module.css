@@ -129,3 +129,34 @@
   visibility: visible;
   border: 2px solid white;
 }
+
+.content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.content p {
+  margin: 0;
+}
+
+.content p:first-child {
+  margin-bottom: 0.3rem;
+}
+
+.fade {
+  animation: fade;
+  animation-duration: 0.4s;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

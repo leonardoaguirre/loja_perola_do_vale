@@ -86,7 +86,7 @@ const Cart: React.FC<CartProps> = (props) => {
                     <hr />
                     <div className={styles.bottom}>
                       <div className={`${styles.row} ${styles.total}`}>
-                        <label>Total</label><span className={styles.price}>R${frete ? (subtotal + frete).toFixed(2).replace(`.`, `,`) : subtotal.toFixed(2).replace(`.`, `,`)}</span>
+                        <label>Total</label><span className={styles.price}>R$ {frete ? (subtotal + frete).toFixed(2).replace(`.`, `,`) : subtotal.toFixed(2).replace(`.`, `,`)}</span>
                       </div>
                       <div className={`${styles.row} ${styles.installment}`}>
                         <label>Em até 10x sem juros de</label><span>R${frete ? ((subtotal + frete) / 10).toFixed(2).replace(`.`, `,`) : (subtotal / 10).toFixed(2).replace(`.`, `,`)}</span>
@@ -126,7 +126,7 @@ const Cart: React.FC<CartProps> = (props) => {
           </div >
         </div >
       </div >
-      <Footer />
+      {/* <Footer /> */}
     </div >
   );
 }

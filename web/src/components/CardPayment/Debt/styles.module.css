@@ -1,0 +1,69 @@
+.cartoes {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.credito,
+.debito {
+  /* border: 1px solid black; */
+  width: 8rem;
+  height: 6rem;
+}
+
+.button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+.inputContainer {
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 28rem;
+}
+
+.form hr {
+  margin: 12px 0;
+}
+
+.total {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total span:last-child {
+  font-size: 1.5rem;
+}
+
+.form p {
+  font-size: 11px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  top: -4px;
+  margin: 0;
+}
+
+.finish {
+  width: 100%;
+  height: 3rem;
+  margin-top: 4px;
+  color: #1d1302;
+}

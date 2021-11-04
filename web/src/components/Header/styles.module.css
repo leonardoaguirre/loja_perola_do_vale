@@ -150,6 +150,13 @@
   order: 4;
 }
 
+.center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (max-width: 767px) {
   .inputContainer {
     margin-top: 8px;
