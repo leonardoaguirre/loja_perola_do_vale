@@ -1,0 +1,14 @@
+.pagination {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination li a span:last-child {
+    display: none;
+}
+
+.pagination li span span {
+    display: none;
+}

@@ -21,7 +21,7 @@ class ControleFornecedor {
 
                 await controleTelefone.adicionar(request, response, pessoa, manager);
 
-                const fornecedor = fornecedorRepository.create({pessoaJuridica});
+                const fornecedor = fornecedorRepository.create({ pessoaJuridica });
 
                 await manager.save(fornecedor);
             })
@@ -123,6 +123,20 @@ class ControleFornecedor {
             }
         } catch (error) {
             return response.status(400).json(error);
+        }
+    }
+    async buscarFornecedor(id: string) {
+        const fornecedorRepository = getCustomRepository(FornecedorRepository);
+
+        try {
+            const fornecedor = await fornecedorRepository.buscaPorId(id);
+            if (!fornecedor) {
+                throw new AppError('Nenhum fornecedor encontrado', 'fornecedor');
+            }
+            return fornecedor;
+
+        } catch (error) {
+            throw error;
         }
     }
 }

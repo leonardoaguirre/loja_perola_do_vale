@@ -19,3 +19,9 @@ Lista de coisas a fazer no projeto
 - Criar componente para realizar a conversão de preços
 
 - Deixar front independente do backend
+
+-Criar tela de vendas(tabela de exibicao de vendas organizado das mais antigas por status de compra aprovada)
+    *Ao clicar na venda exibir um modal com os itens a serem enviados, o endereco e um campo para alterar o codigo de rastreio da venda
+
+-Criar tela de meus pedidos(cliente), para exibir os pedidos realizados(produtos comprados) e o status do mesmo para poder exibir o codigo de rastreio
+

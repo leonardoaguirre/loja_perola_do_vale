@@ -19,13 +19,15 @@ class ProdutoRepository extends Repository<Produto>{
         // .where("produto.codBarra = :codBarra", { codBarra: produto.codBarra })
         // .getMany();
     }
-    async procura(pesq: string) {
-        return await this.find({
+    async procura(pesq: string, pag: number, itensPorPag: number) {
+        return await this.findAndCount({
             where: [
                 { nome: ILike('%' + pesq + '%') },
                 { marca: ILike('%' + pesq + '%') },
                 { descricao: ILike('%' + pesq + '%') }
-            ]
+            ],
+            skip: (pag - 1) * itensPorPag,
+            take: itensPorPag
         });
     }
 }

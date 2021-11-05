@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -11,9 +11,12 @@ import Nav from '../../../components/Nav';
 import ProductCard from '../../../components/ProductCard';
 
 import styles from '../../styles.module.css';
+import PaginationBar from '../../../components/PaginationBar';
 
 interface ProductListProps {
-  products: Product[];
+  products: [Product[], number];
+  search: string;
+  activePage: number;
 }
 
 interface Product {
@@ -74,65 +77,69 @@ const ProductList: React.FC<ProductListProps> = (props) => {
         <h1>Produtos</h1>
         <Container>
           <Row className={styles.row} xs={2} md={3} lg={4}>
-            {props.products.map((product, index) => (
+            {props.products[0].map((product, index) => (
               <Col key={index} className={styles.col}>
                 <ProductCard product={product} index={index} key={index} />
               </Col>
             ))}
           </Row>
         </Container>
-        <div className={styles.pagination}>
-
+        <div>
+            <PaginationBar nPages={props.products[1]}
+              search={props.search}
+              destination={'products/list'}
+              activePage={props.activePage} />
         </div>
       </div>
-      {/* <Pagination className={styles.pagination}>
-        <Pagination.First title="Primeiro" />
-        <Pagination.Prev title="Anterior" />
-        <Pagination.Ellipsis />
-
-        <Pagination.Item>{1}</Pagination.Item>
-        <Pagination.Item>{2}</Pagination.Item>
-        <Pagination.Item active>{3}</Pagination.Item>
-        <Pagination.Item>{4}</Pagination.Item>
-        <Pagination.Item>{5}</Pagination.Item>
-
-        <Pagination.Ellipsis />
-        <Pagination.Next title="Próximo" />
-        <Pagination.Last title="Último" />
-      </Pagination> */}
       <Footer />
     </div>
   )
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const response = await fetch(`http://localhost:3008/produto/listar`);
-  const data = await response.json();
-
-  const paths = data.map(product => {
-    return { params: { search: 'a' } }
-  });
-
-  return {
-    paths,
-    fallback: true
-  }
-
-}
-
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const { search } = context.params;
+  const { pagina } = context.query;
 
-  const response = await fetch(`http://localhost:3008/produto/procurar/${search}`);
+  const response = await fetch(`http://localhost:3008/produto/procurar/${search}?pagina=${pagina}`);
   const data = await response.json();
-
 
   return {
     props: {
       products: data,
+      search: search,
+      activePage: pagina ? pagina : 1
     }
   }
 }
+
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   const response = await fetch(`http://localhost:3008/produto/listar`);
+//   const data = await response.json();
+
+//   const paths = data.map(product => {
+//     return { params: { search: 'a' } }
+//   });
+
+//   return {
+//     paths,
+//     fallback: true
+//   }
+
+// }
+
+// export const getStaticProps: GetStaticProps = async (context) => {
+//   const { search } = context.params;
+//   console.log(context.params)
+
+//   const response = await fetch(`http://localhost:3008/produto/procurar/${search}`);
+//   const data = await response.json();
+
+//   return {
+//     props: {
+//       products: data,
+//     }
+//   }
+// }
 
 export default ProductList;
 

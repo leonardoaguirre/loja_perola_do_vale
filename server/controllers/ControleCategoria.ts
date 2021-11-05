@@ -37,10 +37,17 @@ class ControleCategoria {
     }
     async listar(request: Request, response: Response) {
         const categoriaRepository = getCustomRepository(CategoriaRepository);
+        const query = request.query.pagina
+        const pagina = query ? parseInt(query.toString()) : 1
+        const itensPorPagina: number = 3
 
-        await categoriaRepository.find()
-            .then((result) => {
-                if (result.length > 0) {
+        await categoriaRepository.findAndCount({
+            skip: (pagina - 1) * itensPorPagina,
+            take: itensPorPagina
+        })
+            .then(async (result) => {
+                if (result[0].length > 0) {
+                    result[1] = Math.ceil(result[1] / itensPorPagina)
                     return response.status(200).json(result);
                 } else {
                     return response.status(400).json(new AppError('Nenhuma Categoria encontrada', 'categoria'));

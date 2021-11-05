@@ -24,6 +24,7 @@ import { Product } from '../../../models/Product';
 interface ProductSearchProps {
   product: Product;
   fav: Favorite;
+  disponivel: boolean;
 }
 interface Favorite {
   idFavorito: number;
@@ -193,7 +194,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
                         <hr />
                       </section>
                       <section className={styles.phisicsDimentions}>
-                        <label htmlFor="dimention">Dimenções: </label>
+                        <label htmlFor="dimention">Dimensões: </label>
                         <span className={styles.dimention}>
                           <span className={styles.height} title="altura">{`${props.product.altura} x `}</span>
                           <span className={styles.widht} title="largura">{`${props.product.largura} x `}</span>
@@ -229,24 +230,31 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
                   </div>
                   <hr />
                 </div>
-                <div className={styles.amount}>
-                  <label htmlFor="quantidade">Quantidade</label>
-                  <select name="quantidade" id="amount" onChange={() => getQtd()}>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                  </select>
-                </div>
-                <div className={styles.shipping}>
-                  <Shipping produtos={produtoAtual} getFrete={getF} />
-                </div>
-                <div className={styles.buttonContainer}>
-                  <button className={styles.addCart} onClick={() => sendToCart(props.product)}>Adicionar ao carrinho</button>
-                  <button className={styles.buyButton}>Comprar</button>
-                </div>
+                {props.disponivel == true ?
+                  <>
+                    <div className={styles.amount}>
+                      <label htmlFor="quantidade">Quantidade</label>
+                      <select name="quantidade" id="amount" onChange={() => getQtd()}>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                      </select>
+                    </div>
+                    <div className={styles.shipping}>
+                      <Shipping produtos={produtoAtual} getFrete={getF} />
+                    </div>
+                    <div className={styles.buttonContainer}>
+                      <button className={styles.addCart} onClick={() => sendToCart(props.product)}>Adicionar ao carrinho</button>
+                      <button className={styles.buyButton}>Comprar</button>
+                    </div>
+                  </>
+                  :
+                  <h1>Produto Indisponivel</h1>
+                }
+
               </section>
             </Col>
           </Row>
@@ -291,7 +299,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      product: data
+      product: data.produto,
+      disponivel : data.disponivel
     },
     revalidate: 5 // em build 600
   }

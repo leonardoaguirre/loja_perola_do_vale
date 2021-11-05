@@ -27,6 +27,11 @@ export function CartProvider({ children }: CartContextProviderProps) {
         const cartProducts: Product[] = JSON.parse(localStorage.getItem('cartProducts'));// captura o vetor presente no cookie
 
         if (cartProducts) {//verifica se o vetor nao esta vazio 
+
+            //Verifica a sincronia entre o local storage e os cookies se algum foi alterados
+            const diferente = cartProducts.find((prod, i) => prod.id != initialState[i].id)
+            if (diferente) clearCart()
+
             setProducts(cartProducts);//armazena o vetor de produtos no context
         }
     }, []);
@@ -73,7 +78,7 @@ export function CartProvider({ children }: CartContextProviderProps) {
     }
     function clearCart() {
         Cookies.remove('cartProducts');
-        localStorage.setItem('cartProducts', '');
+        localStorage.removeItem('cartProducts');
         setProducts([])
     }
 
