@@ -27,6 +27,7 @@ const Cart: React.FC<CartProps> = (props) => {
   const [subtotal, setSubTotal] = useState<number>(0);
 
   useEffect(() => {
+    console.log("useEffect products", products)
     if (products.length > 0) {
       calcSubtotal()
     }

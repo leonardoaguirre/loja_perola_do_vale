@@ -3,6 +3,7 @@ import { Product } from '../../models/Product';
 import Link from 'next/link';
 import { useRef } from 'react';
 import React from 'react';
+import InputNumber from '../Input/Number';
 
 interface CartListProps {
   products: Product[];
@@ -54,8 +55,9 @@ const CartList: React.FC<CartListProps> = (props) => {
                 </div>
                 <div className={styles.name}>{product.nome}</div>
                 <div className={`${styles.qtd} ${styles.center}`}>
-                  <input type="number" defaultValue={1} onChange={(e) => OnChangeQt(product.id, e.target)} />
-                  <button onClick={() => removeItem(product.id)}>Remover</button>
+                  {/* <input type="number" defaultValue={1} onChange={(e) => OnChangeQt(product.id, e.target)} /> */}
+                  <InputNumber initialQuantity={product.quantidade} idProduto={product.id} />
+                  {/* <button onClick={() => removeItem(product.id)}>Remover</button> */}
                 </div>
                 <div className={`${styles.price} ${styles.center}`}><span>R$</span>{parseFloat(props.products[index].valorVenda.toString()).toFixed(2).replace('.', ',')}</div>
               </div>

@@ -1,17 +1,17 @@
-import styles from '../../components/Input/Number/styles.module.css';
+import styles from './styles.module.css';
 
 import { ImMinus, ImPlus } from 'react-icons/im';
 import { FaTrashAlt } from 'react-icons/fa';
 import { useContext, useEffect, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { CartContext } from '../../contexts/CartContext';
+import { CartContext } from '../../../contexts/CartContext';
 
-interface TesteProps {
+interface InputNumberProps {
   initialQuantity: number;
   idProduto: string;
 }
 
-const Teste: React.FC<TesteProps> = ({
+const InputNumber : React.FC<InputNumberProps> = ({
   initialQuantity,
   idProduto
 }) => {
@@ -23,17 +23,22 @@ const Teste: React.FC<TesteProps> = ({
   const [modalShow, setModalShow] = useState(false);
 
   useEffect(() => {
-    console.log(quantity)
+    console.log(idProduto, quantity)
     if (quantity == 0) {
-      console.log("exluir item");
       // excluir item
-      
+      console.log("excluir");
+      removeFromCart(idProduto);
     } else if (quantity >= maxLimit) {
-      console.log("limite");
+      console.log("alterar para max");
       setQuantity(maxLimit);
+      changeQt(idProduto, quantity);
     } else if (isNaN(quantity)) {
-      console.log("NaN");
-      setQuantity(0);
+      console.log("alterar para min");
+      setQuantity(1);
+      changeQt(idProduto, quantity);
+    } else {
+      console.log("alterar")
+      changeQt(idProduto, quantity)
     }
   }, [quantity])
 
@@ -55,19 +60,20 @@ const Teste: React.FC<TesteProps> = ({
 
       <MyModal
         show={modalShow}
-        onHide={() => setModalShow(false)}
-        onConfirm={() => setQuantity(0)}
-      >
-
-      </MyModal>
+        onHide={() => {setModalShow(false)}}
+        confirm={() => {setQuantity(0);setModalShow(false)}}
+      />
     </div>
   );
 }
 
 const MyModal = (props) => {
+
+  const { onHide, confirm, ...others } = props;
+
   return (
     <Modal
-      {...props}
+      {...others}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -82,11 +88,11 @@ const MyModal = (props) => {
         <div>Deseja realmente excluir este item do carrinho?</div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.onHide}>Cancelar</Button>
-        <Button onClick={() => {props.onConfirm; props.onHide}}>Concluído</Button>
+        <Button variant="secondary" onClick={onHide}>Cancelar</Button>
+        <Button variant="primary" onClick={confirm}>Concluído</Button>
       </Modal.Footer>
     </Modal>
   )
 }
 
-export default Teste;
+export default InputNumber;

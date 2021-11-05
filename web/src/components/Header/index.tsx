@@ -10,7 +10,7 @@ import {
   Button,
 } from "react-bootstrap";
 
-import Input from '../Input';
+import Input from '../Input/Search';
 
 import { UserContext } from "../../contexts/UserContext";
 

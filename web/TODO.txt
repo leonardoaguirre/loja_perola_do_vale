@@ -10,7 +10,6 @@ Lista de coisas a fazer no projeto
 
 - Ajustar imagem do produto no carrinho
 
-
 - Corrigir carrinho bugado
 
 - Estilizar tela de login, user e adm

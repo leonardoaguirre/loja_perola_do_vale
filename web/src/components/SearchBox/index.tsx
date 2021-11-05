@@ -3,7 +3,7 @@ import { Customer } from '../../models/Customer';
 import { useState, useEffect } from 'react';
 
 import styles from './styles.module.css';
-import Input from '../Input';
+import Input from '../Input/Search';
 
 interface SearchBoxProps {
   filterOptions?: Options[];
