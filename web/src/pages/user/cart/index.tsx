@@ -13,7 +13,10 @@ import styles from './styles.module.css';
 import CartList from "../../../components/CartList";
 
 interface CartProps {
-  products: Product[];
+  data: [{
+    produto: Product;
+    disponivel: boolean;
+  }];
 }
 const Cart: React.FC<CartProps> = (props) => {
 
@@ -34,10 +37,8 @@ const Cart: React.FC<CartProps> = (props) => {
     let sum: number = 0
 
     products.map((prod, i) => {
-      sum += props.products[i].valorVenda * prod.quantidade
+      sum += props.data[i].produto.valorVenda * prod.quantidade
     })
-
-    console.warn(products);
 
     setSubTotal(sum);
   }
@@ -133,7 +134,7 @@ const Cart: React.FC<CartProps> = (props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { cartProducts } = context.req.cookies;
-  let data: Product[] = [];
+  let data = [];
 
   if (cartProducts) {
     const prods = JSON.parse(cartProducts);
@@ -147,7 +148,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      products: data
+      data: data
     }
   }
 }
