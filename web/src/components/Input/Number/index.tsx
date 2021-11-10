@@ -1,21 +1,23 @@
-import styles from './styles.module.css';
-
-import { ImMinus, ImPlus } from 'react-icons/im';
-import { FaTrashAlt } from 'react-icons/fa';
 import { useContext, useEffect, useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
+import { FaTrashAlt } from 'react-icons/fa';
+import { ImMinus, ImPlus } from 'react-icons/im';
+
 import { CartContext } from '../../../contexts/CartContext';
+import styles from './styles.module.css';
 
 interface InputNumberProps {
   initialQuantity: number;
   idProduto: string;
+  changedQuantity: () => void;
 }
 
 const InputNumber : React.FC<InputNumberProps> = ({
   initialQuantity,
-  idProduto
+  idProduto,
+  changedQuantity
 }) => {
-  const { changeQt, removeFromCart } = useContext(CartContext);
+  const { cartProducts, changeQt, removeFromCart } = useContext(CartContext);
 
   const [quantity, setQuantity] = useState<number>(initialQuantity ? initialQuantity : 1);
   const [maxLimit, setMaxLimit] = useState<number>(5);
@@ -23,22 +25,28 @@ const InputNumber : React.FC<InputNumberProps> = ({
   const [modalShow, setModalShow] = useState(false);
 
   useEffect(() => {
+    setQuantity(initialQuantity ? initialQuantity : 1);
+  }, [cartProducts])
+
+  useEffect(() => {
     console.log(idProduto, quantity)
     if (quantity == 0) {
       // excluir item
-      console.log("excluir");
       removeFromCart(idProduto);
     } else if (quantity >= maxLimit) {
-      console.log("alterar para max");
+      // alterar para o max
       setQuantity(maxLimit);
       changeQt(idProduto, quantity);
+      changedQuantity();
     } else if (isNaN(quantity)) {
-      console.log("alterar para min");
+      // alterar para o min
       setQuantity(1);
       changeQt(idProduto, quantity);
+      changedQuantity();
     } else {
-      console.log("alterar")
+      // alterar quantidade
       changeQt(idProduto, quantity)
+      changedQuantity();
     }
   }, [quantity])
 

@@ -247,7 +247,7 @@ class ControleProduto {
         const produtoRepository = getCustomRepository(ProdutoRepository);
         const query = request.query.pagina
         const pagina = query ? parseInt(query.toString()) : 1
-        const itensPorPagina: number = 1
+        const itensPorPagina: number = 4
 
         await produtoRepository.procura(pesquisa, pagina, itensPorPagina)
             .then(res => {

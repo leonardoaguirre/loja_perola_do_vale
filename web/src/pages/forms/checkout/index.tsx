@@ -1,31 +1,25 @@
-import { GetServerSideProps } from "next";
-import router, { useRouter } from "next/router";
-import React, { useContext, useEffect, useState, useRef } from "react";
-import Footer from "../../../components/Footer";
-import Header from "../../../components/Header";
-import LoadingIcon from "../../../components/LoadingIcon";
-import OrderResume from "../../../components/OrderResume";
-import PostalAdressCard from "../../../components/PostalAdressCard/Card";
-import PostalAdressCardNew from "../../../components/PostalAdressCard/New";
-import ShippingCalc from "../../../components/Shipping/ShippingCalc";
-import { CartContext } from "../../../contexts/CartContext";
-import { Adress, Costumer } from "../../../models/Costumer";
-import { Product } from "../../../models/Product"
-import api from "../../../services/api";
-import Stepper from '../../../components/Stepper/index';
-
-import styles from './styles.module.css';
-import { Modal, Button, Container, Row, Col, Tabs, Tab } from 'react-bootstrap';
-import { BsCardChecklist, BsFillCheckCircleFill, BsCreditCard2Back } from "react-icons/bs";
-import { MdDoneOutline, MdOutlineShoppingCart, MdPayment } from "react-icons/md";
-import { AiOutlineUser, AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
+import { GetServerSideProps } from 'next';
+import router, { useRouter } from 'next/router';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Button, Col, Container, Modal, Row, Tab, Tabs } from 'react-bootstrap';
+import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { BiBarcode, BiCreditCard, BiCreditCardFront } from 'react-icons/bi';
-import { IoIosArrowForward } from 'react-icons/io';
-import { StepperContext, StepperProvider } from '../../../contexts/StepperContext';
-import BankSlipPayment from "../../../components/BankSlipPayment";
-import CreditPayment from "../../../components/CardPayment/Credit";
-import DebtPayment from "../../../components/CardPayment/Debt";
-import { Head } from "next/document";
+
+import BankSlipPayment from '../../../components/BankSlipPayment';
+import CreditPayment from '../../../components/CardPayment/Credit';
+import DebtPayment from '../../../components/CardPayment/Debt';
+import Header from '../../../components/Header';
+import LoadingIcon from '../../../components/LoadingIcon';
+import OrderResume from '../../../components/OrderResume';
+import PostalAdressCard from '../../../components/PostalAdressCard/Card';
+import PostalAdressCardNew from '../../../components/PostalAdressCard/New';
+import ShippingCalc from '../../../components/Shipping/ShippingCalc';
+import { CartContext } from '../../../contexts/CartContext';
+import { StepperContext } from '../../../contexts/StepperContext';
+import { Adress, Costumer } from '../../../models/Costumer';
+import { Product } from '../../../models/Product';
+import api from '../../../services/api';
+import styles from './styles.module.css';
 
 interface CheckoutProps {
   products: Product[];
@@ -39,7 +33,7 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
     return <LoadingIcon />;
   }
 
-  const { products, clearCart } = useContext(CartContext);
+  const { cartProducts, clearCart } = useContext(CartContext);
   const { currentStep, setCurrentStepNumber } = useContext(StepperContext);
 
   const [stepAux, setStepAux] = useState<number>(currentStep);
@@ -48,7 +42,6 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
   const paymentRef = useRef(null);
 
   const [endEntrega, setEndEntrega] = useState<Adress>(props.costumer.pessoaFisica.pessoa.enderecos[0] || null);
-  const [tipoPagamento, setTipoPagamento] = useState<string>();
   const [frete, setFrete] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
 
@@ -85,19 +78,19 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
   }, [activeTab])
 
   useEffect(() => {
-    if (products.length > 0) {
+    if (cartProducts.length > 0) {
       setTotal(calculaTotal());
     }
-  }, [products])
+  }, [cartProducts])
 
   useEffect(() => {
-    if (products.length > 0) {
+    if (cartProducts.length > 0) {
       setTotal(calculaTotal());
     }
   }, [frete])
 
   const calculaTotal = () => {
-    const valoresProds = props.products.map((prod, i) => { return prod.valorVenda * products[i].quantidade })
+    const valoresProds = props.products.map((prod, i) => { return prod.valorVenda * cartProducts[i].quantidade })
     return (valoresProds.reduce((total, num) => total + num, 0) + frete)
   }
 
@@ -115,7 +108,7 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
         nomeTitular: props.costumer.pessoaFisica.nome,
       },
       destino: endEntrega,
-      produtos: products,
+      produtos: cartProducts,
     }
     console.log(venda);
     api.post('Venda/Adicionar', venda)
@@ -182,12 +175,12 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
                     :
                     <></>
                   }
-                  {products.length > 0 && endEntrega ?
+                  {cartProducts.length > 0 && endEntrega ?
                     <div className={styles.shippingOptions}>
                       <h3>Opcoes de frete</h3>
                       <div className={styles.shipping}>
                         <ShippingCalc
-                          produtos={products}
+                          produtos={cartProducts}
                           getFrete={getFrete}
                           freteAuto={endEntrega}
                           dontShowInput={true}
@@ -205,7 +198,7 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
                       <h2>Resumo da compra</h2>
                       <div className={styles.summary}>
                         {
-                          <OrderResume products={products} frete={frete} />
+                          <OrderResume products={cartProducts} frete={frete} />
                         }
                       </div>
                     </div>

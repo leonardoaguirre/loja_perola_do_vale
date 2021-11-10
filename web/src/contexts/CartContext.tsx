@@ -1,12 +1,13 @@
-import React from 'react';
-import { createContext, useState, ReactNode, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
-import { Product } from "../models/Product";
+import React from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
+
+import { ProductCartItem } from '../models/ProductCartItem';
 
 interface CartContextData {
-    products: Product[];
-    addToCart: (product: Product) => void;
+    cartProducts: ProductCartItem[];
+    addToCart: (product: ProductCartItem) => void;
     removeFromCart: (idProd: string) => void;
     changeQt: (idProd: string, n: number) => boolean;
     clearCart: () => void;
@@ -17,14 +18,14 @@ interface CartContextProviderProps {
 }
 
 const initialState = Cookies.getJSON('cartProducts')
-export const CartContext = createContext({ products: initialState } as CartContextData);
+export const CartContext = createContext({ cartProducts: initialState } as CartContextData);
 
 export function CartProvider({ children }: CartContextProviderProps) {
-    const [products, setProducts] = useState<Product[]>([]);
+    const [cartProducts, setCartProducts] = useState<ProductCartItem[]>([]);
     const router = useRouter();
 
     useEffect(() => {//hook para persistir os produtos no context
-        const cartProducts: Product[] = JSON.parse(localStorage.getItem('cartProducts'));// captura o vetor presente no cookie
+        const cartProducts: ProductCartItem[] = JSON.parse(localStorage.getItem('cartProducts'));// captura o vetor presente no cookie
 
         if (cartProducts) {//verifica se o vetor nao esta vazio 
 
@@ -32,24 +33,23 @@ export function CartProvider({ children }: CartContextProviderProps) {
             const diferente = cartProducts.find((prod, i) => prod.id != initialState[i].id)
             if (diferente) clearCart()
 
-            setProducts(cartProducts);//armazena o vetor de produtos no context
+            setCartProducts(cartProducts);//armazena o vetor de produtos no context
         }
     }, []);
 
-    function addToCart(product: Product) {
-        const newProds: Product[] = removeFromCart(product.id)//redundancia, caso seja adicionado um prod que já esta no carrinho, remove e o adiciona novamente
+    function addToCart(product: ProductCartItem) {
+        const newProds: ProductCartItem[] = removeFromCart(product.id)//redundancia, caso seja adicionado um prod que já esta no carrinho, remove e o adiciona novamente
         newProds.push(product)
 
-        setProducts(newProds)
+        setCartProducts(newProds)
         Cookies.set('cartProducts', newProds.map(prod => { return { id: prod.id } }));
         localStorage.setItem('cartProducts', JSON.stringify(newProds))
     }
 
     function removeFromCart(idProd: string) {
-        const newProds = products.filter(prod => prod.id !== idProd)// retira o produto do vetor com base no id do produto
-
+        const newProds = cartProducts.filter(prod => prod.id !== idProd)// retira o produto do vetor com base no id do produto
         // armazena o novo vetor no cookie e no context
-        setProducts(newProds)
+        setCartProducts(newProds)
         Cookies.set('cartProducts', newProds.map(prod => { return { id: prod.id } }))
         localStorage.setItem('cartProducts', JSON.stringify(newProds))
 
@@ -59,33 +59,32 @@ export function CartProvider({ children }: CartContextProviderProps) {
     }
 
     function changeQt(idProd: string, n: number): boolean {
-        const index = products.findIndex(prod => prod.id == idProd)//procura o index no vetor que representa o produto com base no id do produto
+        const index = cartProducts.findIndex(prod => prod.id == idProd)//procura o index no vetor que representa o produto com base no id do produto
 
         if (n >= 1) {//verifica se a quantidade e maior ou igual a 1 para nao zerar a quantidade
-            const newProds = products;
+            const newProds = cartProducts;
             newProds[index].quantidade = n;//armazena a nova quantidade que foi passada
 
             // armazena o novo vetor no cookie e no context
-            setProducts(newProds)
+            setCartProducts(newProds)
             Cookies.set('cartProducts', newProds.map(prod => { return { id: prod.id } }))
             localStorage.setItem('cartProducts', JSON.stringify(newProds))
 
             return true
         } else {
-            alert('Quantidade nao pode ser menor que 1');
             return false
         }
     }
     function clearCart() {
         Cookies.remove('cartProducts');
         localStorage.removeItem('cartProducts');
-        setProducts([])
+        setCartProducts([])
     }
 
     return (
         <CartContext.Provider
             value={{
-                products,
+                cartProducts,
                 addToCart,
                 removeFromCart,
                 changeQt,

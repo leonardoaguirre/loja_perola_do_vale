@@ -230,7 +230,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
                   </div>
                   <hr />
                 </div>
-                {props.disponivel == true ?
+                {/* {props.disponivel == true ?
                   <>
                     <div className={styles.amount}>
                       <label htmlFor="quantidade">Quantidade</label>
@@ -253,7 +253,26 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
                   </>
                   :
                   <h1>Produto Indisponivel</h1>
-                }
+                } */}
+
+                <div className={styles.amount}>
+                  <label htmlFor="quantidade">Quantidade</label>
+                  <select name="quantidade" id="amount" onChange={() => getQtd()}>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                  </select>
+                </div>
+                <div className={styles.shipping}>
+                  <Shipping produtos={produtoAtual} getFrete={getF} />
+                </div>
+                <div className={styles.buttonContainer}>
+                  <button className={styles.addCart} onClick={() => sendToCart(props.product)}>Adicionar ao carrinho</button>
+                  <button className={styles.buyButton}>Comprar</button>
+                </div>
 
               </section>
             </Col>
@@ -300,7 +319,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   return {
     props: {
       product: data.produto,
-      disponivel : data.disponivel
+      disponivel: data.disponivel
     },
     revalidate: 5 // em build 600
   }
