@@ -27,10 +27,11 @@ export function CartProvider({ children }: CartContextProviderProps) {
     useEffect(() => {//hook para persistir os produtos no context
         const cartProducts: ProductCartItem[] = JSON.parse(localStorage.getItem('cartProducts'));// captura o vetor presente no cookie
 
-        if (cartProducts) {//verifica se o vetor nao esta vazio 
+        if (cartProducts && initialState) {//verifica se o vetor nao esta vazio 
 
             //Verifica a sincronia entre o local storage e os cookies se algum foi alterados
-            const diferente = cartProducts.find((prod, i) => prod.id != initialState[i].id)
+            let diferente = cartProducts.find((prod, i) => prod.id != initialState[i].id)
+
             if (diferente) clearCart()
 
             setCartProducts(cartProducts);//armazena o vetor de produtos no context
