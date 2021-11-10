@@ -10,9 +10,6 @@ Lista de coisas a fazer no projeto
 
 - Ajustar imagem do produto no carrinho
 
-
-- Corrigir carrinho bugado
-
 - Estilizar tela de login, user e adm
 
 - Corrigir fontes dentro da aplicação
@@ -26,3 +23,8 @@ Lista de coisas a fazer no projeto
 
 -Criar tela de meus pedidos(cliente), para exibir os pedidos realizados(produtos comprados) e o status do mesmo para poder exibir o codigo de rastreio
 
+-Criar tela de estoque mostrando os produtos com menor estoque em primeiro
+    *Ao clicar no produto exibe um modal onde mostra todos os lotes comprados daquele produto em uma tabela(com opcao de excluir o lote)
+    *E opcao de adicionar um novo lote daquele produto
+    *E opcao de alterar as informacoes do produto
+    *Criar botao acima da listagem para cadastrar um novo produto
