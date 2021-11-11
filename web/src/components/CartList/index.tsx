@@ -37,7 +37,7 @@ const CartList: React.FC<CartListProps> = ({
                     </a>
                   </Link>
                 </div>
-                <div className={styles.name}>{product.nome}</div>
+                <div className={styles.name}><p>{product.nome}</p></div>
                 <div className={`${styles.qtd} ${styles.center}`}>
                   <InputNumber initialQuantity={product.quantidade} idProduto={product.id} changedQuantity={onChangedQuantity} />
                 </div>

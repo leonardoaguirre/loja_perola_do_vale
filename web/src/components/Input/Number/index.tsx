@@ -82,10 +82,9 @@ const MyModal = (props) => {
   return (
     <Modal
       {...others}
-      size="lg"
+      size="md"
       aria-labelledby="contained-modal-title-vcenter"
       centered
-      scrollable
     >
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
