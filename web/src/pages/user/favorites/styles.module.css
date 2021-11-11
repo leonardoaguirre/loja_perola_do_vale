@@ -7,16 +7,10 @@
 
 .favorites {
   width: 95%;
-  max-width: 2880px;
-  /* 
-    Calc to make the page cover at least the page window
-    disconsidering the header and footer (95px + 245px)
-  */
-  min-height: calc(100vh - 245px);
+  max-width: 1280px;
   margin: 0 auto;
   padding: 2rem 0;
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }

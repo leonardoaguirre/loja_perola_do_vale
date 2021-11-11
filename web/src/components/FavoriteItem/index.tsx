@@ -18,7 +18,11 @@ const FavoriteItem: React.FC<FavoriteItemProps> = (props) => {
     <div id={`item${props.index}`} className={styles.favoriteItem}>
       <div className={styles.main}>
         <div className={styles.image}>
-          <img src={`http://localhost:3008/${props.favorite.produto.imagens[0].path}`} alt={props.favorite.produto.nome} title={props.favorite.produto.nome} loading="lazy" />
+          <div className={styles.imgContainer}>
+            <figure>
+              <img src={`http://localhost:3008/${props.favorite.produto.imagens[0].path}`} alt={props.favorite.produto.nome} title={props.favorite.produto.nome} loading="lazy" />
+            </figure>
+          </div>
         </div>
         <div className={styles.mainContent}>
           <h2>{props.favorite.produto.nome}</h2>

@@ -43,7 +43,6 @@ const Favorites: React.FC<FavoritesProps> = (props) => {
         </div>
         : <div className={styles.favorites}><h2>Você não possui nenhum favorito!</h2></div>
       }
-      <Footer />
     </div>
   );
 }
