@@ -23,7 +23,10 @@ import api from '../../../services/api';
 import styles from './styles.module.css';
 
 interface CheckoutProps {
-  products: Product[];
+  products: [{
+    produto: Product,
+    disponivel: boolean
+  }];
   costumer: Costumer;
 }
 
@@ -60,6 +63,10 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
   }
 
   useEffect(() => {
+    setCurrentStepNumber(3)
+  }, [])
+
+  useEffect(() => {
     if (stepAux < currentStep) {
       if (checkoutRef && paymentRef) {
         checkoutRef.current.className = `${styles.checkoutContainer} ${styles.slideOutAnimation}`;
@@ -91,8 +98,8 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
   }, [frete])
 
   const calculaTotal = () => {
-    const valoresProds = props.products.map((prod, i) => { return prod.valorVenda * cartProducts[i].quantidade })
-    return (valoresProds.reduce((total, num) => total + num, 0) + frete)
+    const valoresProds = props.products.map((prod, i) => { return prod.produto.valorVenda * cartProducts[i].quantidade });
+    return (valoresProds.reduce((total, num) => total + num, 0) + frete);
   }
 
   const getFrete = (frete) => {
@@ -127,7 +134,7 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
   }
 
   return (
-    <div className="pageContainer">
+    <div className="pageContainer overflow-hidden">
       <Header headerType="checkout" />
       <div className={styles.pageContent}>
         <div ref={checkoutRef} className={styles.checkoutContainer}>

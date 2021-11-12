@@ -1,19 +1,11 @@
 import Link from 'next/link';
-
-import Header from '../../../components/Header';
-import Footer from '../../../components/Footer';
-
-import styles from './success.module.css';
 import { useContext, useEffect } from 'react';
-import { StepperContext } from '../../../contexts/StepperContext';
+
+import Footer from '../../../components/Footer';
+import Header from '../../../components/Header';
+import styles from './success.module.css';
 
 function orderSuccess() {
-    const { currentStep, setCurrentStepNumber } = useContext(StepperContext);
-
-    useEffect(() => {
-        setCurrentStepNumber(3);
-    }, [])
-
     return (
         <div className="pageContainer">
             <Header />
