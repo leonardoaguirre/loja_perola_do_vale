@@ -66,7 +66,7 @@ const PageUser: React.FC<PageUserProps> = (props) => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <Header />
       <div className={styles.custumerSearch}>
         <SearchBox

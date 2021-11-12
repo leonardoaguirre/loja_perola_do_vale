@@ -240,7 +240,7 @@ function productForm() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <Header />
       <div className={styles.productForm}>
         <h1>Cadastrar Produto</h1>

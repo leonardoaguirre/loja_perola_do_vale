@@ -17,7 +17,7 @@ const CartList: React.FC<CartListProps> = ({
   onChangedQuantity,
 }) => {
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <div className={styles.cart}>
         <div className={styles.subtitle}>
           <h3 className={styles.start}>Produto</h3>

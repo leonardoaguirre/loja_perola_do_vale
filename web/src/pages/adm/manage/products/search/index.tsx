@@ -59,7 +59,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <Header />
       <div className={styles.productSearch}>
         <Container fluid>

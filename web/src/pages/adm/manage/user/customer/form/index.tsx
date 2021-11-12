@@ -52,7 +52,7 @@ function UserForm() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <Header />
       <div className={styles.userForm}>
         <h1>Cadastrar-se</h1>

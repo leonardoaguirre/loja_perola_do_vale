@@ -11,7 +11,7 @@ const BankSlipPayment: React.FC<BankSlipPaymentProps> = ({
   onFinishSale
 }) => {
   return (
-    <form onSubmit={(event) => onFinishSale(event)} className={styles.container}>
+    <form onSubmit={(event) => onFinishSale(event)} className="pageContainer">
       <Container>
         <Row>
           <Col xs={12}>

@@ -34,7 +34,7 @@ const Favorites: React.FC<FavoritesProps> = (props) => {
   } 
 
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <Header />
       {nfavorites > 0 ?
         <div id="favorite" className={styles.favorites}>

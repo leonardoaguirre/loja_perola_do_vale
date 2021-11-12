@@ -54,7 +54,7 @@ const Login: React.FC<LoginProps> = (props) =>  {
       )
   }
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <form onSubmit={login}>
         <div className={styles.header}>
           <img src="/icons/logo.png" alt="Logo ferragens pérola do vale" />

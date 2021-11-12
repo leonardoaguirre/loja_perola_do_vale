@@ -57,7 +57,7 @@ const EmployeeSearch: React.FC<EmployeeSearchProps> = (props) => {
   }
 
   return (
-    <div className={styles.container} onClick={teste}>
+    <div className="pageContainer" onClick={teste}>
       <Header />
       <div className={styles.employeeSearch}>
         <SearchBox

@@ -147,7 +147,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
   const getF = () => { }//metodo vazio para implementar getFrete shippingcalc erro getFrete is Not a function por causa do reaproveitamento do componente
 
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <Head>
         <title>{props.product.nome} | Ferragens Pérola do Vale</title>
       </Head>

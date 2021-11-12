@@ -127,7 +127,7 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <Header headerType="checkout" />
       <div className={styles.pageContent}>
         <div ref={checkoutRef} className={styles.checkoutContainer}>

@@ -38,7 +38,7 @@ const Teste: React.FC<TesteProps> = ({
   }, [quantity])
 
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <div className={styles.inputNumber}>
         {((quantity == 1) ? (
           <button id={styles.minus} onClick={() => setModalShow(true)}><FaTrashAlt /></button>

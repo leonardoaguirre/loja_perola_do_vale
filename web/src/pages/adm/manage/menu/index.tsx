@@ -17,7 +17,7 @@ const Menu: React.FC<MenuProps> = (props) => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <div className={styles.menu}>
         <button className={styles.item} onClick={() => goToPage("products/search")}>Produtos</button>
         <button className={styles.item} onClick={() => goToPage("user/customer/search")}>Clientes</button>

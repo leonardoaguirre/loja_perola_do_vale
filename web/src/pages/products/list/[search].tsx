@@ -71,7 +71,7 @@ const ProductList: React.FC<ProductListProps> = (props) => {
   const { query } = useRouter();
 
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <Header />
       <Nav />
       <div className={styles.productList}>
@@ -204,7 +204,7 @@ interface Category {
 const ProductList: React.FC<ProductListProps> = (props) => {
 
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <Header />
       <Navigation />
       <div className={styles.productList}>

@@ -15,7 +15,7 @@ function orderSuccess() {
     }, [])
 
     return (
-        <div className={styles.container}>
+        <div className="pageContainer">
             <Header />
             <div className={styles.success}>
                 <img src="/images/success-icon.png" alt="Success icon" />

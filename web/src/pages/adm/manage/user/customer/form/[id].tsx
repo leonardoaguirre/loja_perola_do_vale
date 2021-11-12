@@ -83,7 +83,7 @@ const UserAlterForm: React.FC<PageCostumerInfoProps> = (props) => {
 
 
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <Header />
       <div className={styles.userForm}>
         <h1>Alterar Pessoa</h1>

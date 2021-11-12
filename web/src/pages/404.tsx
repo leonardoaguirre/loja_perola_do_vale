@@ -7,7 +7,7 @@ import styles from './404.module.css';
 
 function Error404() {
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <Header />
       <div className={styles.error404}>
         <img src="/images/sad_face.png" alt="Sad face emoji" />

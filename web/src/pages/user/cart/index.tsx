@@ -60,7 +60,7 @@ const Cart: React.FC<CartProps> = (props) => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <Header />
       <div className={styles.cart}>
         <div>

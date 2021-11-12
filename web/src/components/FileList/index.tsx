@@ -18,7 +18,7 @@ interface UploadedFiles {
 
 const FileList: React.FC<FileListProps> = ({ files, onDelete }) => {
   return (
-    <ul className={styles.container}>
+    <ul className="pageContainer">
       {files.map(file => (
         <li key={file.id}>
           <div className={styles.fileInfo}>

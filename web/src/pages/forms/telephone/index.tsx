@@ -5,7 +5,7 @@ import styles from './styles.module.css';
 
 function TelephoneForm() {
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <Header />
       <div className={styles.userForm}>
         <h1>Cadastrando novo número de telefone</h1>
