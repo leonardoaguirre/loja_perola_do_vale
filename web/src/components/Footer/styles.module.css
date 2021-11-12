@@ -103,16 +103,16 @@
 
 @media(max-width: 767px) {
   .footer {
-    height: 200px;
+    height: 18rem;
+  }
+
+  .linksContainer img {
+    width: 2.5rem;
+    height: 2.5rem;
   }
 }
 
 @media(max-width: 575px) {
-  .linksContainer img {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-
   .logo img:first-child {
     min-width: 40px;
     max-width: 50px;

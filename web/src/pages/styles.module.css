@@ -15,6 +15,6 @@
 
 @media(max-width: 767px) {
   .home {
-		min-height: calc(100vh - 366px);
+		min-height: calc(100vh - 32rem);
 	}
 }

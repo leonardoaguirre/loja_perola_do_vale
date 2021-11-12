@@ -62,7 +62,9 @@ const ProductCard: React.FC<ProductCardProps> = (props) => {
           {hasDiscount
             ? <div className={`${styles.content} ${styles.hasDiscount}`}>
               <figure className={styles.figure}>
-                <Card.Img className={styles.img} variant="top" src={`${environment.API}/${props.product.imagens[0].path}`} alt={Capitalize(props.product.nome)} title={Capitalize(props.product.nome)} loading="lazy" />
+                <div className={styles.imgContainer}>
+                  <Card.Img className={styles.img} variant="top" src={`${environment.API}/${props.product.imagens[0].path}`} alt={Capitalize(props.product.nome)} title={Capitalize(props.product.nome)} loading="lazy" />
+                </div>
               </figure>
               <Card.Body className={styles.body}>
                 <Card.Title className={styles.title} title={Capitalize(props.product.nome)}>{Capitalize(props.product.nome)}</Card.Title>
