@@ -7,13 +7,17 @@
 
 .productList {
   width: 95%;
-  max-width: 1080px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 1.6rem 0;
 }
 
-.col {
-  padding: 1rem 0.2rem;
+.list {
+  margin-bottom: 2rem;
+}
+
+.productList h1 {
+  margin-bottom: 1rem;
 }
 
 .pagination {
