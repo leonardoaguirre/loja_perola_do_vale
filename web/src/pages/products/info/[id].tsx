@@ -9,6 +9,7 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
 import Footer from '../../../components/Footer';
 import Header from '../../../components/Header';
+import InputNumber from '../../../components/Input/Number';
 import LoadingIcon from '../../../components/LoadingIcon';
 import Nav from '../../../components/Nav';
 import Shipping from '../../../components/Shipping';
@@ -38,6 +39,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
   }
 
   const { user } = useContext(UserContext);
+  const { addToCart } = useContext(CartContext)
 
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
@@ -48,8 +50,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
 
   const [produtoAtual, setProdutoAtual] = useState<Product[]>([{ ...props.product, quantidade: 1 }])
 
-  const { addToCart } = useContext(CartContext)
-
+  
   useEffect(() => {
     const user = Cookies.getJSON("user");
     let idPessoa = '';
@@ -145,13 +146,11 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
 
   return (
     <div className="pageContainer">
-      <Head>
-        <title>{props.product.nome} | Ferragens Pérola do Vale</title>
-      </Head>
+      <Head><title>{props.product.nome} | Ferragens Pérola do Vale</title></Head>
       <Header />
       <Nav />
-      <div className={styles.productSearch}>
-        <Container>
+      <div className="pageContent">
+        <Container fluid>
           <Row className={styles.row}>
             <Col xs={12} lg={8}>
               <section className={styles.product}>
@@ -223,7 +222,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
                         <div className={styles.favCont}>
                           {favorite.nFavoritos}
                         </div>
-                      </Button>{' '}
+                      </Button>
                     </div>
                   </div>
                   <hr />
@@ -252,24 +251,12 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
                   :
                   <h1>Produto Indisponivel</h1>
                 } */}
-
-                <div className={styles.amount}>
-                  <label htmlFor="quantidade">Quantidade</label>
-                  <select name="quantidade" id="amount" onChange={() => getQtd()}>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                  </select>
-                </div>
                 <div className={styles.shipping}>
                   <Shipping produtos={produtoAtual} getFrete={getF} />
                 </div>
                 <div className={styles.buttonContainer}>
-                  <button className={styles.addCart} onClick={() => sendToCart(props.product)}>Adicionar ao carrinho</button>
-                  <button className={styles.buyButton}>Comprar</button>
+                  <Button variant="outline-secondary" className={styles.addCart} onClick={() => sendToCart(props.product)}>Adicionar ao carrinho</Button>
+                  <Button variant="primary" size="lg" className={styles.buyButton}><strong>Comprar</strong></Button>
                 </div>
 
               </section>

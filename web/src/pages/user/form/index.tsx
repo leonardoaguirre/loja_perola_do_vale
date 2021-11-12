@@ -54,7 +54,7 @@ function UserForm() {
   return (
     <div className="pageContainer">
       <Header />
-      <div className={styles.userForm}>
+      <div id={styles.userForm} className="pageContent">
         <h1>Cadastrar-se</h1>
         {process.env.API_ADRESS}
         <div className={styles.formContainer}>

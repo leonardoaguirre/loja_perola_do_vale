@@ -9,7 +9,7 @@ function orderSuccess() {
     return (
         <div className="pageContainer">
             <Header />
-            <div className={styles.success}>
+            <div id={styles.success} className="pageContent">
                 <img src="/images/success-icon.png" alt="Success icon" />
                 <div className={styles.rightContainer}>
                     <h1>Obrigado pela sua compra!</h1>

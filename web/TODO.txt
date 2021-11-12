@@ -32,3 +32,7 @@ Lista de coisas a fazer no projeto
     *Criar botao acima da listagem para cadastrar um novo produto
 
 - Corrigir estilos dos logins, formulários de cadastro
+
+- Deixar prosseguir na conferencia somente se houver seleção de frete
+
+- Aviso na página de info de produtos, sequencia de hooks errada

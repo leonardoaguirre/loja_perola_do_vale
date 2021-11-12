@@ -1,15 +1,8 @@
-.productList {
-  width: 95%;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 1.6rem 0;
-}
-
 .list {
   margin-bottom: 2rem;
 }
 
-.productList h1 {
+#productList h1 {
   margin-bottom: 1rem;
 }
 
@@ -18,12 +11,4 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-}
-
-.pagination li a span:last-child {
-  display: none;
-}
-
-.pagination li span span {
-  display: none;
 }

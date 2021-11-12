@@ -45,7 +45,7 @@ const ProductList: React.FC<ProductListProps> = (props) => {
     <div className="pageContainer">
       <Header />
       <Nav />
-      <div className={styles.productList}>
+      <div id={styles.productList} className="pageContent">
         <div className={styles.list}>
           <Container fluid>
             <Row>

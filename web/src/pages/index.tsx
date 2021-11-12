@@ -12,7 +12,7 @@ export default function Home() {
     <div className="pageContainer">
       <Header />
       <Nav />
-      <div className={styles.home}>
+      <div className="pageContent">
         Promoção
         <Banner source={images} />
       </div>

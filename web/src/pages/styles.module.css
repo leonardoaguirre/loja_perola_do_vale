@@ -1,18 +1,3 @@
-.container {
-	margin: 0 auto;
-
-	display: flex;
-	flex-direction: column;
-}
-
-.home {
-	width: 95%;
-	max-width: 1280px;
-	min-height: calc(100vh - 245px);
-	margin: 0 auto;
-	padding: 1.6rem 0;
-}
-
 @media(max-width: 767px) {
   .home {
 		min-height: calc(100vh - 32rem);

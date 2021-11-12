@@ -125,7 +125,7 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 		<div className="pageContainer">
 			<Header />
 			<Nav />
-			<div className={styles.userAccount}>
+			<div className="pageContent">
 				<div className={styles.pageTitle}>
 					<h1>Minha Conta</h1>
 				</div>

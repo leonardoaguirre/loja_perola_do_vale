@@ -136,7 +136,7 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
   return (
     <div className="pageContainer overflow-hidden">
       <Header headerType="checkout" />
-      <div className={styles.pageContent}>
+      <div className="pageContent fx-column align-i-center nowrap">
         <div ref={checkoutRef} className={styles.checkoutContainer}>
           <form action="post" onSubmit={(e) => checkout(e)}>
             <Container fluid>

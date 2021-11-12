@@ -80,14 +80,6 @@ const Login: React.FC<LoginProps> = (props) =>  {
               <a>Esqueci minha senha</a>
             </Link>
           </div>
-          {/* <div className={styles.register}>
-                        <p>Não possui uma conta?</p>
-                        <span>
-                            <Link href="/userForm">
-                                <a>Cadastre-se</a>
-                            </Link>
-                        </span>
-                    </div> */}
         </div>
       </form>
     </div>

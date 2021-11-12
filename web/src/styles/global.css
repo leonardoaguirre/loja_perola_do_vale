@@ -44,11 +44,11 @@ h1, h2, h3, h4, h5, h6, strong {
   flex-direction: column;
 }
 
-.container {
+.pageContent {
   width: 95%;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 1.6rem 0;
+  padding: 1rem 0;
 }
 
 .fx-row {

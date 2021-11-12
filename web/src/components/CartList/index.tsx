@@ -17,7 +17,7 @@ const CartList: React.FC<CartListProps> = ({
   onChangedQuantity,
 }) => {
   return (
-    <div className="pageContainer">
+    <div className={styles.container}>
       <div className={styles.cart}>
         <div className={styles.subtitle}>
           <h3 className={styles.start}>Produto</h3>
@@ -40,7 +40,7 @@ const CartList: React.FC<CartListProps> = ({
                 </div>
                 <div className={styles.name}><p>{product.nome}</p></div>
                 <div className={`${styles.qtd} ${styles.center}`}>
-                  <InputNumber initialQuantity={product.quantidade} idProduto={product.id} changedQuantity={onChangedQuantity} />
+                  <InputNumber initialQuantity={product.quantidade} idProduto={product.id} store={true} changedQuantity={onChangedQuantity} />
                 </div>
                 <div className={`${styles.price} ${styles.center}`}><span>R$</span>{parseFloat(product.valorVenda.toString()).toFixed(2).replace('.', ',')}</div>
               </div>

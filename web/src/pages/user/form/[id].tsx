@@ -85,7 +85,7 @@ const UserAlterForm: React.FC<PageCostumerInfoProps> = (props) => {
   return (
     <div className="pageContainer">
       <Header />
-      <div className={styles.userForm}>
+      <div id={styles.userForm} className="pageContent">
         <h1>Alterar Pessoa</h1>
         <div className={styles.formContainer}>
           <form onSubmit={registerUser}>

@@ -7,7 +7,7 @@ function TelephoneForm() {
   return (
     <div className="pageContainer">
       <Header />
-      <div className={styles.userForm}>
+      <div className="pageContent">
         <h1>Cadastrando novo número de telefone</h1>
         <div className={styles.formContainer}>
           <form>

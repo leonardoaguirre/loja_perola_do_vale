@@ -62,7 +62,7 @@ const Cart: React.FC<CartProps> = (props) => {
   return (
     <div className="pageContainer">
       <Header />
-      <div className={styles.cart}>
+      <div className="pageContent">
         <div>
           <h2>Carrinho de Compras</h2>
         </div>

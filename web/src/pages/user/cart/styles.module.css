@@ -1,14 +1,5 @@
-.cart {
-  width: 95%;
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 2rem 0;
-}
-
 .cartList {
   width: 100%;
-  max-width: 800px;
-  min-width: none;
 }
 
 .empty {
@@ -46,10 +37,15 @@
   margin-right: 4px;
 }
 
+.right {
+  width: 100%;
+}
+
 .content {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  justify-content: space-between;
   gap: 3rem;
 }
 

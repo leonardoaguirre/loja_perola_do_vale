@@ -36,14 +36,16 @@ const Favorites: React.FC<FavoritesProps> = (props) => {
   return (
     <div className="pageContainer">
       <Header />
+      <div id="favorite" className="pageContent fx-column">
       {nfavorites > 0 ?
-        <div id="favorite" className={styles.favorites}>
-        {props.favorites.map((favorite, index) => {
-          return <FavoriteItem favorite={favorite} deleteFavorite={deleteFavorite} index={index} key={index}/>
-        })}
-        </div>
-        : <div className={styles.favorites}><h2>Você não possui nenhum favorito!</h2></div>
+        <>
+          {props.favorites.map((favorite, index) => {
+            return <FavoriteItem favorite={favorite} deleteFavorite={deleteFavorite} index={index} key={index}/>
+          })}
+        </>
+        : <h2>Você não possui nenhum favorito!</h2>
       }
+      </div>
     </div>
   );
 }
