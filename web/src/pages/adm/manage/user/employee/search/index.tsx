@@ -25,9 +25,7 @@ const EmployeeSearch: React.FC<EmployeeSearchProps> = (props) => {
     {value: "cpf", viewValue: "CPF"},
   ];
 
-  const handleSearch = async (event: any, searchStr: string, atribute: string) => {
-    event.preventDefault();
-
+  const handleSearch = async (searchStr: string, atribute: string) => {
     if (searchStr.length > 0) {
       await api.get(`Funcionario/Buscar/${atribute}/${searchStr}`) // await api.get(`Produto/Procurar/${atribute}/${searchStr}`)
         .then(

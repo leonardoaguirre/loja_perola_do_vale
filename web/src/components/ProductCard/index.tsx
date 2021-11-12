@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Card } from 'react-bootstrap';
 import { environment } from '../../environments/environment';
+import { Product } from '../../models/Product';
 
 import styles from './styles.module.css';
 
@@ -9,38 +10,6 @@ interface ProductCardProps {
   product: Product;
   index: number;
 }
-
-interface Product {
-  id: string;
-  nome: string;
-  marca: string;
-  descricao: string;
-  valorVenda: number;
-  codigoBarra: string;
-  quantidade: number;
-  peso: number;
-  altura: number;
-  largura: number;
-  comprimento: number;
-  imagens: Image[];
-  categorias: Category[];
-}
-
-interface Image {
-  id: string;
-  originalName: string;
-  mimetype: string;
-  destination: string;
-  filename: string;
-  path: string;
-  size: number;
-}
-
-interface Category {
-  id: string;
-  descricao: string;
-}
-
 
 const ProductCard: React.FC<ProductCardProps> = (props) => {
 

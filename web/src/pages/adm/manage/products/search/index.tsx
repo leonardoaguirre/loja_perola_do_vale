@@ -24,12 +24,15 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
 
   const handleSearch = async (searchStr: string, atribute: string) => {
 
+    let pagina: number = 1;
+
     if (searchStr.length > 0) {
-      await api.get(`Produto/Procurar/${searchStr}`) // await api.get(`Produto/Procurar/${atribute}/${searchStr}`)
+      await api.get(`Produto/Procurar/${searchStr}?pagina=${pagina}`) // await api.get(`Produto/Procurar/${atribute}/${searchStr}`)
         .then(
           (res) => {
-            if (res.status === 200) {
-              setTableData(res.data);
+            if (res.statusText === "OK") {
+              console.log(res);
+              setTableData(res.data.products);
               setIsActive(true);
               setError('');
             } else {
