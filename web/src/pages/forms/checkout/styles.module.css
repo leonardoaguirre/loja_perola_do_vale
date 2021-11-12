@@ -166,6 +166,7 @@
   height: fit-content;
   max-height: 330px;
   box-shadow: 6px 2px 17px -2px rgba(0,0,0,0.38);
+  margin-top: 0.5rem;
 }
 
 .actions {

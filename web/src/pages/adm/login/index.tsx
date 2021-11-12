@@ -6,7 +6,7 @@ import React, { useContext, useState } from 'react';
 import LoadingIcon from '../../../components/LoadingIcon';
 import { UserContext } from '../../../contexts/UserContext';
 import { environment } from '../../../environments/environment';
-import styles from '../../styles.module.css';
+import styles from './styles.module.css';
 
 interface LoginProps {
   
@@ -54,8 +54,8 @@ const Login: React.FC<LoginProps> = (props) =>  {
       )
   }
   return (
-    <div className="pageContainer">
-      <form onSubmit={login}>
+    <div className="pageContainer entire-page">
+      <form id={styles.login} onSubmit={login}>
         <div className={styles.header}>
           <img src="/icons/logo.png" alt="Logo ferragens pérola do vale" />
           <h1>Login de Funcionario</h1>
@@ -73,7 +73,7 @@ const Login: React.FC<LoginProps> = (props) =>  {
             {erro.constraints.message == "" ? "" : <p>{erro.constraints.message}</p>}
           </div>
           <div className={styles.buttonContainer}>
-            <input type="submit" value="Entrar" />
+            <button type="submit">Entrar</button>
           </div>
           <div className={styles.passwordForgotten}>
             <Link href="/esquecisenha">

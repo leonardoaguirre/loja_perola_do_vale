@@ -30,3 +30,5 @@ Lista de coisas a fazer no projeto
     *E opcao de adicionar um novo lote daquele produto
     *E opcao de alterar as informacoes do produto
     *Criar botao acima da listagem para cadastrar um novo produto
+
+- Corrigir estilos dos logins, formulários de cadastro

@@ -1,18 +1,10 @@
-.container {
-	height: 100vh;
-	width: 100vw;
-	margin: 0 auto;
-
-	display: flex;
-	flex-direction: column;
-}
-
-.container form {
+#login {
 	z-index: 10;
 	margin: auto;
 	border: 1px solid black;
+	border-radius: 15px;
 	box-shadow: 8px 8px 25px #2a4370;
-	padding: 6rem 10rem;
+	padding: 2rem 5rem;
 	background-color: #bcd3ff;
 }
 
@@ -21,18 +13,22 @@
 	align-items: center;
 }
 
+.header h1 {
+	font-size: 2rem;
+}
+
 .header img {
-	width: 6rem;
+	width: 5rem;
 	margin-right: 1rem;
 }
 
-.container form label {
+#login label {
 	display: block;
 	padding: 1rem 0 0.8rem;
-	font-size: 1.5rem;
+	font-size: 1.1rem;
 }
 
-.container form input {
+#login input {
 	border-radius: 7px;
 	border: none;
 	outline: none;
@@ -42,7 +38,7 @@
 .password input {
 	padding: 1rem;
 	
-	width: 27rem;
+	width: 20rem;
 }
 
 .buttonContainer {
@@ -50,86 +46,66 @@
 	justify-content: flex-end;
 }
 
-.buttonContainer input {
-	padding: 0.7rem 1.3rem;
-	margin: 2rem 0 1rem 0;
-	box-shadow: 0 4px #999;
+.buttonContainer button {
+	margin: 1rem 0 0.4rem 0;
+	border-radius: 7px;
+	border: none;
 
-	width: 9rem;
+	width: 7rem;
 	height: 3.8rem;
+
+	font-weight: 500;
 
 	cursor: pointer;
 
 	background-color: #ebfff0;
 }
 
-.buttonContainer input:hover {
+.buttonContainer button:hover {
 	background-color: #4bb94b;
 	transition: 0.2s;
 }
 
 .buttonContainer input:active {
 	box-shadow: 0 1px #666;
-  	transform: translateY(4px);
+  transform: translateY(4px);
 	transition: none;
 }
 
 .passwordForgotten {
 	display: flex;
 	justify-content: center;
-	margin-top: 1rem;
+	margin-top: 0.7rem;
+	font-size: 1rem;
+}
 
-	font-size: 1.3rem;
-
+.passwordForgotten a {
 	color: #2042ff;
 }
 
-.register {
+.register, .employeeLogin {
 	display: flex;
 	justify-content: center;
-	font-size: 1.5rem;
-	margin-top: 1rem;
 }
 
-.register span a {
-	margin-left: 0.3rem;
+.register p,
+.register span,
+.employeeLogin p,
+.employeeLogin span {
+	font-size: 1rem;
+}
+
+.register span a,
+.employeeLogin span a {
+	margin-left: 0.1rem;
 	color: #2042ff;
 }
 
 .errorMessage {
 	color: #FF0000;
-	margin-top: 1.4rem;
+	margin-top: 1.2rem;
 }
 
 .errorMessage p {
 	text-align: center;
-}
-.register{
-	display: flex;
-	justify-content: center;
-	margin-top: 1rem;
-
-	font-size: 1.3rem;
-
-	color: #2042ff;
-}
-
-.register p{
-	margin-right: 0.5rem;
-	color: #505050;
-}
-
-.employeLogin {
-	display: flex;
-	justify-content: center;
-	margin-top: 1rem;
-
-	font-size: 1.3rem;
-
-	color: #2042ff;
-}
-
-.employeLogin p{
-	margin-right: 0.5rem;
-	color: #505050;
 }

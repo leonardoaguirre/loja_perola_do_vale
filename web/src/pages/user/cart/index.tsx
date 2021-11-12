@@ -2,18 +2,18 @@ import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Button } from 'react-bootstrap';
 import { BsCartX } from 'react-icons/bs';
-import { IoIosArrowBack } from 'react-icons/io'
+import { IoIosArrowBack } from 'react-icons/io';
 
 import CartList from '../../../components/CartList';
 import Header from '../../../components/Header';
 import LoadingIcon from '../../../components/LoadingIcon';
-import Shipping from '../../../components/Shipping/ShippingCalc';
+import Shipping from '../../../components/Shipping';
 import { CartContext } from '../../../contexts/CartContext';
+import { environment } from '../../../environments/environment';
 import { Product } from '../../../models/Product';
 import styles from './styles.module.css';
-import { Button } from 'react-bootstrap';
-import { environment } from '../../../environments/environment';
 
 interface CartProps {
   data: [{

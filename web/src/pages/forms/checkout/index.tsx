@@ -13,7 +13,7 @@ import LoadingIcon from '../../../components/LoadingIcon';
 import OrderResume from '../../../components/OrderResume';
 import PostalAdressCard from '../../../components/PostalAdressCard/Card';
 import PostalAdressCardNew from '../../../components/PostalAdressCard/New';
-import ShippingCalc from '../../../components/Shipping/ShippingCalc';
+import ShippingCalc from '../../../components/Shipping';
 import { CartContext } from '../../../contexts/CartContext';
 import { StepperContext } from '../../../contexts/StepperContext';
 import { environment } from '../../../environments/environment';

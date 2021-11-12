@@ -51,6 +51,41 @@ h1, h2, h3, h4, h5, h6, strong {
   padding: 1.6rem 0;
 }
 
+.fx-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.fx-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.just-cont-center {
+  justify-content: center;
+}
+
+.align-i-center {
+  align-items: center;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+.nowrap {
+  flex-wrap: nowrap;
+}
+
+.oveflow-hidden {
+  overflow: hidden;
+}
+
+.entire-page {
+  width: 100vw;
+  height: 100vh;
+}
+
 #paymentRef ul[role='tablist'] {
   width: 100%;
   display: flex;

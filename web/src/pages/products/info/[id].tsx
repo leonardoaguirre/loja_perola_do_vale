@@ -1,26 +1,23 @@
-import Head from 'next/head';
-import { GetStaticPaths, GetStaticProps } from 'next';
-import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import { toString } from 'lodash';
-import { useContext, useState, useEffect } from 'react';
-
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useContext, useEffect, useState } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
-import { UserContext } from '../../../contexts/UserContext';
-import api from '../../../services/api';
-
-import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
-import Nav from '../../../components/Nav';
+import Header from '../../../components/Header';
 import LoadingIcon from '../../../components/LoadingIcon';
-import Shipping from '../../../components/Shipping/ShippingCalc';
-
-import styles from './styles.module.css';
+import Nav from '../../../components/Nav';
+import Shipping from '../../../components/Shipping';
 import { CartContext } from '../../../contexts/CartContext';
-import { Product } from '../../../models/Product';
+import { UserContext } from '../../../contexts/UserContext';
 import { environment } from '../../../environments/environment';
+import { Product } from '../../../models/Product';
+import api from '../../../services/api';
+import styles from './styles.module.css';
 
 interface ProductSearchProps {
   product: Product;
