@@ -43,7 +43,7 @@ const Stepper: React.FC<StepperProps> = (props) => {
 
   const handleSelectedKey = (url: string) => {
     if (url) {
-      router.push(`http://localhost:3000/${url}`);
+      router.push(`/${url}`);
     }
   }
 

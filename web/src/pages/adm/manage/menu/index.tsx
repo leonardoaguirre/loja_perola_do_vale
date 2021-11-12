@@ -12,7 +12,7 @@ const Menu: React.FC<MenuProps> = (props) => {
   const goToPage = (url: string) => {
 
     if (url) {
-      router.push(`http://localhost:3000/adm/manage/${url}`);
+      router.push(`/adm/manage/${url}`);
     }
   }
 

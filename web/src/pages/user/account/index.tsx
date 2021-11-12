@@ -16,6 +16,7 @@ import PostalAdressCard from "../../../components/PostalAdressCard/Card";
 import PostalAdressCardNew from "../../../components/PostalAdressCard/New";
 
 import styles from "./styles.module.css";
+import { environment } from "../../../environments/environment";
 
 interface PageCostumerAccountProps {
 	costumer: Costumer
@@ -104,7 +105,7 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 			method: "PATCH",
 		};
 
-		const response = await fetch(`http://localhost:3008/Cliente/Alterar/${props.costumer.id}`, cliente)
+		const response = await fetch(`${environment.API}/Cliente/Alterar/${props.costumer.id}`, cliente)
 
 		const result = await response.json();
 
@@ -254,7 +255,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { user } = context.req.cookies;
 	const userData = JSON.parse(user);
 
-	const response = await fetch(`http://localhost:3008/cliente/BuscaPorId/${userData.id}`);
+	const response = await fetch(`${environment.API}/cliente/BuscaPorId/${userData.id}`);
 	const data = await response.json();
 
 	return {

@@ -20,6 +20,7 @@ import Shipping from '../../../components/Shipping/ShippingCalc';
 import styles from './styles.module.css';
 import { CartContext } from '../../../contexts/CartContext';
 import { Product } from '../../../models/Product';
+import { environment } from '../../../environments/environment';
 
 interface ProductSearchProps {
   product: Product;
@@ -43,7 +44,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
 
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
-  const [mainImage, setMainImage] = useState<string>(`http://localhost:3008/${props.product.imagens[0].path}`);
+  const [mainImage, setMainImage] = useState<string>(`${environment.API}/${props.product.imagens[0].path}`);
 
   const [favorite, setFavorite] = useState<Favorite>({ idFavorito: null, favoritado: false, nFavoritos: 0 });
   const [favImg, setFavImg] = useState<string>('/icons/favorite_border_gray_36dp.svg');
@@ -82,7 +83,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
   const handleFavorite = async (event) => {
     if (favorite.favoritado) {
       // desfavoritar
-      api.delete('http://localhost:3008/favorito/deletarPorId', {
+      api.delete(`${environment.API}/favorito/deletarPorId`, {
         data: {
           idFavorito: favorite.idFavorito
         }
@@ -100,7 +101,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
     } else {
       // favoritar
 
-      api.post('http://localhost:3008/favorito/adicionar', {
+      api.post(`${environment.API}/favorito/adicionar`, {
         idPessoa: user.idPessoa,
         idProduto: props.product.id
       }).then((res) => {
@@ -172,7 +173,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
                         </div>
                         {props.product.imagens.map((img, index) => (
                           <figure className={styles.imageItem} key={index}>
-                            <img src={`http://localhost:3008/${props.product.imagens[index].path}`} alt={props.product.nome} onClick={handleImagePick} />
+                            <img src={`${environment.API}/${props.product.imagens[index].path}`} alt={props.product.nome} onClick={handleImagePick} />
                           </figure>
                         ))}
                         <div className={styles.arrow}>
@@ -285,7 +286,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const response = await fetch(`http://localhost:3008/produto/listar`);
+  const response = await fetch(`${environment.API}/produto/listar`);
   const data = await response.json();
 
   const paths = data.map(product => {

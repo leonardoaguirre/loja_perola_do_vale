@@ -4,6 +4,7 @@ import { Product } from '../../models/Product';
 import styles from './styles.module.css';
 import api from '../../services/api';
 import { useRouter } from 'next/router';
+import { environment } from '../../environments/environment';
 
 interface ProductTableProps {
   products: Product[];
@@ -88,7 +89,7 @@ const ProductTable: React.FC<ProductTableProps> = (props) => {
               <td>{product.descricao}</td>
               <td>{product.quantidade}</td>
               <td>{product.valorVenda}</td>
-              <td><img src={`http://localhost:3008/${product.imagens[0].path}`} alt={product.nome} /></td>
+              <td><img src={`${environment.API}/${product.imagens[0].path}`} alt={product.nome} /></td>
             </tr>
           ))}
         </tbody>

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { Card } from 'react-bootstrap';
+import { environment } from '../../environments/environment';
 
 import styles from './styles.module.css';
 
@@ -61,7 +62,7 @@ const ProductCard: React.FC<ProductCardProps> = (props) => {
           {hasDiscount
             ? <div className={`${styles.content} ${styles.hasDiscount}`}>
               <figure className={styles.figure}>
-                <Card.Img className={styles.img} variant="top" src={`http://localhost:3008/${props.product.imagens[0].path}`} alt={Capitalize(props.product.nome)} title={Capitalize(props.product.nome)} loading="lazy" />
+                <Card.Img className={styles.img} variant="top" src={`${environment.API}/${props.product.imagens[0].path}`} alt={Capitalize(props.product.nome)} title={Capitalize(props.product.nome)} loading="lazy" />
               </figure>
               <Card.Body className={styles.body}>
                 <Card.Title className={styles.title} title={Capitalize(props.product.nome)}>{Capitalize(props.product.nome)}</Card.Title>
@@ -74,7 +75,7 @@ const ProductCard: React.FC<ProductCardProps> = (props) => {
             </div>
             : <div className={styles.content}>
               <figure className={styles.figure}>
-                <Card.Img className={styles.img} variant="top" src={`http://localhost:3008/${props.product.imagens[0].path}`} alt={Capitalize(props.product.nome)} title={Capitalize(props.product.nome)} />
+                <Card.Img className={styles.img} variant="top" src={`${environment.API}/${props.product.imagens[0].path}`} alt={Capitalize(props.product.nome)} title={Capitalize(props.product.nome)} />
               </figure>
               <Card.Body className={styles.body}>
                 <Card.Title className={styles.title} title={Capitalize(props.product.nome)}>{Capitalize(props.product.nome)}</Card.Title>

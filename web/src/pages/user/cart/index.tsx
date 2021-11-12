@@ -13,6 +13,7 @@ import { CartContext } from '../../../contexts/CartContext';
 import { Product } from '../../../models/Product';
 import styles from './styles.module.css';
 import { Button } from 'react-bootstrap';
+import { environment } from '../../../environments/environment';
 
 interface CartProps {
   data: [{
@@ -152,7 +153,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const prods = JSON.parse(cartProducts);
 
     for (const prod of prods) {
-      const response = await fetch(`http://localhost:3008/Produto/BuscarPorId/${prod.id}`)
+      const response = await fetch(`${environment.API}/Produto/BuscarPorId/${prod.id}`)
       const dat = await response.json()
       data.push(dat)
     }

@@ -71,7 +71,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
               />
             </Col>
             <Col xs={3} lg={2}>
-              <Button variant="primary" className={styles.createButton} onClick={(event) => onClickButton('http://localhost:3000', event)}>
+              <Button variant="primary" className={styles.createButton} onClick={(event) => onClickButton('/', event)}>
                 <img src="/icons/add_circle_black_36dp.svg" alt="Adicionar" />
                 <p>Cadastrar</p>
               </Button>

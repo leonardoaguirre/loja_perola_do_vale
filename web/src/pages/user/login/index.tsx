@@ -5,6 +5,7 @@ import React, { useContext, useState } from 'react';
 
 import LoadingIcon from '../../../components/LoadingIcon';
 import { UserContext } from '../../../contexts/UserContext';
+import { environment } from '../../../environments/environment';
 
 import styles from './styles.module.css';
 
@@ -35,7 +36,7 @@ const Login: React.FC<LoginProps> = (props) => {
       }),
       method: "post",
     };
-    await fetch("http://localhost:3008/Cliente/Login", pessoa)
+    await fetch(`${environment.API}/Cliente/Login`, pessoa)
       .then(async (res) => {
         if (res.ok) {
           const r = await res.json();

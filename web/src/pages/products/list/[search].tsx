@@ -10,8 +10,9 @@ import Footer from '../../../components/Footer';
 import Nav from '../../../components/Nav';
 import ProductCard from '../../../components/ProductCard';
 
-import styles from '../../styles.module.css';
+import styles from './styles.module.css';
 import PaginationBar from '../../../components/PaginationBar';
+import { environment } from '../../../environments/environment';
 
 interface ProductListProps {
   products: [Product[], number];
@@ -74,21 +75,27 @@ const ProductList: React.FC<ProductListProps> = (props) => {
       <Header />
       <Nav />
       <div className={styles.productList}>
-        <h1>Produtos</h1>
-        <Container>
-          <Row className={styles.row} xs={2} md={3} lg={4}>
-            {props.products[0].map((product, index) => (
-              <Col key={index} className={styles.col}>
-                <ProductCard product={product} index={index} key={index} />
+        <div className={styles.list}>
+          <Container fluid>
+            <Row>
+              <Col xs={12}>
+                <h1>Produtos</h1>
               </Col>
-            ))}
-          </Row>
-        </Container>
-        <div>
-            <PaginationBar nPages={props.products[1]}
-              search={props.search}
-              destination={'products/list'}
-              activePage={props.activePage} />
+            </Row>
+            <Row>
+              {props.products[0].map((product, index) => (
+                <Col key={index} className={styles.col} xs={6} sm={4} md={3} lg={3} xl={3}>
+                  <ProductCard product={product} index={index} key={index} />
+                </Col>
+              ))}
+            </Row>
+          </Container>
+        </div>
+        <div className={styles.pagination}>
+          <PaginationBar nPages={props.products[1]}
+            search={props.search}
+            destination={'products/list'}
+            activePage={props.activePage} />
         </div>
       </div>
       <Footer />
@@ -100,7 +107,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { search } = context.params;
   const { pagina } = context.query;
 
-  const response = await fetch(`http://localhost:3008/produto/procurar/${search}?pagina=${pagina}`);
+  const response = await fetch(`${environment.API}/produto/procurar/${search}?pagina=${pagina}`);
   const data = await response.json();
 
   return {
@@ -113,7 +120,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 
 // export const getStaticPaths: GetStaticPaths = async () => {
-//   const response = await fetch(`http://localhost:3008/produto/listar`);
+//   const response = await fetch(`${environment.API}/produto/listar`);
 //   const data = await response.json();
 
 //   const paths = data.map(product => {
@@ -131,7 +138,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 //   const { search } = context.params;
 //   console.log(context.params)
 
-//   const response = await fetch(`http://localhost:3008/produto/procurar/${search}`);
+//   const response = await fetch(`${environment.API}/produto/procurar/${search}`);
 //   const data = await response.json();
 
 //   return {
@@ -236,7 +243,7 @@ const ProductList: React.FC<ProductListProps> = (props) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const response = await fetch('http://localhost:3008/Produto/Listar');
+  const response = await fetch(`${environment.API}/Produto/Listar`);
 
   if (response.status == 200) {
     const data = await response.json();

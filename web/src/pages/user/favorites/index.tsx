@@ -9,6 +9,7 @@ import { Favorite } from '../../../models/Favorite';
 
 import styles from './styles.module.css';
 import api from "../../../services/api";
+import { environment } from '../../../environments/environment';
 
 interface FavoritesProps {
   favorites: Favorite[];
@@ -20,7 +21,7 @@ const Favorites: React.FC<FavoritesProps> = (props) => {
 
   const deleteFavorite = (idFavorito: number, index: number) => {
     console.log("deleteFavorite", document.getElementById(`item${index}`));
-    api.delete('http://localhost:3008/favorito/deletarPorId', {
+    api.delete(`${environment.API}/favorito/deletarPorId`, {
         data: {
           idFavorito: idFavorito
         }

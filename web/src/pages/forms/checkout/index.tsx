@@ -16,6 +16,7 @@ import PostalAdressCardNew from '../../../components/PostalAdressCard/New';
 import ShippingCalc from '../../../components/Shipping/ShippingCalc';
 import { CartContext } from '../../../contexts/CartContext';
 import { StepperContext } from '../../../contexts/StepperContext';
+import { environment } from '../../../environments/environment';
 import { Adress, Costumer } from '../../../models/Costumer';
 import { Product } from '../../../models/Product';
 import api from '../../../services/api';
@@ -315,13 +316,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (user) {
     const userData = JSON.parse(user);
 
-    const responseUser = await fetch(`http://localhost:3008/cliente/BuscaPorId/${userData.id}`);
+    const responseUser = await fetch(`${environment.API}/cliente/BuscaPorId/${userData.id}`);
 
     const cookieProds = JSON.parse(cartProducts);
     let prods: Product[] = [];
 
     for (const prod of cookieProds) {
-      const response = await fetch(`http://localhost:3008/Produto/BuscarPorId/${prod.id}`)
+      const response = await fetch(`${environment.API}/Produto/BuscarPorId/${prod.id}`)
       const dat = await response.json()
       prods.push(dat)
     }

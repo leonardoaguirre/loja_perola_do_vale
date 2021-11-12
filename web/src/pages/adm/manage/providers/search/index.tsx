@@ -24,7 +24,7 @@ const PageUser: React.FC<PageUserProps> = (props) => {
 
   //   const pessoa = { headers: { 'authorization': tokenCookie }, method: "GET" };
 
-  //   const response = await fetch('http://localhost:3008/Cliente/listar', pessoa);
+  //   const response = await fetch(`${environment.API}/Cliente/listar`, pessoa);
 
   //   setTableItens(await response.json());
   // }
@@ -88,7 +88,7 @@ const PageUser: React.FC<PageUserProps> = (props) => {
 
 //   const pessoa = { headers: { 'authorization': tokenCookie }, method: "GET" };
 
-//   const response = await fetch('http://localhost:3008/Cliente/Listar', pessoa);
+//   const response = await fetch(`${environment.API}/Cliente/Listar`, pessoa);
 
 
 

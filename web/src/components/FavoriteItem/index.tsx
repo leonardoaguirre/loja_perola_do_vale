@@ -3,6 +3,7 @@ import { Product } from '../../models/Product';
 import { Favorite } from '../../models/Favorite';
 import { useState } from 'react';
 import { remove } from 'js-cookie';
+import { environment } from '../../environments/environment';
 
 interface FavoriteItemProps {
   favorite: Favorite;
@@ -20,7 +21,7 @@ const FavoriteItem: React.FC<FavoriteItemProps> = (props) => {
         <div className={styles.image}>
           <div className={styles.imgContainer}>
             <figure>
-              <img src={`http://localhost:3008/${props.favorite.produto.imagens[0].path}`} alt={props.favorite.produto.nome} title={props.favorite.produto.nome} loading="lazy" />
+              <img src={`${environment.API}/${props.favorite.produto.imagens[0].path}`} alt={props.favorite.produto.nome} title={props.favorite.produto.nome} loading="lazy" />
             </figure>
           </div>
         </div>

@@ -1,12 +1,11 @@
-import Link from 'next/link';
 import { GetServerSideProps } from 'next';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext, useState } from 'react';
 
-import { UserContext } from '../../../contexts/UserContext';
-
 import LoadingIcon from '../../../components/LoadingIcon';
-
+import { UserContext } from '../../../contexts/UserContext';
+import { environment } from '../../../environments/environment';
 import styles from '../../styles.module.css';
 
 interface LoginProps {
@@ -36,7 +35,7 @@ const Login: React.FC<LoginProps> = (props) =>  {
       }),
       method: "post",
     };
-    await fetch("http://localhost:3008/Funcionario/Login", pessoa)
+    await fetch(`${environment.API}/Funcionario/Login`, pessoa)
       .then(async (res) => {
         if (res.ok) {
           const r = await res.json();

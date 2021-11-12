@@ -7,6 +7,7 @@ import Footer from '../../../components/Footer';
 import Header from '../../../components/Header';
 
 import styles from './styles.module.css';
+import { environment } from '../../../environments/environment';
 
 interface PageCostumerInfoProps {
   costumer: Costumer
@@ -58,7 +59,7 @@ const UserAlterForm: React.FC<PageCostumerInfoProps> = (props) => {
     event.preventDefault();
 
     if (props.costumer.id) {
-      await fetch(`http://localhost:3008/Cliente/Alterar/${props.costumer.id}`, {
+      await fetch(`${environment.API}/Cliente/Alterar/${props.costumer.id}`, {
         body: JSON.stringify({
           nome: nome,
           email: email,
@@ -188,7 +189,7 @@ const UserAlterForm: React.FC<PageCostumerInfoProps> = (props) => {
 
 //     // const pessoa = { headers: { 'authorization': tokenCookie }, method: "GET" };
 
-//     // const response = await fetch(`http://localhost:3008/Cliente/Listar`,pessoa);
+//     // const response = await fetch(`${environment.API}/Cliente/Listar`,pessoa);
 //     // const data = await response.json();
 
 //     // const paths = data.map(pessoa => {
@@ -206,7 +207,7 @@ const UserAlterForm: React.FC<PageCostumerInfoProps> = (props) => {
 //     const { id } = context.params;
 
 
-//     const response = await fetch(`http://localhost:3008/Cliente/BuscaPorId/${id}`);
+//     const response = await fetch(`${environment.API}/Cliente/BuscaPorId/${id}`);
 //     const data = await response.json();
 
 //     return {
@@ -218,7 +219,7 @@ const UserAlterForm: React.FC<PageCostumerInfoProps> = (props) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.params;
 
-  const response = await fetch(`http://localhost:3008/cliente/BuscaPorId/${id}`);
+  const response = await fetch(`${environment.API}/cliente/BuscaPorId/${id}`);
   const data = await response.json();
 
   return {

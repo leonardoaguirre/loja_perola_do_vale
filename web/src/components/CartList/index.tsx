@@ -5,6 +5,7 @@ import React from 'react';
 import { Product } from '../../models/Product';
 import InputNumber from '../Input/Number';
 import styles from './styles.module.css';
+import { environment } from '../../environments/environment';
 
 interface CartListProps {
   products: Product[];
@@ -32,7 +33,7 @@ const CartList: React.FC<CartListProps> = ({
                 <div className={`${styles.imgContainer} ${styles.center}`}>
                   <Link href={`/products/info/${product.id}`}>
                     <a>
-                      <img src={`http://localhost:3008/${product.imagens[0].path}`}
+                      <img src={`${environment.API}/${product.imagens[0].path}`}
                         alt={product.nome} title={product.nome} />
                     </a>
                   </Link>
