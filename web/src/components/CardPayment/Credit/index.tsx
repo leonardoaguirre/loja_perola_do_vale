@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
-
-import styles from './styles.module.css';
+import { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, FormControl, InputGroup, Row } from 'react-bootstrap';
+
+import { Utils } from '../../../shared/classes/utils';
+import styles from './styles.module.css';
 
 interface CreditPaymentProps {
   valorTotal: number;
@@ -29,7 +30,7 @@ const CreditPayment: React.FC<CreditPaymentProps> = ({
     for (let i = 1; i < 11; i++) {
       parcelas.push(
         <option key={i} value={`${i}`}>
-          {i}x de {(valorTotal / i).toFixed(2).replace(`.`, `,`)} sem juros
+          {i}x de {Utils.formatMoney(valorTotal / i)} sem juros
         </option>
       )
     }
@@ -102,7 +103,7 @@ const CreditPayment: React.FC<CreditPaymentProps> = ({
             </Col>
             <hr />
             <Col xs={12}>
-              <strong className={styles.total}><span>Total:</span><span>R$ <span>{total.toFixed(2).replace('.', ',')}</span></span></strong>
+              <strong className={styles.total}><span>Total:</span><span>R$ <span>{Utils.formatMoney(total)}</span></span></strong>
             </Col>
             <Col xs={12}>
               <p>{`em ${nParcelas}x no cartão`}</p>

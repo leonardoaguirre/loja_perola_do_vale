@@ -13,6 +13,7 @@ import Shipping from '../../../components/Shipping';
 import { CartContext } from '../../../contexts/CartContext';
 import { environment } from '../../../environments/environment';
 import { Product } from '../../../models/Product';
+import { Utils } from '../../../shared/classes/utils';
 import styles from './styles.module.css';
 
 interface CartProps {
@@ -46,7 +47,7 @@ const Cart: React.FC<CartProps> = (props) => {
 
   const calculaTotal = () => {
     const valoresProds = cartProducts.map((cartProd, i) => props.data[i].produto.valorVenda * cartProd.quantidade);
-    return (valoresProds.reduce((total, num) => total + num, 0) + frete)
+    return (valoresProds.reduce((total, num) => total + num, 0))
   }
 
   const getFrete = (frete) => {
@@ -86,19 +87,19 @@ const Cart: React.FC<CartProps> = (props) => {
                     <div className={styles.description}>
                       <div className={styles.top}>
                         <div className={styles.row}>
-                          <label>{cartProducts.length} Produto(s)</label><span className={styles.price}>R${subtotal.toFixed(2).replace(`.`, `,`)}</span>
+                          <label>{cartProducts.length} Produto(s)</label><span className={styles.price}>{`R$${Utils.formatMoney(subtotal)}`}</span>
                         </div>
                         <div className={styles.row}>
-                          <label>Frete</label><span>R${frete ? frete.toFixed(2).replace(`.`, `,`) : `--`}</span>
+                          <label>Frete</label><span>{`R$ ${frete ? Utils.formatMoney(frete) : `--`}`}</span>
                         </div>
                       </div>
                       <hr />
                       <div className={styles.bottom}>
                         <div className={`${styles.row} ${styles.total}`}>
-                          <label>Total</label><span className={styles.price}>R$ {frete ? (subtotal + frete).toFixed(2).replace(`.`, `,`) : subtotal.toFixed(2).replace(`.`, `,`)}</span>
+                          <label>Total</label><span className={styles.price}>{`R$${frete ? Utils.formatMoney(subtotal + frete) : Utils.formatMoney(subtotal)}`}</span>
                         </div>
                         <div className={`${styles.row} ${styles.installment}`}>
-                          <label>Em até 10x sem juros de</label><span>R${frete ? ((subtotal + frete) / 10).toFixed(2).replace(`.`, `,`) : (subtotal / 10).toFixed(2).replace(`.`, `,`)}</span>
+                          <label>Em até 10x sem juros de</label><span>{`R$${frete ? Utils.formatMoney((subtotal + frete) / 10) : Utils.formatMoney(subtotal / 10)}`}</span>
                         </div>
                       </div>
                     </div>

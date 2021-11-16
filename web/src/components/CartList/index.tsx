@@ -2,10 +2,11 @@ import Link from 'next/link';
 import { useRef } from 'react';
 import React from 'react';
 
+import { environment } from '../../environments/environment';
 import { Product } from '../../models/Product';
+import { Utils } from '../../shared/classes/utils';
 import InputNumber from '../Input/Number';
 import styles from './styles.module.css';
-import { environment } from '../../environments/environment';
 
 interface CartListProps {
   products: Product[];
@@ -42,7 +43,7 @@ const CartList: React.FC<CartListProps> = ({
                 <div className={`${styles.qtd} ${styles.center}`}>
                   <InputNumber initialQuantity={product.quantidade} idProduto={product.id} store={true} changedQuantity={onChangedQuantity} />
                 </div>
-                <div className={`${styles.price} ${styles.center}`}><span>R$</span>{parseFloat(product.valorVenda.toString()).toFixed(2).replace('.', ',')}</div>
+                <div className={`${styles.price} ${styles.center}`}><span>R$</span>{Utils.formatMoney(product.valorVenda)}</div>
               </div>
             );
           })}

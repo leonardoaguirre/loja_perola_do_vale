@@ -1,9 +1,9 @@
-import styles from './styles.module.css';
-import { Product } from '../../models/Product';
-import { Favorite } from '../../models/Favorite';
 import { useState } from 'react';
-import { remove } from 'js-cookie';
+
 import { environment } from '../../environments/environment';
+import { Favorite } from '../../models/Favorite';
+import { Utils } from '../../shared/classes/utils';
+import styles from './styles.module.css';
 
 interface FavoriteItemProps {
   favorite: Favorite;
@@ -31,13 +31,13 @@ const FavoriteItem: React.FC<FavoriteItemProps> = (props) => {
             <div className={styles.values}>
               <div className={styles.currentPrice}>
                 <strong>R$</strong>
-                <strong>{parseFloat(props.favorite.produto.valorVenda.toString()).toFixed(2).replace('.', ',')}</strong>
+                <strong>{Utils.formatMoney(props.favorite.produto.valorVenda)}</strong>
                 <span>/ item</span>
               </div>
               {hasDiscount ?
                 <div className={styles.oldPrice}>
                   <span>R$ </span>
-                  <span>{(props.favorite.produto.valorVenda * 1.1).toFixed(2).replace('.', ',')}</span>
+                  <span>{Utils.formatMoney(props.favorite.produto.valorVenda * 1.1)}</span>
                   <span> / item</span>
                 </div>
                 : ''
