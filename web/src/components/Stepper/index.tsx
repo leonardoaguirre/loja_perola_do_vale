@@ -1,11 +1,9 @@
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Nav } from 'react-bootstrap';
+import { BsFillCheckCircleFill } from 'react-icons/bs';
 
-import { BsCardChecklist, BsFillCheckCircleFill } from 'react-icons/bs';
-import { MdPayment, MdDoneOutline } from 'react-icons/md';
 import { StepperContext } from '../../contexts/StepperContext';
-
 import styles from './styles.module.css';
 
 interface StepperProps {
