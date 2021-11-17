@@ -6,11 +6,11 @@ const telefoneRoutes = Router();
 const controleTelefone = new ControleTelefone();
 
 
-// telefoneRoutes.post("/adicionar", controleTelefone.adicionar);
+telefoneRoutes.post("/Adicionar", controleTelefone.adicionarTelefone);
 telefoneRoutes.get("/listar", controleTelefone.listar);
 telefoneRoutes.get("/ListarPorId/:id", controleTelefone.listarPorId);
 // telefoneRoutes.get("/buscaPorId", controleTelefone.buscarPorId);
-telefoneRoutes.patch("/alterar", controleTelefone.alterar)
-telefoneRoutes.delete("/deletar", controleTelefone.deletar)
+telefoneRoutes.patch("/Alterar", controleTelefone.alterar)
+telefoneRoutes.delete("/Deletar", controleTelefone.deletar)
 
 export { telefoneRoutes };

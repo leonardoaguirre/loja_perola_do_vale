@@ -81,16 +81,8 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 
 	const [erro, setErro] = useState<Erro[]>([]);
 
-	useEffect(() => {
-
-	}, [])
-
-
-
 	const handleSubmitForm = async (event) => {
 		event.preventDefault();
-
-
 
 		const cliente = {
 			body: JSON.stringify({
