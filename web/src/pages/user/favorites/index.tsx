@@ -1,15 +1,12 @@
+import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import { useState } from 'react';
-import { GetServerSideProps } from "next";
 
-import Header from "../../../components/Header";
-import Footer from "../../../components/Footer";
-import FavoriteItem from "../../../components/FavoriteItem";
-
-import { Favorite } from '../../../models/Favorite';
-
-import styles from './styles.module.css';
-import api from "../../../services/api";
+import FavoriteItem from '../../../components/FavoriteItem';
+import Header from '../../../components/Header';
 import { environment } from '../../../environments/environment';
+import { Favorite } from '../../../models/Favorite';
+import api from '../../../services/api';
 
 interface FavoritesProps {
   favorites: Favorite[];
@@ -35,6 +32,7 @@ const Favorites: React.FC<FavoritesProps> = (props) => {
 
   return (
     <div className="pageContainer">
+      <Head><title>Meus Favoritos | Ferragens Pérola do Vale</title></Head>
       <Header />
       <div id="favorite" className="pageContent fx-column">
       {nfavorites > 0 ?

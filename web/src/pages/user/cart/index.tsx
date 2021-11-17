@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useRef, useState } from 'react';
@@ -62,6 +63,7 @@ const Cart: React.FC<CartProps> = (props) => {
 
   return (
     <div className="pageContainer">
+      <Head><title>Meu Carrinho | Ferragens Pérola do Vale</title></Head>
       <Header />
       <div className="pageContent">
         <div>

@@ -1,15 +1,15 @@
-import { useEffect, useState, FormEvent, ChangeEvent } from 'react';
-import { uniqueId } from 'lodash';
 import filesize from 'filesize';
-import { MdAddBox } from "react-icons/md";
+import { uniqueId } from 'lodash';
+import Head from 'next/head';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { MdAddBox } from 'react-icons/md';
 
-import Header from '../../../../../components/Header';
-import Footer from '../../../../../components/Footer';
-import FileList from '../../../../../components/FileList';
 import Dropzone from '../../../../../components/Dropzone';
-
-import styles from './styles.module.css';
+import FileList from '../../../../../components/FileList';
+import Footer from '../../../../../components/Footer';
+import Header from '../../../../../components/Header';
 import { environment } from '../../../../../environments/environment';
+import styles from './styles.module.css';
 
 
 interface UploadedFiles {
@@ -241,6 +241,7 @@ function productForm() {
 
   return (
     <div className="pageContainer">
+      <Head><title>Cadastrar Produto | Ferragens Pérola do Vale</title></Head>
       <Header />
       <div className={styles.productForm}>
         <h1>Cadastrar Produto</h1>

@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useContext, useRef, useState } from 'react';
 import { Button } from 'react-bootstrap';
@@ -75,10 +76,11 @@ const Login: React.FC<LoginProps> = (props) => {
 
   return (
     <div className="pageContainer entire-page fx-column align-i-center">
+      <Head><title>Login de Colaborador | Ferragens Pérola do Vale</title></Head>
       <Header headerType="login" />
       <form id={styles.login} onSubmit={login}>
         <div className={styles.header}>
-          <h1>Login de Funcionario</h1>
+          <h1>Login de Colaborador</h1>
         </div>
         <div className={styles.email}>
           <label htmlFor="email"><strong>Email</strong></label>

@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext, useRef, useState } from 'react';
@@ -76,6 +77,7 @@ const Login: React.FC<LoginProps> = (props) => {
 
   return (
     <div className="pageContainer entire-page fx-column align-i-center">
+      <Head><title>Login | Ferragens Pérola do Vale</title></Head>
       <Header headerType="login" />
       <form id={styles.login} onSubmit={login}>
         <div className={styles.header}>

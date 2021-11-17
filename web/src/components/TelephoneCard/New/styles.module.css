@@ -4,6 +4,7 @@
   max-width: 22rem;
   min-width: 18rem;
   flex-wrap: wrap;
+  cursor: pointer;
 }
 
 .border {

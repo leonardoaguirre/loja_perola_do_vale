@@ -1,13 +1,13 @@
-import styles from './styles.module.css';
+import Head from 'next/head';
 import { useState } from 'react';
-import api from '../../../../../../services/api';
-import Header from '../../../../../../components/Header/index';
-import SearchBox from '../../../../../../components/SearchBox';
-import Footer from '../../../../../../components/Footer/index';
-import { Employee } from '../../../../../../models/Employee';
-import UserTable from '../../../../../../components/UserTable';
-import EmployeeTable from '../../../../../../components/EmployeeTable/index';
 
+import EmployeeTable from '../../../../../../components/EmployeeTable';
+import Footer from '../../../../../../components/Footer';
+import Header from '../../../../../../components/Header';
+import SearchBox from '../../../../../../components/SearchBox';
+import { Employee } from '../../../../../../models/Employee';
+import api from '../../../../../../services/api';
+import styles from './styles.module.css';
 
 interface EmployeeSearchProps {
 
@@ -56,6 +56,7 @@ const EmployeeSearch: React.FC<EmployeeSearchProps> = (props) => {
 
   return (
     <div className="pageContainer" onClick={teste}>
+      <Head><title>Buscar Colaborador | Ferragens Pérola do Vale</title></Head>
       <Header />
       <div className={styles.employeeSearch}>
         <SearchBox

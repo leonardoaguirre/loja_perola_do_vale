@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Link from 'next/link';
 import { useContext, useEffect } from 'react';
 
@@ -8,6 +9,7 @@ import styles from './success.module.css';
 function orderSuccess() {
     return (
         <div className="pageContainer">
+            <Head><title>Compra Sucedida | Ferragens Pérola do Vale</title></Head>
             <Header />
             <div id={styles.success} className="pageContent">
                 <img src="/images/success-icon.png" alt="Success icon" />

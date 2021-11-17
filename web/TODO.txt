@@ -26,3 +26,7 @@ Lista de coisas a fazer no projeto
 - Aviso na página de info de produtos, sequencia de hooks errada
 
 - bug com carrinho ao logar uma conta e sair, então ao recarregar qualquer página trava a aplicação
+
+- criar lógica dos banners, receber imagens do backend
+
+- photoshop da imagem da logo, juntar as duas logos em uma imagem

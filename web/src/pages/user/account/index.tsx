@@ -14,6 +14,7 @@ import TelephoneCard from "../../../components/TelephoneCard/Card";
 import TelephoneCardNew from "../../../components/TelephoneCard/New";
 import PostalAdressCard from "../../../components/PostalAdressCard/Card";
 import PostalAdressCardNew from "../../../components/PostalAdressCard/New";
+import Head from 'next/head';
 
 import styles from "./styles.module.css";
 import { environment } from "../../../environments/environment";
@@ -115,6 +116,7 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 
 	return (
 		<div className="pageContainer">
+			<Head><title>Minha Conta | Ferragens Pérola do Vale</title></Head>
 			<Header />
 			<Nav />
 			<div className="pageContent">

@@ -1,13 +1,14 @@
+import Head from 'next/head';
 import Link from 'next/link';
 
-import Header from '../components/Header';
 import Footer from '../components/Footer';
-
+import Header from '../components/Header';
 import styles from './404.module.css';
 
 function Error404() {
   return (
     <div className="pageContainer">
+      <Head><title>Erro 404 | Ferragens Pérola do Vale</title></Head>
       <Header />
       <div id={styles.error404} className="pageContent fx-row just-cont-center align-i-center">
         <img src="/images/sad_face.png" alt="Sad face emoji" />
