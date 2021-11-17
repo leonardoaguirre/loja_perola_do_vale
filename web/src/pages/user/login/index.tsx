@@ -6,6 +6,7 @@ import React, { useContext, useState } from 'react';
 import LoadingIcon from '../../../components/LoadingIcon';
 import { UserContext } from '../../../contexts/UserContext';
 import { environment } from '../../../environments/environment';
+import api from '../../../services/api';
 
 import styles from './styles.module.css';
 
@@ -15,7 +16,7 @@ interface LoginProps {
 
 const Login: React.FC<LoginProps> = (props) => {
   const { loginUser } = useContext(UserContext);
-  const [erro, setErro] = useState({ constraints: { message: "" } });
+  const [error, setError] = useState<string>("");
   const router = useRouter();
   const { isFallback } = useRouter();
 
@@ -26,27 +27,30 @@ const Login: React.FC<LoginProps> = (props) => {
   const login = async (event) => {
     event.preventDefault();
 
-    const pessoa = {
-      body: JSON.stringify({
-        email: event.target.email.value,
-        senha: event.target.password.value,
-      }),
-      headers: new Headers({
-        'Content-Type': 'application/json'
-      }),
-      method: "post",
-    };
-    await fetch(`${environment.API}/Cliente/Login`, pessoa)
-      .then(async (res) => {
-        if (res.ok) {
-          const r = await res.json();
+    const authentication = {
+      email: event.target.email.value,
+      senha: event.target.password.value
+    }
 
-          loginUser(r.pessoa, r.token);
+    api.post('Cliente/Login', authentication)
+      .then((res) => {
+        console.log(res);
+        if (res.statusText == 'OK') {
+          loginUser(res.data.pessoa, res.data.token);
           router.push('/');
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          // request feita e servidor respondeu
+          // setError(error.response.data.constraints.message)
+          setError("Email ou senha inválidos");
+        } else if (error.request) {
+          // request feita, mas sem resposta
+          setError("Servidor fora do ar!");
         } else {
-          const err = await res.json()
-
-          setErro(err);
+          // algo falhou
+          setError("Descupe, algo deu errado!");
         }
       })
   }
@@ -67,7 +71,7 @@ const Login: React.FC<LoginProps> = (props) => {
         </div>
         <div className={styles.actionsContainer}>
           <div className={styles.errorMessage}>
-            {erro.constraints.message == "" ? "" : <p>{erro.constraints.message}</p>}
+            {error == "" ? "" : <p>{error}</p>}
           </div>
           <div className={styles.buttonContainer}>
             <button type="submit">Entrar</button>

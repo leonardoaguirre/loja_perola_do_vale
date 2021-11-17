@@ -1,7 +1,5 @@
 Lista de coisas a fazer no projeto
 
-- Corrigir login, ao dar falha no fetch não há validação
-
 - Estilizar telas do adm
 
 - Criar form de telefone
