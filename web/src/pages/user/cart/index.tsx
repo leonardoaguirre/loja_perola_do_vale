@@ -2,12 +2,16 @@ import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Button } from 'react-bootstrap';
+import { BsCartX } from 'react-icons/bs';
+import { IoIosArrowBack } from 'react-icons/io';
 
 import CartList from '../../../components/CartList';
 import Header from '../../../components/Header';
 import LoadingIcon from '../../../components/LoadingIcon';
-import Shipping from '../../../components/Shipping/ShippingCalc';
+import Shipping from '../../../components/Shipping';
 import { CartContext } from '../../../contexts/CartContext';
+import { environment } from '../../../environments/environment';
 import { Product } from '../../../models/Product';
 import styles from './styles.module.css';
 
@@ -56,84 +60,87 @@ const Cart: React.FC<CartProps> = (props) => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <Header />
-      <div className={styles.cart}>
+      <div className="pageContent">
         <div>
           <h2>Carrinho de Compras</h2>
         </div>
         <div className={styles.content}>
-          <div className={styles.right}>
-            {cartProducts.length > 0 ?
-              <div className={styles.cartList}>
-                <CartList
-                  products={cartProducts}
-                  onChangedQuantity={handleChangedQuantity}
-                />
+          {(cartProducts.length > 0 ? (
+            <>
+              <div className={styles.right}>
+                <div className={styles.cartList}>
+                  <CartList
+                    products={cartProducts}
+                    onChangedQuantity={handleChangedQuantity}
+                  />
+                </div>
               </div>
-              : <div>Você não possui nenhum produto no carrinho</div>
-            }
-          </div>
-          <div className={styles.left}>
-            {cartProducts.length > 0 ?
-              <div className={styles.summary}>
-                <div>
+              <div className={styles.left}>
+                <div className={styles.summary}>
                   <div>
-                    <h2>Resumo do pedido</h2>
-                  </div>
-                  <div className={styles.description}>
-                    <div className={styles.top}>
-                      <div className={styles.row}>
-                        <label>{cartProducts.length} Produto(s)</label><span className={styles.price}>R${subtotal.toFixed(2).replace(`.`, `,`)}</span>
+                    <div>
+                      <h2>Resumo do pedido</h2>
+                    </div>
+                    <div className={styles.description}>
+                      <div className={styles.top}>
+                        <div className={styles.row}>
+                          <label>{cartProducts.length} Produto(s)</label><span className={styles.price}>R${subtotal.toFixed(2).replace(`.`, `,`)}</span>
+                        </div>
+                        <div className={styles.row}>
+                          <label>Frete</label><span>R${frete ? frete.toFixed(2).replace(`.`, `,`) : `--`}</span>
+                        </div>
                       </div>
-                      <div className={styles.row}>
-                        <label>Frete</label><span>R${frete ? frete.toFixed(2).replace(`.`, `,`) : `--`}</span>
+                      <hr />
+                      <div className={styles.bottom}>
+                        <div className={`${styles.row} ${styles.total}`}>
+                          <label>Total</label><span className={styles.price}>R$ {frete ? (subtotal + frete).toFixed(2).replace(`.`, `,`) : subtotal.toFixed(2).replace(`.`, `,`)}</span>
+                        </div>
+                        <div className={`${styles.row} ${styles.installment}`}>
+                          <label>Em até 10x sem juros de</label><span>R${frete ? ((subtotal + frete) / 10).toFixed(2).replace(`.`, `,`) : (subtotal / 10).toFixed(2).replace(`.`, `,`)}</span>
+                        </div>
                       </div>
                     </div>
-                    <hr />
-                    <div className={styles.bottom}>
-                      <div className={`${styles.row} ${styles.total}`}>
-                        <label>Total</label><span className={styles.price}>R$ {frete ? (subtotal + frete).toFixed(2).replace(`.`, `,`) : subtotal.toFixed(2).replace(`.`, `,`)}</span>
-                      </div>
-                      <div className={`${styles.row} ${styles.installment}`}>
-                        <label>Em até 10x sem juros de</label><span>R${frete ? ((subtotal + frete) / 10).toFixed(2).replace(`.`, `,`) : (subtotal / 10).toFixed(2).replace(`.`, `,`)}</span>
-                      </div>
-                    </div>
                   </div>
-                </div>
-                <hr />
-                <div className={styles.frete}>
-                  <h3>Calcular Frete</h3>
-                  <Shipping produtos={cartProducts} getFrete={getFrete} />
-                </div>
-                <hr />
-                <div className={styles.buy}>
-                  <Link href={"/forms/checkout"}>
-                    <a>
-                      <button>Continuar</button>
-                    </a>
-                  </Link>
-                </div>
-                <div className={styles.keep}>
-                  <Link href={"/products/list/a"} >
-                    <a>
-                      <button>Continuar Comprando</button>
-                    </a>
-                  </Link>
-                </div>
+                  <hr />
+                  <div className={styles.frete}>
+                    <h3>Calcular Frete</h3>
+                    <Shipping produtos={cartProducts} getFrete={getFrete} />
+                  </div>
+                  <hr />
+                  <div className={styles.buy}>
+                    <Link href={"/forms/checkout"}>
+                      <a>
+                        <button>Continuar</button>
+                      </a>
+                    </Link>
+                  </div>
+                  <div className={styles.keep}>
+                    <Link href={"/products/list/a"} >
+                      <a>
+                        <button>Continuar Comprando</button>
+                      </a>
+                    </Link>
+                  </div>
+                </div >
               </div >
-              : <div>
-                <Link href={"/products/list/a"} >
+            </>
+          ) : (
+            <div className={styles.empty}>
+              <BsCartX />
+              <div>
+                <h3>Você não possui nenhum<br /> produto no carrinho</h3>
+                <Link href={"/"} >
                   <a>
-                    <button>Voltar para as Compras</button>
+                    <Button id={styles.backToBuy}><IoIosArrowBack />Voltar para as Compras</Button>
                   </a>
                 </Link>
               </div>
-            }
-          </div >
+            </div>
+          ))}
         </div >
       </div >
-      {/* <Footer /> */}
     </div >
   );
 }
@@ -146,7 +153,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const prods = JSON.parse(cartProducts);
 
     for (const prod of prods) {
-      const response = await fetch(`http://localhost:3008/Produto/BuscarPorId/${prod.id}`)
+      const response = await fetch(`${environment.API}/Produto/BuscarPorId/${prod.id}`)
       const dat = await response.json()
       data.push(dat)
     }

@@ -6,6 +6,7 @@ import Footer from '../../../components/Footer';
 import Header from '../../../components/Header';
 
 import styles from './styles.module.css';
+import { environment } from '../../../environments/environment';
 
 function UserForm() {
   const [erro, setErro] = useState([]);
@@ -37,7 +38,7 @@ function UserForm() {
       }),
       method: "post",
     };
-    await fetch("http://localhost:3008/Cliente/Adicionar", pessoa)
+    await fetch(`${environment.API}/Cliente/Adicionar`, pessoa)
       .then(async (res) => {
         if (res.ok) {
           router.push('/');
@@ -51,9 +52,9 @@ function UserForm() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <Header />
-      <div className={styles.userForm}>
+      <div id={styles.userForm} className="pageContent">
         <h1>Cadastrar-se</h1>
         {process.env.API_ADRESS}
         <div className={styles.formContainer}>
@@ -131,7 +132,7 @@ function UserForm() {
 }
 
 // export async function getServerSideProps() {
-//     // const res = await fetch("http://localhost:3008/Pessoa/Adicionar", context);
+//     // const res = await fetch(`${environment.API}/Pessoa/Adicionar`, context);
 //     // const response = res.json();
 
 //     // console.log("getServerSideProps");
@@ -151,7 +152,7 @@ function UserForm() {
 //     const router = useRouter()
 //     const { idpessoa } = router.query
 
-//     const response = await fetch('http://localhost:3008/pessoa/BuscaPorId/' + idpessoa);
+//     const response = await fetch('${environment.API}/pessoa/BuscaPorId/' + idpessoa);
 //     const data = await response.json();
 //     return {
 //         props: {

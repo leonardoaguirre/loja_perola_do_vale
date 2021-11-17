@@ -1,19 +1,9 @@
-.container {
-  margin: 0 auto;
-
-  display: flex;
-  flex-direction: column;
+.list {
+  margin-bottom: 2rem;
 }
 
-.productList {
-  width: 95%;
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 1.6rem 0;
-}
-
-.col {
-  padding: 1rem 0.2rem;
+#productList h1 {
+  margin-bottom: 1rem;
 }
 
 .pagination {
@@ -21,12 +11,4 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-}
-
-.pagination li a span:last-child {
-  display: none;
-}
-
-.pagination li span span {
-  display: none;
 }

@@ -37,6 +37,55 @@ h1, h2, h3, h4, h5, h6, strong {
   text-transform: uppercase;
 }
 
+.pageContainer {
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.pageContent {
+  width: 95%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+
+.fx-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.fx-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.just-cont-center {
+  justify-content: center;
+}
+
+.align-i-center {
+  align-items: center;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+.nowrap {
+  flex-wrap: nowrap;
+}
+
+.oveflow-hidden {
+  overflow: hidden;
+}
+
+.entire-page {
+  width: 100vw;
+  height: 100vh;
+}
+
 #paymentRef ul[role='tablist'] {
   width: 100%;
   display: flex;
@@ -46,21 +95,27 @@ h1, h2, h3, h4, h5, h6, strong {
   justify-content: center;
 }
 
-/* 
-@media (min-width: 1280px) {
-  html {
+
+@media (min-width: 1200px) {
+  :root {
     font-size: 85%;
   }
 }
 
-@media (min-width: 1080px) {
-  html {
-    font-size: 83%;
+@media (min-width: 992px) and (max-width: 1199px) {
+  :root {
+    font-size: 80%;
   }
 }
 
-@media (min-width: 720px) {
-  html {
-    font-size: 81%;
+@media (min-width: 768px) and (max-width: 991px) {
+  :root {
+    font-size: 75%;
   }
-} */
+}
+
+@media (max-width: 767px) {
+  :root {
+    font-size: 60%;
+  }
+}

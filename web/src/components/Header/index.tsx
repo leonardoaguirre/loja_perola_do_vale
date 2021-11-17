@@ -40,7 +40,7 @@ const Header: React.FC<HeaderProps> = ({
 
   const handleSearch = () => {
     if (search) {
-      router.push(`http://localhost:3000/products/list/${search}`);
+      router.push(`/products/list/${search}`);
     } else {
       alert("Preencha o campo de pesquisa!");
     }

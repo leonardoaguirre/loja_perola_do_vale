@@ -7,9 +7,9 @@ import styles from './404.module.css';
 
 function Error404() {
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <Header />
-      <div className={styles.error404}>
+      <div id={styles.error404} className="pageContent fx-row just-cont-center align-i-center">
         <img src="/images/sad_face.png" alt="Sad face emoji" />
         <div className={styles.rightContainer}>
           <h1>Erro 404!</h1>

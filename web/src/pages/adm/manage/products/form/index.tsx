@@ -9,6 +9,7 @@ import FileList from '../../../../../components/FileList';
 import Dropzone from '../../../../../components/Dropzone';
 
 import styles from './styles.module.css';
+import { environment } from '../../../../../environments/environment';
 
 
 interface UploadedFiles {
@@ -169,14 +170,14 @@ function productForm() {
   }
 
   const fillProviders = async () => {
-    const response = await fetch("http://localhost:3008/fornecedor/ListarNomes");
+    const response = await fetch(`${environment.API}/fornecedor/ListarNomes`);
     const data: Provider[] = await response.json();
 
     setProviders(data);
   }
 
   const fillCategories = async () => {
-    const response = await fetch("http://localhost:3008/categoria/listar");
+    const response = await fetch(`${environment.API}/categoria/listar`);
     const data: Category[] = await response.json();
 
     setCategories(data);
@@ -226,7 +227,7 @@ function productForm() {
       return 0;
     }
 
-    await fetch('http://localhost:3008/produto/adicionar', {
+    await fetch(`${environment.API}/produto/adicionar`, {
       body: data,
       method: 'POST'
     }).then((res) => {
@@ -239,7 +240,7 @@ function productForm() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <Header />
       <div className={styles.productForm}>
         <h1>Cadastrar Produto</h1>

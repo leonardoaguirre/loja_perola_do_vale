@@ -5,6 +5,7 @@ import React from 'react';
 import { Product } from '../../models/Product';
 import InputNumber from '../Input/Number';
 import styles from './styles.module.css';
+import { environment } from '../../environments/environment';
 
 interface CartListProps {
   products: Product[];
@@ -32,14 +33,14 @@ const CartList: React.FC<CartListProps> = ({
                 <div className={`${styles.imgContainer} ${styles.center}`}>
                   <Link href={`/products/info/${product.id}`}>
                     <a>
-                      <img src={`http://localhost:3008/${product.imagens[0].path}`}
+                      <img src={`${environment.API}/${product.imagens[0].path}`}
                         alt={product.nome} title={product.nome} />
                     </a>
                   </Link>
                 </div>
-                <div className={styles.name}>{product.nome}</div>
+                <div className={styles.name}><p>{product.nome}</p></div>
                 <div className={`${styles.qtd} ${styles.center}`}>
-                  <InputNumber initialQuantity={product.quantidade} idProduto={product.id} changedQuantity={onChangedQuantity} />
+                  <InputNumber initialQuantity={product.quantidade} idProduto={product.id} store={true} changedQuantity={onChangedQuantity} />
                 </div>
                 <div className={`${styles.price} ${styles.center}`}><span>R$</span>{parseFloat(product.valorVenda.toString()).toFixed(2).replace('.', ',')}</div>
               </div>

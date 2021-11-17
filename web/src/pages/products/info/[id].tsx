@@ -1,25 +1,24 @@
-import Head from 'next/head';
-import { GetStaticPaths, GetStaticProps } from 'next';
-import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import { toString } from 'lodash';
-import { useContext, useState, useEffect } from 'react';
-
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useContext, useEffect, useState } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
-import { UserContext } from '../../../contexts/UserContext';
-import api from '../../../services/api';
-
-import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
-import Nav from '../../../components/Nav';
+import Header from '../../../components/Header';
+import InputNumber from '../../../components/Input/Number';
 import LoadingIcon from '../../../components/LoadingIcon';
-import Shipping from '../../../components/Shipping/ShippingCalc';
-
-import styles from './styles.module.css';
+import Nav from '../../../components/Nav';
+import Shipping from '../../../components/Shipping';
 import { CartContext } from '../../../contexts/CartContext';
+import { UserContext } from '../../../contexts/UserContext';
+import { environment } from '../../../environments/environment';
 import { Product } from '../../../models/Product';
+import api from '../../../services/api';
+import styles from './styles.module.css';
 
 interface ProductSearchProps {
   product: Product;
@@ -40,18 +39,18 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
   }
 
   const { user } = useContext(UserContext);
+  const { addToCart } = useContext(CartContext)
 
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
-  const [mainImage, setMainImage] = useState<string>(`http://localhost:3008/${props.product.imagens[0].path}`);
+  const [mainImage, setMainImage] = useState<string>(`${environment.API}/${props.product.imagens[0].path}`);
 
   const [favorite, setFavorite] = useState<Favorite>({ idFavorito: null, favoritado: false, nFavoritos: 0 });
   const [favImg, setFavImg] = useState<string>('/icons/favorite_border_gray_36dp.svg');
 
   const [produtoAtual, setProdutoAtual] = useState<Product[]>([{ ...props.product, quantidade: 1 }])
 
-  const { addToCart } = useContext(CartContext)
-
+  
   useEffect(() => {
     const user = Cookies.getJSON("user");
     let idPessoa = '';
@@ -82,7 +81,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
   const handleFavorite = async (event) => {
     if (favorite.favoritado) {
       // desfavoritar
-      api.delete('http://localhost:3008/favorito/deletarPorId', {
+      api.delete(`${environment.API}/favorito/deletarPorId`, {
         data: {
           idFavorito: favorite.idFavorito
         }
@@ -100,7 +99,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
     } else {
       // favoritar
 
-      api.post('http://localhost:3008/favorito/adicionar', {
+      api.post(`${environment.API}/favorito/adicionar`, {
         idPessoa: user.idPessoa,
         idProduto: props.product.id
       }).then((res) => {
@@ -146,14 +145,12 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
   const getF = () => { }//metodo vazio para implementar getFrete shippingcalc erro getFrete is Not a function por causa do reaproveitamento do componente
 
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>{props.product.nome} | Ferragens Pérola do Vale</title>
-      </Head>
+    <div className="pageContainer">
+      <Head><title>{props.product.nome} | Ferragens Pérola do Vale</title></Head>
       <Header />
       <Nav />
-      <div className={styles.productSearch}>
-        <Container>
+      <div className="pageContent">
+        <Container fluid>
           <Row className={styles.row}>
             <Col xs={12} lg={8}>
               <section className={styles.product}>
@@ -172,7 +169,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
                         </div>
                         {props.product.imagens.map((img, index) => (
                           <figure className={styles.imageItem} key={index}>
-                            <img src={`http://localhost:3008/${props.product.imagens[index].path}`} alt={props.product.nome} onClick={handleImagePick} />
+                            <img src={`${environment.API}/${props.product.imagens[index].path}`} alt={props.product.nome} onClick={handleImagePick} />
                           </figure>
                         ))}
                         <div className={styles.arrow}>
@@ -225,7 +222,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
                         <div className={styles.favCont}>
                           {favorite.nFavoritos}
                         </div>
-                      </Button>{' '}
+                      </Button>
                     </div>
                   </div>
                   <hr />
@@ -254,24 +251,12 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
                   :
                   <h1>Produto Indisponivel</h1>
                 } */}
-
-                <div className={styles.amount}>
-                  <label htmlFor="quantidade">Quantidade</label>
-                  <select name="quantidade" id="amount" onChange={() => getQtd()}>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                  </select>
-                </div>
                 <div className={styles.shipping}>
                   <Shipping produtos={produtoAtual} getFrete={getF} />
                 </div>
                 <div className={styles.buttonContainer}>
-                  <button className={styles.addCart} onClick={() => sendToCart(props.product)}>Adicionar ao carrinho</button>
-                  <button className={styles.buyButton}>Comprar</button>
+                  <Button variant="outline-secondary" className={styles.addCart} onClick={() => sendToCart(props.product)}>Adicionar ao carrinho</Button>
+                  <Button variant="primary" size="lg" className={styles.buyButton}><strong>Comprar</strong></Button>
                 </div>
 
               </section>
@@ -285,7 +270,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const response = await fetch(`http://localhost:3008/produto/listar`);
+  const response = await fetch(`${environment.API}/produto/listar`);
   const data = await response.json();
 
   const paths = data.map(product => {

@@ -9,6 +9,7 @@ import { Favorite } from '../../../models/Favorite';
 
 import styles from './styles.module.css';
 import api from "../../../services/api";
+import { environment } from '../../../environments/environment';
 
 interface FavoritesProps {
   favorites: Favorite[];
@@ -20,7 +21,7 @@ const Favorites: React.FC<FavoritesProps> = (props) => {
 
   const deleteFavorite = (idFavorito: number, index: number) => {
     console.log("deleteFavorite", document.getElementById(`item${index}`));
-    api.delete('http://localhost:3008/favorito/deletarPorId', {
+    api.delete(`${environment.API}/favorito/deletarPorId`, {
         data: {
           idFavorito: idFavorito
         }
@@ -33,17 +34,18 @@ const Favorites: React.FC<FavoritesProps> = (props) => {
   } 
 
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <Header />
+      <div id="favorite" className="pageContent fx-column">
       {nfavorites > 0 ?
-        <div id="favorite" className={styles.favorites}>
-        {props.favorites.map((favorite, index) => {
-          return <FavoriteItem favorite={favorite} deleteFavorite={deleteFavorite} index={index} key={index}/>
-        })}
-        </div>
-        : <div className={styles.favorites}><h2>Você não possui nenhum favorito!</h2></div>
+        <>
+          {props.favorites.map((favorite, index) => {
+            return <FavoriteItem favorite={favorite} deleteFavorite={deleteFavorite} index={index} key={index}/>
+          })}
+        </>
+        : <h2>Você não possui nenhum favorito!</h2>
       }
-      <Footer />
+      </div>
     </div>
   );
 }

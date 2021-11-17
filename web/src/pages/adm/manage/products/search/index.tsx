@@ -24,12 +24,15 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
 
   const handleSearch = async (searchStr: string, atribute: string) => {
 
+    let pagina: number = 1;
+
     if (searchStr.length > 0) {
-      await api.get(`Produto/Procurar/${searchStr}`) // await api.get(`Produto/Procurar/${atribute}/${searchStr}`)
+      await api.get(`Produto/Procurar/${searchStr}?pagina=${pagina}`) // await api.get(`Produto/Procurar/${atribute}/${searchStr}`)
         .then(
           (res) => {
-            if (res.status === 200) {
-              setTableData(res.data);
+            if (res.statusText === "OK") {
+              console.log(res);
+              setTableData(res.data.products);
               setIsActive(true);
               setError('');
             } else {
@@ -59,7 +62,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="pageContainer">
       <Header />
       <div className={styles.productSearch}>
         <Container fluid>
@@ -71,7 +74,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
               />
             </Col>
             <Col xs={3} lg={2}>
-              <Button variant="primary" className={styles.createButton} onClick={(event) => onClickButton('http://localhost:3000', event)}>
+              <Button variant="primary" className={styles.createButton} onClick={(event) => onClickButton('/', event)}>
                 <img src="/icons/add_circle_black_36dp.svg" alt="Adicionar" />
                 <p>Cadastrar</p>
               </Button>

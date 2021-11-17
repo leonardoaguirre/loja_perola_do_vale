@@ -9,10 +9,10 @@ export default function Home() {
   const images = ['images/1.png', 'images/2.png', 'images/3.png']
 
   return (
-    <div className={styles.container} >
+    <div className="pageContainer">
       <Header />
       <Nav />
-      <div className={styles.home}>
+      <div className="pageContent">
         Promoção
         <Banner source={images} />
       </div>

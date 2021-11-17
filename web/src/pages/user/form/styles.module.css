@@ -1,30 +1,14 @@
-.container {
-  height: 100%;
-  width: 100%;
-  margin: 0 auto;
-
-  display: flex;
-  flex-direction: column;
-}
-
-.userForm {
-  width: 95%;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 1.6rem 0;
-}
-
-.userForm h1 {
+#userForm h1 {
   display: flex;
   justify-content: center;
 }
 
-.userForm .formContainer {
+.formContainer {
   display: flex;
   justify-content: center;
 }
 
-.userForm .formContainer form {
+.formContainer form {
   margin: 2rem 4rem;
   background-color: inherit;
   padding: 1rem 4rem 3rem 4rem;
@@ -32,46 +16,46 @@
   width: 70rem;
 }
 
-.userForm .formContainer .inputs .inputContainer,
-.userForm .formContainer .inputs .selectContainer {
+.inputContainer,
+.selectContainer {
   background-color: white;
   padding: 1rem 2rem;
   border-radius: 10px;
 }
 
-.userForm .formContainer .provider .selectContainer select option {
+.selectContainer select option {
   padding: 0 2rem;
 }
 
-.userForm .formContainer label {
+.formContainer label {
   display: flex;
   justify-content: flex-start;
   padding: 1rem 0;
 }
 
-.userForm .formContainer .email input,
-.userForm .formContainer .password input,
-.userForm .formContainer .name input,
-.userForm .formContainer .identificationRg input,
-.userForm .formContainer .identificationCpf input,
-.userForm .formContainer .birthDate input,
-.userForm .formContainer .telephone input {
+.email input,
+.password input,
+.name input,
+.identificationRg input,
+.identificationCpf input,
+.birthDate input,
+.telephone input {
   height: 2rem;
   width: 100%;
   border: none;
 }
 
-.userForm .formContainer .email input:focus,
-.userForm .formContainer .password input:focus,
-.userForm .formContainer .name input:focus,
-.userForm .formContainer .identificationRg input:focus,
-.userForm .formContainer .identificationCpf input:focus,
-.userForm .formContainer .birthDate input:focus,
-.userForm .formContainer .telephone input:focus {
+.email input:focus,
+.password input:focus,
+.name input:focus,
+.identificationRg input:focus,
+.identificationCpf input:focus,
+.birthDate input:focus,
+.telephone input:focus {
   outline: none;
 }
 
-.userForm .formContainer .buttonsContainer {
+.buttonsContainer {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -80,11 +64,11 @@
   padding-top: 1.7rem;
 }
 
-.userForm .formContainer .buttonsContainer .create {
+.create {
   padding-right: 2rem;
 }
 
-.userForm .formContainer .buttonsContainer .create input {
+.create input {
   background-color: #2753ca;
   color: white;
   padding: 1rem 2rem;
@@ -93,7 +77,7 @@
   transition: 0.2s;
 }
 
-.userForm .formContainer .buttonsContainer .reset input {
+.reset input {
   background-color: #949494;
   color: white;
   padding: 1rem 2rem;
@@ -102,17 +86,17 @@
   transition: 0.2s;
 }
 
-.userForm .formContainer .buttonsContainer .create input:hover {
+.create input:hover {
   cursor: pointer;
   background-color: #6f85c2;
 }
 
-.userForm .formContainer .buttonsContainer .reset input:hover {
+.reset input:hover {
   cursor: pointer;
   background-color: #b6b6a9;
 }
 
-.userForm .formContainer .buttonsContainer .create input:focus,
-.userForm .formContainer .buttonsContainer .reset input:focus {
+.create input:focus,
+.reset input:focus {
   outline: none;
 }

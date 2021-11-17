@@ -58,9 +58,6 @@
 }
 
 .name {
-  /* display: flex;
-  flex-direction: row;
-  align-items: center; */
   display: -webkit-box;
   -webkit-line-clamp: 2; /* número de linhas à mostrar */
   -webkit-box-orient: vertical;

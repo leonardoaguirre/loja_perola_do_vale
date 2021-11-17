@@ -1,24 +1,3 @@
-.container {
-  margin: 0 auto;
-
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.pageContent {
-  width: 95%;
-  max-width: 1280px;
-  min-height: calc(100vh - 245px);
-  margin: 0 auto;
-  padding: 1.2rem 0;
-
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  align-items: center;
-}
-
 .checkoutContainer,
 .paymentContainer {
   width: 100%;
@@ -166,6 +145,7 @@
   height: fit-content;
   max-height: 330px;
   box-shadow: 6px 2px 17px -2px rgba(0,0,0,0.38);
+  margin-top: 0.5rem;
 }
 
 .actions {

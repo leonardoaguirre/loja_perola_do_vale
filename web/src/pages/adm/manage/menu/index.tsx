@@ -12,12 +12,12 @@ const Menu: React.FC<MenuProps> = (props) => {
   const goToPage = (url: string) => {
 
     if (url) {
-      router.push(`http://localhost:3000/adm/manage/${url}`);
+      router.push(`/adm/manage/${url}`);
     }
   }
 
   return (
-    <div className={styles.container}>
+    <div className="pageContainer entire-page">
       <div className={styles.menu}>
         <button className={styles.item} onClick={() => goToPage("products/search")}>Produtos</button>
         <button className={styles.item} onClick={() => goToPage("user/customer/search")}>Clientes</button>

@@ -1,17 +1,3 @@
-.container {
-  margin: 0 auto;
-
-  display: flex;
-  flex-direction: column;
-}
-
-.userAccount {
-  width: 95%;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 1.6rem 0;
-}
-
 .pageTitle h1 {
   color: var(--secondary);
   font-weight: 500;

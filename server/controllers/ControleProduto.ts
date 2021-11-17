@@ -254,8 +254,12 @@ class ControleProduto {
                 if (res[0].length == 0) {
                     throw new AppError('Nenhum produto encontrado', 'produto');
                 }
-                res[1] = Math.ceil(res[1] / itensPorPagina)
-                return response.status(200).json(res);
+                res[1] = Math.ceil(res[1] / itensPorPagina);
+                const data = {
+                    products: res[0],
+                    nPages: res[1]
+                }
+                return response.status(200).json(data);
             }).catch(err => {
                 return response.status(400).json(err);
             })

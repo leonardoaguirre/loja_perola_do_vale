@@ -39,7 +39,7 @@ const PaginationBar: React.FC<PaginationBarProps> = (props) => {
 
     const onClickPaginationItem = (nPag: number) => {
         setActiveItem(nPag)
-        router.push(`http://localhost:3000/${props.destination}/${props.search}?pagina=${nPag}`);
+        router.push(`/${props.destination}/${props.search}?pagina=${nPag}`);
     }
 
     return (

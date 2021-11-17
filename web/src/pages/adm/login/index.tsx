@@ -1,13 +1,12 @@
-import Link from 'next/link';
 import { GetServerSideProps } from 'next';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext, useState } from 'react';
 
-import { UserContext } from '../../../contexts/UserContext';
-
 import LoadingIcon from '../../../components/LoadingIcon';
-
-import styles from '../../styles.module.css';
+import { UserContext } from '../../../contexts/UserContext';
+import { environment } from '../../../environments/environment';
+import styles from './styles.module.css';
 
 interface LoginProps {
   
@@ -36,7 +35,7 @@ const Login: React.FC<LoginProps> = (props) =>  {
       }),
       method: "post",
     };
-    await fetch("http://localhost:3008/Funcionario/Login", pessoa)
+    await fetch(`${environment.API}/Funcionario/Login`, pessoa)
       .then(async (res) => {
         if (res.ok) {
           const r = await res.json();
@@ -55,8 +54,8 @@ const Login: React.FC<LoginProps> = (props) =>  {
       )
   }
   return (
-    <div className={styles.container}>
-      <form onSubmit={login}>
+    <div className="pageContainer entire-page">
+      <form id={styles.login} onSubmit={login}>
         <div className={styles.header}>
           <img src="/icons/logo.png" alt="Logo ferragens pérola do vale" />
           <h1>Login de Funcionario</h1>
@@ -74,21 +73,13 @@ const Login: React.FC<LoginProps> = (props) =>  {
             {erro.constraints.message == "" ? "" : <p>{erro.constraints.message}</p>}
           </div>
           <div className={styles.buttonContainer}>
-            <input type="submit" value="Entrar" />
+            <button type="submit">Entrar</button>
           </div>
           <div className={styles.passwordForgotten}>
             <Link href="/esquecisenha">
               <a>Esqueci minha senha</a>
             </Link>
           </div>
-          {/* <div className={styles.register}>
-                        <p>Não possui uma conta?</p>
-                        <span>
-                            <Link href="/userForm">
-                                <a>Cadastre-se</a>
-                            </Link>
-                        </span>
-                    </div> */}
         </div>
       </form>
     </div>

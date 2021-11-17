@@ -13,16 +13,20 @@ import LoadingIcon from '../../../components/LoadingIcon';
 import OrderResume from '../../../components/OrderResume';
 import PostalAdressCard from '../../../components/PostalAdressCard/Card';
 import PostalAdressCardNew from '../../../components/PostalAdressCard/New';
-import ShippingCalc from '../../../components/Shipping/ShippingCalc';
+import ShippingCalc from '../../../components/Shipping';
 import { CartContext } from '../../../contexts/CartContext';
 import { StepperContext } from '../../../contexts/StepperContext';
+import { environment } from '../../../environments/environment';
 import { Adress, Costumer } from '../../../models/Costumer';
 import { Product } from '../../../models/Product';
 import api from '../../../services/api';
 import styles from './styles.module.css';
 
 interface CheckoutProps {
-  products: Product[];
+  products: [{
+    produto: Product,
+    disponivel: boolean
+  }];
   costumer: Costumer;
 }
 
@@ -59,6 +63,10 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
   }
 
   useEffect(() => {
+    setCurrentStepNumber(3)
+  }, [])
+
+  useEffect(() => {
     if (stepAux < currentStep) {
       if (checkoutRef && paymentRef) {
         checkoutRef.current.className = `${styles.checkoutContainer} ${styles.slideOutAnimation}`;
@@ -90,8 +98,8 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
   }, [frete])
 
   const calculaTotal = () => {
-    const valoresProds = props.products.map((prod, i) => { return prod.valorVenda * cartProducts[i].quantidade })
-    return (valoresProds.reduce((total, num) => total + num, 0) + frete)
+    const valoresProds = props.products.map((prod, i) => { return prod.produto.valorVenda * cartProducts[i].quantidade });
+    return (valoresProds.reduce((total, num) => total + num, 0) + frete);
   }
 
   const getFrete = (frete) => {
@@ -126,9 +134,9 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="pageContainer overflow-hidden">
       <Header headerType="checkout" />
-      <div className={styles.pageContent}>
+      <div className="pageContent fx-column align-i-center nowrap">
         <div ref={checkoutRef} className={styles.checkoutContainer}>
           <form action="post" onSubmit={(e) => checkout(e)}>
             <Container fluid>
@@ -315,13 +323,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (user) {
     const userData = JSON.parse(user);
 
-    const responseUser = await fetch(`http://localhost:3008/cliente/BuscaPorId/${userData.id}`);
+    const responseUser = await fetch(`${environment.API}/cliente/BuscaPorId/${userData.id}`);
 
     const cookieProds = JSON.parse(cartProducts);
     let prods: Product[] = [];
 
     for (const prod of cookieProds) {
-      const response = await fetch(`http://localhost:3008/Produto/BuscarPorId/${prod.id}`)
+      const response = await fetch(`${environment.API}/Produto/BuscarPorId/${prod.id}`)
       const dat = await response.json()
       prods.push(dat)
     }

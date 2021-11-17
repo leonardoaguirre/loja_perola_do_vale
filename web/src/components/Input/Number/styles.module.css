@@ -40,7 +40,8 @@
   color: var(--primary);
 }
 
-#plus:disabled svg {
+#plus:disabled svg,
+#minus:disabled svg {
   color: var(--bs-gray-300);
 }
 
