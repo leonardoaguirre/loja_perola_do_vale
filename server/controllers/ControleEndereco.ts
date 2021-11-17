@@ -2,6 +2,7 @@ import { getCustomRepository } from "typeorm";
 import { EnderecoRepository } from "../repositorios/EnderecoRepository";
 import { Request, Response } from 'express';
 import { AppError } from '../errors/AppError'
+import { validar } from '../services/validaDados'
 
 class ControleEndereco {
     async adicionar(request: Request, response: Response) {
@@ -20,23 +21,21 @@ class ControleEndereco {
             titulo
         });
 
-        await enderecoRespository.validaDados(endereco)
-            .then(async result => {
-                if (result.length > 0) {
-                    throw result;
-                } else {
-                    await enderecoRespository.save(endereco)
-                        .then(result => {
-                            if (result) {
-                                return response.status(201).json({message : "Endereço cadastrado com sucesso"});
-                            } else {
-                                throw { message: 'Endereco nao cadastrado' }
-                            }
-                        })
-                }
-            })
-            .catch(error => { return response.status(400).json(error) })
+        try {
+            await validar(endereco)
+            await enderecoRespository.save(endereco)
+                .then(result => {
+                    if (result) {
+                        return response.status(201).json({ message: "Endereço cadastrado com sucesso" });
+                    } else {
+                        throw { message: 'Endereco nao cadastrado' }
+                    }
+                })
+        } catch (error) {
+            return response.status(400).json(error)
+        }
     }
+
     async listar(request: Request, response: Response) {
         const enderecoRespository = getCustomRepository(EnderecoRepository);
 
@@ -65,12 +64,12 @@ class ControleEndereco {
     }
     async alterar(request: Request, response: Response) {
         const enderecoRespository = getCustomRepository(EnderecoRepository);
-        const { idEndereco, idPessoa , cep, complemento, titulo, rua, numero, bairro, cidade, estado } = request.body;
+        const { idEndereco, idPessoa, cep, complemento, titulo, rua, numero, bairro, cidade, estado } = request.body;
         // const id = request.params.idEndereco;
 
         const endereco = enderecoRespository.create({
-            id : idEndereco,
-            id_pessoa_fk : idPessoa, 
+            id: idEndereco,
+            id_pessoa_fk: idPessoa,
             cep,
             complemento,
             rua,
@@ -86,7 +85,7 @@ class ControleEndereco {
                 if (result.length > 0) {
                     return response.status(400).json(result);
                 } else {
-                    await enderecoRespository.update(endereco.id,endereco)
+                    await enderecoRespository.update(endereco.id, endereco)
                         .then(result => {
                             if (result.affected) {
                                 return response.status(201).json(result)

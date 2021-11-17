@@ -7,46 +7,46 @@ class Endereco {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @Length(8,8,{message:"O cep deve ter 8 numeros"})
-    @Column({length:8,nullable:false})
+    @Length(9, 9, { message: "O cep deve ter 8 numeros" })
+    @Column({ length: 9, nullable: false })
     cep: string;
 
-    @Length(5,50,{message:"O nome da rua deve ter entre 5 e 50 caracteres"})
-    @Column({length:50})
+    @Length(5, 50, { message: "O nome da rua deve ter entre 5 e 50 caracteres" })
+    @Column({ length: 50 })
     rua: string;
 
-    @Length(5,50,{message:"O complemento deve ter entre 5 e 50 caracteres"})
-    @Column({length:50})
+    @Length(5, 50, { message: "O complemento deve ter entre 5 e 50 caracteres" })
+    @Column({ length: 50 })
     complemento: string;
 
-    @Length(5,50,{message:"O titulo deve ter entre 5 e 50 caracteres"})
-    @Column({length:50})
+    @Length(0, 50, { message: "O titulo deve ter no máximo 50 caracteres" })
+    @Column({ length: 50, nullable: true })
     titulo: string;
 
-    @IsNumberString({},{message : "Somente numeros sao aceitos"})
-    @Length(1,4,{message: "O numero deve ter no minimo 1 no maximo 4 caracteres"})
-    @Column({nullable: false})
+    @IsNumberString({}, { message: "Somente numeros sao aceitos" })
+    @Length(1, 4, { message: "O numero deve ter no minimo 1 no maximo 4 caracteres" })
+    @Column({ nullable: false })
     numero: number;
 
-    @Length(4,50,{message:"O bairro deve ter entre 4 e 50 caracteres"})
-    @Column({length:50})
+    @Length(4, 50, { message: "O bairro deve ter entre 4 e 50 caracteres" })
+    @Column({ length: 50 })
     bairro: string
 
-    @Length(3,50,{message:"A cidade deve ter entre 3 e 50 caracteres"})
-    @Column({length:50, nullable:false})
+    @Length(3, 50, { message: "A cidade deve ter entre 3 e 50 caracteres" })
+    @Column({ length: 50, nullable: false })
     cidade: string;
 
-    @Length(2,2,{message:"A sigla de estado deve ter 2 caracteres"})
-    @Column({length:2, nullable :false})
+    @Length(2, 2, { message: "A sigla de estado deve ter 2 caracteres" })
+    @Column({ length: 2, nullable: false })
     estado: string;
 
     @CreateDateColumn()
     created_at: Date;
 
-    @Column({nullable : false, length:36})
+    @Column({ nullable: false, length: 36 })
     id_pessoa_fk: String;
-    
-    @ManyToOne(() => Pessoa, pessoa => pessoa.enderecos,{onDelete: "CASCADE", onUpdate: "CASCADE"})
+
+    @ManyToOne(() => Pessoa, pessoa => pessoa.enderecos, { onDelete: "CASCADE", onUpdate: "CASCADE" })
     @JoinColumn({ name: "id_pessoa_fk", referencedColumnName: "id" })
     pessoa: Pessoa;
 }

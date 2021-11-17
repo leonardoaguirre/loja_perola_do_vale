@@ -46,7 +46,9 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
 
   const calcShipping = async () => {
     setIsLoading(true);
-    if (cepPesquisa.length == 8) {
+    if (cepPesquisa.length >= 8) {
+      cepPesquisa.replace('-','')//adequa o formato do cep para consulta na API
+
       const frete =
       {
         cep: cepPesquisa,
