@@ -72,6 +72,7 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
             (error) => {
               console.log(error);
               setIsRequestSuccess(false);
+              setTipoEntrega(null);
               setIsLoading(false);
             }
           )
@@ -81,6 +82,7 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
           console.log(error);
           setMsgErro("Cep não encontrado!")
           setIsRequestSuccess(false);
+          setTipoEntrega(null);
           setIsLoading(false);
         }
       );
@@ -99,7 +101,7 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
   }, [isLoading])
 
   useEffect(() => {
-    if (fretes.length > 0) {//verifica se o vetor de fretes nao esta vazio
+    if (fretes.length > 0 && isRequestSuccess) {//verifica se o vetor de fretes nao esta vazio
       props.getFrete(fretes[tipoEntrega])//atribui o respectivo frete e o retorna ao componente pai
     }
   }, [tipoEntrega])

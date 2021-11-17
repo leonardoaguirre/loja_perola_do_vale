@@ -70,7 +70,7 @@ const Cart: React.FC<CartProps> = (props) => {
         <div className={styles.content}>
           {(cartProducts.length > 0 ? (
             <>
-              <div className={styles.right}>
+              <div className={styles.left}>
                 <div className={styles.cartList}>
                   <CartList
                     products={cartProducts}
@@ -78,7 +78,7 @@ const Cart: React.FC<CartProps> = (props) => {
                   />
                 </div>
               </div>
-              <div className={styles.left}>
+              <div className={styles.right}>
                 <div className={styles.summary}>
                   <div>
                     <div>
