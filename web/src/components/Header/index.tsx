@@ -23,7 +23,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import { BsCardChecklist } from "react-icons/bs";
 
 interface HeaderProps {
-  headerType?: 'default' | 'checkout' | 'adm';
+  headerType?: 'default' | 'checkout' | 'adm' | 'login';
   currentStep?: number;
 }
 
@@ -49,7 +49,7 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <Container fluid color="secondary">
       <Row>
-        <header className={styles.pageHeader}>
+        <header className={(type == 'login') ? (`${styles.loginHeader}`) : (`${styles.pageHeader}`)}>
           <div className={styles.topBarContainer}>
             <Col xs={6} sm={5} md={3} lg={3} xl={3}>
               <Link href="/">
@@ -195,6 +195,7 @@ const Header: React.FC<HeaderProps> = ({
             ) : (
               ''
             ))}
+            {(type == 'login') ? ('') : ('')}
           </div>
         </header>
       </Row>
