@@ -927,11 +927,6 @@ domain-browser@^1.1.1:
   resolved "https://registry.yarnpkg.com/domain-browser/-/domain-browser-1.2.0.tgz#3d31f50191a6749dd1375a7f522e823d42e54eda"
   integrity sha512-jnjyiM6eRyZl2H+W8Q/zLMA481hzi0eszAaBUzIVnmYVDBbnLxVNnfu1HgEBvCbL+71FrxMl3E6lpKH7Ge3OXA==
 
-dotenv@^8.2.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
-  integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
-
 ecc-jsbn@~0.1.1:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/ecc-jsbn/-/ecc-jsbn-0.1.2.tgz#3a83a904e54353287874c564b7549386849a98c9"
@@ -2197,9 +2192,9 @@ raw-body@2.4.1:
     unpipe "1.0.0"
 
 react-bootstrap@^2.0.0:
-  version "2.0.0-rc.0"
-  resolved "https://registry.yarnpkg.com/react-bootstrap/-/react-bootstrap-2.0.0-rc.0.tgz#490c6c7c28fd5f94d060691f086cf675f75eaa2e"
-  integrity sha512-E2z/FQ/sDUfyFTPxNwd/BjUq319151TAQ3vosArgljBPLMiEAP9PHKCqxW82auta3IcM1T/zEl7ETU7nk3V3aA==
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-bootstrap/-/react-bootstrap-2.0.2.tgz#ec3492513066038bcf612ab8fcab46f88d254ab9"
+  integrity sha512-QuMqJ+WJmd6dUyOys6OF3nr6T/FjUVAoEMbSjsFrwVufJtvMox0SU1Dvz/cDID+Dl6Rz2RLcJzyqkdl+DEK2Gg==
   dependencies:
     "@babel/runtime" "^7.14.0"
     "@restart/context" "^2.1.4"
