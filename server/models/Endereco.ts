@@ -7,7 +7,7 @@ class Endereco {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @Length(9, 9, { message: "O cep deve ter 8 numeros" })
+    @Length(8, 9, { message: "O cep deve ter 8 numeros" })
     @Column({ length: 9, nullable: false })
     cep: string;
 
@@ -23,7 +23,7 @@ class Endereco {
     @Column({ length: 50, nullable: true })
     titulo: string;
 
-    @IsNumberString({}, { message: "Somente numeros sao aceitos" })
+    @IsNumberString({}, { message: "Somente numeros sao aceitos no campo numero" })
     @Length(1, 4, { message: "O numero deve ter no minimo 1 no maximo 4 caracteres" })
     @Column({ nullable: false })
     numero: number;

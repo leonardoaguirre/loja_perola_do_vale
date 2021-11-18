@@ -147,7 +147,7 @@ class ControleCliente {
                             email: clienteExiste.pessoaFisica.pessoa.email 
                         }});
                 } else {
-                    throw new AppError("senha inválidos", "login");
+                    throw new AppError("Email ou senha inválidos", "login");
                 }
             } else {
                 throw new AppError("Email ou senha inválidos", "login");

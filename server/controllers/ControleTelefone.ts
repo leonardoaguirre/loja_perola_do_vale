@@ -75,33 +75,31 @@ class ControleTelefone {
     }
     async alterar(request: Request, response: Response) {
         const telefoneRepository = getCustomRepository(TelefoneRepository);
-        const { ddd, numero } = request.body;
-        const id = request.params.idPessoa;
-
+        const { ddd, numero, id, idPessoa } = request.body;
+        
         try {
-            const pessoaExiste = await telefoneRepository.findOne(id);
-            if (pessoaExiste) {
+            const telefoneExiste = await telefoneRepository.findOne({ relations : ['pessoa'], where: { id: id, pessoa: { id: idPessoa } } })
+            if (telefoneExiste) {
 
                 const telefone = telefoneRepository.create({
+                    id: telefoneExiste.id,
                     ddd,
-                    numero
+                    numero,
+                    id_pessoa_fk: telefoneExiste.id_pessoa_fk
                 });
 
-                const erros = await telefoneRepository.validaDados(telefone);
+                await validar(telefone)
 
-                if (erros.length > 0) {
-                    return response.status(400).json(erros);
-                } else {
-                    await telefoneRepository.update(id, telefone)
-                        .then(async (result) => {
-                            return response.status(201).json(result);
-                        })
-                        .catch(async (errors) => {
-                            return response.status(400).json(errors);
-                        });
-                }
+                await telefoneRepository.save(telefone)
+                    .then(async (result) => {
+                        return response.status(201).json(result);
+                    })
+                    .catch(async (errors) => {
+                        return response.status(400).json(errors);
+                    });
+
             } else {
-                throw new AppError("O usuario de id: " + id + " a ser alterado nao foi encontrado ", 'id');
+                throw new AppError("Telefone ou usuario nao encontrado ", 'telefone');
             }
         } catch (error) {
             return response.status(400).json(error);

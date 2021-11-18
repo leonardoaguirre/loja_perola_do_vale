@@ -30,6 +30,7 @@ function PostalAdressCardNew() {
         })
     } else if (cep.length > 0) {
       setErroCep(`CEP Inválido`)
+      esvaziaEndereco()
     }
   }
 

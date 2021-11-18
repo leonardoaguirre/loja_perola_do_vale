@@ -65,37 +65,41 @@ class ControleEndereco {
     async alterar(request: Request, response: Response) {
         const enderecoRespository = getCustomRepository(EnderecoRepository);
         const { idEndereco, idPessoa, cep, complemento, titulo, rua, numero, bairro, cidade, estado } = request.body;
-        // const id = request.params.idEndereco;
 
-        const endereco = enderecoRespository.create({
-            id: idEndereco,
-            id_pessoa_fk: idPessoa,
-            cep,
-            complemento,
-            rua,
-            numero,
-            bairro,
-            cidade,
-            estado,
-            titulo
-        })
+        try {
+            const enderecoExiste = await enderecoRespository.findOne({ relations: ['pessoa'], where: { id: idEndereco, pessoa: { id: idPessoa } } })
+            if (enderecoExiste) {
+                const endereco = enderecoRespository.create({
+                    id: idEndereco,
+                    id_pessoa_fk: idPessoa,
+                    cep,
+                    complemento,
+                    rua,
+                    numero,
+                    bairro,
+                    cidade,
+                    estado,
+                    titulo
+                })
+                await validar(endereco)
 
-        await enderecoRespository.validaDados(endereco)
-            .then(async (result) => {
-                if (result.length > 0) {
-                    return response.status(400).json(result);
-                } else {
-                    await enderecoRespository.update(endereco.id, endereco)
-                        .then(result => {
-                            if (result.affected) {
-                                return response.status(201).json(result)
-                            } else {
-                                return response.status(400).json(result)
-                            }
-                        })
-                }
-            })
+                await enderecoRespository.save(endereco)
+                    .then(() => {
+                        return response.status(201).json('Endereço alterado com sucesso')
+                    })
+                    .catch((errors) => {
+                        return response.status(400).json(errors);
+                    })
+
+            } else {
+                throw new AppError("Endereço ou usuario nao encontrado ", 'endereco');
+            }
+
+        } catch (error) {
+            return response.status(400).json(error)
+        }
     }
+
     async deletar(request: Request, response: Response) {
         const enderecoRespository = getCustomRepository(EnderecoRepository);
         const { id } = request.body;

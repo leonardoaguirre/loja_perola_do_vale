@@ -4,13 +4,14 @@ import { useRouter } from 'next/router';
 import React, { useContext, useState } from 'react';
 
 import LoadingIcon from '../../../components/LoadingIcon';
+import { FailedToast } from '../../../components/ToastNotification';
 import { UserContext } from '../../../contexts/UserContext';
 import { environment } from '../../../environments/environment';
 
 import styles from './styles.module.css';
 
 interface LoginProps {
-  
+
 }
 
 const Login: React.FC<LoginProps> = (props) => {
