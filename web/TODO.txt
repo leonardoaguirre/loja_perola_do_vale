@@ -1,22 +1,10 @@
 Lista de coisas a fazer no projeto
 
-- Corrigir login, ao dar falha no fetch não há validação
-
 - Estilizar telas do adm
 
 - Criar form de telefone
 
 - Criar form de endereço
-
-- Ajustar imagem do produto no carrinho
-
-- Corrigir carrinho bugado
-
-- Estilizar tela de login, user e adm
-
-- Corrigir fontes dentro da aplicação
-
-- Criar componente para realizar a conversão de preços
 
 - Deixar front independente do backend
 
@@ -36,3 +24,9 @@ Lista de coisas a fazer no projeto
 - Deixar prosseguir na conferencia somente se houver seleção de frete
 
 - Aviso na página de info de produtos, sequencia de hooks errada
+
+- bug com carrinho ao logar uma conta e sair, então ao recarregar qualquer página trava a aplicação
+
+- criar lógica dos banners, receber imagens do backend
+
+- photoshop da imagem da logo, juntar as duas logos em uma imagem

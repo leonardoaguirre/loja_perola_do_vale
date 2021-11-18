@@ -1,15 +1,16 @@
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Nav from '../components/Nav';
-import Banner from '../components/Banner';
+import Head from 'next/head';
 
-import styles from './styles.module.css';
+import Banner from '../components/Banner';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
+import Nav from '../components/Nav';
 
 export default function Home() {
   const images = ['images/1.png', 'images/2.png', 'images/3.png']
 
   return (
     <div className="pageContainer">
+      <Head><title>Ferragens Pérola do Vale</title></Head>
       <Header />
       <Nav />
       <div className="pageContent">

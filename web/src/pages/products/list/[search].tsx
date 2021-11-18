@@ -1,19 +1,18 @@
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { Col, Container, Row } from 'react-bootstrap';
 
-import { Col, Container, Pagination, Row } from 'react-bootstrap';
-
-import LoadingIcon from '../../../components/LoadingIcon';
-import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
+import Header from '../../../components/Header';
+import LoadingIcon from '../../../components/LoadingIcon';
 import Nav from '../../../components/Nav';
-import ProductCard from '../../../components/ProductCard';
-
-import styles from './styles.module.css';
 import PaginationBar from '../../../components/PaginationBar';
+import ProductCard from '../../../components/ProductCard';
 import { environment } from '../../../environments/environment';
 import { Product } from '../../../models/Product';
+import styles from './styles.module.css';
 
 interface ProductListProps {
   products: Product[];
@@ -43,6 +42,7 @@ const ProductList: React.FC<ProductListProps> = (props) => {
 
   return (
     <div className="pageContainer">
+      <Head><title>{props.search} | Ferragens Pérola do Vale</title></Head>
       <Header />
       <Nav />
       <div id={styles.productList} className="pageContent">

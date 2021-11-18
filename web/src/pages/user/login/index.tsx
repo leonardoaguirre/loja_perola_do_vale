@@ -1,13 +1,16 @@
 import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
+import { Button } from 'react-bootstrap';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
+import Header from '../../../components/Header';
 import LoadingIcon from '../../../components/LoadingIcon';
 import { FailedToast } from '../../../components/ToastNotification';
 import { UserContext } from '../../../contexts/UserContext';
-import { environment } from '../../../environments/environment';
-
+import api from '../../../services/api';
 import styles from './styles.module.css';
 
 interface LoginProps {
@@ -16,7 +19,6 @@ interface LoginProps {
 
 const Login: React.FC<LoginProps> = (props) => {
   const { loginUser } = useContext(UserContext);
-  const [erro, setErro] = useState({ constraints: { message: "" } });
   const router = useRouter();
   const { isFallback } = useRouter();
 
@@ -24,59 +26,87 @@ const Login: React.FC<LoginProps> = (props) => {
     return <LoadingIcon />;
   }
 
+  const [error, setError] = useState<string>("");
+  const [show, setShow] = useState<boolean>(false);
+  const passwordEl = useRef();
+
   const login = async (event) => {
     event.preventDefault();
 
-    const pessoa = {
-      body: JSON.stringify({
-        email: event.target.email.value,
-        senha: event.target.password.value,
-      }),
-      headers: new Headers({
-        'Content-Type': 'application/json'
-      }),
-      method: "post",
-    };
-    await fetch(`${environment.API}/Cliente/Login`, pessoa)
-      .then(async (res) => {
-        if (res.ok) {
-          const r = await res.json();
+    const authentication = {
+      email: event.target.email.value,
+      senha: event.target.password.value
+    }
 
-          loginUser(r.pessoa, r.token);
+    api.post('Cliente/Login', authentication)
+      .then((res) => {
+        console.log(res);
+        if (res.statusText == 'OK') {
+          loginUser(res.data.pessoa, res.data.token);
           router.push('/');
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          // request feita e servidor respondeu
+          // setError(error.response.data.constraints.message)
+          setError("Email ou senha inválidos");
+        } else if (error.request) {
+          // request feita, mas sem resposta
+          setError("Servidor fora do ar!");
         } else {
-          const err = await res.json()
-
-          setErro(err);
+          // algo falhou
+          setError("Descupe, algo deu errado!");
         }
       })
   }
+
+  const toggleShow = () => {
+    if (passwordEl) {
+      // @ts-ignore
+      if (passwordEl.current.type == 'password') {
+        // @ts-ignore
+        passwordEl.current.type = 'text';
+        setShow(true);
+      } else {
+        // @ts-ignore
+        passwordEl.current.type = 'password';
+        setShow(false);
+      }
+    }
+  }
+
   return (
-    <div className="pageContainer entire-page">
+    <div className="pageContainer entire-page fx-column align-i-center">
+      <Head><title>Login | Ferragens Pérola do Vale</title></Head>
+      <Header headerType="login" />
       <form id={styles.login} onSubmit={login}>
         <div className={styles.header}>
-          <img src="/icons/logo.png" alt="Logo ferragens pérola do vale" />
-          <h1>Entrar</h1>
+          <h1>Login do cliente</h1>
         </div>
         <div className={styles.email}>
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email"><strong>Email</strong></label>
           <input type="email" name="email" autoComplete="off" placeholder="exemplo@email.com" />
         </div>
         <div className={styles.password}>
-          <label htmlFor="password">Senha</label>
-          <input type="password" name="password" autoComplete="off" placeholder="senha" />
+          <label htmlFor="password"><strong>Senha</strong></label>
+          <div className={styles.passwordInput}>
+            <input ref={passwordEl} type="password" name="password" autoComplete="off" placeholder="senha" />
+            <button type="button" onClick={toggleShow}>
+              {(show) ? (
+                <AiOutlineEye />
+              ) : (
+                <AiOutlineEyeInvisible />
+              )}
+            </button>
+          </div>
         </div>
         <div className={styles.actionsContainer}>
           <div className={styles.errorMessage}>
-            {erro.constraints.message == "" ? "" : <p>{erro.constraints.message}</p>}
+            {error == "" ? "" : <p>{error}</p>}
           </div>
           <div className={styles.buttonContainer}>
-            <button type="submit">Entrar</button>
-          </div>
-          <div className={styles.passwordForgotten}>
-            <Link href="/esquecisenha">
-              <a>Esqueci minha senha</a>
-            </Link>
+            <Button type="submit" variant="primary"><strong>Continuar</strong></Button>
           </div>
           <div className={styles.register}>
             <p>Não possui uma conta?</p>

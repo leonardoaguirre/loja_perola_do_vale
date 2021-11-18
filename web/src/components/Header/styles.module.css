@@ -1,5 +1,6 @@
-.pageHeader {
-  height: 95px;
+.pageHeader,
+.loginHeader {
+  height: 7rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -169,6 +170,10 @@
 
   .pageHeader {
     height: 12rem;
+  }
+
+  .loginHeader {
+    height: 8rem;
   }
 
   .topBarContainer {

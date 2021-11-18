@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import router, { useRouter } from 'next/router';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Button, Col, Container, Modal, Row, Tab, Tabs } from 'react-bootstrap';
@@ -135,6 +136,17 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
 
   return (
     <div className="pageContainer overflow-hidden">
+      <Head>
+        {(currentStep == 3) ? (
+          <title>Confirmar Pedido | Ferragens Pérola do Vale</title>
+        ) : (
+          (currentStep == 4) ? (
+            <title>Forma de pagamento | Ferragens Pérola do Vale</title>
+          ) : (
+            <title>Confirmar Pedido | Ferragens Pérola do Vale</title>
+          )
+        )}
+      </Head>
       <Header headerType="checkout" />
       <div className="pageContent fx-column align-i-center nowrap">
         <div ref={checkoutRef} className={styles.checkoutContainer}>

@@ -1,13 +1,13 @@
-import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import React, { useState } from 'react';
 
-import styles from './styles.module.css';
+import Footer from '../../../../../components/Footer';
+import Header from '../../../../../components/Header';
+import ProviderTable from '../../../../../components/ProviderTable';
+import SearchBox from '../../../../../components/SearchBox';
 import { Provider } from '../../../../../models/Provider';
 import api from '../../../../../services/api';
-import Header from '../../../../../components/Header/index';
-import Footer from '../../../../../components/Footer/index';
-import SearchBox from '../../../../../components/SearchBox/index';
-import ProviderTable from '../../../../../components/ProviderTable/index';
+import styles from './styles.module.css';
 
 interface PageUserProps {
   providers: Provider[];
@@ -35,9 +35,7 @@ const PageUser: React.FC<PageUserProps> = (props) => {
     {value: "cnpj", viewValue: "CNPJ"},
   ];
 
-  const handleSearch = async (event: any, searchStr: string, atribute: string) => {
-    event.preventDefault();
-
+  const handleSearch = async (searchStr: string, atribute: string) => {
     if (searchStr.length > 0) {
       await api.get(`Fornecedor/Buscar/${atribute}/${searchStr}`)
         .then(
@@ -64,6 +62,7 @@ const PageUser: React.FC<PageUserProps> = (props) => {
 
   return (
     <div className="pageContainer">
+      <Head><title>Buscar Fornecedores | Ferragens Pérola do Vale</title></Head>
       <Header />
       <div className={styles.providerSearch}>
         <SearchBox

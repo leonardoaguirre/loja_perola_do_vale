@@ -1,4 +1,5 @@
 import api from '../../../services/api';
+import { FaPen, FaTrash } from 'react-icons/fa';
 import styles from './styles.module.css';
 import { FormEvent, MouseEvent, useContext, useState } from 'react';
 import { ModalSmall } from '../../Modal';
@@ -62,10 +63,10 @@ const TelephoneCard: React.FC<TelephoneCardProps> = (props) => {
         </div>
         <div className={styles.telephoneActions}>
           <button onClick={(e) => { setShowModal(true); e.preventDefault() }}>
-            <img src="/icons/edit_white_36dp.svg" alt="lápis" title="editar" />
+            <FaPen />
           </button>
           <button onClick={(e) => deleteTelephone(e)}>
-            <img src="/icons/delete_white_36dp.svg" alt="lixeira" title="excluir" />
+            <FaTrash />
           </button>
         </div>
       </header>

@@ -1,15 +1,13 @@
-import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import React, { useState } from 'react';
-import Cookies from 'js-cookie';
 
-import Header from '../../../../../../components/Header';
 import Footer from '../../../../../../components/Footer';
-import UserTable from '../../../../../../components/UserTable';
-
-import styles from './styles.module.css';
+import Header from '../../../../../../components/Header';
 import SearchBox from '../../../../../../components/SearchBox';
+import UserTable from '../../../../../../components/UserTable';
 import { Customer } from '../../../../../../models/Customer';
 import api from '../../../../../../services/api';
+import styles from './styles.module.css';
 
 interface PageUserProps {
   
@@ -65,6 +63,7 @@ const PageUser: React.FC<PageUserProps> = (props) => {
 
   return (
     <div className="pageContainer">
+      <Head><title>Buscar Cliente | Ferragens Pérola do Vale</title></Head>
       <Header />
       <div className={styles.custumerSearch}>
         <SearchBox

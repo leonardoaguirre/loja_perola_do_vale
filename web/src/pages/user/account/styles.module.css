@@ -1,6 +1,6 @@
 .pageTitle h1 {
   color: var(--secondary);
-  font-weight: 500;
+  font-size: 2rem;
 }
 
 .content {
@@ -16,91 +16,136 @@
   width: 100%;
 }
 
+.rightContent > header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  margin-bottom: 1rem;
+}
+
 .rightContent header h2 {
-  font-weight: normal;
-  margin-bottom: 3rem;
+  margin: 0;
+}
+
+#offcanvas {
+  width: 220px;
+}
+
+#offcanvasBtn {
+  display: none;
+  border: none;
+  width: 3rem;
+  height: 3rem;
+}
+
+#offcanvasBtn svg {
+  width: 100%;
+  height: 100%;
 }
 
 #userForm {
-  display: flex;
-  justify-content: center;
   position: relative;
-  right: 10rem;
+  left: -10rem;
+  margin-bottom: 3rem;
 }
 
-.labels label {
+.userData {
+  z-index: 1;
+}
+
+.labelCol {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: row;
+  align-content: center;
   align-items: center;
+  justify-content: flex-end;
   text-align: end;
-  margin: 1.7rem 1rem;
-  height: 4rem;
+  pointer-events: none;
+  z-index: 1;
 }
 
-.inputs {
-  width: 55%;
+.labelCol label {
+}
+
+.inputCol {
+
 }
 
 .inputContainer {
-  background-color: var(--quinary);
-  padding: 1rem 2rem;
-  margin: 1.7rem 1rem;
+  width: 100%;
+  background-color: white;
+  padding: 1rem 1rem;
+  margin: 0.5rem 0;
 }
 
 .inputContainer input {
-  height: 2rem;
   width: 100%;
   border: none;
-}
-
-.inputContainer input:disabled {
-  background-color: inherit;
 }
 
 .inputContainer input:focus {
   outline: 0;
 }
 
+.inputContainer input:disabled {
+  background-color: inherit;
+}
+
+.inputContainer input::-webkit-outer-spin-button,
+.inputContainer input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.inputContainer input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .actions {
   display: flex;
+  flex-direction: row;
   justify-content: center;
+  margin-top: 1rem;
 }
 
-.actions input {
-  padding: 1rem 2rem;
-  font-size: 1.8rem;
-  background-color: inherit;
-  color: var(--primary);
-  border: 1px solid var(--primary);
-  cursor: pointer;
-
-  transition: 0.2s;
+.actions button {
+  width: 100%;
+  height: 2.8rem;
 }
 
-.actions input:hover {
-  background-color: var(--primary);
-  color: white;
+.postalCard {
+  padding: 1rem;
+  height: 100%;
+  min-height: 12rem;
 }
 
-.formContainer h3 {
-  margin-top: 4rem;
+.telephoneCard {
+  padding: 1rem 0.5rem;
+  height: 100%;
+  min-height: 8rem;
+  max-width: 20rem;
 }
 
-#telephoneForm {
-  display: flex;
-  flex-wrap: wrap;
-  width: 90%;
-  justify-content: flex-start;
-  margin: 1rem auto;
-  align-items: center;
+
+@media (max-width: 767px) {
+  .leftContent,
+  .pageTitle {
+    display: none;
+  }
+
+  #offcanvasBtn {
+    display: flex;
+  }
+
+  #userForm {
+    left: -3rem;
+  }
 }
 
-#postalAdressForm {
-  display: flex;
-  flex-wrap: wrap;
-  width: 90%;
-  height: fit-content;
-  justify-content: flex-start;
-  margin: 1rem auto;
-  align-items: center;
+@media (max-width: 575px) {
+  #userForm {
+    left: -1rem;
+  }
 }
+

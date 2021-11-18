@@ -1,14 +1,15 @@
-import Header from '../../../../../components/Header';
-import Footer from '../../../../../components/Footer';
-import ProductTable from '../../../../../components/ProductTable';
-
-import styles from './styles.module.css';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
-import api from '../../../../../services/api';
+import { Button, Col, Container, Row } from 'react-bootstrap';
+
+import Footer from '../../../../../components/Footer';
+import Header from '../../../../../components/Header';
+import ProductTable from '../../../../../components/ProductTable';
 import SearchBox from '../../../../../components/SearchBox';
 import { Product } from '../../../../../models/Product';
-import { Button, Col, Container, Row } from 'react-bootstrap';
-import { useRouter } from 'next/router';
+import api from '../../../../../services/api';
+import styles from './styles.module.css';
 
 interface ProductSearchProps {
 
@@ -63,6 +64,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
 
   return (
     <div className="pageContainer">
+      <Head><title>Buscar Produto | Ferragens Pérola do Vale</title></Head>
       <Header />
       <div className={styles.productSearch}>
         <Container fluid>

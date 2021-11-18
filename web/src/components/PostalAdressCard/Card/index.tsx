@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { FormEvent, MouseEvent, useContext, useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { UserContext } from '../../../contexts/UserContext';
+import { FaPen, FaTrash } from 'react-icons/fa';
 import { Adress } from '../../../models/Costumer';
 import { Endereco } from '../../../models/Endereco';
 import api from '../../../services/api';
@@ -107,11 +108,11 @@ const PostalAdressCard: React.FC<PostalAdressCardProps> = ({
           <strong>{postalAdress.titulo}</strong>
         </div>
         <div className={styles.postalAdressActions}>
-          <button onClick={(e) => { setShowModal(true); e.preventDefault() }}>
-            <img src="/icons/edit_white_36dp.svg" alt="lápis" title="editar" />
+          <button title="editar" onClick={(e) => { setShowModal(true); e.preventDefault() }}>
+            <FaPen />
           </button>
-          <button onClick={(e) => deleteAdress(e)}>
-            <img src="/icons/delete_white_36dp.svg" alt="lixeira" title="excluir" />
+          <button title="excluir" onClick={(e) => deleteAdress(e)}>
+            <FaTrash />
           </button>
         </div>
       </header>

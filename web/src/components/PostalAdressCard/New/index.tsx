@@ -1,11 +1,14 @@
-import { FormEvent, useContext, useState } from 'react';
-import { ModalLarge } from '../../Modal'
-import { Button, Col, Form, Row } from 'react-bootstrap'
-import styles from './styles.module.css';
-import api from '../../../services/api'
-import { Endereco } from '../../../models/Endereco';
-import { UserContext } from '../../../contexts/UserContext';
 import { useRouter } from 'next/router';
+import { FormEvent, useContext, useState } from 'react';
+import { Button, Col, Form, Row } from 'react-bootstrap';
+import { AiOutlineHome } from 'react-icons/ai';
+import { MdOutlineAdd } from 'react-icons/md';
+
+import { UserContext } from '../../../contexts/UserContext';
+import { Endereco } from '../../../models/Endereco';
+import api from '../../../services/api';
+import { ModalLarge } from '../../Modal';
+import styles from './styles.module.css';
 
 
 function PostalAdressCardNew() {
@@ -71,8 +74,8 @@ function PostalAdressCardNew() {
       <div className={styles.postalAdressCardNew}>
         <a onClick={() => setShowModal(true)}>
           <div title="Adicionar endereço">
-            <img className={styles.homeIcon} src="/icons/home_black_36dp.svg" alt="casa" />
-            <img className={styles.addIcon} src="/icons/add_circle_black_36dp.svg" alt="adicionar" />
+            <AiOutlineHome className={styles.homeIcon} />
+            <MdOutlineAdd className={styles.addIcon} />
           </div>
           <div>Adicionar novo endereço</div>
         </a>

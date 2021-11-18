@@ -1,12 +1,12 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FormEvent, useContext, useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
+import { BsTelephonePlus } from 'react-icons/bs';
+
 import { UserContext } from '../../../contexts/UserContext';
 import { Telephone } from '../../../models/Costumer';
 import api from '../../../services/api';
 import { ModalSmall } from '../../Modal';
-
 import styles from './styles.module.css';
 
 function TelephoneCardNew() {
@@ -41,13 +41,10 @@ function TelephoneCardNew() {
 
       <div className={styles.telephoneCardNew}>
         <a onClick={() => setShowModal(true)}>
-          <div className={styles.border}>
-            <div title="Adicionar telefone">
-              <img className={styles.telephoneIcon} src="/icons/phone_black_36dp.svg" alt="telefone" />
-              <img className={styles.addIcon} src="/icons/add_circle_black_36dp.svg" alt="adicionar" />
-            </div>
-            <div>Adicionar novo telefone</div>
+          <div title="Adicionar telefone" className={styles.icon}>
+            <BsTelephonePlus />
           </div>
+          <div>Adicionar novo telefone</div>
         </a>
       </div>
 

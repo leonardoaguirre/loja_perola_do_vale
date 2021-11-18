@@ -9,7 +9,6 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
 import Footer from '../../../components/Footer';
 import Header from '../../../components/Header';
-import InputNumber from '../../../components/Input/Number';
 import LoadingIcon from '../../../components/LoadingIcon';
 import Nav from '../../../components/Nav';
 import Shipping from '../../../components/Shipping';
@@ -18,6 +17,7 @@ import { UserContext } from '../../../contexts/UserContext';
 import { environment } from '../../../environments/environment';
 import { Product } from '../../../models/Product';
 import api from '../../../services/api';
+import { Utils } from '../../../shared/classes/utils';
 import styles from './styles.module.css';
 
 interface ProductSearchProps {
@@ -208,8 +208,8 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
                 <div>
                   <div className={styles.price}>
                     <div className={styles.right}>
-                      <strong className={styles.currentPrice}><span className={styles.currence}>R$</span>{parseFloat(toString(props.product.valorVenda)).toFixed(2).replace('.', ',')}</strong>
-                      <span className={styles.installment}><span className={styles.times}>10x</span> de <span className={styles.currence}>R$</span> <span className={styles.dividedValue}>{(props.product.valorVenda / 10).toFixed(2).replace('.', ',')}</span> sem juros</span>
+                      <strong className={styles.currentPrice}><span className={styles.currence}>R$</span>{Utils.formatMoney(props.product.valorVenda)}</strong>
+                      <span className={styles.installment}><span className={styles.times}>10x</span> de <span className={styles.currence}>R$</span> <span className={styles.dividedValue}>{Utils.formatMoney(props.product.valorVenda)}</span> sem juros</span>
                     </div>
                     <div className={styles.fav}>
                       <Button id="btnfav" variant="outline-primary" onClick={handleFavorite} disabled={isDisabled}>

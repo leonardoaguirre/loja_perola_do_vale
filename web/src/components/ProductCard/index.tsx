@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { Card } from 'react-bootstrap';
+
 import { environment } from '../../environments/environment';
 import { Product } from '../../models/Product';
-
+import { Utils } from '../../shared/classes/utils';
 import styles from './styles.module.css';
 
 interface ProductCardProps {
@@ -38,9 +39,9 @@ const ProductCard: React.FC<ProductCardProps> = (props) => {
               <Card.Body className={styles.body}>
                 <Card.Title className={styles.title} title={Capitalize(props.product.nome)}>{Capitalize(props.product.nome)}</Card.Title>
                 <div className={styles.price}>
-                  <strong className={styles.oldPrice}><span>R$</span>{(props.product.valorVenda * 1.1).toFixed(2).replace('.', ',')}</strong>
-                  <strong className={styles.currentPrice}><span>R$</span>{parseFloat(props.product.valorVenda.toString()).toFixed(2).replace('.', ',')}</strong>
-                  <span className={styles.installment}>10x de R$ {`${(props.product.valorVenda / 10).toFixed(2).replace('.', ',')} sem juros`}</span>
+                  <strong className={styles.oldPrice}><span>R$</span>{Utils.formatMoney(props.product.valorVenda * 1.1)}</strong>
+                  <strong className={styles.currentPrice}><span>R$</span>{Utils.formatMoney(props.product.valorVenda)}</strong>
+                  <span className={styles.installment}>10x de R$ {Utils.formatMoney(props.product.valorVenda / 10)}</span>
                 </div>
               </Card.Body>
             </div>
@@ -51,8 +52,8 @@ const ProductCard: React.FC<ProductCardProps> = (props) => {
               <Card.Body className={styles.body}>
                 <Card.Title className={styles.title} title={Capitalize(props.product.nome)}>{Capitalize(props.product.nome)}</Card.Title>
                 <div className={styles.price}>
-                  <strong className={styles.currentPrice}><span>R$</span>{parseFloat(props.product.valorVenda.toString()).toFixed(2).replace('.', ',')}</strong>
-                  <span className={styles.installment}>10x de R$ {`${(props.product.valorVenda / 10).toFixed(2).replace('.', ',')} sem juros`}</span>
+                  <strong className={styles.currentPrice}><span>R$</span>{Utils.formatMoney(props.product.valorVenda)}</strong>
+                  <span className={styles.installment}>10x de R$ {Utils.formatMoney(props.product.valorVenda / 10)}</span>
                 </div>
               </Card.Body>
             </div>

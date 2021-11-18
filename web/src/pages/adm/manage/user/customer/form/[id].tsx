@@ -1,13 +1,13 @@
 import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router'
+import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-import LoadingIcon from '../../../../../../components/LoadingIcon';
 import Footer from '../../../../../../components/Footer';
 import Header from '../../../../../../components/Header';
-
-import styles from './styles.module.css';
+import LoadingIcon from '../../../../../../components/LoadingIcon';
 import { environment } from '../../../../../../environments/environment';
+import styles from './styles.module.css';
 
 interface PageCostumerInfoProps {
   costumer: Costumer
@@ -84,9 +84,10 @@ const UserAlterForm: React.FC<PageCostumerInfoProps> = (props) => {
 
   return (
     <div className="pageContainer">
+      <Head><title>Atualizar Dados de Cliente | Ferragens Pérola do Vale</title></Head>
       <Header />
       <div className={styles.userForm}>
-        <h1>Alterar Pessoa</h1>
+        <h1>Alterar Dados de Cliente</h1>
         <div className={styles.formContainer}>
           <form onSubmit={registerUser}>
             <div className={styles.email}>

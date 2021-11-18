@@ -1,12 +1,12 @@
-import { useRouter } from 'next/router'
+import Head from 'next/head';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
-import LoadingIcon from '../../../components/LoadingIcon';
 import Footer from '../../../components/Footer';
 import Header from '../../../components/Header';
-
-import styles from './styles.module.css';
+import LoadingIcon from '../../../components/LoadingIcon';
 import { environment } from '../../../environments/environment';
+import styles from './styles.module.css';
 
 function UserForm() {
   const [erro, setErro] = useState([]);
@@ -53,6 +53,7 @@ function UserForm() {
 
   return (
     <div className="pageContainer">
+      <Head><title>Cadastrar-se | Ferragens Pérola do Vale</title></Head>
       <Header />
       <div id={styles.userForm} className="pageContent">
         <h1>Cadastrar-se</h1>

@@ -1,10 +1,5 @@
 .telephoneCard {
 	border: 1px solid var(--primary);
-	margin: 2rem;
-	height: fit-content;
-	flex: 1 1 18rem;
-	max-width: 22rem;
-	min-width: 18rem;
 	flex-wrap: wrap;
 }
 
@@ -18,6 +13,7 @@
 	background-color: var(--primary);
 	justify-content: space-between;
 	padding: 0.5rem 0;
+	margin-bottom: 0;
 }
 
 .telephoneCard header .telephoneTitle {
@@ -31,11 +27,15 @@
 .telephoneCard header button {
 	border: none;
 	background-color: inherit;
-	margin: 0 0.3rem;
+	width: 2.5rem;
+	height: 2.5rem;
+	margin: 0 0.2rem;
 }
 
-.telephoneCard header button img {
-	width: 2.5rem;
+.telephoneCard header button svg {
+	width: 100%;
+	height: 100%;
+	color: white;
 }
 
 .telephoneCard .content {
@@ -43,7 +43,7 @@
 	flex-direction: row;
 	align-items: center;
 	justify-content: flex-start;
-	padding: 1rem 2rem;
+	padding: 1rem 0;
 }
 
 .telephoneCard .dddNumber,
@@ -63,11 +63,11 @@
 	background-color: var(--quinary);
 	border: 0;
 	align-items: flex-end;
-	text-align: center;
+	text-align: end;
 }
 
 .telephoneCard .telephoneNumber input {
-	width: 9rem;
+	width: 7rem;
 	background-color: var(--quinary);
 	border: 0;
 }

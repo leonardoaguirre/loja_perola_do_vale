@@ -1,65 +1,24 @@
-import { GetServerSideProps } from "next";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
+import { GetServerSideProps } from 'next';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { Button, Col, Container, Offcanvas, Row } from 'react-bootstrap';
+import { FiMenu } from 'react-icons/fi';
 
-import { UserContext } from "../../../contexts/UserContext";
-
-import Header from "../../../components/Header";
-import Footer from "../../../components/Footer";
-import AccountMenu from "../../../components/AccountMenu";
-import Nav from "../../../components/Nav";
-import LoadingIcon from "../../../components/LoadingIcon";
-import TelephoneCard from "../../../components/TelephoneCard/Card";
-import TelephoneCardNew from "../../../components/TelephoneCard/New";
-import PostalAdressCard from "../../../components/PostalAdressCard/Card";
-import PostalAdressCardNew from "../../../components/PostalAdressCard/New";
-
-import styles from "./styles.module.css";
-import { environment } from "../../../environments/environment";
+import AccountMenu from '../../../components/AccountMenu';
+import Footer from '../../../components/Footer';
+import Header from '../../../components/Header';
+import LoadingIcon from '../../../components/LoadingIcon';
+import PostalAdressCard from '../../../components/PostalAdressCard/Card';
+import PostalAdressCardNew from '../../../components/PostalAdressCard/New';
+import TelephoneCard from '../../../components/TelephoneCard/Card';
+import TelephoneCardNew from '../../../components/TelephoneCard/New';
+import { environment } from '../../../environments/environment';
+import { Costumer } from '../../../models/Costumer';
+import styles from './styles.module.css';
 
 interface PageCostumerAccountProps {
 	costumer: Costumer
-}
-
-interface Costumer {
-	id: string,
-	pessoaFisica: PessoaFisica,
-}
-
-interface PessoaFisica {
-	pessoaFisicaId: string,
-	nome: string,
-	rg: string,
-	cpf: string,
-	dtNasc: string,
-	pessoa: Pessoa,
-}
-
-interface Pessoa {
-	id: string,
-	email: string,
-	senha: string
-	telefones: Telephone[],
-	enderecos: Adress[]
-}
-
-interface Telephone {
-	id: string,
-	ddd: string,
-	numero: string
-}
-
-interface Adress {
-	id: string,
-	titulo?: string,
-	rua: string,
-	numero: string,
-	complemento?: string,
-	bairro: string,
-	cidade: string,
-	estado: string,
-	cep: string
 }
 
 interface Erro {
@@ -79,7 +38,22 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 	const [rg, setRg] = useState<string>(props.costumer?.pessoaFisica.rg);
 	const [dtnasc, setDtnasc] = useState<string>(props.costumer?.pessoaFisica.dtNasc);
 
+	const [disabledBtn, setDisabledBtn] = useState<boolean>(true);
+
+	const [show, setShow] = useState(false);
+
 	const [erro, setErro] = useState<Erro[]>([]);
+
+	useEffect(() => {
+		if (nome != props.costumer?.pessoaFisica.nome ||
+			cpf != props.costumer?.pessoaFisica.cpf ||
+			rg != props.costumer?.pessoaFisica.rg ||
+			dtnasc != props.costumer?.pessoaFisica.dtNasc) {
+			setDisabledBtn(false);
+		} else {
+			setDisabledBtn(true);
+		}
+	}, [nome, cpf, rg, dtnasc])
 
 	const handleSubmitForm = async (event) => {
 		event.preventDefault();
@@ -115,127 +89,177 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 
 	return (
 		<div className="pageContainer">
+			<Head><title>Minha Conta | Ferragens Pérola do Vale</title></Head>
 			<Header />
-			<Nav />
 			<div className="pageContent">
 				<div className={styles.pageTitle}>
 					<h1>Minha Conta</h1>
 				</div>
 				<div className={styles.content}>
-					<div className={styles.leftContent}>
-						<AccountMenu />
-					</div>
-					<div className={styles.rightContent}>
-						<header>
-							<h2>Meus Dados</h2>
-						</header>
-						<div className={styles.formContainer}>
-							<form id={styles.userForm} onSubmit={handleSubmitForm}>
-								<div className={styles.labels}>
-									<div className={styles.name}>
-										<label htmlFor="name">Nome </label>
-									</div>
-									<div className={styles.identificationRg}>
-										<label htmlFor="rg">RG </label>
-									</div>
-									<div className={styles.identificationCpf}>
-										<label htmlFor="cpf">CPF </label>
-									</div>
-									<div className={styles.birthDate}>
-										<label htmlFor="dataNascimento">Data de nascimento </label>
-									</div>
-									<div className={styles.email}>
-										<label htmlFor="email">Email </label>
-									</div>
-									<div className={styles.password}>
-										<label htmlFor="password">Senha </label>
+					<Container fluid>
+						<Row>
+							<Col xs={0} md={3}>
+								<Offcanvas id={styles.offcanvas} show={show} onHide={() => setShow(false)}>
+									<Offcanvas.Header closeButton>
+										<Offcanvas.Title><h3>Minha Conta</h3></Offcanvas.Title>
+									</Offcanvas.Header>
+									<Offcanvas.Body>
+										<AccountMenu pageSelected="datas" />
+									</Offcanvas.Body>
+								</Offcanvas>
+								<div className={styles.leftContent}>
+									<AccountMenu pageSelected="datas" />
+								</div>
+							</Col>
+							<Col xs={12} md={9}>
+								<div className={styles.rightContent}>
+									<header>
+										<button id={styles.offcanvasBtn} onClick={() => setShow(true)}><FiMenu /></button>
+										<h2>Meus Dados</h2>
+									</header>
+									<div className={styles.formContainer}>
+										<form id={styles.userForm} onSubmit={handleSubmitForm}>
+											<Container fluid className={styles.userData}>
+												<Row className={styles.row}>
+													<Col xs={3} sm={3} className={styles.labelCol}>
+														<label htmlFor="name"><strong>Nome</strong></label>
+													</Col>
+													<Col xs={9} sm={9} className={styles.inputCol}>
+														<div className={styles.inputContainer}>
+															<input
+																type="text"
+																name="nome"
+																autoComplete="off"
+																defaultValue={props.costumer?.pessoaFisica.nome}
+																onChange={event => setNome(event.target.value)}
+															/>
+														</div>
+													</Col>
+												</Row>
+												<Row className={styles.row}>
+													<Col xs={3} sm={3} className={styles.labelCol}>
+														<label htmlFor="rg"><strong>RG</strong></label>
+													</Col>
+													<Col xs={9} sm={9} className={styles.inputCol}>
+														<div className={styles.inputContainer}>
+															<input
+																type="number"
+																name="rg" autoComplete="off"
+																defaultValue={props.costumer?.pessoaFisica.rg}
+																onChange={event => setRg(event.target.value)}
+															/>
+														</div>
+													</Col>
+												</Row>
+												<Row className={styles.row}>
+													<Col xs={3} sm={3} className={styles.labelCol}>
+														<label htmlFor="cpf"><strong>CPF</strong></label>
+													</Col>
+													<Col xs={9} sm={9} className={styles.inputCol}>
+														<div className={styles.inputContainer}>
+															<input
+																type="number"
+																name="cpf"
+																autoComplete="off"
+																defaultValue={props.costumer?.pessoaFisica.cpf}
+																onChange={event => setCpf(event.target.value)}
+															/>
+														</div>
+													</Col>
+												</Row>
+												<Row className={styles.row}>
+													<Col xs={3} sm={3} className={styles.labelCol}>
+														<label htmlFor="dataNascimento"><strong>Data de<br />nascimento</strong></label>
+													</Col>
+													<Col xs={9} sm={9} className={styles.inputCol}>
+														<div className={styles.inputContainer}>
+															<input
+																type="date"
+																name="dtNasc"
+																autoComplete="off"
+																defaultValue={props.costumer?.pessoaFisica.dtNasc}
+																onChange={event => setDtnasc(event.target.value)}
+															/>
+														</div>
+													</Col>
+												</Row>
+												<Row className={styles.row}>
+													<Col xs={3} sm={3} className={styles.labelCol}>
+														<label htmlFor="email"><strong>Email</strong></label>
+													</Col>
+													<Col xs={9} sm={9} className={styles.inputCol}>
+														<div className={styles.inputContainer}>
+															<input
+																type="email"
+																name="email"
+																autoComplete="off"
+																value={props.costumer?.pessoaFisica.pessoa.email}
+																disabled
+															/>
+														</div>
+													</Col>
+												</Row>
+												<Row className={styles.row}>
+													<Col xs={3} sm={3} className={styles.labelCol}>
+														<label htmlFor="password"><strong>Senha</strong></label>
+													</Col>
+													<Col xs={9} sm={9} className={styles.inputCol}>
+														<div className={styles.inputContainer}>
+															<input
+																type="password"
+																name="senha"
+																autoComplete="off"
+																value="***********"
+																disabled
+															/>
+														</div>
+													</Col>
+												</Row>
+												<Row>
+													<Col xs={4} sm={3}></Col>
+													<Col xs={8} sm={9}>
+														<div className={styles.actions}>
+															<Button type="submit" variant="primary" disabled={disabledBtn}><strong>Alterar</strong></Button>
+														</div>
+													</Col>
+												</Row>
+											</Container>
+										</form>
+										<h3>Telefones</h3>
+										<form id={styles.telephoneForm}>
+											<Container>
+												<Row>
+													{props.costumer?.pessoaFisica.pessoa.telefones.length > 0
+														? props.costumer?.pessoaFisica.pessoa.telefones.map((telephone, index) => {
+															return <Col xs={6} sm={4} md={6} lg={4}><div className={styles.telephoneCard}><TelephoneCard telephone={telephone} index={index} key={index} /></div></Col>
+														})
+														: ''}
+													{props.costumer?.pessoaFisica.pessoa.telefones.length < 3
+														? <Col xs={6} sm={4} md={6} lg={4}><div className={styles.telephoneCard}><TelephoneCardNew /></div></Col>
+														: ''}
+												</Row>
+											</Container>
+										</form>
+										<h3>Endereços</h3>
+										<form id={styles.postalAdressForm}>
+											<Container fluid>
+												<Row>
+													{props.costumer?.pessoaFisica.pessoa.enderecos.length > 0
+														? props.costumer?.pessoaFisica.pessoa.enderecos.map((endereco, index) => {
+															return <Col xs={12} sm={6}><div className={styles.postalCard}><PostalAdressCard postalAdress={endereco} key={index} /></div></Col>
+														})
+														: ''}
+													{props.costumer?.pessoaFisica.pessoa.enderecos.length < 3
+														? <Col xs={12} sm={6}><div className={styles.postalCard}><PostalAdressCardNew /></div></Col>
+														: ''}
+												</Row>
+											</Container>
+										</form>
 									</div>
 								</div>
-								<div className={styles.inputs}>
-									<div className={styles.inputContainer}>
-										<input
-											type="text"
-											name="nome"
-											autoComplete="off"
-											defaultValue={props.costumer?.pessoaFisica.nome}
-											onChange={event => setNome(event.target.value)}
-										/>
-									</div>
-									{/* {erro.length>0 ? erro.map((err)=> err.property === "nome" ? Object.values(err.constraints).map((tipoErro,key)=> <p key={key}>{tipoErro}</p>) : "") : ""} */}
-									<div className={styles.inputContainer}>
-										<input
-											type="number"
-											name="rg" autoComplete="off"
-											defaultValue={props.costumer?.pessoaFisica.rg}
-											onChange={event => setRg(event.target.value)}
-										/>
-									</div>
-									<div className={styles.inputContainer}>
-										<input
-											type="number"
-											name="cpf"
-											autoComplete="off"
-											defaultValue={props.costumer?.pessoaFisica.cpf}
-											onChange={event => setCpf(event.target.value)}
-										/>
-									</div>
-									<div className={styles.inputContainer}>
-										<input
-											type="date"
-											name="dtNasc"
-											autoComplete="off"
-											defaultValue={props.costumer?.pessoaFisica.dtNasc}
-											onChange={event => setDtnasc(event.target.value)}
-										/>
-									</div>
-									<div className={styles.inputContainer}>
-										<input
-											type="email"
-											name="email"
-											autoComplete="off"
-											value={props.costumer?.pessoaFisica.pessoa.email}
-											disabled
-										/>
-									</div>
-									<div className={styles.inputContainer}>
-										<input
-											type="password"
-											name="senha"
-											autoComplete="off"
-											value="***********"
-											disabled
-										/>
-									</div>
-									<div className={styles.actions}>
-										<input type="submit" value="Alterar" />
-									</div>
-								</div>
-
-							</form>
-							<h3>Telefones</h3>
-							<form id={styles.telephoneForm}>
-								{props.costumer?.pessoaFisica.pessoa.telefones.length > 0
-									? props.costumer?.pessoaFisica.pessoa.telefones.map((telephone, index) => {
-										return <TelephoneCard telephone={telephone} index={index} key={index} />
-									})
-									: ''}
-								{props.costumer?.pessoaFisica.pessoa.telefones.length < 3
-									? <TelephoneCardNew />
-									: ''}
-							</form>
-							<h3>Endereços</h3>
-							<form id={styles.postalAdressForm}>
-								{props.costumer?.pessoaFisica.pessoa.enderecos.length > 0
-									? props.costumer?.pessoaFisica.pessoa.enderecos.map((telephone, index) => {
-										return <PostalAdressCard postalAdress={telephone} key={index} />
-									})
-									: ''}
-								{props.costumer?.pessoaFisica.pessoa.enderecos.length < 3
-									? <PostalAdressCardNew />
-									: ''}
-							</form>
-						</div>
-					</div>
+							</Col>
+						</Row>
+					</Container>
 				</div>
 			</div>
 			<Footer />
@@ -247,7 +271,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { user } = context.req.cookies;
 	const userData = JSON.parse(user);
 
-	const response = await fetch(`${environment.API}/cliente/BuscaPorId/${userData.id}`);
+	const response = await fetch(`${environment.API}/Cliente/BuscaPorId/${userData.id}`);
 	const data = await response.json();
 
 	return {
