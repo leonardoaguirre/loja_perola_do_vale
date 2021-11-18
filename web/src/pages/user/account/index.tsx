@@ -14,50 +14,11 @@ import PostalAdressCardNew from '../../../components/PostalAdressCard/New';
 import TelephoneCard from '../../../components/TelephoneCard/Card';
 import TelephoneCardNew from '../../../components/TelephoneCard/New';
 import { environment } from '../../../environments/environment';
+import { Costumer } from '../../../models/Costumer';
 import styles from './styles.module.css';
 
 interface PageCostumerAccountProps {
 	costumer: Costumer
-}
-
-interface Costumer {
-	id: string,
-	pessoaFisica: PessoaFisica,
-}
-
-interface PessoaFisica {
-	pessoaFisicaId: string,
-	nome: string,
-	rg: string,
-	cpf: string,
-	dtNasc: string,
-	pessoa: Pessoa,
-}
-
-interface Pessoa {
-	id: string,
-	email: string,
-	senha: string
-	telefones: Telephone[],
-	enderecos: Adress[]
-}
-
-interface Telephone {
-	id: string,
-	ddd: string,
-	numero: string
-}
-
-interface Adress {
-	id: string,
-	titulo?: string,
-	rua: string,
-	numero: string,
-	complemento?: string,
-	bairro: string,
-	cidade: string,
-	estado: string,
-	cep: string
 }
 
 interface Erro {
@@ -310,7 +271,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { user } = context.req.cookies;
 	const userData = JSON.parse(user);
 
-	const response = await fetch(`${environment.API}/cliente/BuscaPorId/${userData.id}`);
+	const response = await fetch(`${environment.API}/Cliente/BuscaPorId/${userData.id}`);
 	const data = await response.json();
 
 	return {
