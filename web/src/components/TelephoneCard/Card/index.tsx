@@ -1,3 +1,5 @@
+import { FaPen, FaTrash } from 'react-icons/fa';
+
 import styles from './styles.module.css';
 
 interface Telephone {
@@ -20,10 +22,10 @@ const TelephoneCard: React.FC<TelephoneCardProps> = (props) => {
         </div>
         <div className={styles.telephoneActions}>
           <button>
-            <img src="/icons/edit_white_36dp.svg" alt="lápis" title="editar" />
+            <FaPen />
           </button>
           <button>
-            <img src="/icons/delete_white_36dp.svg" alt="lixeira" title="excluir" />
+            <FaTrash />
           </button>
         </div>
       </header>

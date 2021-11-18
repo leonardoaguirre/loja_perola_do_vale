@@ -1,3 +1,5 @@
+import { FaPen, FaTrash } from 'react-icons/fa';
+
 import { Adress } from '../../../models/Costumer';
 import styles from './styles.module.css';
 
@@ -19,11 +21,11 @@ const PostalAdressCard: React.FC<PostalAdressCardProps> = ({
           <strong>{postalAdress.titulo}</strong>
         </div>
         <div className={styles.postalAdressActions}>
-          <button>
-            <img src="/icons/edit_white_36dp.svg" alt="lápis" title="editar" />
+          <button title="editar">
+            <FaPen />
           </button>
-          <button>
-            <img src="/icons/delete_white_36dp.svg" alt="lixeira" title="excluir" />
+          <button title="excluir">
+            <FaTrash />
           </button>
         </div>
       </header>

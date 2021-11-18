@@ -1,37 +1,40 @@
 .telephoneCardNew {
-  margin: 2rem;
-  flex: 1 1 18rem;
-  max-width: 22rem;
-  min-width: 18rem;
-  flex-wrap: wrap;
   cursor: pointer;
-}
-
-.border {
   border: 2px dashed var(--primary);
-  height: 9.5rem;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
   align-items: center;
   text-align: center;
   justify-content: center;
-
-  font-size: 1.2rem;
+  color: var(--bs-gray-800);
 }
 
-.border:hover {
-  opacity: 0.6;
+.telephoneCardNew a {
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
 }
 
-.telephoneCardNew .telephoneIcon {
+.icon {
   width: 2.5rem;
-  transform: rotate(15deg);
+  height: 2.5rem;
 }
 
-.telephoneCardNew .addIcon {
-  width: 1.3rem;
-  position: relative;
-  right: 1rem;
-  bottom: 1.2rem;
+.icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.telephoneCardNew:hover {
+  opacity: 0.6;
 }

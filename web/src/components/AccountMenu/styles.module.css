@@ -1,31 +1,48 @@
 .accountMenu {
   display: flex;
   flex-direction: column;
-  width: 20rem;
 }
 
-.accountMenu .menuItem {
+.menuList {
+  padding: 0;
+  margin-left: 2rem;
+}
+
+.menuItem {
+  margin: 1.3rem 0;
   list-style-type: none;
-  width: fit-content;
-}
-
-.accountMenu .menuItem:hover {
-  color: var(--primary);
-}
-
-.accountMenu .menuItem a {
-  font-size: 1.7rem;
-  margin: 2rem 0;
   display: flex;
-  align-items: center;
+  flex-direction: row;
 }
 
-.accountMenu .menuItem img {
-  height: 5rem;
-  margin-right: 1rem;
+.menuItem a {
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
+  text-decoration: none;
+  color: var(--bs-gray-600);
+  z-index: 100;
 }
 
-.accountMenu .menuItem .selected {
+.menuItem a:hover {
   color: var(--primary);
+}
+
+.iconContainer {
+  width: 3rem;
+  min-width: 3rem;
+  height: 3rem;
+  min-height: 3rem;
+  margin-right: 0.5rem;
+}
+
+.iconContainer svg {
+  width: 100%;
+  height: 100%;
+}
+
+.selected {
+  color: var(--secondary) !important;
 }
