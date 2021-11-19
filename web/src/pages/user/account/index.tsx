@@ -231,7 +231,7 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 												<Row>
 													{props.costumer?.pessoaFisica.pessoa.telefones.length > 0
 														? props.costumer?.pessoaFisica.pessoa.telefones.map((telephone, index) => {
-															return <Col xs={6} sm={4} md={6} lg={4}><div className={styles.telephoneCard}><TelephoneCard telephone={telephone} index={index} key={index} /></div></Col>
+															return <Col xs={6} sm={4} md={6} lg={4} key={index} ><div className={styles.telephoneCard}><TelephoneCard telephone={telephone} index={index} /></div></Col>
 														})
 														: ''}
 													{props.costumer?.pessoaFisica.pessoa.telefones.length < 3
@@ -246,7 +246,7 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 												<Row>
 													{props.costumer?.pessoaFisica.pessoa.enderecos.length > 0
 														? props.costumer?.pessoaFisica.pessoa.enderecos.map((endereco, index) => {
-															return <Col xs={12} sm={6}><div className={styles.postalCard}><PostalAdressCard postalAdress={endereco} key={index} /></div></Col>
+															return <Col xs={12} sm={6} key={index}><div className={styles.postalCard} ><PostalAdressCard postalAdress={endereco} /></div></Col>
 														})
 														: ''}
 													{props.costumer?.pessoaFisica.pessoa.enderecos.length < 3

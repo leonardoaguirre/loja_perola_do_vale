@@ -2,10 +2,6 @@ Lista de coisas a fazer no projeto
 
 - Estilizar telas do adm
 
-- Criar form de telefone
-
-- Criar form de endereço
-
 - Deixar front independente do backend
 
 -Criar tela de vendas(tabela de exibicao de vendas organizado das mais antigas por status de compra aprovada)
@@ -24,8 +20,6 @@ Lista de coisas a fazer no projeto
 - Deixar prosseguir na conferencia somente se houver seleção de frete
 
 - Aviso na página de info de produtos, sequencia de hooks errada
-
-- bug com carrinho ao logar uma conta e sair, então ao recarregar qualquer página trava a aplicação
 
 - criar lógica dos banners, receber imagens do backend
 

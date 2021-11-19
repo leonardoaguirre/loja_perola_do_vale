@@ -2,7 +2,7 @@ import api from '../../../services/api';
 import { FaPen, FaTrash } from 'react-icons/fa';
 import styles from './styles.module.css';
 import { FormEvent, MouseEvent, useContext, useState } from 'react';
-import { ModalSmall } from '../../Modal';
+import { ModalExclusion, ModalSmall } from '../../Modal';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { UserContext } from '../../../contexts/UserContext';
 import { useRouter } from 'next/router';
@@ -19,6 +19,7 @@ interface TelephoneCardProps {
 
 const TelephoneCard: React.FC<TelephoneCardProps> = (props) => {
   const [showModal, setShowModal] = useState<boolean>(false)
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
   const [telefone, setTelefone] = useState<Telephone>(props.telephone)
   const [erroCadastro, setErroCadastro] = useState([])
   const { user } = useContext(UserContext)
@@ -30,6 +31,7 @@ const TelephoneCard: React.FC<TelephoneCardProps> = (props) => {
     api.delete('Telefone/Deletar', { data: { id: props.telephone.id } })
       .then((res: any) => {
         alert('Telefone excluido com sucesso!');
+        router.reload()
       })
       .catch((err: string) => {
         console.log(err);
@@ -65,7 +67,7 @@ const TelephoneCard: React.FC<TelephoneCardProps> = (props) => {
           <button onClick={(e) => { setShowModal(true); e.preventDefault() }}>
             <FaPen />
           </button>
-          <button onClick={(e) => deleteTelephone(e)}>
+          <button onClick={(e) => {setShowDeleteModal(true); e.preventDefault() }}>
             <FaTrash />
           </button>
         </div>
@@ -112,6 +114,15 @@ const TelephoneCard: React.FC<TelephoneCardProps> = (props) => {
             </Form>
           </ModalSmall>
           : ``
+        }
+        {showDeleteModal ?
+          <ModalExclusion
+            objectName='Telefone'
+            show={showDeleteModal}
+            onConfirm={(e) => deleteTelephone(e)}
+            onHide={() => setShowDeleteModal(false)}
+          />
+          : ''
         }
       </>
     </div>
