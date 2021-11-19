@@ -50,6 +50,8 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
   const [frete, setFrete] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
 
+  const [deliveryType, setDeliveryType] = useState<number>();
+
   const [modalShow, setModalShow] = useState(false);
 
   const [activeTab, setActiveTab] = useState<string>('credito');
@@ -155,13 +157,30 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
               <Row id={styles.firstRow} className="justify-content-sm-center">
                 <Col xs={5}>
                   <h2>Endereço de entrega</h2>
-                  <div className={styles.postalAdressContainer}>
-                    {endEntrega ? <PostalAdressCard postalAdress={endEntrega} /> : <PostalAdressCardNew />}
-                  </div>
-
-                  <Button variant="primary" onClick={() => setModalShow(true)}>
-                    Trocar de Endereço
-                  </Button>
+                  {((endEntrega) ? (
+                    <>
+                      <div className={styles.postalAdressContainer}>
+                        <PostalAdressCard postalAdress={endEntrega} />
+                      </div>
+                      <Button variant="primary" onClick={() => setModalShow(true)}>
+                        Trocar de Endereço
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <div className={styles.postalAdressNewContainer}>
+                        <PostalAdressCardNew />
+                      </div>
+                      <div className={styles.shipping}>
+                        <ShippingCalc
+                          produtos={cartProducts}
+                          getFrete={getFrete}
+                          setDeliveryType={(deliveryType) => setDeliveryType(deliveryType)}
+                          emitEventDeliveryType={true}
+                        />
+                      </div>
+                    </>
+                  ))}
 
                   {endEntrega ?
                     <MyModal
@@ -203,6 +222,8 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
                           produtos={cartProducts}
                           getFrete={getFrete}
                           freteAuto={endEntrega}
+                          setDeliveryType={(deliveryType) => setDeliveryType(deliveryType)}
+                          emitEventDeliveryType={true}
                           dontShowInput={true}
                           dontShowAdress={true}
                           hasPlaceholder={true}
@@ -224,7 +245,7 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
                     </div>
                     <div className={styles.actions}>
                       <Button id={styles.backToShop} onClick={() => router.push('/')}><AiOutlineArrowLeft />Voltar as Compras</Button>
-                      <Button onClick={() => setCurrentStepNumber(4)}>Prosseguir</Button>
+                      <Button onClick={() => setCurrentStepNumber(4)} disabled={deliveryType == null}>Prosseguir</Button>
                     </div>
                   </div>
                 </Col>

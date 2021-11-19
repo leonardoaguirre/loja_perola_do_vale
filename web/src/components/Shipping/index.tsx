@@ -14,6 +14,8 @@ interface ShippingCalcProps {
   hasPlaceholder?: boolean;
   getFrete?(frete: Shipping): void;
   freteAuto?: Adress;
+  setDeliveryType?: (tipoEntrega: number) => void;
+  emitEventDeliveryType?: boolean;
 }
 
 interface Shipping {
@@ -105,6 +107,10 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
   useEffect(() => {
     if (fretes.length > 0 && isRequestSuccess) {//verifica se o vetor de fretes nao esta vazio
       props.getFrete(fretes[tipoEntrega])//atribui o respectivo frete e o retorna ao componente pai
+    }
+
+    if (props.emitEventDeliveryType) {
+      props.setDeliveryType(tipoEntrega);
     }
   }, [tipoEntrega])
 
