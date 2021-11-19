@@ -5,9 +5,11 @@ import { FornecedorRepository } from '../repositorios/FornecedorRepository';
 import { ControlePessoa } from './ControlePessoa';
 import { ControlePessoaJuridica } from './ControlePessoaJuridica';
 import { ControleTelefone } from './ControleTelefone';
+import { validar } from '../services/validaDados';
 
 class ControleFornecedor {
     async adicionar(request: Request, response: Response) {
+        const { representante } = request.body;
         const fornecedorRepository = getCustomRepository(FornecedorRepository);
         const controlePessoa = new ControlePessoa();
         const controlePessoaJuridica = new ControlePessoaJuridica();
@@ -21,7 +23,8 @@ class ControleFornecedor {
 
                 await controleTelefone.adicionar(request, response, pessoa, manager);
 
-                const fornecedor = fornecedorRepository.create({ pessoaJuridica });
+                const fornecedor = fornecedorRepository.create({ pessoaJuridica, representante });
+                await validar(fornecedor);
 
                 await manager.save(fornecedor);
             })
