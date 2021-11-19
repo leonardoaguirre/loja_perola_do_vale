@@ -6,7 +6,7 @@ import { FaPen, FaTrash } from 'react-icons/fa';
 import { Adress } from '../../../models/Costumer';
 import { Endereco } from '../../../models/Endereco';
 import api from '../../../services/api';
-import { ModalLarge } from '../../Modal';
+import { ModalExclusion, ModalLarge, ModalSmall } from '../../Modal';
 import styles from './styles.module.css';
 
 interface PostalAdressCardProps {
@@ -21,6 +21,7 @@ const PostalAdressCard: React.FC<PostalAdressCardProps> = ({
   selected,
 }) => {
   const [showModal, setShowModal] = useState<boolean>(false)
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
   const [endereco, setEndereco] = useState<Endereco>({
     titulo: postalAdress.titulo,
     cep: postalAdress.cep.replace(`-`, ``),
@@ -111,7 +112,7 @@ const PostalAdressCard: React.FC<PostalAdressCardProps> = ({
           <button title="editar" onClick={(e) => { setShowModal(true); e.preventDefault() }}>
             <FaPen />
           </button>
-          <button title="excluir" onClick={(e) => deleteAdress(e)}>
+          <button title="excluir" onClick={(e) => { setShowDeleteModal(true); e.preventDefault() }}>
             <FaTrash />
           </button>
         </div>
@@ -174,7 +175,7 @@ const PostalAdressCard: React.FC<PostalAdressCardProps> = ({
                 <Col>
                   <Form.Group controlId="complemento">
                     <Form.Label>Complemento</Form.Label>
-                    <Form.Control defaultValue={endereco.complemento} onChange={(e) => onChangeEndereco('complemento', e.target.value)}/>
+                    <Form.Control defaultValue={endereco.complemento} onChange={(e) => onChangeEndereco('complemento', e.target.value)} />
                   </Form.Group>
                 </Col>
               </Row>
@@ -205,6 +206,15 @@ const PostalAdressCard: React.FC<PostalAdressCardProps> = ({
               </Row>
             </Form>
           </ModalLarge >
+          : ''
+        }
+        {showDeleteModal ?
+          <ModalExclusion
+            objectName='Endereço'
+            show={showDeleteModal}
+            onConfirm={(e) => deleteAdress(e)}
+            onHide={() => setShowDeleteModal(false)}
+          />
           : ''
         }
       </>
