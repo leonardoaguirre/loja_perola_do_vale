@@ -47,24 +47,6 @@
   justify-content: center;
 }
 
-/* .imageItem {
-  margin: 0.8rem;
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #e4e4e4;
-  padding: 5px;
-}
-
-.imageItem img {
-  width: 100%;
-  max-width: 6.5rem;
-  max-height: 6.5rem;
-  padding: 0.1rem;
-} */
-
 .figureContainer {
   margin: 0.8rem;
   width: 6.5rem;
@@ -161,31 +143,6 @@
 .dividedValue,
 .times {
   font-weight: 500;
-}
-
-.fav {
-	/* text-align: end;
-	position: absolute;
-	right: 80px;
-	display: flex;
-	justify-content: flex-end; */
-}
-
-.fav button {
-	border: 1px solid #b1b1b1;
-  color: #b1b1b1;
-	display: flex;
-	align-items: center;
-}
-
-.fav button:hover {
-	background-color: inherit;
-}
-
-.favImg {
-	height: 1.8rem;
-	width: 1.8rem;
-	margin-right: 0.2rem;
 }
 
 .buttonContainer {

@@ -74,7 +74,7 @@ const Cart: React.FC<CartProps> = (props) => {
             <Row>
               {(cartProducts.length > 0 ? (
                 <>
-                  <Col xs={12} lg={8}>
+                  <Col xs={12} md={7} lg={8}>
                     <div className={styles.left}>
                       <div className={styles.cartList}>
                         <CartList
@@ -84,7 +84,7 @@ const Cart: React.FC<CartProps> = (props) => {
                       </div>
                     </div>
                   </Col>
-                  <Col xs={12} lg={4}>
+                  <Col xs={12} md={5} lg={4}>
                     <div className={styles.right}>
                       <div className={styles.summary}>
                         <div>

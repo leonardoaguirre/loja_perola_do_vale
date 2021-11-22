@@ -5,6 +5,7 @@
   background-color: white;
   margin-bottom: 1rem;
   box-shadow: 6px 2px 12px -4px rgba(0,0,0,0.38);
+  border-left: 3px solid var(--primary);
 }
 
 .contentWrapper {

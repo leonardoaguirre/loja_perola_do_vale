@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 import { toString } from 'lodash';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
@@ -7,13 +6,13 @@ import { useContext, useEffect, useState } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
+import FavoriteButton from '../../../components/FavoriteButton';
 import Footer from '../../../components/Footer';
 import Header from '../../../components/Header';
 import LoadingIcon from '../../../components/LoadingIcon';
 import Nav from '../../../components/Nav';
 import Shipping from '../../../components/Shipping';
 import { CartContext } from '../../../contexts/CartContext';
-import { UserContext } from '../../../contexts/UserContext';
 import { environment } from '../../../environments/environment';
 import { Product } from '../../../models/Product';
 import api from '../../../services/api';
@@ -38,82 +37,82 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
     return <LoadingIcon />;
   }
 
-  const { user } = useContext(UserContext);
+  // const { user } = useContext(UserContext);
   const { addToCart } = useContext(CartContext)
 
-  const [isDisabled, setIsDisabled] = useState<boolean>(true);
+  // const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
   const [mainImage, setMainImage] = useState<string>(`${environment.API}/${props.product.imagens[0].path}`);
 
-  const [favorite, setFavorite] = useState<Favorite>({ idFavorito: null, favoritado: false, nFavoritos: 0 });
-  const [favImg, setFavImg] = useState<string>('/icons/favorite_border_gray_36dp.svg');
+  // const [favorite, setFavorite] = useState<Favorite>({ idFavorito: null, favoritado: false, nFavoritos: 0 });
+  // const [favImg, setFavImg] = useState<string>('/icons/favorite_border_gray_36dp.svg');
 
   const [produtoAtual, setProdutoAtual] = useState<Product[]>([{ ...props.product, quantidade: 1 }])
 
 
-  useEffect(() => {
-    const user = Cookies.getJSON("user");
-    let idPessoa = '';
-    if (user) {
-      idPessoa = user.idPessoa;
-      setIsDisabled(false);
-    }
-    // buscar dados de favorito
-    api.get(`favorito/verificaFavorito/${props.product.id}?idPessoa=${user ? idPessoa : ''}`).then((res) => {
-      setFavorite(res.data);
-    }).catch((res) => {
-      console.log(res);
-    });
-  }, []);
+  // useEffect(() => {
+  //   const user = Cookies.getJSON("user");
+  //   let idPessoa = '';
+  //   if (user) {
+  //     idPessoa = user.idPessoa;
+  //     setIsDisabled(false);
+  //   }
+  //   // buscar dados de favorito
+  //   api.get(`favorito/verificaFavorito/${props.product.id}?idPessoa=${user ? idPessoa : ''}`).then((res) => {
+  //     setFavorite(res.data);
+  //   }).catch((res) => {
+  //     console.log(res);
+  //   });
+  // }, []);
 
-  useEffect(() => {
-    if (favorite.favoritado) {
-      setFavImg('/icons/favorite_red_36dp.svg');
-    } else {
-      setFavImg('/icons/favorite_border_gray_36dp.svg');
-    }
-  }, [favorite])
+  // useEffect(() => {
+  //   if (favorite.favoritado) {
+  //     setFavImg('/icons/favorite_red_36dp.svg');
+  //   } else {
+  //     setFavImg('/icons/favorite_border_gray_36dp.svg');
+  //   }
+  // }, [favorite])
 
   const handleImagePick = (event) => {
     setMainImage(event.target.src);
   }
 
-  const handleFavorite = async (event) => {
-    if (favorite.favoritado) {
-      // desfavoritar
-      api.delete(`${environment.API}/favorito/deletarPorId`, {
-        data: {
-          idFavorito: favorite.idFavorito
-        }
-      }).then((res) => {
-        setFavorite({
-          idFavorito: null,
-          favoritado: false,
-          nFavoritos: favorite.nFavoritos - 1
-        })
-        setFavImg('/icons/favorite_border_gray_36dp.svg')
-      }).catch((res) => {
-        console.log(res);
-      });
+  // const handleFavorite = async (event) => {
+  //   if (favorite.favoritado) {
+  //     // desfavoritar
+  //     api.delete(`${environment.API}/favorito/deletarPorId`, {
+  //       data: {
+  //         idFavorito: favorite.idFavorito
+  //       }
+  //     }).then((res) => {
+  //       setFavorite({
+  //         idFavorito: null,
+  //         favoritado: false,
+  //         nFavoritos: favorite.nFavoritos - 1
+  //       })
+  //       setFavImg('/icons/favorite_border_gray_36dp.svg')
+  //     }).catch((res) => {
+  //       console.log(res);
+  //     });
 
-    } else {
-      // favoritar
+  //   } else {
+  //     // favoritar
 
-      api.post(`${environment.API}/favorito/adicionar`, {
-        idPessoa: user.idPessoa,
-        idProduto: props.product.id
-      }).then((res) => {
-        setFavorite({
-          idFavorito: res.data.idFavorito,
-          favoritado: true,
-          nFavoritos: favorite.nFavoritos + 1
-        })
-        setFavImg('/icons/favorite_red_36dp.svg')
-      }).catch((res) => {
-        console.log(res);
-      });
-    }
-  }
+  //     api.post(`${environment.API}/favorito/adicionar`, {
+  //       idPessoa: user.idPessoa,
+  //       idProduto: props.product.id
+  //     }).then((res) => {
+  //       setFavorite({
+  //         idFavorito: res.data.idFavorito,
+  //         favoritado: true,
+  //         nFavoritos: favorite.nFavoritos + 1
+  //       })
+  //       setFavImg('/icons/favorite_red_36dp.svg')
+  //     }).catch((res) => {
+  //       console.log(res);
+  //     });
+  //   }
+  // }
 
   const sendToCart = (prod: Product) => {//envia as informacoes do produto mostrado ao context do carrinho
     addToCart({
@@ -170,8 +169,8 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
                           />
                         </div>
                         {props.product.imagens.map((img, index) => (
-                          <div className={styles.figureContainer}>
-                            <figure className={styles.imageItem} key={index}>
+                          <div className={styles.figureContainer} key={index}>
+                            <figure className={styles.imageItem}>
                               <img src={`${environment.API}/${props.product.imagens[index].path}`} alt={props.product.nome} onClick={handleImagePick} />
                             </figure>
                           </div>
@@ -216,17 +215,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
                       <span className={styles.installment}><span className={styles.times}>10x</span> de <span className={styles.currence}>R$</span> <span className={styles.dividedValue}>{Utils.formatMoney(props.product.valorVenda)}</span> sem juros</span>
                     </div>
                     <div className={styles.fav}>
-                      <Button id="btnfav" variant="outline-primary" onClick={handleFavorite} disabled={isDisabled}>
-                        <img
-                          className={styles.favImg}
-                          src={favImg}
-                          alt="Coração"
-                          title="Favoritar"
-                        />
-                        <div className={styles.favCont}>
-                          {favorite.nFavoritos}
-                        </div>
-                      </Button>
+                      <FavoriteButton productId={props.product.id} />
                     </div>
                   </div>
                   <hr />

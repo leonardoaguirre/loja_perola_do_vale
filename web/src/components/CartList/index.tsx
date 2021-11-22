@@ -24,7 +24,7 @@ const CartList: React.FC<CartListProps> = ({
         <Row>
           {products.map((product, index) => {
             return (
-              <Col xs={12} sm={6} md={6} lg={12} xl={6}>
+              <Col xs={12} sm={6} md={12} lg={12} xl={6}>
                 <div id={`item-${product.id}`} className={styles.cartItem}>
                   <figure className={styles.imgContainer}>
                     <Link href={`/products/info/${product.id}`}>

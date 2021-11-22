@@ -1,0 +1,41 @@
+.fav h1 {
+  font-size: 2rem;
+}
+
+.noFav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 5rem 2rem 2rem 4rem;
+  color: var(--bs-gray-700);
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.content > svg {
+  width: 10rem;
+  height: 10rem;
+  color: var(--bs-gray-500);
+  margin-right: 2rem;
+}
+
+.content a {
+  text-decoration: none;
+}
+
+#backToBuy {
+  position: relative;
+  bottom: -12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#backToBuy svg {
+  margin-right: 4px;
+}

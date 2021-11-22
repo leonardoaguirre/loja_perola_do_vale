@@ -7,7 +7,7 @@ import styles from './styles.module.css';
 
 interface FavoriteItemProps {
   favorite: Favorite;
-  deleteFavorite(idFavorito: number, event): void;
+  deleteFavorite(idFavorito: number): void;
   index: number;
 }
 
@@ -60,7 +60,7 @@ const FavoriteItem: React.FC<FavoriteItemProps> = (props) => {
             year: 'numeric'
           })}
         </span></p>
-        <div><a onClick={() => props.deleteFavorite(props.favorite.id, props.index)}>Remover</a></div>
+        <div><a onClick={() => props.deleteFavorite(props.favorite.id)}>Remover</a></div>
         <div><a>Encontre produtos similares</a></div>
       </div>
     </div>

@@ -106,5 +106,6 @@
 }
 
 .aside a {
-  color: rgb(94, 94, 255) !important;
+  color: var(--secondary) !important;
+  cursor: pointer;
 }
