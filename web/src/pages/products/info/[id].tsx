@@ -50,7 +50,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
 
   const [produtoAtual, setProdutoAtual] = useState<Product[]>([{ ...props.product, quantidade: 1 }])
 
-  
+
   useEffect(() => {
     const user = Cookies.getJSON("user");
     let idPessoa = '';
@@ -155,11 +155,13 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
             <Col xs={12} lg={8}>
               <section className={styles.product}>
                 <Row>
-                  <Col xs={12} md={6} xl={6}>
+                  <Col xs={12} sm={6} md={6} xl={6}>
                     <div className={styles.imageContainer}>
-                      <figure className={styles.mainImage}>
-                        <img src={mainImage} alt={props.product.nome} title={props.product.nome} />
-                      </figure>
+                      <div className={styles.image}>
+                        <figure className={styles.mainImage}>
+                          <img src={mainImage} alt={props.product.nome} title={props.product.nome} />
+                        </figure>
+                      </div>
                       <div className={styles.imageCollection}>
                         <div className={styles.arrow}>
                           <MdKeyboardArrowLeft
@@ -168,9 +170,11 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
                           />
                         </div>
                         {props.product.imagens.map((img, index) => (
-                          <figure className={styles.imageItem} key={index}>
-                            <img src={`${environment.API}/${props.product.imagens[index].path}`} alt={props.product.nome} onClick={handleImagePick} />
-                          </figure>
+                          <div className={styles.figureContainer}>
+                            <figure className={styles.imageItem} key={index}>
+                              <img src={`${environment.API}/${props.product.imagens[index].path}`} alt={props.product.nome} onClick={handleImagePick} />
+                            </figure>
+                          </div>
                         ))}
                         <div className={styles.arrow}>
                           <MdKeyboardArrowRight
@@ -181,7 +185,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
                       </div>
                     </div>
                   </Col>
-                  <Col xs={12} md={6} xl={6}>
+                  <Col xs={12} sm={6} md={6} xl={6}>
                     <div className={styles.infoContainer}>
                       <h1>{props.product.nome}</h1>
                       <section className={styles.generalInfo}>

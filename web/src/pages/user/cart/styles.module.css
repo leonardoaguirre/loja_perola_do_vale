@@ -37,10 +37,6 @@
   margin-right: 4px;
 }
 
-.left {
-  width: 100%;
-}
-
 .content {
   display: flex;
   flex-direction: row;
@@ -83,10 +79,6 @@
 
 .price {
   font-size: 1.2rem;
-}
-
-.frete {
-  width: 300px;
 }
 
 .buy a,

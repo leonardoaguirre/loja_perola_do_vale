@@ -1,55 +1,64 @@
-.container {
+.cartItem {
   width: 100%;
-}
-
-.cart hr {
-  margin: 0 0 1rem 0;
-}
-
-.subtitle {
-  display: grid;
-  grid-template-columns: 170px minmax(100px, 1fr) minmax(min-content, 150px) 130px;
-}
-
-.subtitle h3 {
-  font-size: 1.4rem;
   display: flex;
   flex-direction: row;
+  background-color: white;
+  margin-bottom: 1rem;
+  box-shadow: 6px 2px 12px -4px rgba(0,0,0,0.38);
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
 }
 
-.subtitle h3:first-child {
+.content {
+  height: 6rem;
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-}
-
-.item {
-  background-color: var(--bs-gray-100);
-  display: grid;
-  grid-template-columns: 170px minmax(100px, 1fr) minmax(min-content, 150px) 130px;
-  margin: 1rem 0;
-  box-shadow: 6px 2px 17px -2px rgba(0,0,0,0.38);
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .name {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.center {
+  font-weight: 700;
+  margin: 0 0.5rem 0 0;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+}
+
+.name p {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* número de linhas à mostrar */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+.qtdprc {
+  display: flex;
+  flex-direction: row;
   align-items: center;
 }
 
+.qtd {
+  max-width: 8rem;
+  margin-right: 1.5rem;
+}
+
+.price {
+  font-size: 1.3rem;
+}
+
 .imgContainer {
-  width: 10rem;
-  height: 10rem;
+  width: 100%;
+  height: 100%;
+  max-width: 6rem;
+  max-height: 6rem;
+  min-width: 6rem;
+  min-height: 6rem;
   margin: 1rem;
   box-shadow: 4px 4px 10px 3px rgba(0,0,0,0.03);
   background-color: white;
@@ -69,38 +78,4 @@
   max-height: 100%;
   padding: 0.5rem;
   object-fit: cover;
-}
-
-.name {
-  font-size: 1.2rem;
-  font-weight: 700;
-  height: 100%;
-}
-
-.name p {
-  display: -webkit-box;
-  -webkit-line-clamp: 3; /* número de linhas à mostrar */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin: 0;
-}
-
-.qtd {
-  display: flex;
-  flex-direction: column;
-}
-
-.qtd input {
-  width: 50px;
-}
-
-.qtd button {
-  border: none;
-  background-color: inherit;
-  color: gray;
-}
-
-.price {
-  font-size: 1.5rem;
 }

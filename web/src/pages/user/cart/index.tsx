@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import { BsCartX } from 'react-icons/bs';
 import { IoIosArrowBack } from 'react-icons/io';
 
@@ -70,78 +70,86 @@ const Cart: React.FC<CartProps> = (props) => {
           <h2>Carrinho de Compras</h2>
         </div>
         <div className={styles.content}>
-          {(cartProducts.length > 0 ? (
-            <>
-              <div className={styles.left}>
-                <div className={styles.cartList}>
-                  <CartList
-                    products={cartProducts}
-                    onChangedQuantity={handleChangedQuantity}
-                  />
-                </div>
-              </div>
-              <div className={styles.right}>
-                <div className={styles.summary}>
+          <Container fluid>
+            <Row>
+              {(cartProducts.length > 0 ? (
+                <>
+                  <Col xs={12} lg={8}>
+                    <div className={styles.left}>
+                      <div className={styles.cartList}>
+                        <CartList
+                          products={cartProducts}
+                          onChangedQuantity={handleChangedQuantity}
+                        />
+                      </div>
+                    </div>
+                  </Col>
+                  <Col xs={12} lg={4}>
+                    <div className={styles.right}>
+                      <div className={styles.summary}>
+                        <div>
+                          <div>
+                            <h2>Resumo do pedido</h2>
+                          </div>
+                          <div className={styles.description}>
+                            <div className={styles.top}>
+                              <div className={styles.row}>
+                                <label>{cartProducts.length} Produto(s)</label><span className={styles.price}>{`R$${Utils.formatMoney(subtotal)}`}</span>
+                              </div>
+                              <div className={styles.row}>
+                                <label>Frete</label><span>{`R$ ${frete ? Utils.formatMoney(frete) : `--`}`}</span>
+                              </div>
+                            </div>
+                            <hr />
+                            <div className={styles.bottom}>
+                              <div className={`${styles.row} ${styles.total}`}>
+                                <label>Total</label><span className={styles.price}>{`R$${frete ? Utils.formatMoney(subtotal + frete) : Utils.formatMoney(subtotal)}`}</span>
+                              </div>
+                              <div className={`${styles.row} ${styles.installment}`}>
+                                <label>Em até 10x sem juros de</label><span>{`R$${frete ? Utils.formatMoney((subtotal + frete) / 10) : Utils.formatMoney(subtotal / 10)}`}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <hr />
+                        <div className={styles.frete}>
+                          <h3>Calcular Frete</h3>
+                          <Shipping produtos={cartProducts} getFrete={getFrete} />
+                        </div>
+                        <hr />
+                        <div className={styles.buy}>
+                          <Link href={"/forms/checkout"}>
+                            <a>
+                              <button>Continuar</button>
+                            </a>
+                          </Link>
+                        </div>
+                        <div className={styles.keep}>
+                          <Link href={"/products/list/a"} >
+                            <a>
+                              <button>Continuar Comprando</button>
+                            </a>
+                          </Link>
+                        </div>
+                      </div >
+                    </div >
+                  </Col>
+                </>
+              ) : (
+                <div className={styles.empty}>
+                  <BsCartX />
                   <div>
-                    <div>
-                      <h2>Resumo do pedido</h2>
-                    </div>
-                    <div className={styles.description}>
-                      <div className={styles.top}>
-                        <div className={styles.row}>
-                          <label>{cartProducts.length} Produto(s)</label><span className={styles.price}>{`R$${Utils.formatMoney(subtotal)}`}</span>
-                        </div>
-                        <div className={styles.row}>
-                          <label>Frete</label><span>{`R$ ${frete ? Utils.formatMoney(frete) : `--`}`}</span>
-                        </div>
-                      </div>
-                      <hr />
-                      <div className={styles.bottom}>
-                        <div className={`${styles.row} ${styles.total}`}>
-                          <label>Total</label><span className={styles.price}>{`R$${frete ? Utils.formatMoney(subtotal + frete) : Utils.formatMoney(subtotal)}`}</span>
-                        </div>
-                        <div className={`${styles.row} ${styles.installment}`}>
-                          <label>Em até 10x sem juros de</label><span>{`R$${frete ? Utils.formatMoney((subtotal + frete) / 10) : Utils.formatMoney(subtotal / 10)}`}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <hr />
-                  <div className={styles.frete}>
-                    <h3>Calcular Frete</h3>
-                    <Shipping produtos={cartProducts} getFrete={getFrete} />
-                  </div>
-                  <hr />
-                  <div className={styles.buy}>
-                    <Link href={"/forms/checkout"}>
+                    <h3>Você não possui nenhum<br /> produto no carrinho</h3>
+                    <Link href={"/"} >
                       <a>
-                        <button>Continuar</button>
+                        <Button id={styles.backToBuy}><IoIosArrowBack />Voltar para as Compras</Button>
                       </a>
                     </Link>
                   </div>
-                  <div className={styles.keep}>
-                    <Link href={"/products/list/a"} >
-                      <a>
-                        <button>Continuar Comprando</button>
-                      </a>
-                    </Link>
-                  </div>
-                </div >
-              </div >
-            </>
-          ) : (
-            <div className={styles.empty}>
-              <BsCartX />
-              <div>
-                <h3>Você não possui nenhum<br /> produto no carrinho</h3>
-                <Link href={"/"} >
-                  <a>
-                    <Button id={styles.backToBuy}><IoIosArrowBack />Voltar para as Compras</Button>
-                  </a>
-                </Link>
-              </div>
-            </div>
-          ))}
+                </div>
+              ))}
+            </Row>
+          </Container>
         </div >
       </div >
     </div >
