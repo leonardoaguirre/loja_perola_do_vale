@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { FormEvent, useContext, useState } from 'react';
+import { FormEvent, useContext, useEffect, useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { AiOutlineHome } from 'react-icons/ai';
 import { MdOutlineAdd } from 'react-icons/md';
@@ -24,7 +24,16 @@ function PostalAdressCardNew() {
     if (cep.length === 8) {
       api.get(`Correios/ConsultaCep/${cep}`)
         .then((res) => {
-          setEndereco(res.data)
+          setEndereco(
+            {
+              ...endereco,
+              cep: res.data.cep,
+              logradouro: res.data.logradouro,
+              bairro: res.data.bairro,
+              localidade: res.data.localidade,
+              uf: res.data.uf,
+            }
+          )
           setErroCep('')
         })
         .catch(() => {
@@ -67,7 +76,7 @@ function PostalAdressCardNew() {
 
   const onChangeEndereco = (field, value) => setEndereco({ ...endereco, [field]: value })
 
-  const esvaziaEndereco = () => setEndereco({ logradouro: ``, bairro: ``, localidade: ``, uf: `` })
+  const esvaziaEndereco = () => setEndereco({...endereco, logradouro: ``, bairro: ``, localidade: ``, uf: `` })
 
   return (
     <>
@@ -86,7 +95,7 @@ function PostalAdressCardNew() {
           <Form onSubmit={(e) => onFormSubmit(e)}>
             <Form.Group className="mb-3" controlId="Titulo">
               <Form.Label>Titulo</Form.Label>
-              <Form.Control placeholder="(Opcional)" onChange={(e) => onChangeEndereco('titulo', e.target.value)} />
+              <Form.Control placeholder="(Opcional)" onChange={(e) => { onChangeEndereco('titulo', e.target.value) }} />
             </Form.Group>
 
             <Row>

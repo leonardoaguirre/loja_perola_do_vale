@@ -71,9 +71,20 @@ const Favorites: React.FC<FavoritesProps> = (props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { user } = context.req.cookies;
-  const userData = JSON.parse(user);
+  let data;
 
-  const data = await fetchData(userData.idPessoa);
+  if (user) {
+    const userData = JSON.parse(user);
+    data = await fetchData(userData.idPessoa);
+  } else {
+    return {
+      props: {},
+      redirect: {
+        destination: '/',
+      }
+    }
+  }
+
 
   return {
     props: {
