@@ -1,5 +1,8 @@
 import Head from 'next/head';
 import { useState } from 'react';
+import { Button } from 'react-bootstrap';
+
+import ToastCustom from '../../components/ToastCustom';
 
 interface TesteProps {
 
@@ -8,16 +11,60 @@ interface TesteProps {
 const Teste: React.FC<TesteProps> = ({
 
 }) => {
+  const [showA, setShowA] = useState(false);
 
-  console.log(process.env.production)
-
-  const [valor, setValor] = useState<number>(20.90);
+  const toggleShowA = () => setShowA(!showA);
 
   return (
     <div className="pageContainer">
       <Head><title>Teste | Ferragens Pérola do Vale</title></Head>
-      <h1>TYPE: {process.env.production}</h1>
-      <h2>URL: {process.env.API}</h2>
+      <Button onClick={toggleShowA} className="mb-2">
+        Toggle Toast <strong>with</strong> Animation
+      </Button>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <ToastCustom
+        title="Favoritos"
+        show={showA}
+        toggleShow={toggleShowA}
+        autohide={true}
+        delay={5000}
+        content={<></>}
+      />
     </div>
   );
 }

@@ -87,9 +87,6 @@ const Stepper: React.FC<StepperProps> = (props) => {
           )
         })}
       </Nav>
-
-      {/* <button onClick={() => setCurrentStep(currentStep + 1)}>Mais</button>
-      <button onClick={() => setCurrentStep(currentStep - 1)}>Menos</button> */}
     </div>
   )
 }
