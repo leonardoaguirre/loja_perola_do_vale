@@ -93,11 +93,12 @@ class ControleEstoque {
 
     async buscaEstoque(prod: Produto) {
         const estoqueRepo = getCustomRepository(EstoqueRepository);
-
+        
         try {
             const estoque = await estoqueRepo.findOne({ where: { produto: prod } })
+            
             if (!estoque) {
-                throw new AppError('Nenhum estoque encontrado', 'estoque');
+                throw new AppError(`Estoque não encontrado para o produto ${prod.nome}`, 'estoque');
             }
             return estoque;
 

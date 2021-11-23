@@ -19,8 +19,6 @@ class ControleVenda {
         try {
 
             const vendaRepository = getCustomRepository(VendaRepository)
-            const pagamentoRepo = getRepository(FormaPagamento)
-            const itemRepo = getRepository(ItemVenda)
 
             await getManager().transaction(async manager => {
                 const itens = await vendaRepository.calculaTotaisItens(produtos)
@@ -33,14 +31,16 @@ class ControleVenda {
                     valorFrete: valorFrete,
                     subtotal,
                     valorTotal: subtotal + valorFrete,
-                    formaPagamento: await pagamentoRepo.save({
-                        nomeTitular: formaPagamento.nomeTitular,
-                        dtVencimento: moment().add(7, 'days').format('YYYY-MM-DD')
-                    }),
+                    formaPagamento: await manager.save(
+                        manager.create(FormaPagamento,
+                            {
+                                nomeTitular: formaPagamento.nomeTitular,
+                                dtVencimento: moment().add(7, 'days').format('YYYY-MM-DD')
+                            })
+                    ),
                     destino,
                     pessoa: pessoaExiste,
                     codRastreio: '',
-                    itensVenda: await itemRepo.save(itens),
                 })
 
                 const erros = await vendaRepository.validaDados(venda)
@@ -48,20 +48,31 @@ class ControleVenda {
                     throw erros
                 }
 
-                await manager.save(venda)
+                const vendaSalva = await manager.save(venda)
 
                 const controleEstoque = new ControleEstoque()
                 let prodsIndisponiveis: AppError[]
 
-                venda.itensVenda.map(async item => {
+                for (const item of itens) {
+                    await manager.save(
+                        manager.create(ItemVenda, {
+                            produto: item.produto,
+                            quantidade: item.quantidade,
+                            valorSubTotal: item.valorSubTotal,
+                            valorUnit: item.valorUnit,
+                            venda: vendaSalva
+                        }))
+
                     const estoque = await controleEstoque.buscaEstoque(item.produto)
+
                     if (!await controleEstoque.consultaDisponibilidade(item.produto)) {
                         prodsIndisponiveis.push(new AppError(`${item.produto.nome} nao disponivel`, 'produto'))
                     }
-                    controleEstoque.retiraDoEstoque(estoque, manager, item.quantidade)
-                })
+                    await controleEstoque.retiraDoEstoque(estoque, manager, item.quantidade)
+                }
+
                 if (prodsIndisponiveis.length > 0) throw prodsIndisponiveis
-            });
+            })
 
             return response.status(200).json({ message: 'Compra realizada com sucesso!' })
 
