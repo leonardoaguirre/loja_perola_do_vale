@@ -19,30 +19,30 @@ const Favorites: React.FC<FavoritesProps> = (props) => {
   const deleteFavorite = (idFavorito: number, index: number) => {
     console.log("deleteFavorite", document.getElementById(`item${index}`));
     api.delete(`${environment.API}/favorito/deletarPorId`, {
-        data: {
-          idFavorito: idFavorito
-        }
-      }).then((res) => {
-        document.getElementById(`item${index}`).remove();
-        setNfavorites(nfavorites - 1);
-      }).catch((error) => {
-        console.log(error);
-      });
-  } 
+      data: {
+        idFavorito: idFavorito
+      }
+    }).then((res) => {
+      document.getElementById(`item${index}`).remove();
+      setNfavorites(nfavorites - 1);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
 
   return (
     <div className="pageContainer">
       <Head><title>Meus Favoritos | Ferragens Pérola do Vale</title></Head>
       <Header />
       <div id="favorite" className="pageContent fx-column">
-      {nfavorites > 0 ?
-        <>
-          {props.favorites.map((favorite, index) => {
-            return <FavoriteItem favorite={favorite} deleteFavorite={deleteFavorite} index={index} key={index}/>
-          })}
-        </>
-        : <h2>Você não possui nenhum favorito!</h2>
-      }
+        {nfavorites > 0 ?
+          <>
+            {props.favorites.map((favorite, index) => {
+              return <FavoriteItem favorite={favorite} deleteFavorite={deleteFavorite} index={index} key={index} />
+            })}
+          </>
+          : <h2>Você não possui nenhum favorito!</h2>
+        }
       </div>
     </div>
   );
@@ -50,9 +50,20 @@ const Favorites: React.FC<FavoritesProps> = (props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { user } = context.req.cookies;
-	const userData = JSON.parse(user);
+  let data;
 
-  const data = await fetchData(userData.idPessoa);
+  if (user) {
+    const userData = JSON.parse(user);
+    data = await fetchData(userData.idPessoa);
+  } else {
+    return {
+      props: {},
+      redirect: {
+        destination: '/',
+      }
+    }
+  }
+
 
   return {
     props: {
@@ -61,15 +72,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-const fetchData = async (idPessoa) => await 
-api.get(`favorito/ListarPorPessoa/${idPessoa}`)
-  .then(res => ({
-    error: false,
-    favorites: res.data,
-  }))
-  .catch(() => ({
-    error: true,
-    favorites: null,
-  }));
+const fetchData = async (idPessoa) => await
+  api.get(`favorito/ListarPorPessoa/${idPessoa}`)
+    .then(res => ({
+      error: false,
+      favorites: res.data,
+    }))
+    .catch(() => ({
+      error: true,
+      favorites: null,
+    }));
 
 export default Favorites;

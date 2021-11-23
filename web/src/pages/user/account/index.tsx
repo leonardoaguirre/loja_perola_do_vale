@@ -15,6 +15,7 @@ import TelephoneCard from '../../../components/TelephoneCard/Card';
 import TelephoneCardNew from '../../../components/TelephoneCard/New';
 import { environment } from '../../../environments/environment';
 import { Costumer } from '../../../models/Costumer';
+import api from '../../../services/api';
 import styles from './styles.module.css';
 
 interface PageCostumerAccountProps {
@@ -271,8 +272,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { user } = context.req.cookies;
 	const userData = JSON.parse(user);
 
-	const response = await fetch(`${environment.API}/Cliente/BuscaPorId/${userData.id}`);
-	const data = await response.json();
+	// const response = await fetch(`${environment.API}/Cliente/BuscaPorId/${userData.id}`);
+	// const data = await response.json();
+
+	let data;
+	await api.get(`Cliente/BuscaPorId/${userData.id}`)
+		.then(res => data = res.data)
+		.catch(err => console.log(err))
+
+	if (!data) return { notFound: true }
 
 	return {
 		props: {

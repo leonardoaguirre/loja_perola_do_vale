@@ -12,6 +12,7 @@ import PaginationBar from '../../../components/PaginationBar';
 import ProductCard from '../../../components/ProductCard';
 import { environment } from '../../../environments/environment';
 import { Product } from '../../../models/Product';
+import api from '../../../services/api';
 import styles from './styles.module.css';
 
 interface ProductListProps {
@@ -46,28 +47,36 @@ const ProductList: React.FC<ProductListProps> = (props) => {
       <Header />
       <Nav />
       <div id={styles.productList} className="pageContent">
-        <div className={styles.list}>
-          <Container fluid>
-            <Row>
-              <Col xs={12}>
-                <h1>Produtos</h1>
-              </Col>
-            </Row>
-            <Row>
-              {props.products.map((product, index) => (
-                <Col key={index} className={styles.col} xs={6} sm={4} md={4} lg={3} xl={3}>
-                  <ProductCard product={product} index={index} key={index} />
-                </Col>
-              ))}
-            </Row>
-          </Container>
-        </div>
-        <div className={styles.pagination}>
-          <PaginationBar nPages={props.nPages}
-            search={props.search}
-            destination={'products/list'}
-            activePage={props.activePage} />
-        </div>
+        {props.products.length > 0 ?
+          <>
+            <div className={styles.list}>
+              <Container fluid>
+                <Row>
+                  <Col xs={12}>
+                    <h1>Produtos</h1>
+                  </Col>
+                </Row>
+                <Row>
+                  {props.products.map((product, index) => (
+                    <Col key={index} className={styles.col} xs={6} sm={4} md={4} lg={3} xl={3}>
+                      <ProductCard product={product} index={index} key={index} />
+                    </Col>
+                  ))}
+                </Row>
+              </Container>
+            </div>
+            <div className={styles.pagination}>
+              <PaginationBar nPages={props.nPages}
+                search={props.search}
+                destination={'products/list'}
+                activePage={props.activePage} />
+            </div>
+          </>
+          :
+          <Row>
+            <h3>Nenhum produto foi encontrado</h3>
+          </Row>
+        }
       </div>
       <Footer />
     </div>
@@ -78,8 +87,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { search } = context.params;
   const { pagina } = context.query;
 
-  const response = await fetch(`${environment.API}/produto/procurar/${search}?pagina=${pagina}`);
-  const data = await response.json();
+  let data;
+  await api.get(`produto/procurar/${search}?pagina=${pagina}`)
+    .then((res) => data = res.data)
+    .catch((err) => console.log(err))
+
+  if (!data) return { props: { products: [], } }
 
   return {
     props: {
