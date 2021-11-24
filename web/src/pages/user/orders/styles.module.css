@@ -1,0 +1,64 @@
+.pageTitle h1 {
+    color: var(--secondary);
+    font-size: 2rem;
+}
+
+.content {
+    display: flex;
+}
+
+.leftContent {
+    margin-right: 3rem;
+}
+
+.rightContent {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.rightContent>header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    margin-bottom: 1rem;
+}
+
+.rightContent header h2 {
+    margin: 0;
+}
+
+#offcanvas {
+    width: 220px;
+}
+
+#offcanvasBtn {
+    display: none;
+    border: none;
+    width: 3rem;
+    height: 3rem;
+}
+
+#offcanvasBtn svg {
+    width: 100%;
+    height: 100%;
+}
+
+@media (max-width: 767px) {
+    .leftContent,
+    .pageTitle {
+        display: none;
+    }
+    #offcanvasBtn {
+        display: flex;
+    }
+    #userForm {
+        left: -3rem;
+    }
+}
+
+@media (max-width: 575px) {
+    #userForm {
+        left: -1rem;
+    }
+}

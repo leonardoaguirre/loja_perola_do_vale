@@ -9,8 +9,13 @@ class VendaRepository extends Repository<Venda>{
     async validaDados(venda: Venda) {
         return await validate(venda)
     }
-    async buscaPorId(id: string) {
-        return await this.find({ where: { pessoa: { id: id } } })
+    async buscaPorId(id: string, pag: number, itensPorPag: number) {
+        return await this.findAndCount({
+            where: { pessoa: { id: id } },
+            order: { dtCompra: 'DESC' },
+            skip: (pag - 1) * itensPorPag,
+            take: itensPorPag
+        })
     }
     async buscaAPartirDe(dataIni: Date) {
 
@@ -21,11 +26,11 @@ class VendaRepository extends Repository<Venda>{
     async calculaTotaisItens(produtos: Produto[]) {
         const prodRepo = getCustomRepository(ProdutoRepository)
         let itensVenda: ItemVenda[] = []
-    
+
         for (const prod of produtos) {
             const prodExist = await prodRepo.buscaPorId(prod.id)
             const subTotal = prodExist.valorVenda * prod.quantidade
-            
+
             itensVenda.push({
                 produto: prodExist,
                 quantidade: prod.quantidade,
@@ -41,7 +46,8 @@ class VendaRepository extends Repository<Venda>{
         for (const item of itens) {
             subtotal += item.valorSubTotal
         }
-        return parseFloat(subtotal.toString().replace('.',','))
+
+        return parseFloat(subtotal.toFixed(2))
     }
 }
 export { VendaRepository }

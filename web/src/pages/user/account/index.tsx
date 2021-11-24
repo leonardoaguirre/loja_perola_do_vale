@@ -105,11 +105,11 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 										<Offcanvas.Title><h3>Minha Conta</h3></Offcanvas.Title>
 									</Offcanvas.Header>
 									<Offcanvas.Body>
-										<AccountMenu pageSelected="datas" />
+										<AccountMenu pageSelected="datas" user={props.costumer.pessoaFisica.pessoa.id} />
 									</Offcanvas.Body>
 								</Offcanvas>
-								<div className={styles.leftContent}>
-									<AccountMenu pageSelected="datas" />
+								<div className={styles.leftContent} >
+									<AccountMenu pageSelected="datas" user={props.costumer.pessoaFisica.pessoa.id} />
 								</div>
 							</Col>
 							<Col xs={12} md={9}>
