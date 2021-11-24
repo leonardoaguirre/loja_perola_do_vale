@@ -63,15 +63,15 @@ class ControleVenda {
                             venda: vendaSalva
                         }))
 
-                    const estoque = await controleEstoque.buscaEstoque(item.produto)
+                    // const estoque = await controleEstoque.buscaEstoque(item.produto)
 
-                    if (!await controleEstoque.consultaDisponibilidade(item.produto)) {
-                        prodsIndisponiveis.push(new AppError(`${item.produto.nome} nao disponivel`, 'produto'))
-                    }
-                    await controleEstoque.retiraDoEstoque(estoque, manager, item.quantidade)
+                    // if (!await controleEstoque.consultaDisponibilidade(item.produto)) {
+                    //     prodsIndisponiveis.push(new AppError(`${item.produto.nome} nao disponivel`, 'produto'))
+                    // }
+                    // await controleEstoque.retiraDoEstoque(estoque, manager, item.quantidade)
                 }
 
-                if (prodsIndisponiveis.length > 0) throw prodsIndisponiveis
+                // if (prodsIndisponiveis.length > 0) throw prodsIndisponiveis
             })
 
             return response.status(200).json({ message: 'Compra realizada com sucesso!' })
@@ -159,21 +159,48 @@ class ControleVenda {
             })
     }
 
-    async buscarPorId(request: Request, response: Response) {
-        const id = request.params.idVenda;
-        const vendaRepo = getCustomRepository(VendaRepository);
+    async listarPorPessoa(request: Request, response: Response) {
+        const vendaRepo = getCustomRepository(VendaRepository)
+        const { idPessoa } = request.params
+        const query = request.query.pagina
+        const pagina = query ? parseInt(query.toString()) : 1
+        const itensPorPagina: number = 5
 
         try {
-            const venda = await vendaRepo.buscaPorId(id);
-            if (!venda) {
-                throw new AppError('Venda nao encontrada', 'venda');
-            }
+            vendaRepo.buscaPorId(idPessoa, pagina, itensPorPagina)
+                .then((vendas) => {
+                    if (vendas.length > 0) {
+                        vendas[1] = Math.ceil(vendas[1] / itensPorPagina);
+                        const data = {
+                            vendas: vendas[0],
+                            nPages: vendas[1]
+                        }
+                        return response.status(200).json(data)
+                    } else {
+                        throw new AppError('Nenhum pedido encontrado', 'pedido')
+                    }
+                }).catch(err => { return response.status(400).json(err) })
 
-            return response.status(200).json(venda);
         } catch (error) {
-            return response.status(400).json(error);
+            return response.status(400).json(error)
         }
     }
+
+    // async buscarPorId(request: Request, response: Response) {
+    //     const id = request.params.idVenda;
+    //     const vendaRepo = getCustomRepository(VendaRepository);
+
+    //     try {
+    //         const venda = await vendaRepo.buscaPorId(id);
+    //         if (!venda) {
+    //             throw new AppError('Venda nao encontrada', 'venda');
+    //         }
+
+    //         return response.status(200).json(venda);
+    //     } catch (error) {
+    //         return response.status(400).json(error);
+    //     }
+    // }
 }
 
 
