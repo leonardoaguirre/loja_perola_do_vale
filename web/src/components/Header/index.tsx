@@ -1,26 +1,15 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useContext, useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  InputGroup,
-  FormControl,
-  Button,
-} from "react-bootstrap";
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useContext, useState } from 'react';
+import { Col, Container, Row } from 'react-bootstrap';
+import { AiOutlineUser } from 'react-icons/ai';
+import { BsCardChecklist } from 'react-icons/bs';
+import { MdDoneOutline, MdOutlineShoppingCart, MdPayment } from 'react-icons/md';
 
+import { UserContext } from '../../contexts/UserContext';
 import Input from '../Input/Search';
-
-import { UserContext } from "../../contexts/UserContext";
-
-import Logo from "../Logo/index";
-
-import styles from "./styles.module.css";
-import Stepper from "../Stepper";
-import { MdDoneOutline, MdOutlineShoppingCart, MdPayment } from "react-icons/md";
-import { AiOutlineUser } from "react-icons/ai";
-import { BsCardChecklist } from "react-icons/bs";
+import Stepper from '../Stepper';
+import styles from './styles.module.css';
 
 interface HeaderProps {
   headerType?: 'default' | 'checkout' | 'adm' | 'login';
@@ -118,10 +107,16 @@ const Header: React.FC<HeaderProps> = ({
                       </div>
                     ) : (
                       <div className={styles.userInfo}>
-                        <div className={styles.log}>
+                        <div className={styles.nolog}>
                           <Link href="/user/login">
-                            <a>Entrar</a>
+                            <a>Faça Login</a>
                           </Link>
+                          <div className={styles.inline}>
+                            <div>ou</div>
+                            <Link href="/user/form">
+                              <a>Cadastre-se</a>
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     )}

@@ -49,13 +49,14 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
   const calcShipping = async () => {
     setIsLoading(true);
     if (cepPesquisa.length >= 8) {
-      cepPesquisa.replace('-','')//adequa o formato do cep para consulta na API
+      cepPesquisa.replace('-', '')//adequa o formato do cep para consulta na API
 
       const frete =
       {
         cep: cepPesquisa,
         produtos: props.produtos
       }
+
       api.get(`Correios/ConsultaCep/${cepPesquisa}`).then(
         (res_cep) => {
           api.post("Correios/CalculaFrete", frete).then(
@@ -65,7 +66,8 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
                 setFretes(res_frete.data);
                 setIsRequestSuccess(true);
                 setMsgErro("");
-                setTipoEntrega(0);
+                setTipoEntrega(null); // reset da variavel para disparar o useEffect 
+                setTipoEntrega(0);    // ao atribuir o tipo de entrega
                 setIsLoading(false);
               } else {
                 setMsgErro("Houve uma falha ao realizar o calculo do frete!");
@@ -106,7 +108,9 @@ const ShippingCalc: React.FC<ShippingCalcProps> = (props) => {
 
   useEffect(() => {
     if (fretes.length > 0 && isRequestSuccess) {//verifica se o vetor de fretes nao esta vazio
-      props.getFrete(fretes[tipoEntrega])//atribui o respectivo frete e o retorna ao componente pai
+      if (tipoEntrega != null) {
+        props.getFrete(fretes[tipoEntrega])//atribui o respectivo frete e o retorna ao componente pai
+      }
     }
 
     if (props.emitEventDeliveryType) {

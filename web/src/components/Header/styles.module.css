@@ -78,6 +78,40 @@
   text-transform: capitalize;
 }
 
+.nolog {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 1rem;
+  color: #414141;
+}
+
+.inline {
+  display: inline-flex;
+  align-items: center;
+}
+
+.inline > a {
+  margin-left: 0.3rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.nolog a {
+  font-weight: 700;
+}
+
+.nolog button,
+.nolog a {
+  font-size: 0.9rem;
+  color: #414141;
+  background-color: inherit;
+  text-decoration: none;
+  padding: 0;
+}
+
 .log {
   display: flex;
   flex-direction: row;

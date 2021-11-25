@@ -3,6 +3,7 @@ import { FormEvent, useContext, useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { BsTelephonePlus } from 'react-icons/bs';
 
+import { useToasts } from '../../../contexts/ToastContext';
 import { UserContext } from '../../../contexts/UserContext';
 import { Telephone } from '../../../models/Costumer';
 import api from '../../../services/api';
@@ -13,7 +14,8 @@ function TelephoneCardNew() {
   const [showModal, setShowModal] = useState<boolean>(false)
   const [telefone, setTelefone] = useState<Telephone>()
   const [erroCadastro, setErroCadastro] = useState([])
-  const { user } = useContext(UserContext)
+  const { user } = useContext(UserContext);
+  const { add } = useToasts();
   const router = useRouter()
 
   const onSubmitForm = (e: FormEvent<HTMLFormElement>) => {
@@ -25,8 +27,13 @@ function TelephoneCardNew() {
       idPessoa: user.idPessoa
     }).then(() => {
       setShowModal(false)
-      alert(`Telefone (${telefone.ddd})${telefone.numero} cadastrado com sucesso!`)
       router.reload()
+      add({
+        title: 'Telefone Cadastrado',
+        content: `Telefone (${telefone.ddd})${telefone.numero} cadastrado com sucesso!`,
+        delay: 8000,
+        autohide: true,
+      });
     }).catch((err) => {
       setErroCadastro(err.response.data)
     })
@@ -50,7 +57,7 @@ function TelephoneCardNew() {
 
       {showModal ?
         <ModalSmall title="Cadastrar um novo telefone" onHide={() => { setShowModal(false); esvaziaTelefone(); setErroCadastro([]) }} show={showModal}>
-          <Form onSubmit={(e) => onSubmitForm(e)}>
+          <Form id={styles.form} onSubmit={(e) => onSubmitForm(e)}>
             <Row >
               <Col xs={4}>
                 <Form.Group className='mb-3' controlId='ddd'>
@@ -71,10 +78,12 @@ function TelephoneCardNew() {
               return Object.values(err.constraints).map((tipoErro, key) => <p key={key} style={{ color: `red` }}>{tipoErro}</p>)
             }) : ``}
 
-            <Row className="justify-content-md-center" lg={2}>
-              <Button variant="primary" type="submit">
-                Cadastrar
-              </Button>
+            <Row className="justify-content-md-center">
+              <Col xs={12}>
+                <Button className="w-100" variant="primary" type="submit">
+                  Cadastrar
+                </Button>
+              </Col>
             </Row>
           </Form>
         </ModalSmall>

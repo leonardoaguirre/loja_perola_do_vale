@@ -4,6 +4,7 @@ import React from 'react';
 import { createContext, ReactNode, useEffect, useState } from 'react';
 
 import { ProductCartItem } from '../models/ProductCartItem';
+import { useToasts } from './ToastContext';
 
 interface CartContextData {
     cartProducts: ProductCartItem[];
@@ -22,6 +23,7 @@ export const CartContext = createContext({ cartProducts: initialState } as CartC
 
 export function CartProvider({ children }: CartContextProviderProps) {
     const [cartProducts, setCartProducts] = useState<ProductCartItem[]>([]);
+    const { add } = useToasts();
     const router = useRouter();
 
     useEffect(() => {//hook para persistir os produtos no context
@@ -39,15 +41,30 @@ export function CartProvider({ children }: CartContextProviderProps) {
     }, []);
 
     function addToCart(product: ProductCartItem) {
-        const newProds: ProductCartItem[] = removeFromCart(product.id)//redundancia, caso seja adicionado um prod que já esta no carrinho, remove e o adiciona novamente
+        const newProds: ProductCartItem[] = removeFromCart(product.id, true)//redundancia, caso seja adicionado um prod que já esta no carrinho, remove e o adiciona novamente
         newProds.push(product)
-
         setCartProducts(newProds)
         Cookies.set('cartProducts', newProds.map(prod => { return { id: prod.id } }));
         localStorage.setItem('cartProducts', JSON.stringify(newProds))
+        add({
+            title: 'Carrinho',
+            content: `${product.nome.length > 40 ? `${product.nome.slice(0, 40)}...` : product.nome} adicionado ao carrinho!`,
+            delay: 8000,
+            autohide: true,
+        });
     }
 
-    function removeFromCart(idProd: string) {
+    function removeFromCart(idProd: string, redundancia?: boolean) {
+        if (!redundancia) {
+            const exProd = cartProducts.find(prod => prod.id == idProd);
+            add({
+                title: 'Carrinho',
+                content: `${exProd.nome.length > 40 ? `${exProd.nome.slice(0, 40)}...` : exProd.nome} removido do carrinho!`,
+                delay: 8000,
+                autohide: true,
+            });
+        }
+
         const newProds = cartProducts.filter(prod => prod.id !== idProd)// retira o produto do vetor com base no id do produto
         // armazena o novo vetor no cookie e no context
         setCartProducts(newProds)

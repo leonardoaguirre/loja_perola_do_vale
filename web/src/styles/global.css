@@ -95,6 +95,15 @@ h1, h2, h3, h4, h5, h6, strong {
   justify-content: center;
 }
 
+:root input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+:root input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 
 @media (min-width: 1200px) {
   :root {

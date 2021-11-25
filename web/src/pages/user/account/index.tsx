@@ -13,6 +13,7 @@ import PostalAdressCard from '../../../components/PostalAdressCard/Card';
 import PostalAdressCardNew from '../../../components/PostalAdressCard/New';
 import TelephoneCard from '../../../components/TelephoneCard/Card';
 import TelephoneCardNew from '../../../components/TelephoneCard/New';
+import { useToasts } from '../../../contexts/ToastContext';
 import { environment } from '../../../environments/environment';
 import { Costumer } from '../../../models/Costumer';
 import api from '../../../services/api';
@@ -33,6 +34,9 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 	if (isFallback) {
 		return <LoadingIcon />;
 	}
+
+	const router = useRouter();
+	const { add } = useToasts();
 
 	const [nome, setNome] = useState<string>(props.costumer?.pessoaFisica.nome);
 	const [cpf, setCpf] = useState<string>(props.costumer?.pessoaFisica.cpf);
@@ -77,7 +81,13 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 		const result = await response.json();
 
 		if (response.ok) {
-			alert("Usuário alterado com sucesso!")
+			router.reload();
+			add({
+				title: 'Usuário Alterado',
+				content: `Seus dados foram alterados com sucesso!`,
+				delay: 8000,
+				autohide: true,
+			});
 			setErro([]);
 		} else {
 			// setErro(result);

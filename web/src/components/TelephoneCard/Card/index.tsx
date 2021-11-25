@@ -1,11 +1,14 @@
-import api from '../../../services/api';
-import { FaPen, FaTrash } from 'react-icons/fa';
-import styles from './styles.module.css';
-import { FormEvent, MouseEvent, useContext, useState } from 'react';
-import { ModalExclusion, ModalSmall } from '../../Modal';
-import { Button, Col, Form, Row } from 'react-bootstrap';
-import { UserContext } from '../../../contexts/UserContext';
 import { useRouter } from 'next/router';
+import { FormEvent, MouseEvent, useCallback, useContext, useEffect, useState } from 'react';
+import { Button, Col, Form, Row } from 'react-bootstrap';
+import { FaPen, FaTrash } from 'react-icons/fa';
+
+import { useToasts } from '../../../contexts/ToastContext';
+import { UserContext } from '../../../contexts/UserContext';
+import api from '../../../services/api';
+import { ModalExclusion, ModalSmall } from '../../Modal';
+import styles from './styles.module.css';
+
 interface Telephone {
   id: string;
   ddd: string;
@@ -18,20 +21,35 @@ interface TelephoneCardProps {
 }
 
 const TelephoneCard: React.FC<TelephoneCardProps> = (props) => {
-  const [showModal, setShowModal] = useState<boolean>(false)
-  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
-  const [telefone, setTelefone] = useState<Telephone>(props.telephone)
-  const [erroCadastro, setErroCadastro] = useState([])
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  const [telefone, setTelefone] = useState<Telephone>(props.telephone);
+  const [erroCadastro, setErroCadastro] = useState([]);
+  const [disabledAlt, setDisabledAlt] = useState<boolean>(true);
   const { user } = useContext(UserContext)
+  const { add } = useToasts();
   const router = useRouter()
+
+  useEffect(() => {
+    if (props.telephone == telefone) {
+      setDisabledAlt(true);
+    } else {
+      setDisabledAlt(false);
+    }
+  }, [telefone])
 
   const deleteTelephone = (e: MouseEvent) => {
     e.preventDefault()
 
     api.delete('Telefone/Deletar', { data: { id: props.telephone.id } })
       .then((res: any) => {
-        alert('Telefone excluido com sucesso!');
         router.reload()
+        add({
+          title: 'Telefone Excluido',
+          content: `Telefone (${telefone.ddd})${telefone.numero} excluido com sucesso!`,
+          delay: 8000,
+          autohide: true,
+        });
       })
       .catch((err: string) => {
         console.log(err);
@@ -48,8 +66,13 @@ const TelephoneCard: React.FC<TelephoneCardProps> = (props) => {
       idPessoa: user.idPessoa
     }).then(() => {
       setShowModal(false)
-      alert(`Telefone (${telefone.ddd})${telefone.numero} alterado com sucesso!`)
-      router.reload()
+      router.reload();
+      add({
+        title: 'Telefone Alterado',
+        content: `Telefone (${telefone.ddd})${telefone.numero} alterado com sucesso!`,
+        delay: 8000,
+        autohide: true,
+      });
     }).catch((err) => {
       setErroCadastro(err.response.data)
     })
@@ -67,7 +90,7 @@ const TelephoneCard: React.FC<TelephoneCardProps> = (props) => {
           <button onClick={(e) => { setShowModal(true); e.preventDefault() }}>
             <FaPen />
           </button>
-          <button onClick={(e) => {setShowDeleteModal(true); e.preventDefault() }}>
+          <button onClick={(e) => { setShowDeleteModal(true); e.preventDefault() }}>
             <FaTrash />
           </button>
         </div>
@@ -85,7 +108,7 @@ const TelephoneCard: React.FC<TelephoneCardProps> = (props) => {
       <>
         {showModal ?
           <ModalSmall title="Alterar telefone" onHide={() => { setShowModal(false); setErroCadastro([]); setTelefone(props.telephone) }} show={showModal}>
-            <Form onSubmit={(e) => onSubmitForm(e)}>
+            <Form id={styles.alterForm} onSubmit={(e) => onSubmitForm(e)}>
               <Row >
                 <Col xs={4}>
                   <Form.Group className='mb-3' controlId='ddd'>
@@ -99,15 +122,14 @@ const TelephoneCard: React.FC<TelephoneCardProps> = (props) => {
                     <Form.Control type='number' value={telefone.numero} onChange={(e) => onChangeTelefone('numero', e.target.value)} required />
                   </Form.Group>
                 </Col>
-
               </Row>
 
               {erroCadastro ? erroCadastro.map((err) => {
                 return Object.values(err.constraints).map((tipoErro, key) => <p key={key} style={{ color: `red` }}>{tipoErro}</p>)
               }) : ``}
 
-              <Row className="justify-content-md-center" lg={2}>
-                <Button variant="primary" type="submit">
+              <Row className="justify-content-md-center">
+                <Button className="w-100" variant="primary" type="submit" disabled={disabledAlt}>
                   Alterar
                 </Button>
               </Row>

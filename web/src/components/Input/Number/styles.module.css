@@ -58,11 +58,12 @@
   color: var(--bs-gray-400);
 }
 
-.inputNumber input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
+#plus:focus,
+#minus:focus {
+  background-color: var(--secondary);
 }
 
-.inputNumber input[type="number"] {
-  -moz-appearance: textfield;
-  appearance: textfield;
+#plus:focus svg,
+#minus:focus svg {
+  color: white;
 }

@@ -4,6 +4,7 @@ import { Button, Col, Form, Row } from 'react-bootstrap';
 import { AiOutlineHome } from 'react-icons/ai';
 import { MdOutlineAdd } from 'react-icons/md';
 
+import { useToasts } from '../../../contexts/ToastContext';
 import { UserContext } from '../../../contexts/UserContext';
 import { Endereco } from '../../../models/Endereco';
 import api from '../../../services/api';
@@ -17,6 +18,7 @@ function PostalAdressCardNew() {
   const [erroCep, setErroCep] = useState<string>('')
   const [erroCadastro, setErroCadastro] = useState([])
   const { user } = useContext(UserContext);
+  const { add } = useToasts();
   const router = useRouter()
 
   const onChangeCep = (e) => {
@@ -65,7 +67,12 @@ function PostalAdressCardNew() {
       )
         .then(() => {
           setShowModal(false)
-          alert(`Endereço ${endereco.titulo ? endereco.titulo : ``} cadastrado com sucesso!`)
+          add({
+            title: 'Endereço Excluido',
+            content: `Endereço ${endereco.titulo ? endereco.titulo : ``} cadastrado com sucesso!`,
+            delay: 8000,
+            autohide: true,
+          });
           router.reload()
         })
         .catch((err) => {
@@ -76,7 +83,7 @@ function PostalAdressCardNew() {
 
   const onChangeEndereco = (field, value) => setEndereco({ ...endereco, [field]: value })
 
-  const esvaziaEndereco = () => setEndereco({...endereco, logradouro: ``, bairro: ``, localidade: ``, uf: `` })
+  const esvaziaEndereco = () => setEndereco({ ...endereco, logradouro: ``, bairro: ``, localidade: ``, uf: `` })
 
   return (
     <>
@@ -148,8 +155,8 @@ function PostalAdressCardNew() {
               return Object.values(err.constraints).map((tipoErro, key) => <p key={key} style={{ color: `red` }}>{tipoErro}</p>)
             }) : ``}
 
-            <Row className="justify-content-md-center" lg={4}>
-              <Button variant="primary" type="submit">
+            <Row className="justify-content-md-center">
+              <Button className="w-100" variant="primary" type="submit">
                 Cadastrar
               </Button>
             </Row>

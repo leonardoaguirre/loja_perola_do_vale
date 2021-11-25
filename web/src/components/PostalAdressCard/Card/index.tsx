@@ -1,12 +1,14 @@
 import { useRouter } from 'next/router';
-import { FormEvent, MouseEvent, useContext, useState } from 'react';
+import { FormEvent, MouseEvent, useContext, useEffect, useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
-import { UserContext } from '../../../contexts/UserContext';
 import { FaPen, FaTrash } from 'react-icons/fa';
+
+import { useToasts } from '../../../contexts/ToastContext';
+import { UserContext } from '../../../contexts/UserContext';
 import { Adress } from '../../../models/Costumer';
 import { Endereco } from '../../../models/Endereco';
 import api from '../../../services/api';
-import { ModalExclusion, ModalLarge, ModalSmall } from '../../Modal';
+import { ModalExclusion, ModalLarge } from '../../Modal';
 import styles from './styles.module.css';
 
 interface PostalAdressCardProps {
@@ -34,20 +36,37 @@ const PostalAdressCard: React.FC<PostalAdressCardProps> = ({
   })
   const [erroCadastro, setErroCadastro] = useState([])
   const [erroCep, setErroCep] = useState<string>('')
-  const { user } = useContext(UserContext)
+
+  const [disabledAlt, setDisabledAlt] = useState<boolean>(false);
+
+  const { user } = useContext(UserContext);
+  const { add } = useToasts();
   const router = useRouter()
 
   const onChangeEndereco = (field, value) => setEndereco({ ...endereco, [field]: value })
 
   const esvaziaEndereco = () => setEndereco({ logradouro: ``, bairro: '', localidade: ``, uf: `` })
 
+  // useEffect(() => {
+  //   if (postalAdress == endereco) {
+  //     setDisabledAlt(true);
+  //   } else {
+  //     setDisabledAlt(false);
+  //   }
+  // }, [endereco])
+
   const deleteAdress = (e: MouseEvent) => {
     e.preventDefault()
 
     api.delete('Endereco/Deletar', { data: { id: postalAdress.id } })
       .then((res: any) => {
-        alert('Endereço excluido com sucesso!');
         router.reload()
+        add({
+          title: 'Endereço Excluido',
+          content: `Endereço (${endereco.titulo || postalAdress.titulo}) excluido com sucesso!`,
+          delay: 8000,
+          autohide: true,
+        });
       })
       .catch((err: string) => {
         console.log(err);
@@ -95,8 +114,13 @@ const PostalAdressCard: React.FC<PostalAdressCardProps> = ({
       estado: endereco.uf
     }).then((res) => {
       setShowModal(false)
-      alert(`Endereço (${endereco.titulo || postalAdress.titulo}) alterado com sucesso!`)
       router.reload()
+      add({
+        title: 'Endereço Excluido',
+        content: `Endereço (${endereco.titulo || postalAdress.titulo}) alterado com sucesso!`,
+        delay: 8000,
+        autohide: true,
+      });
     }).catch((err) => {
       setErroCadastro(err.response.data)
     })
@@ -199,8 +223,8 @@ const PostalAdressCard: React.FC<PostalAdressCardProps> = ({
                 return Object.values(err.constraints).map((tipoErro, key) => <p key={key} style={{ color: `red` }}>{tipoErro}</p>)
               }) : ``}
 
-              <Row className="justify-content-md-center" lg={4}>
-                <Button variant="primary" type="submit">
+              <Row className="justify-content-md-center">
+                <Button className="w-100" variant="primary" type="submit" disabled={disabledAlt}>
                   Alterar
                 </Button>
               </Row>

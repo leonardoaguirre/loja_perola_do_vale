@@ -92,16 +92,6 @@
   background-color: inherit;
 }
 
-.inputContainer input::-webkit-outer-spin-button,
-.inputContainer input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.inputContainer input[type=number] {
-  -moz-appearance: textfield;
-}
-
 .actions {
   display: flex;
   flex-direction: row;
