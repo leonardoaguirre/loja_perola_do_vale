@@ -5,5 +5,6 @@ const vendaRoutes = Router()
 const controleVenda = new ControleVenda();
 
 vendaRoutes.post("/Adicionar",controleVenda.adicionar)
+vendaRoutes.get("/ListarPorPessoa/:idPessoa",controleVenda.listarPorPessoa)
 
 export {vendaRoutes};
