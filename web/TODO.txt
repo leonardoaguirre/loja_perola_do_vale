@@ -24,3 +24,5 @@ Lista de coisas a fazer no projeto
 - criar lógica dos banners, receber imagens do backend
 
 - photoshop da imagem da logo, juntar as duas logos em uma imagem
+
+- verificar obstaculos de build do projeto

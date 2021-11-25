@@ -82,7 +82,7 @@ const InputNumber: React.FC<InputNumberProps> = ({
         ) : (
           <button id={styles.minus} onClick={() => setQuantity(quantity - 1)}><ImMinus /></button>
         ))}
-        <input type="number" value={quantity} onClick={(event) => event.target.select()} onChange={(event) => setQuantity(parseInt(event.target.value))} />
+        <input type="number" value={quantity} onClick={(event) => (event.target as HTMLInputElement).select()} onChange={(event) => setQuantity(parseInt(event.target.value))} />
         {((quantity == maxLimit) ? (
           <button id={styles.plus} disabled><ImPlus /></button>
         ) : (

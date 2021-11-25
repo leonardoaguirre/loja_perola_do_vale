@@ -8,7 +8,6 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 import Header from '../../../components/Header';
 import LoadingIcon from '../../../components/LoadingIcon';
-import { FailedToast } from '../../../components/ToastNotification';
 import { UserContext } from '../../../contexts/UserContext';
 import api from '../../../services/api';
 import styles from './styles.module.css';
