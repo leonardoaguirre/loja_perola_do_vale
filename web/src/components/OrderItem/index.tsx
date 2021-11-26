@@ -28,7 +28,7 @@ const OrderItem: React.FC<orderItemProps> = (props) => {
 									</Col>
 									<Col xs={12} sm={7}>
 										<Alert className={styles.alert} variant="primary">
-											<Alert.Heading><strong>Codigo de rastreio:</strong><p>{props.order.codRastreio == '' ? '-------------' : props.order.codRastreio}</p></Alert.Heading>
+											<Alert.Heading><strong>Codigo de rastreio:</strong><p>{props.order.codRastreio ? props.order.codRastreio : '-------------'}</p></Alert.Heading>
 										</Alert>
 									</Col>
 								</Row>

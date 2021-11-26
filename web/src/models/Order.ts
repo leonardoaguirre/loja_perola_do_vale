@@ -1,7 +1,8 @@
-import { Adress, Costumer } from "./Costumer";
-import { Product } from "./Product";
+import { Costumer } from './Costumer';
+import { PostalAdress } from './PostalAdress';
+import { Product } from './Product';
 
-export class Order{
+export class Order {
     id: string;
     status: string;
     subtotal: number;
@@ -10,7 +11,7 @@ export class Order{
     codRastreio: string;
     dtCompra: Date;
     updated_at: Date;
-    destino: Adress;
+    destino: PostalAdress;
     pessoa: Costumer;
     itensVenda: OrderItem[]
 }
