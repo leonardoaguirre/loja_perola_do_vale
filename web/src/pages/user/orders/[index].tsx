@@ -1,9 +1,12 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { Col, Container, Offcanvas, Row } from 'react-bootstrap';
+import { Button, Col, Container, Offcanvas, Row } from 'react-bootstrap';
 import { FiMenu } from 'react-icons/fi';
+import { ImDropbox } from 'react-icons/im';
+import { IoIosArrowBack } from 'react-icons/io';
 
 import AccountMenu from '../../../components/AccountMenu';
 import Footer from '../../../components/Footer';
@@ -64,14 +67,33 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
                   {props.pedidos.length > 0 ?
                     props.pedidos.map((order, i) => <OrderItem order={order} key={i} />)
                     :
-                    <h2>Você não possui pedidos de compra!</h2>
+                    <div className={styles.noOrders}>
+                      <div className={styles.content}>
+                        <ImDropbox />
+                        <div className={styles.right}>
+                          <h2>Você não possui pedidos de compra!</h2>
+                          <Link href={'/'}>
+                            <a>
+                              <Button id={styles.backToBuy} variant="primary"><IoIosArrowBack />Ir às Compras</Button>
+                            </a>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
                   }
                 </div>
               </Col>
             </Row>
-            <Row className={styles.paginator}>
-              <PaginationBar nPages={props.nPages} search={props.search} destination={'user/orders'} activePage={props.activePage} />
-            </Row>
+            {((props.pedidos.length > 0) ? (
+              <Row className={styles.paginator}>
+                <Col xs={12}>
+                  <PaginationBar nPages={props.nPages} search={props.search} destination={'user/orders'} activePage={props.activePage} />
+                </Col>
+              </Row>
+            ) : (
+              ''
+            ))}
+
           </Container>
         </div>
       </div>

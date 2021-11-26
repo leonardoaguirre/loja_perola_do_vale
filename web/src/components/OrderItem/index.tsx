@@ -1,9 +1,10 @@
-import { Accordion, Alert, Col, Container, Figure, Row } from "react-bootstrap"
-import { environment } from "../../environments/environment";
-import { Order } from "../../models/Order";
-import { Utils } from "../../shared/classes/utils";
-import styles from './styles.module.css';
 import Link from 'next/link';
+import { Accordion, Alert, Col, Container, Row } from 'react-bootstrap';
+
+import { environment } from '../../environments/environment';
+import { Order } from '../../models/Order';
+import { Utils } from '../../shared/classes/utils';
+import styles from './styles.module.css';
 
 interface orderItemProps {
 	order: Order
