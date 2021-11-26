@@ -26,6 +26,10 @@
   width: 6rem;
 }
 
+.accordionHeader > button > div:not(:first-child) {
+  color: var(--bs-gray-600);
+}
+
 .alignLeft {
   display: flex;
   flex-direction: row;
