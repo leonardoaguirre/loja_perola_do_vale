@@ -1,4 +1,4 @@
-.summary {
+/* .summary {
     width: 100%;
     height: 100%;
     min-width: 310px;
@@ -8,117 +8,186 @@
 
 .summary hr {
     margin: 0.2rem 0 1rem 0;
+} */
+
+.accordionHeader > button {
+  background-color: var(--bs-white);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.item {
-    border-left: 4px solid var(--primary);
-    padding: 0 0 0 4px;
+.accordionHeader > button::after {
+  margin-left: 0;
+}
+
+.accordionHeader > button > div {
+  width: 6rem;
+}
+
+.alignLeft {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.accordionBody {
+  background-color: var(--bs-white);
+}
+
+.alert {
+  display: flex;
+  flex-direction: column;
+}
+
+.alert > div {
+  font-size: 1rem;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+
+.alert > div strong {
+  margin-right: 0.5rem;
+}
+
+.alert > div p {
+  margin: 0;
 }
 
 .list {
-    min-width: 257px;
-    padding: 4px 8px;
-    overflow-y: auto;
-    max-height: 206px;
-    margin-bottom: 0.3rem;
+  padding: 4px 12px; 
+  overflow-y: auto;
+  max-height: 32rem;
+  margin-bottom: 0.5rem;
 }
 
 .list::-webkit-scrollbar {
-    width: 6px;
+  width: 6px;
 }
-
 
 /* Track */
-
 .list::-webkit-scrollbar-track {
-    background: #f1f1f1;
+  background: #f1f1f1; 
 }
-
-
+ 
 /* Handle */
-
 .list::-webkit-scrollbar-thumb {
-    background: rgb(178, 178, 178);
+  background: rgb(178, 178, 178); 
 }
-
 
 /* Handle on hover */
-
 .list::-webkit-scrollbar-thumb:hover {
-    background: rgb(142, 142, 142);
+  background: rgb(142, 142, 142); 
+}
+
+.imgContainer {
+  width: 100%;
+  height: 100%;
+  max-width: 5rem;
+  max-height: 5rem;
+  min-width: 5rem;
+  min-height: 5rem;
+  margin: 0.5rem;
+  box-shadow: 4px 4px 10px 3px rgba(0, 0, 0, 0.03);
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.imgContainer a {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.imgContainer img {
+  max-width: 100%;
+  max-height: 100%;
+  padding: 0.5rem;
+  object-fit: cover;
+}
+
+.itemContainer {
+  padding: 0 0.7rem 0 0;
+}
+
+.infoContainer {
+  padding: 0;
+  height: 100%;
+}
+
+.rowContainer {
+  padding: 0;
+  height: 100%;
 }
 
 .item {
-    /* background-color: white; */
-    display: grid;
-    grid-template-columns: minmax(140px, 2fr) minmax(min-content, min-content) minmax(min-content, 0.5fr);
-    margin: 1.6rem 0;
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--primary);
+  box-shadow: 6px 2px 20px -8px rgba(0, 0, 0, 0.38);
 }
 
-.summary .item:first-child {
-    margin-top: 0;
+.item .imgContainer,
+.item .prodSub {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
-.summary .item:last-child {
-    margin-bottom: 0rem;
+.item .qtdPrice {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.name {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    /* número de linhas à mostrar */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.qtdPrice .qtd {
+  margin-bottom: 0.2rem;
+  /* text-align: center; */
 }
 
-.center {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;
+.item .name {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-self: flex-start;
 }
 
-.name {
-    font-size: 1rem;
-    color: var(--gray);
-}
-
-.qtd {
-    color: var(--gray);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-width: 50px;
-}
-
-.price {
-    color: var(--gray);
-    font-size: 1rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-}
-
-.priceTotal {
-    color: black;
-    font-size: 1.3rem;
+.name p {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* número de linhas à mostrar */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
 }
 
 .sub,
 .frete {
-    font-size: 1rem;
-    color: var(--gray);
+  font-size: 1rem;
+  color: var(--gray);
 }
 
 .total {
-    font-size: 1.1rem;
+  font-size: 1.1rem;
 }
 
 .spaceBetween {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }

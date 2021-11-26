@@ -47,6 +47,7 @@ h1, h2, h3, h4, h5, h6, strong {
 .pageContent {
   width: 95%;
   max-width: 1280px;
+  min-height: calc(100vh - 19rem);
   margin: 0 auto;
   padding: 1rem 0;
 }
@@ -126,5 +127,9 @@ h1, h2, h3, h4, h5, h6, strong {
 @media (max-width: 767px) {
   :root {
     font-size: 60%;
+  }
+
+  .pageContent {
+    min-height: calc(100vh - 30rem);
   }
 }
