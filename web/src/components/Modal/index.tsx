@@ -50,22 +50,22 @@ const ModalSmall = (props) => {
     )
 }
 const ModalExclusion = (props) => {
+    const { objN, onConfirm, ...rest } = props
     return (
         <>
             <Modal
-                {...props}
+                {...rest}
                 size="sm"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
             >
                 <Modal.Header>
                     <Modal.Title id="contained-modal-title-vcenter">
-                        <h4>Excluir {props.objectName}</h4>
+                        {props.children ? props.children : <h4>Excluir {props.objN}</h4>}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Você realmente deseja excluir este(a) {props.objectName}?
-                    {props.children}
+                    {props.children ? props.children : `Você realmente deseja excluir este(a) ${props.objN}?`}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={(e) => props.onConfirm(e)} variant='primary'>Sim</Button>

@@ -139,7 +139,7 @@ const TelephoneCard: React.FC<TelephoneCardProps> = (props) => {
         }
         {showDeleteModal ?
           <ModalExclusion
-            objectName='Telefone'
+            objN='Telefone'
             show={showDeleteModal}
             onConfirm={(e) => deleteTelephone(e)}
             onHide={() => setShowDeleteModal(false)}
