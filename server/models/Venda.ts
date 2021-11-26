@@ -1,5 +1,5 @@
-import { IsDecimal, IsNumberString, Length, Matches, } from "class-validator";
-import { Column, CreateDateColumn, Entity, Generated, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { IsDecimal, IsNumberString, Length, Matches } from "class-validator";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Endereco } from "./Endereco";
 import { Pessoa } from "./Pessoa";
 import { Produto } from "./Produto";
@@ -15,7 +15,7 @@ enum Status {
 @Entity("venda")
 class Venda {
     @PrimaryGeneratedColumn("increment")
-    id: string;
+    id: number;
 
     @Column({ type: 'enum', enum: Status, default: Status.COMPRA_APROVADA })
     status: Status
@@ -32,8 +32,8 @@ class Venda {
     @Column({ nullable: false, type: 'decimal', precision: 5, scale: 2 })
     valorTotal: number;
 
-    // @Matches(/^[A-Z]{2}[1-9]{9}[A-Z]{2}$/, { message: 'Codigo de rastreio invalido!' })
-    @Length(0, 13, { message: "A codigo de rastreio deve ter 13 caracteres" })
+    @Matches(/^[A-Z]{2}[1-9]{9}[A-Z]{2}$/, { message: 'Codigo de rastreio invalido! O formato correto é: SL123456789BR', groups: ['codRastreio'] })
+    @Length(13, 13, { message: "A codigo de rastreio deve ter 13 caracteres", groups: ['codRastreio'] })
     @Column({ length: 13, nullable: true })
     codRastreio: string;
 
@@ -51,7 +51,7 @@ class Venda {
     @JoinColumn({ name: "id_endereco_fk", referencedColumnName: 'id' })
     destino: Endereco;
 
-    @ManyToOne(() => Pessoa, pessoa => pessoa.enderecos, { onDelete: "NO ACTION", onUpdate: "NO ACTION" , eager : false})
+    @ManyToOne(() => Pessoa, pessoa => pessoa.enderecos, { onDelete: "NO ACTION", onUpdate: "NO ACTION", eager: false })
     @JoinColumn({ name: "id_pessoa_fk", referencedColumnName: "id" })
     pessoa: Pessoa;
 
@@ -64,7 +64,7 @@ class ItemVenda {
     @PrimaryGeneratedColumn('uuid')
     id?: string;
 
-    @ManyToOne(() => Produto, produto => produto.id, { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' , eager :true})
+    @ManyToOne(() => Produto, produto => produto.id, { onDelete: 'NO ACTION', onUpdate: 'NO ACTION', eager: true })
     @JoinColumn({ name: "id_produto_fk", referencedColumnName: "id" })
     produto: Produto
 

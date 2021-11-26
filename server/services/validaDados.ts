@@ -8,3 +8,14 @@ export const validar = (obj) => {
     }
 
 }
+export const validarComGrupos = (obj, groups: string[]) => {
+    try {
+        return validateOrReject(obj, {
+            validationError: { target: false },
+            groups
+        })
+    } catch (error) {
+        throw error
+    }
+
+}
