@@ -46,7 +46,7 @@ const OrderResume: React.FC<OrderResumeProps> = (props) => {
           </span>
         </div>
         <div className={styles.spaceBetween}>
-        <strong><label className={styles.frete}>Frete</label></strong>
+          <strong><label className={styles.frete}>Frete</label></strong>
           <span className={styles.price}>
             <span>R$</span>
             {Utils.formatMoney(frete)}
@@ -54,7 +54,7 @@ const OrderResume: React.FC<OrderResumeProps> = (props) => {
         </div>
         <hr />
         <div className={styles.spaceBetween}>
-        <strong><label className={styles.total}>Total</label></strong>
+          <strong><label className={styles.total}>Total</label></strong>
           <span className={styles.priceTotal}>
             <span>R$</span>
             {Utils.formatMoney(subtotal + frete)}
