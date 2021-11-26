@@ -1,0 +1,124 @@
+.summary {
+    width: 100%;
+    height: 100%;
+    min-width: 310px;
+    padding: 1.5rem 2rem;
+    background-color: white;
+}
+
+.summary hr {
+    margin: 0.2rem 0 1rem 0;
+}
+
+.item {
+    border-left: 4px solid var(--primary);
+    padding: 0 0 0 4px;
+}
+
+.list {
+    min-width: 257px;
+    padding: 4px 8px;
+    overflow-y: auto;
+    max-height: 206px;
+    margin-bottom: 0.3rem;
+}
+
+.list::-webkit-scrollbar {
+    width: 6px;
+}
+
+
+/* Track */
+
+.list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+
+/* Handle */
+
+.list::-webkit-scrollbar-thumb {
+    background: rgb(178, 178, 178);
+}
+
+
+/* Handle on hover */
+
+.list::-webkit-scrollbar-thumb:hover {
+    background: rgb(142, 142, 142);
+}
+
+.item {
+    /* background-color: white; */
+    display: grid;
+    grid-template-columns: minmax(140px, 2fr) minmax(min-content, min-content) minmax(min-content, 0.5fr);
+    margin: 1.6rem 0;
+}
+
+.summary .item:first-child {
+    margin-top: 0;
+}
+
+.summary .item:last-child {
+    margin-bottom: 0rem;
+}
+
+.name {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* número de linhas à mostrar */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.center {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.name {
+    font-size: 1rem;
+    color: var(--gray);
+}
+
+.qtd {
+    color: var(--gray);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 50px;
+}
+
+.price {
+    color: var(--gray);
+    font-size: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.priceTotal {
+    color: black;
+    font-size: 1.3rem;
+}
+
+.sub,
+.frete {
+    font-size: 1rem;
+    color: var(--gray);
+}
+
+.total {
+    font-size: 1.1rem;
+}
+
+.spaceBetween {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}

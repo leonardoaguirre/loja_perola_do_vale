@@ -8,10 +8,11 @@ import { ControlePessoa } from './ControlePessoa';
 import moment from 'moment';
 import { AppError } from '../errors/AppError';
 import { ControleEstoque } from './ControleEstoque';
+import { validar, validarComGrupos } from '../services/validaDados';
 
 class ControleVenda {
     async adicionar(request: Request, response: Response) {
-        const { valorFrete, idPessoa } = request.body
+        const { valorFrete, idPessoa} = request.body
         const formaPagamento: FormaPagamento = request.body.formaPagamento
         const destino: Endereco = request.body.destino
         const produtos: Produto[] = request.body.produtos
@@ -40,13 +41,10 @@ class ControleVenda {
                     ),
                     destino,
                     pessoa: pessoaExiste,
-                    codRastreio: '',
+                    codRastreio: null,
                 })
 
-                const erros = await vendaRepository.validaDados(venda)
-                if (erros.length > 0) {
-                    throw erros
-                }
+                await validarComGrupos(venda, [''])
 
                 const vendaSalva = await manager.save(venda)
 
@@ -79,7 +77,6 @@ class ControleVenda {
         } catch (error) {
             return response.status(400).json(error)
         }
-
     }
 
     async cancelar(request: Request, response: Response) {
@@ -98,11 +95,11 @@ class ControleVenda {
                     await manager.save(vendaExiste)
                         .catch((error) => { throw error })
 
-                    const controleEstoque = new ControleEstoque()
-                    vendaExiste.itensVenda.map(async item => {
-                        const estoque = await controleEstoque.buscaEstoque(item.produto)
-                        controleEstoque.adicionaAoEstoque(estoque, manager, item.quantidade)
-                    })
+                    // const controleEstoque = new ControleEstoque()
+                    // vendaExiste.itensVenda.map(async item => {
+                    //     const estoque = await controleEstoque.buscaEstoque(item.produto)
+                    //     await controleEstoque.adicionaAoEstoque(estoque, manager, item.quantidade)
+                    // })
                 } else {
                     throw new AppError('Não é possivel cancelar, o pedido ja foi enviado!', 'venda')
                 }
@@ -116,19 +113,17 @@ class ControleVenda {
 
     async adicionarCodRastreio(request: Request, response: Response) {
         const vendaRepo = getCustomRepository(VendaRepository)
-        const idVenda = request.params.idVenda;
-        const codRastreio = request.body.codRastreio;
+        const { idVenda, codRastreio } = request.body;
 
         try {
             const vendaExiste = await vendaRepo.findOne(idVenda)
 
             if (!vendaExiste) throw new AppError('Venda não existe', 'venda')
 
-            if (vendaExiste.status == Status.COMPRA_APROVADA) {
+            if (vendaExiste.status == Status.COMPRA_APROVADA || vendaExiste.status == Status.PEDIDO_ENVIADO) {
                 vendaExiste.codRastreio = codRastreio
 
-                const erros = await vendaRepo.validaDados(vendaExiste)
-                if (erros.length > 0) throw erros
+                await validarComGrupos(vendaExiste, ['codRastreio'])
 
                 vendaExiste.status = Status.PEDIDO_ENVIADO
 
@@ -159,6 +154,31 @@ class ControleVenda {
             })
     }
 
+    async listarVendas(request: Request, response: Response) {
+        const vendaRepo = getCustomRepository(VendaRepository)
+        const query = request.query.pagina
+        const pagina = query ? parseInt(query.toString()) : 1
+        const itensPorPagina: number = 5
+
+        try {
+            vendaRepo.listarVendasPrioritarias(pagina, itensPorPagina)
+                .then((vendas) => {
+                    if (vendas[0].length > 0) {
+                        vendas[1] = Math.ceil(vendas[1] / itensPorPagina);
+                        const data = {
+                            vendas: vendas[0],
+                            nPages: vendas[1]
+                        }
+                        return response.status(200).json(data)
+                    } else {
+                        throw new AppError('Nenhum pedido encontrado', 'pedido')
+                    }
+                }).catch(err => { return response.status(400).json(err) })
+        } catch (error) {
+            return response.status(400).json(error)
+        }
+    }
+
     async listarPorPessoa(request: Request, response: Response) {
         const vendaRepo = getCustomRepository(VendaRepository)
         const { idPessoa } = request.params
@@ -169,7 +189,7 @@ class ControleVenda {
         try {
             vendaRepo.buscaPorId(idPessoa, pagina, itensPorPagina)
                 .then((vendas) => {
-                    if (vendas.length > 0) {
+                    if (vendas[0].length > 0) {
                         vendas[1] = Math.ceil(vendas[1] / itensPorPagina);
                         const data = {
                             vendas: vendas[0],

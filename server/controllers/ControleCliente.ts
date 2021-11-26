@@ -57,6 +57,7 @@ class ControleCliente {
         const controlePessoa = new ControlePessoa();
         const controlePessoaFisica = new ControlePessoaFisica();
         const id = request.params.idCliente;
+        const { apelido } = request.body
 
         try {
             const clienteExiste = await clienteRepository.findOne(id);
@@ -66,6 +67,7 @@ class ControleCliente {
             await getManager().transaction(async transactionalEntityManager => {
                 //await controlePessoa.alterar(request, response, clienteExiste, transactionalEntityManager);
                 await controlePessoaFisica.alterar(request, response, clienteExiste, transactionalEntityManager);
+
             });
             return response.status(200).json({ message: "Usuario alterado com sucesso" });
         } catch (error) {
@@ -80,9 +82,9 @@ class ControleCliente {
             const existe = await clienteRepository.findOne({ id: id });
             if (existe) {
                 // await clienteRepository.delete({ pessoaFisica: { pessoa: { id: existe.pessoaFisica.pessoa.id } } });
-                const controlePessoa =  new ControlePessoa();
+                const controlePessoa = new ControlePessoa();
                 controlePessoa.deletar(existe.pessoaFisica.pessoa.id);
-                
+
                 return response.status(200).json({ message: 'O cliente foi deletado com sucesso' });
             } else {
                 throw new AppError('Cliente a ser deletado nao foi encontrado', 'cliente');
@@ -137,15 +139,16 @@ class ControleCliente {
                 if (res == true) {
                     const token = jwt.sign({ id: clienteExiste.id }, process.env.SECRET_KEY, { expiresIn: '7d' });
 
-                    return response.status(200).json({ 
-                        message: "Usuario logado com sucesso!", 
-                        token, 
-                        pessoa: { 
-                            id: clienteExiste.id, 
-                            idPessoa: clienteExiste.pessoaFisica.pessoa.id, 
-                            nome: clienteExiste.pessoaFisica.nome, 
-                            email: clienteExiste.pessoaFisica.pessoa.email 
-                        }});
+                    return response.status(200).json({
+                        message: "Usuario logado com sucesso!",
+                        token,
+                        pessoa: {
+                            id: clienteExiste.id,
+                            idPessoa: clienteExiste.pessoaFisica.pessoa.id,
+                            nome: clienteExiste.pessoaFisica.nome,
+                            email: clienteExiste.pessoaFisica.pessoa.email
+                        }
+                    });
                 } else {
                     throw new AppError("Email ou senha inválidos", "login");
                 }

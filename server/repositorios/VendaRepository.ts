@@ -1,7 +1,7 @@
 import { validate } from "class-validator";
 import { EntityRepository, getCustomRepository, Repository } from "typeorm";
 import { Produto } from "../models/Produto";
-import { ItemVenda, Venda } from "../models/Venda";
+import { ItemVenda, Status, Venda } from "../models/Venda";
 import { ProdutoRepository } from "./ProdutoRepository";
 
 @EntityRepository(Venda)
@@ -48,6 +48,15 @@ class VendaRepository extends Repository<Venda>{
         }
 
         return parseFloat(subtotal.toFixed(2))
+    }
+
+    async listarVendasPrioritarias(pag : number, itensPorPag : number) {
+        return this.findAndCount({
+            order: { dtCompra: 'ASC' },
+            where: { status: Status.COMPRA_APROVADA },
+            skip: (pag - 1) * itensPorPag,
+            take: itensPorPag
+        })
     }
 }
 export { VendaRepository }

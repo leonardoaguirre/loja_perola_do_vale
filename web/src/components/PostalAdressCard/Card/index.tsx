@@ -234,7 +234,7 @@ const PostalAdressCard: React.FC<PostalAdressCardProps> = ({
         }
         {showDeleteModal ?
           <ModalExclusion
-            objectName='Endereço'
+            objN='Endereço'
             show={showDeleteModal}
             onConfirm={(e) => deleteAdress(e)}
             onHide={() => setShowDeleteModal(false)}
