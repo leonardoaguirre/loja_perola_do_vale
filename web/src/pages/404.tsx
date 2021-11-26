@@ -1,12 +1,12 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import { Button } from 'react-bootstrap';
 import { FaRegSadCry } from 'react-icons/fa';
+import { IoIosArrowBack } from 'react-icons/io';
 
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import styles from './404.module.css';
-import { Button } from 'react-bootstrap';
-import { IoIosArrowBack } from 'react-icons/io';
 
 function Error404() {
   return (

@@ -16,7 +16,7 @@ const OrderItem: React.FC<orderItemProps> = (props) => {
 		<div>
 			<Accordion>
 				<Accordion.Item eventKey="0">
-					<Accordion.Header className={styles.accordionHeader}><div>Pedido #{props.order.id}</div><div>{props.order.itensVenda.length} Produto(s)</div><div className={styles.alignLeft}>{Utils.formatMoney(props.order.valorTotal)}</div></Accordion.Header>
+					<Accordion.Header className={styles.accordionHeader}><div>Pedido #{props.order.id}</div><div>{props.order.itensVenda.length} Produto(s)</div><div className={styles.alignLeft}><span>R$</span>{Utils.formatMoney(props.order.valorTotal)}</div></Accordion.Header>
 					<Accordion.Body className={styles.accordionBody}>
 						<div className={styles.summary}>
 							<Container fluid>
