@@ -180,7 +180,7 @@ const SaleResume: React.FC<orderItemProps> = (props) => {
             <Button
               id={styles.cancel}
               className="w-100"
-              variant="danger"
+              variant="outline-danger"
               onClick={() => setShowCancelModal(true)}
             >
               <MdCancel />
