@@ -72,6 +72,11 @@
   justify-content: center;
 }
 
+.currentTitle {
+  font-weight: 700;
+  color: var(--bs-gray-800);
+}
+
 .nextStep {
   width: 44px;
   height: 44px;
@@ -94,8 +99,8 @@
 .step svg,
 .currentStep svg,
 .nextStep svg {
-  width: 40px;
-  height: 40px;
+  width: 3rem;
+  height: 3rem;
 }
 
 .navLink:hover {
@@ -115,4 +120,49 @@
   display: flex;
   flex-direction: row;
   align-items: flex-end;
+}
+
+#all {
+  display: auto;
+}
+
+#one {
+  display: none;
+}
+
+@media (max-width: 575px) {
+  #all {
+    display: none;
+  }
+
+  #one {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+    top: -1.3rem;
+  }
+
+  #one strong {
+    font-size: 1.2rem;
+    color: var(--bs-gray-700);
+    position: relative;
+    bottom: -1rem;
+  }
+
+  #one svg {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .currentTitle {
+    font-size: 1.4rem;
+  }
+
+  .navLinkContent {
+    display: flex;
+    flex-direction: row;
+  }
 }
