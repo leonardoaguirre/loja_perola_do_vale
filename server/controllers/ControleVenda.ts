@@ -12,7 +12,7 @@ import { validar, validarComGrupos } from '../services/validaDados';
 
 class ControleVenda {
     async adicionar(request: Request, response: Response) {
-        const { valorFrete, idPessoa} = request.body
+        const { valorFrete, idPessoa } = request.body
         const formaPagamento: FormaPagamento = request.body.formaPagamento
         const destino: Endereco = request.body.destino
         const produtos: Produto[] = request.body.produtos
@@ -158,7 +158,7 @@ class ControleVenda {
         const vendaRepo = getCustomRepository(VendaRepository)
         const query = request.query.pagina
         const pagina = query ? parseInt(query.toString()) : 1
-        const itensPorPagina: number = 5
+        const itensPorPagina: number = 3
 
         try {
             vendaRepo.listarVendasPrioritarias(pagina, itensPorPagina)
@@ -206,6 +206,23 @@ class ControleVenda {
         }
     }
 
+    async pesquisarVendas(request: Request, response: Response) {
+        const vendaRepo = getCustomRepository(VendaRepository)
+        const { pesquisa, atributo } = request.params
+
+        try {
+            await vendaRepo.pesquisar(pesquisa, atributo)
+                .then(res => {
+                    if (res.length > 0) {
+                        return response.status(200).json(res)
+                    } else {
+                        throw new AppError('Nenhuma venda encontrada', 'venda')
+                    }
+                }).catch(err => { return response.status(400).json(err) })
+        } catch (error) {
+            return response.status(400).json(error)
+        }
+    }
     // async buscarPorId(request: Request, response: Response) {
     //     const id = request.params.idVenda;
     //     const vendaRepo = getCustomRepository(VendaRepository);

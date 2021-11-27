@@ -1,5 +1,7 @@
 import { validate } from "class-validator";
-import { EntityRepository, getCustomRepository, Repository } from "typeorm";
+import moment from "moment";
+import { EntityRepository, getCustomRepository, Like, Repository } from "typeorm";
+import { AppError } from "../errors/AppError";
 import { Produto } from "../models/Produto";
 import { ItemVenda, Status, Venda } from "../models/Venda";
 import { ProdutoRepository } from "./ProdutoRepository";
@@ -17,12 +19,35 @@ class VendaRepository extends Repository<Venda>{
             take: itensPorPag
         })
     }
-    async buscaAPartirDe(dataIni: Date) {
-
+    async pesquisar(pesquisa: string, atributo: string) {
+        if (atributo === "id") {
+            return this.find({ where: { id: parseInt(pesquisa) } })
+        }
+        else if (atributo === "dtCompra") {
+            return this.createQueryBuilder("venda")
+                .leftJoinAndSelect("venda.pessoa", "pessoa")
+                .leftJoinAndSelect("venda.itensVenda", "itemvenda")
+                .leftJoinAndSelect("venda.destino", "endereco")
+                .leftJoinAndSelect("itemvenda.produto", "produto")
+                .leftJoinAndSelect("produto.imagens", "imagem")
+                .where("DATE(dtCompra) = :dt", { dt: `${moment(pesquisa,`DD-MM-YYYY`).format(`YYYY-MM-DD`)}` })
+                .getMany();
+        }
+        else if (atributo === "email") {
+            return this.createQueryBuilder("venda")
+                .leftJoinAndSelect("venda.pessoa", "pessoa")
+                .leftJoinAndSelect("venda.itensVenda", "itemvenda")
+                .leftJoinAndSelect("venda.destino", "endereco")
+                .leftJoinAndSelect("itemvenda.produto", "produto")
+                .leftJoinAndSelect("produto.imagens", "imagem")
+                .where("pessoa.email=:email", { email: `${pesquisa}` })
+                .getMany();
+        }
+        else {
+            throw new AppError('Filtro invalido', 'filtro')
+        }
     }
-    async buscaEntreDatas(dataIni: Date, dataFim: Date) {
 
-    }
     async calculaTotaisItens(produtos: Produto[]) {
         const prodRepo = getCustomRepository(ProdutoRepository)
         let itensVenda: ItemVenda[] = []
@@ -50,8 +75,9 @@ class VendaRepository extends Repository<Venda>{
         return parseFloat(subtotal.toFixed(2))
     }
 
-    async listarVendasPrioritarias(pag : number, itensPorPag : number) {
+    async listarVendasPrioritarias(pag: number, itensPorPag: number) {
         return this.findAndCount({
+            relations: ['destino'],
             order: { dtCompra: 'ASC' },
             where: { status: Status.COMPRA_APROVADA },
             skip: (pag - 1) * itensPorPag,

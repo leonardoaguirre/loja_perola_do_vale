@@ -51,7 +51,7 @@ class Venda {
     @JoinColumn({ name: "id_endereco_fk", referencedColumnName: 'id' })
     destino: Endereco;
 
-    @ManyToOne(() => Pessoa, pessoa => pessoa.enderecos, { onDelete: "NO ACTION", onUpdate: "NO ACTION", eager: false })
+    @ManyToOne(() => Pessoa, pessoa => pessoa.enderecos, { onDelete: "NO ACTION", onUpdate: "NO ACTION", })
     @JoinColumn({ name: "id_pessoa_fk", referencedColumnName: "id" })
     pessoa: Pessoa;
 
