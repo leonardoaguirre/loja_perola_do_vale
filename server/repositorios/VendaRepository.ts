@@ -30,7 +30,7 @@ class VendaRepository extends Repository<Venda>{
                 .leftJoinAndSelect("venda.destino", "endereco")
                 .leftJoinAndSelect("itemvenda.produto", "produto")
                 .leftJoinAndSelect("produto.imagens", "imagem")
-                .where("DATE(dtCompra) = :dt", { dt: `${moment(pesquisa,`DD-MM-YYYY`).format(`YYYY-MM-DD`)}` })
+                .where("DATE(dtCompra) = :dt", { dt: `${moment(pesquisa.replace('/','-'),`DD-MM-YYYY`).format(`YYYY-MM-DD`)}` })
                 .getMany();
         }
         else if (atributo === "email") {
