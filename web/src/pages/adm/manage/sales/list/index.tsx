@@ -42,7 +42,7 @@ const ListSales: React.FC<ListSaleProps> = (props) => {
 
     const handleSearch = (searchStr: string, atribute: string) => {
 
-        api.get(`Venda/Pesquisar/${atribute}/${searchStr}`)
+        api.get(`Venda/Pesquisar?atributo=${atribute}&pesquisa=${searchStr}`)
             .then((res) => {
                 setSearchData(res.data)
                 setError(``)

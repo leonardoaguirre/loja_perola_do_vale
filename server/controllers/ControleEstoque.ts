@@ -27,10 +27,7 @@ class ControleEstoque {
                 const estoque = await estoqueRepo.verificaEstoque(prod, manager)
 
                 const lote = await controleLote.adiciona(request, estoque, fornecedor, manager)
-
-                await validar(estoque)
-                await manager.save(estoque)
-
+                
                 await estoqueRepo.adicionaAoEstoque(estoque, manager, lote.quantidade)
             })
 
@@ -93,10 +90,10 @@ class ControleEstoque {
 
     async buscaEstoque(prod: Produto) {
         const estoqueRepo = getCustomRepository(EstoqueRepository);
-        
+
         try {
             const estoque = await estoqueRepo.findOne({ where: { produto: prod } })
-            
+
             if (!estoque) {
                 throw new AppError(`Estoque não encontrado para o produto ${prod.nome}`, 'estoque');
             }
@@ -115,9 +112,26 @@ class ControleEstoque {
                 if (all.length > 0) {
                     return response.status(200).json(all);
                 } else {
-                    return response.status(400).json(new AppError('Nenhuma venda encontrada', 'venda'));
+                    return response.status(400).json(new AppError('Nenhum estoque encontrado', 'estoque'));
                 }
             })
+    }
+    async procurarEstoque(request: Request, response: Response) {
+        const estoqueRepo = getCustomRepository(EstoqueRepository)
+        const { idProd } = request.params
+
+        try {
+            estoqueRepo.findOne({ where: { produto: { id: idProd } } })
+                .then(res => {
+                    if (res) {
+                        return response.status(200).json(res);
+                    } else {
+                        return response.status(400).json(new AppError('Nenhum estoque encontrado', 'estoque'));
+                    }
+                })
+        } catch (error) {
+            return response.status(400).json(error)
+        }
     }
 
     async removerLote(request: Request, response: Response) {
@@ -127,9 +141,8 @@ class ControleEstoque {
         try {
             await getManager().transaction(async manager => {
                 const lote = await controleLote.deleta(request, manager)
-                console.log(lote);
-
-                estoqueRepo.retiraDoEstoque(lote.estoque, manager, lote.quantidade)
+                
+                await estoqueRepo.retiraDoEstoque(lote.estoque, manager, lote.quantidade)
             })
 
             return response.status(200).json('Lote removido com sucesso')

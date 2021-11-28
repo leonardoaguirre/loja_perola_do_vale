@@ -208,10 +208,11 @@ class ControleVenda {
 
     async pesquisarVendas(request: Request, response: Response) {
         const vendaRepo = getCustomRepository(VendaRepository)
-        const { pesquisa, atributo } = request.params
-
+        const atributo  = request.query.atributo
+        const pesquisa  = request.query.pesquisa
+        
         try {
-            await vendaRepo.pesquisar(pesquisa, atributo)
+            await vendaRepo.pesquisar(pesquisa.toString(), atributo.toString())
                 .then(res => {
                     if (res.length > 0) {
                         return response.status(200).json(res)

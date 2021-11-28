@@ -8,7 +8,7 @@ vendaRoutes.post("/Adicionar", controleVenda.adicionar)
 vendaRoutes.patch("/AdicionarCodRastreio", controleVenda.adicionarCodRastreio)
 vendaRoutes.get("/ListarPorPessoa/:idPessoa", controleVenda.listarPorPessoa)
 vendaRoutes.get("/ListarVendas", controleVenda.listarVendas)
-vendaRoutes.get("/Pesquisar/:atributo/:pesquisa", controleVenda.pesquisarVendas)
+vendaRoutes.get("/Pesquisar", controleVenda.pesquisarVendas)
 vendaRoutes.delete("/Cancelar/:idVenda", controleVenda.cancelar)
 
 export { vendaRoutes };

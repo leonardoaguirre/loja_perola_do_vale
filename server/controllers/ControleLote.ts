@@ -8,17 +8,16 @@ import { validar } from '../services/validaDados'
 
 class ControleLote {
     async adiciona(request: Request, estoque: Estoque, fornecedor: Fornecedor, manager: EntityManager) {
-        const { quantidade, dtCompra } = request.body
-        const loteRepo = getRepository(Lote)
+        const { quantidade, dtCompra} = request.body
 
         try {
-            const lote = loteRepo.create({
-                dtCompra: new Date(dtCompra),
+            const lote = manager.create(Lote,{
+                dtCompra: new Date(String(dtCompra).replace('-','/')),
+                quantidade,
                 estoque,
                 fornecedor,
-                quantidade,
             })
-
+            
             await validar(lote)
 
             return await manager.save(lote)
@@ -45,8 +44,8 @@ class ControleLote {
         const lote = await loteRepo.findOne({ where: { id: idLote } })
 
         manager.merge(Lote, lote, {
-            quantidade ,
-            dtCompra : new Date(dtCompra),
+            quantidade,
+            dtCompra: new Date(dtCompra),
             fornecedor: { id: idFornecedor },
             estoque: { id: idEstoque }
         })

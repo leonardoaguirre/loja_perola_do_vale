@@ -8,7 +8,7 @@ class Estoque {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @OneToMany(() => Lote, lote => lote.estoque, /*{ cascade: }*/)
+    @OneToMany(() => Lote, lote => lote.estoque, { eager: true } /*{ cascade: }*/)
     lotes: Lote[]
 
     // @IsNumberString({}, { message: 'Quantidade disponivel em estoque invalida' })
@@ -45,7 +45,7 @@ class Lote {
     @CreateDateColumn()
     created_at: Date
 
-    @ManyToOne(() => Fornecedor, fornecedor => fornecedor.id, { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' })
+    @ManyToOne(() => Fornecedor, fornecedor => fornecedor.id, { onDelete: 'NO ACTION', onUpdate: 'NO ACTION', eager: true })
     @JoinColumn({ name: 'id_fornecedor_fk', referencedColumnName: 'id' })
     fornecedor: Fornecedor
 
