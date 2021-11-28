@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 
@@ -24,9 +25,12 @@ const FavoriteItem: React.FC<FavoriteItemProps> = (props) => {
             <div className={styles.main}>
               <div className={styles.image}>
                 <div className={styles.imgContainer}>
-                  <figure>
-                    <img src={`${environment.API}/${props.favorite.produto.imagens[0].path}`} alt={props.favorite.produto.nome} title={props.favorite.produto.nome} loading="lazy" />
-                  </figure>
+                  <Link href={`/products/info/${props.favorite.produto.id}`}>
+                    <a>
+                      <img src={`${environment.API}/${props.favorite.produto.imagens[0].path}`}
+                        alt={props.favorite.produto.imagens[0].path} title={props.favorite.produto.imagens[0].path} />
+                    </a>
+                  </Link>
                 </div>
               </div>
               <div className={styles.mainContent}>
@@ -57,7 +61,7 @@ const FavoriteItem: React.FC<FavoriteItemProps> = (props) => {
               </div>
             </div>
           </Col>
-          <Col xs={4} sm={3}>
+          <Col xs={12} sm={3}>
             <div className={styles.aside}>
               <p>Adicionado em <span>
                 {new Date(props.favorite.created_at).toLocaleDateString("pt-br", {
