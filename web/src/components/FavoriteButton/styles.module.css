@@ -5,18 +5,22 @@
 }
 
 .favoriteButton button {
-	border: 1px solid #b1b1b1;
+  border: 1px solid #b1b1b1;
   color: #b1b1b1;
-	display: flex;
-	align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .favoriteButton button:hover {
-	background-color: inherit;
+  background-color: inherit;
+}
+
+.favoriteButton button:disabled {
+  color: var(--bs-gray-500);
 }
 
 .favoriteButton svg {
-	height: 2rem;
-	width: 2rem;
-	margin-right: 0.2rem;
+  height: 2rem;
+  width: 2rem;
+  margin-right: 0.2rem;
 }
