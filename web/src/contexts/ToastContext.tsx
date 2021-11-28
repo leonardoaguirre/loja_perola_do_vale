@@ -30,7 +30,6 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
 
   useEffect(() => {
     const toastNotification: Toaste[] = Cookies.getJSON('toasts');
-    console.log(toastNotification);
 
     if (toastNotification) {
       setToasts(toastNotification);
@@ -81,7 +80,7 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
           >
             <Toast.Header>
               {toast.img}
-              <strong className="me-auto">{toast.title}{console.log(toast)}</strong>
+              <strong className="me-auto">{toast.title}</strong>
               <small>{toast.time}</small>
             </Toast.Header>
             <Toast.Body>{toast.content}</Toast.Body>
