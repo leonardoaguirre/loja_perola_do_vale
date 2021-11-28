@@ -1,10 +1,12 @@
-import { useState } from 'react';
-import Link from 'next/link';
+import { MouseEvent, useState } from 'react';
 import { Product } from '../../models/Product';
 import styles from './styles.module.css';
 import api from '../../services/api';
 import { useRouter } from 'next/router';
 import { environment } from '../../environments/environment';
+import StockResume from '../StockResume';
+import { ModalExclusion } from '../Modal';
+import { useToasts } from '../../contexts/ToastContext';
 
 interface ProductTableProps {
   products: Product[];
@@ -13,8 +15,11 @@ interface ProductTableProps {
 const ProductTable: React.FC<ProductTableProps> = (props) => {
 
   const router = useRouter();
+  const { add } = useToasts()
 
   const [lineSelected, setLineSelected] = useState(null);
+  const [showExclusionModal, setShowExclusionModal] = useState<boolean>(false)
+  const [showStockModal, setShowStockModal] = useState<boolean>(false)
 
   const selecionaLinha = async (event) => {
     const linha: HTMLElement = event.target.parentNode;
@@ -42,8 +47,6 @@ const ProductTable: React.FC<ProductTableProps> = (props) => {
   };
 
   const deleteProduct = (productId: string, trIndex: number) => {
-    console.log(productId, trIndex);
-
     api.delete("Produto/Deletar", {
       data: {
         id: productId
@@ -52,21 +55,37 @@ const ProductTable: React.FC<ProductTableProps> = (props) => {
       (res) => {
         if (res.status === 200) {
           removeLinha(trIndex);
+          add({
+            title: 'Produto deletado',
+            content: `O produto foi deletado com sucesso!`,
+            delay: 8000,
+            autohide: true,
+          })
         } else {
-          console.log("Falha ao deletar produto");
+          add({
+            title: 'Falha',
+            content: `Falha ao tentar deletar o produto`,
+            delay: 8000,
+            autohide: true,
+          })
         }
       }
     ).catch(
       (error) => {
-        console.log(error);
+        add({
+          title: 'Falha',
+          content: `${error? error : `Erro ao tentar deletar`}`,
+          delay: 8000,
+          autohide: true,
+        })
       }
     )
+    setShowExclusionModal(false);
   }
 
   const onClickButton = (url: string, event: any) => {
     router.push(url);
   }
-
 
   return (
     <div className={styles.productTable}>
@@ -98,12 +117,22 @@ const ProductTable: React.FC<ProductTableProps> = (props) => {
         <div className={styles.aContainer}>
           <div className={styles.actions}>
             <div className={styles.hover}>
-              <div className={styles.edit}>
+              <div className={styles.consult}>
                 <button
-                  title="editar"
+                  title="Consultar Estoque"
                   className={lineSelected ? styles.active : styles.disabled}
                   disabled={!lineSelected}
-                  onClick={(event) => 
+                  onClick={(event) => setShowStockModal(true)}
+                >
+                  <img src="/icons/edit_white_36dp.svg" alt="editar" />
+                </button>
+              </div>
+              <div className={styles.edit}>
+                <button
+                  title="Editar"
+                  className={lineSelected ? styles.active : styles.disabled}
+                  disabled={!lineSelected}
+                  onClick={(event) =>
                     onClickButton(`/adm/manage/products/form/${props.products[lineSelected.rowIndex - 1].id}`, event)
                   }
                 >
@@ -112,11 +141,11 @@ const ProductTable: React.FC<ProductTableProps> = (props) => {
               </div>
               <div className={styles.delete}>
                 <button
-                  title="excluir"
+                  title="Excluir"
                   id="deletebtn"
                   className={lineSelected ? styles.active : styles.disabled}
                   onClick={() =>
-                    deleteProduct(props.products[lineSelected.rowIndex - 1].id, lineSelected.rowIndex)
+                    setShowExclusionModal(true)
                   }
                   disabled={!lineSelected}
                 >
@@ -127,6 +156,20 @@ const ProductTable: React.FC<ProductTableProps> = (props) => {
           </div>
         </div>
       </div>
+      {showExclusionModal ?
+        <ModalExclusion
+          objN='Produto'
+          show={showExclusionModal}
+          onConfirm={(e) => deleteProduct(props.products[lineSelected.rowIndex - 1].id, lineSelected.rowIndex)}
+          onHide={() => setShowExclusionModal(false)}>
+        </ModalExclusion>
+        : ''
+      }
+      {showStockModal?
+      <StockResume show={showStockModal} product={props.products[lineSelected.rowIndex - 1]} onClose={(show) => setShowStockModal(show)}></StockResume>
+      :
+      ``
+      }
     </div>
   );
 }
