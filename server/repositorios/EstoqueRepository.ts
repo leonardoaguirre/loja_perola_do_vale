@@ -35,6 +35,7 @@ class EstoqueRepository extends Repository<Estoque>{
                 ]
             })
 
+
             if (!estoque) {
                 estoque = await manager.save(
                     manager.create(Estoque,
@@ -64,7 +65,7 @@ class EstoqueRepository extends Repository<Estoque>{
         try {
             if (estoque.quantidadeDisponivel < quantidade) throw new AppError("Quantidade a retirar do estoque não disponivel", 'Estoque')
 
-            await manager.decrement(Estoque, estoque, 'quantidadeDisponivel', quantidade)
+            await manager.decrement(Estoque, { id: estoque.id }, 'quantidadeDisponivel', quantidade)
         } catch (error) {
             throw error
         }
@@ -72,7 +73,7 @@ class EstoqueRepository extends Repository<Estoque>{
 
     async adicionaAoEstoque(estoque: Estoque, manager: EntityManager, quantidade: number) {
         try {
-            await manager.increment(Estoque, estoque, 'quantidadeDisponivel', quantidade)
+            await manager.increment(Estoque, { id: estoque.id }, 'quantidadeDisponivel', quantidade)
         } catch (error) {
             throw error
         }
