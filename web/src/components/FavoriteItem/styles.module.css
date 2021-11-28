@@ -27,8 +27,8 @@
 }
 
 .imgContainer {
-  width: 11rem;
-  height: 11rem;
+  width: 10rem;
+  height: 10rem;
   border: 1px solid rgb(226, 226, 226);
 }
 
@@ -98,6 +98,8 @@
   text-align: right;
   color: gray;
   font-size: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .aside p,
@@ -108,4 +110,17 @@
 .aside a {
   color: var(--secondary) !important;
   cursor: pointer;
+}
+
+
+@media (max-width: 575px) {
+
+  .image {
+    margin-right: 1rem;
+  }
+
+  .imgContainer {
+    width: 9rem;
+    height: 9rem;
+  }
 }
