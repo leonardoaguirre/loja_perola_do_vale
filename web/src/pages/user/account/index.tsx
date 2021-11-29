@@ -36,7 +36,7 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
   }
 
   const router = useRouter();
-  const { add } = useToasts();
+  const { addToast } = useToasts();
 
   const [nome, setNome] = useState<string>(props.costumer?.pessoaFisica.nome);
   const [cpf, setCpf] = useState<string>(props.costumer?.pessoaFisica.cpf);
@@ -82,7 +82,7 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 
     if (response.ok) {
       router.reload();
-      add({
+      addToast({
         title: 'Usuário Alterado',
         content: `Seus dados foram alterados com sucesso!`,
         delay: 8000,

@@ -3,7 +3,6 @@ import Head from 'next/head';
 import { useState } from 'react';
 import { Button, Col, Container, Row, Table } from 'react-bootstrap';
 
-import Footer from '../../../../../components/Footer';
 import Header from '../../../../../components/Header';
 import PaginationBar from '../../../../../components/PaginationBar';
 import SaleResume from '../../../../../components/SaleResume';
@@ -96,7 +95,7 @@ const ListSales: React.FC<ListSaleProps> = (props) => {
             </Col>
           </Row>
           <Row>
-            <Col xs={12} sm={6} lg={5}>
+            <Col className="pb-4" xs={12} sm={6} lg={5}>
               <div className={styles.pageTitle}>
                 <h3>Pesquisa de Vendas</h3>
               </div>
@@ -145,7 +144,6 @@ const ListSales: React.FC<ListSaleProps> = (props) => {
           </Row>
         </Container>
       </div>
-      <Footer />
     </div >
   )
 }

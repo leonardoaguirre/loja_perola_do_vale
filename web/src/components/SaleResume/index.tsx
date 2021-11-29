@@ -13,13 +13,13 @@ import { Utils } from '../../shared/classes/utils';
 import { ModalExclusion, ModalLarge, ModalSmall } from '../Modal';
 import styles from './styles.module.css';
 
-interface orderItemProps {
+interface OrderItemProps {
   order: Order;
   show: boolean;
   onClose(show: boolean);
 }
 
-const SaleResume: React.FC<orderItemProps> = (props) => {
+const SaleResume: React.FC<OrderItemProps> = (props) => {
   const [showCancelModal, setShowCancelModal] = useState<boolean>(false)
   const [showChangeModal, setShowChangeModal] = useState<boolean>(false)
   const [showSaleModal, setShowSaleModal] = useState<boolean>(props.show)
@@ -28,7 +28,7 @@ const SaleResume: React.FC<orderItemProps> = (props) => {
   const [disabledAlt, setDisabledAlt] = useState<boolean>(true);
   const [order, setOrder] = useState<Order>(props.order)
   const [codR, setCodR] = useState<string>(props.order.codRastreio ? props.order.codRastreio : ``)
-  const { add } = useToasts();
+  const { addToast } = useToasts();
 
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const SaleResume: React.FC<orderItemProps> = (props) => {
     api.delete(`Venda/Cancelar/${props.order.id}`)
       .then((res: any) => {
         router.reload()
-        add({
+        addToast({
           title: 'Venda cancelada',
           content: `Venda (${order.id}) cancelada com sucesso!`,
           delay: 8000,
@@ -67,7 +67,7 @@ const SaleResume: React.FC<orderItemProps> = (props) => {
     }).then(() => {
       setShowChangeModal(false)
       router.reload();
-      add({
+      addToast({
         title: 'Código de rastreio inserido',
         content: `Código (${codR}) inserido com sucesso!`,
         delay: 8000,

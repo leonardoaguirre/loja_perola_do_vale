@@ -18,7 +18,7 @@ interface ProductTableProps {
 const ProductTable: React.FC<ProductTableProps> = (props) => {
 
   const router = useRouter();
-  const { add } = useToasts()
+  const { addToast } = useToasts()
 
   const [lineSelected, setLineSelected] = useState(null);
   const [showExclusionModal, setShowExclusionModal] = useState<boolean>(false)
@@ -69,14 +69,14 @@ const ProductTable: React.FC<ProductTableProps> = (props) => {
       (res) => {
         if (res.status === 200) {
           removeLinha(trIndex);
-          add({
+          addToast({
             title: 'Produto deletado',
             content: `O produto foi deletado com sucesso!`,
             delay: 8000,
             autohide: true,
           })
         } else {
-          add({
+          addToast({
             title: 'Falha',
             content: `Falha ao tentar deletar o produto`,
             delay: 8000,
@@ -86,7 +86,7 @@ const ProductTable: React.FC<ProductTableProps> = (props) => {
       }
     ).catch(
       (error) => {
-        add({
+        addToast({
           title: 'Falha',
           content: `${error ? error : `Erro ao tentar deletar`}`,
           delay: 8000,
@@ -114,7 +114,7 @@ const ProductTable: React.FC<ProductTableProps> = (props) => {
             <th>Imagem</th>
           </tr>
         </thead>
-        <tbody onClick={selecionaLinha}>
+        <tbody onMouseDown={selecionaLinha}>
           {props.products.map((product, index) => (
             <tr key={index}>
               <td className={styles.textLimited}><p>{product.nome}</p></td>

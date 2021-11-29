@@ -23,7 +23,7 @@ export const CartContext = createContext({ cartProducts: initialState } as CartC
 
 export function CartProvider({ children }: CartContextProviderProps) {
     const [cartProducts, setCartProducts] = useState<ProductCartItem[]>([]);
-    const { add } = useToasts();
+    const { addToast } = useToasts();
     const router = useRouter();
 
     useEffect(() => {//hook para persistir os produtos no context
@@ -46,7 +46,7 @@ export function CartProvider({ children }: CartContextProviderProps) {
         setCartProducts(newProds)
         Cookies.set('cartProducts', newProds.map(prod => { return { id: prod.id } }));
         localStorage.setItem('cartProducts', JSON.stringify(newProds))
-        add({
+        addToast({
             title: 'Carrinho',
             content: `${product.nome.length > 40 ? `${product.nome.slice(0, 40)}...` : product.nome} adicionado ao carrinho!`,
             delay: 8000,
@@ -57,7 +57,7 @@ export function CartProvider({ children }: CartContextProviderProps) {
     function removeFromCart(idProd: string, redundancia?: boolean) {
         if (!redundancia) {
             const exProd = cartProducts.find(prod => prod.id == idProd);
-            add({
+            addToast({
                 title: 'Carrinho',
                 content: `${exProd.nome.length > 40 ? `${exProd.nome.slice(0, 40)}...` : exProd.nome} removido do carrinho!`,
                 delay: 8000,

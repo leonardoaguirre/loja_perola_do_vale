@@ -1,52 +1,65 @@
 import Head from 'next/head';
-import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Container, Row, Spinner } from 'react-bootstrap';
+import { MdAddCircle } from 'react-icons/md';
 
-import Footer from '../../../../../../components/Footer';
 import Header from '../../../../../../components/Header';
+import PaginationBarSR from '../../../../../../components/PaginationBarSR';
 import SearchBox from '../../../../../../components/SearchBox';
 import UserTable from '../../../../../../components/UserTable';
 import { Customer } from '../../../../../../models/Customer';
 import api from '../../../../../../services/api';
 import styles from './styles.module.css';
 
-interface PageUserProps {
-  
+interface CustomerSearchProps {
+  customers: Customer[];
+  search: string;
+  atribute: string;
+  nPages: number;
+  activePage: number
 }
 
+interface SearchProps {
+  customers: Customer[];
+  nPages: number;
+}
 
-const PageUser: React.FC<PageUserProps> = (props) => {
+interface Filter {
+  value: string;
+  viewValue: string;
+}
 
-  const [isActive, setIsActive] = useState<boolean>(false);
-  const [tableData, setTableData] = useState<Customer[]>(null);
+const CustomerSearch: React.FC<CustomerSearchProps> = (props) => {
+
+  const router = useRouter();
+
+  const [tableData, setTableData] = useState<SearchProps>(props.customers ? { customers: props.customers, nPages: props.nPages } : null);
   const [error, setError] = useState<string>('');
 
-  // const reloadTable = async () => {
-  //   const tokenCookie = Cookies.get("tokenCookie");
+  const [activePage, setActivePage] = useState(props.activePage ? props.activePage : 1)
+  const [search, setSearch] = useState(props.search ? props.search : ``)
+  const [atribute, setAtribute] = useState<string>(props.atribute ? props.atribute : null);
 
-  //   const pessoa = { headers: { 'authorization': tokenCookie }, method: "GET" };
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  //   const response = await fetch(`${environment.API}/Cliente/listar`, pessoa);
-
-  //   setTableItens(await response.json());
-  // }
-
-  const filterOptions = [
-    {value: "nome", viewValue: "Nome"}, 
-    {value: "email", viewValue: "Email"}, 
-    {value: "cpf", viewValue: "CPF"},
+  const filterOptions: Filter[] = [
+    { value: "nome", viewValue: "Nome" },
+    { value: "email", viewValue: "Email" },
+    { value: "cpf", viewValue: "CPF" },
   ];
 
   const handleSearch = async (searchStr: string, atribute: string) => {
     if (searchStr.length > 0) {
-      await api.get(`Cliente/Buscar/${atribute}/${searchStr}`)
+      setIsLoading(true);
+      await api.get(`Cliente/Buscar/${atribute}/${searchStr}?pagina=${activePage}`)
         .then(
           (res) => {
-            if (res.status === 201) {
+            if (res.status === 200) {
               setTableData(res.data);
-              setIsActive(true);
               setError('');
             } else {
-              setTableData([new Customer]);
+              setTableData({ customers: [], nPages: 0 });
               setError(res.data.constraints.message);
             }
           }
@@ -55,29 +68,70 @@ const PageUser: React.FC<PageUserProps> = (props) => {
             setError('Nenhum resultado encontrado');
             setTableData(null)
           }
-        )
+        ).finally(() => setIsLoading(false));
     } else {
       setError('Campo de pesquisa está vazio');
     }
+  }
+
+  useEffect(() => {
+    if (search) handleSearch(search, atribute) // faz a pesquisa somente quando o activePage muda
+  }, [activePage])
+
+
+  const onClickButton = (url: string, event: any) => {
+    router.push(url);
   }
 
   return (
     <div className="pageContainer">
       <Head><title>Buscar Cliente | Ferragens Pérola do Vale</title></Head>
       <Header />
-      <div className={styles.custumerSearch}>
-        <SearchBox
-          filterOptions={filterOptions}
-          handleSearch={handleSearch}
-          error={error}
-        />
-        {tableData ?
-          <UserTable customers={tableData} />
-          : ''
-        }
+      <div className="pageContent">
+        <h2>Gerenciamento de Clientes</h2>
+        <Container fluid>
+          <Row className="pb-4">
+            <Col xs={9} lg={10}>
+              <SearchBox
+                filterOptions={filterOptions}
+                handleSearch={handleSearch}
+                emitHandleInputChange={true}
+                handleInputChange={setSearch}
+                handleSelectChange={setAtribute}
+                error={error}
+                placeholder="Digite sua pesquisa aqui"
+              />
+            </Col>
+            <Col xs={3} lg={2}>
+              <Button variant="success" className={styles.createButton} onClick={(event) => onClickButton('/adm/manage/user/customer/form', event)}>
+                <MdAddCircle />
+                <p>Cadastrar</p>
+              </Button>
+            </Col>
+          </Row>
+          {(isLoading ? (
+            <Row>
+              <Col className="d-flex justify-content-center pt-5" xs={12}>
+                <Spinner id={styles.spinner} animation="border" role="status" variant="primary">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              </Col>
+            </Row>
+          ) : (
+            (tableData ?
+              <>
+                <Row>
+                  <UserTable customers={tableData.customers} />
+                </Row>
+                <Row>
+                  <PaginationBarSR nPages={tableData.nPages} activePage={activePage} onClick={(nPag) => { setActivePage(nPag) }} />
+                </Row>
+              </>
+              : '')
+          ))}
+        </Container>
       </div>
-      <Footer />
-    </div>
+    </div >
   );
 }
 
@@ -116,4 +170,5 @@ const PageUser: React.FC<PageUserProps> = (props) => {
 //     }
 //   }
 // }
-export default PageUser;
+
+export default CustomerSearch;

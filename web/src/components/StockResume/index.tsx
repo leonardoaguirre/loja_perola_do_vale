@@ -28,7 +28,7 @@ const StockResume: React.FC<StockProps> = (props) => {
   const [lote, setLote] = useState<Lote>(new Lote)
   const [fornecedores, setFornecedores] = useState<Provider[]>([])
 
-  const { add } = useToasts()
+  const { addToast } = useToasts()
 
   useEffect(() => {
     api.get(`Estoque/ProcurarPorProduto/${props.product.id}`)
@@ -76,7 +76,7 @@ const StockResume: React.FC<StockProps> = (props) => {
     }).then(
       (res) => {
         if (res.status === 200) {
-          add({
+          addToast({
             title: 'Lote removido',
             content: `O Lote foi removido com sucesso!`,
             delay: 8000,
@@ -84,7 +84,7 @@ const StockResume: React.FC<StockProps> = (props) => {
           })
           setLineSelected(null)
         } else {
-          add({
+          addToast({
             title: 'Falha',
             content: `Falha ao tentar remover lote`,
             delay: 8000,
@@ -94,7 +94,7 @@ const StockResume: React.FC<StockProps> = (props) => {
       }
     ).catch(
       (error) => {
-        add({
+        addToast({
           title: 'Falha',
           content: `${error ? error : `Erro ao tentar remover`}`,
           delay: 8000,
@@ -142,7 +142,7 @@ const StockResume: React.FC<StockProps> = (props) => {
     )
       .then(res => {
         if (res.status === 200) {
-          add({
+          addToast({
             title: 'Lote adicionado',
             content: `O Lote foi adicionado com sucesso!`,
             delay: 8000,
@@ -151,7 +151,7 @@ const StockResume: React.FC<StockProps> = (props) => {
           closeInsertModal()
           setErroCadastro([])
         } else {
-          add({
+          addToast({
             title: 'Falha',
             content: `Falha ao tentar adicionar lote`,
             delay: 8000,

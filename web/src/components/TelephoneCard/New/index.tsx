@@ -5,7 +5,7 @@ import { BsTelephonePlus } from 'react-icons/bs';
 
 import { useToasts } from '../../../contexts/ToastContext';
 import { UserContext } from '../../../contexts/UserContext';
-import { Telephone } from '../../../models/Costumer';
+import { Telephone } from '../../../models/Telephone';
 import api from '../../../services/api';
 import { ModalSmall } from '../../Modal';
 import styles from './styles.module.css';
@@ -15,7 +15,7 @@ function TelephoneCardNew() {
   const [telefone, setTelefone] = useState<Telephone>()
   const [erroCadastro, setErroCadastro] = useState([])
   const { user } = useContext(UserContext);
-  const { add } = useToasts();
+  const { addToast } = useToasts();
   const router = useRouter()
 
   const onSubmitForm = (e: FormEvent<HTMLFormElement>) => {
@@ -28,7 +28,7 @@ function TelephoneCardNew() {
     }).then(() => {
       setShowModal(false)
       router.reload()
-      add({
+      addToast({
         title: 'Telefone Cadastrado',
         content: `Telefone (${telefone.ddd})${telefone.numero} cadastrado com sucesso!`,
         delay: 8000,
