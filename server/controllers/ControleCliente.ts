@@ -96,14 +96,22 @@ class ControleCliente {
     async buscar(request: Request, response: Response) {
         const atributo = request.params.atributo;
         const pesquisa = request.params.pesquisa;
+        const query = request.query.pagina
+        const pagina = query ? parseInt(query.toString()) : 1
+        const itensPorPagina: number = 5
 
         const clienteRepository = getCustomRepository(ClienteRepository);
 
         try {
-            const clienteExiste = await clienteRepository.buscaPor(pesquisa, atributo);
-
-            if (clienteExiste.length > 0) {
-                return response.status(201).json(clienteExiste);
+            const clienteExiste = await clienteRepository.buscaPor(pesquisa, atributo, ((pagina - 1) * itensPorPagina), itensPorPagina);
+            
+            if (clienteExiste[0].length > 0) {
+                clienteExiste[1] = Math.ceil(clienteExiste[1] / itensPorPagina);
+                const data = {
+                    customers: clienteExiste[0],
+                    nPages: clienteExiste[1]
+                }
+                return response.status(200).json(data);
             } else {
                 throw new AppError("Nenhum cliente encontrado", 'pesquisa');
             }

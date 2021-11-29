@@ -96,6 +96,8 @@ class ControleFavorito {
             return response.status(400).json(error);
         }
     }
+
+    //Deleta o favorito por id da pessoa e id do produto, usado no product/info
     async deletar(request: Request, response: Response) {
         const favoritoRepository = getCustomRepository(FavoritoRepository);
         const { idProduto, idPessoa } = request.body;
@@ -114,6 +116,8 @@ class ControleFavorito {
             return response.status(400).json(error);
         }
     }
+
+    //Deleta favorito por id do favorito, usado na tela de user/favorites
     async deletarPorId(request: Request, response: Response) {
         const favoritoRepository = getCustomRepository(FavoritoRepository);
         const { idFavorito } = request.body;

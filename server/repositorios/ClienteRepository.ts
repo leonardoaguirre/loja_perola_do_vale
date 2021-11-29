@@ -4,33 +4,40 @@ import { Cliente } from "../models/Cliente";
 
 @EntityRepository(Cliente)
 class ClienteRepository extends Repository<Cliente>{
-    async existeEmail(email : string) {
+    async existeEmail(email: string) {
         // return await this.findOne({ pessoaFisica: { pessoa: { email: email } } });
         return this.createQueryBuilder("cliente")
-                .leftJoinAndSelect("cliente.pessoaFisica", "pessoaFisica")
-                .leftJoinAndSelect("pessoaFisica.pessoa", "pessoa")
-                .where("pessoa.email = :email", { email: email })
-                .getOne();
+            .leftJoinAndSelect("cliente.pessoaFisica", "pessoaFisica")
+            .leftJoinAndSelect("pessoaFisica.pessoa", "pessoa")
+            .where("pessoa.email = :email", { email: email })
+            .getOne();
     }
-    async buscaPor(pesquisa: string, atributo: string) {
+    async buscaPor(pesquisa: string, atributo: string, skip: number, take: number) {
         if (atributo === "nome") {
             return this.createQueryBuilder("cliente")
                 .leftJoinAndSelect("cliente.pessoaFisica", "pessoaFisica")
                 .leftJoinAndSelect("pessoaFisica.pessoa", "pessoa")
                 .where("pessoaFisica.nome like :nome", { nome: `%${pesquisa}%` })
-                .getMany();
+                .skip(skip)
+                .take(take)
+                .getManyAndCount();
+
         } else if (atributo === "email") {
             return this.createQueryBuilder("cliente")
                 .leftJoinAndSelect("cliente.pessoaFisica", "pessoaFisica")
                 .leftJoinAndSelect("pessoaFisica.pessoa", "pessoa")
                 .where("pessoa.email like :email", { email: `%${pesquisa}%` })
-                .getMany();
+                .skip(skip)
+                .take(take)
+                .getManyAndCount();
         } else if (atributo === "cpf") {
             return this.createQueryBuilder("cliente")
                 .leftJoinAndSelect("cliente.pessoaFisica", "pessoaFisica")
                 .leftJoinAndSelect("pessoaFisica.pessoa", "pessoa")
                 .where("pessoaFisica.cpf like :cpf", { cpf: `%${pesquisa}%` })
-                .getMany();
+                .skip(skip)
+                .take(take)
+                .getManyAndCount();
         }
     }
     async buscaPorId(id: string) {
