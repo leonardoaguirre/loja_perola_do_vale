@@ -1,12 +1,15 @@
-import { MouseEvent, useState } from 'react';
-import { Product } from '../../models/Product';
-import styles from './styles.module.css';
-import api from '../../services/api';
 import { useRouter } from 'next/router';
-import { environment } from '../../environments/environment';
-import StockResume from '../StockResume';
-import { ModalExclusion } from '../Modal';
+import { MouseEvent, useState } from 'react';
+import { Table } from 'react-bootstrap';
+import { FaBoxes, FaPen, FaTrash } from 'react-icons/fa';
+
 import { useToasts } from '../../contexts/ToastContext';
+import { environment } from '../../environments/environment';
+import { Product } from '../../models/Product';
+import api from '../../services/api';
+import { ModalExclusion } from '../Modal';
+import StockResume from '../StockResume';
+import styles from './styles.module.css';
 
 interface ProductTableProps {
   products: Product[];
@@ -22,23 +25,34 @@ const ProductTable: React.FC<ProductTableProps> = (props) => {
   const [showStockModal, setShowStockModal] = useState<boolean>(false)
 
   const selecionaLinha = async (event) => {
-    const linha: HTMLElement = event.target.parentNode;
 
-    if (linha.tagName == "TR") {
-      if (!linha.className) {
-        if (lineSelected) {
-          document
-            .getElementsByClassName(`${styles.selected}`)[0]
-            .removeAttribute("class");
-        }
-        linha.className += ` ${styles.selected}`;
-        setLineSelected(linha);
-      } else {
-        linha.removeAttribute("class");
-        setLineSelected(null);
+    const linha: HTMLElement = findTr(event.target);
+
+    if (!linha.className) {
+      if (lineSelected) {
+        document
+          .getElementsByClassName(`${styles.selected}`)[0]
+          .removeAttribute("class");
       }
+      linha.className += ` ${styles.selected}`;
+      setLineSelected(linha);
+    } else {
+      linha.removeAttribute("class");
+      setLineSelected(null);
     }
   };
+
+  const findTr = (el) => {
+    const parentNode: HTMLElement = el.parentNode;
+    if (parentNode.tagName == "TR") {
+      // TR encontrado
+      return parentNode;
+    } else {
+      // Ainda não é o TR
+      const trEl = findTr(parentNode);
+      return trEl;
+    }
+  }
 
   const removeLinha = async (trIndex: number) => {
     var el: any = document.getElementById("table");
@@ -74,7 +88,7 @@ const ProductTable: React.FC<ProductTableProps> = (props) => {
       (error) => {
         add({
           title: 'Falha',
-          content: `${error? error : `Erro ao tentar deletar`}`,
+          content: `${error ? error : `Erro ao tentar deletar`}`,
           delay: 8000,
           autohide: true,
         })
@@ -89,7 +103,7 @@ const ProductTable: React.FC<ProductTableProps> = (props) => {
 
   return (
     <div className={styles.productTable}>
-      <table id="table" className={styles.table}>
+      <Table responsive striped bordered hover id={styles.table}>
         <thead>
           <tr>
             <th>Nome</th>
@@ -103,16 +117,22 @@ const ProductTable: React.FC<ProductTableProps> = (props) => {
         <tbody onClick={selecionaLinha}>
           {props.products.map((product, index) => (
             <tr key={index}>
-              <td>{product.nome}</td>
+              <td className={styles.textLimited}><p>{product.nome}</p></td>
               <td>{product.marca}</td>
-              <td>{product.descricao}</td>
-              <td>{product.quantidade}</td>
-              <td>{product.valorVenda}</td>
-              <td><img src={`${environment.API}/${product.imagens[0].path}`} alt={product.nome} /></td>
+              <td className={styles.textLimited}><p>{product.descricao}</p></td>
+              <td className={styles.alignLeft}>{product.quantidade}</td>
+              <td className={styles.alignLeft}>{product.valorVenda}</td>
+              <td>
+                <div className={styles.imgContainer}>
+                  <div>
+                    <img src={`${environment.API}/${product.imagens[0].path}`} alt={product.nome} />
+                  </div>
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
       <div className={styles.bContainer}>
         <div className={styles.aContainer}>
           <div className={styles.actions}>
@@ -124,7 +144,7 @@ const ProductTable: React.FC<ProductTableProps> = (props) => {
                   disabled={!lineSelected}
                   onClick={(event) => setShowStockModal(true)}
                 >
-                  <img src="/icons/edit_white_36dp.svg" alt="editar" />
+                  <FaBoxes />
                 </button>
               </div>
               <div className={styles.edit}>
@@ -136,7 +156,7 @@ const ProductTable: React.FC<ProductTableProps> = (props) => {
                     onClickButton(`/adm/manage/products/form/${props.products[lineSelected.rowIndex - 1].id}`, event)
                   }
                 >
-                  <img src="/icons/edit_white_36dp.svg" alt="editar" />
+                  <FaPen />
                 </button>
               </div>
               <div className={styles.delete}>
@@ -149,7 +169,7 @@ const ProductTable: React.FC<ProductTableProps> = (props) => {
                   }
                   disabled={!lineSelected}
                 >
-                  <img src="/icons/delete_white_36dp.svg" alt="deletar" />
+                  <FaTrash />
                 </button>
               </div>
             </div>
@@ -158,17 +178,19 @@ const ProductTable: React.FC<ProductTableProps> = (props) => {
       </div>
       {showExclusionModal ?
         <ModalExclusion
-          objN='Produto'
+          objN="Produto"
           show={showExclusionModal}
           onConfirm={(e) => deleteProduct(props.products[lineSelected.rowIndex - 1].id, lineSelected.rowIndex)}
-          onHide={() => setShowExclusionModal(false)}>
+          onHide={() => setShowExclusionModal(false)}
+        >
+          Você realmente deseja excluir o produto <span className="bold">{props.products[lineSelected.rowIndex - 1].nome}</span>?
         </ModalExclusion>
         : ''
       }
-      {showStockModal?
-      <StockResume show={showStockModal} product={props.products[lineSelected.rowIndex - 1]} onClose={(show) => setShowStockModal(show)}></StockResume>
-      :
-      ``
+      {showStockModal ?
+        <StockResume show={showStockModal} product={props.products[lineSelected.rowIndex - 1]} onClose={(show) => setShowStockModal(show)}></StockResume>
+        :
+        ``
       }
     </div>
   );

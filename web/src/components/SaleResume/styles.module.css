@@ -23,7 +23,7 @@
 .list {
   padding: 4px 12px;
   overflow-y: auto;
-  min-height: calc(100vh - 28.5rem);
+  /* min-height: calc(100vh - 28.5rem); */
   max-height: calc(100vh - 28.5rem);
   margin-bottom: 0.5rem;
 }
@@ -176,15 +176,15 @@
 
 @media (min-width: 576px) and (max-width: 767px) {
   .list {
-    min-height: calc(100vh - 30rem);
+    /* min-height: calc(100vh - 30rem); */
     max-height: calc(100vh - 30rem);
   }
 }
 
 @media (max-width: 575px) {
   .list {
-    min-height: calc(100vh - 33rem);
-    max-height: calc(100vh - 33rem);
+    /* min-height: calc(100vh - 35rem); */
+    max-height: calc(100vh - 35rem);
   }
 
   #saleResume button {

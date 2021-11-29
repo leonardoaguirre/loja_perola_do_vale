@@ -1,178 +1,181 @@
 .loteTable .table img {
-    width: 4rem;
-    height: 4rem;
+  width: 4rem;
+  height: 4rem;
 }
 
 .loteTable .filters {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .loteTable .table {
-    border-collapse: collapse;
-    width: 100%;
-    margin: 0 auto;
-    max-width: 2880px;
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 auto;
+  max-width: 2880px;
 }
 
 .loteTable .table .selected {
-    background-color: #fffd83;
+  background-color: #fffd83;
 }
 
 .loteTable .table thead tr th {
-    background-color: #feedcf;
-    font-weight: bold;
-    padding: 1rem 2rem;
+  background-color: #feedcf;
+  font-weight: bold;
+  padding: 1rem 2rem;
 }
 
 .loteTable .table tr td {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .loteTable .table tr td,
 .loteTable table tr th {
-    border: 1px solid #fee3b8;
-    text-align: left;
-    padding: 8px;
+  border: 1px solid #fee3b8;
+  text-align: left;
+  padding: 8px;
 }
 
 .loteTable .table tr:hover td {
-    background-color: #fff8d0;
-    color: rgb(187, 187, 187);
+  background-color: #fff8d0;
+  color: rgb(187, 187, 187);
 }
 
 .loteTable .table tr.selected td {
-    background-color: #fffc5b;
-    color: rgb(0, 0, 0);
+  background-color: #fffc5b;
+  color: rgb(0, 0, 0);
+}
+
+.alert p {
+  margin: 0;
+  margin-right: 1rem;
 }
 
 .bContainer {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-content: center;
-    justify-content: flex-end;
-    align-items: center;
-    position: sticky;
-    bottom: 20px;
-    margin: 2rem 1rem 1rem 1rem;
-    pointer-events: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-end;
+  align-items: center;
+  position: sticky;
+  bottom: 2rem;
+  margin: 2rem 1rem 1rem 1rem;
+  pointer-events: none;
 }
 
 .aContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 200px;
-    margin: 0 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  /* width: 17rem; */
+  margin: 0 12px;
 }
 
 .actions {
-    width: fit-content;
-    min-width: 100px;
-    max-width: 200px;
-    height: 56px;
-    border-radius: 30px;
-    background-color: rgb(255, 255, 255);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    transition: 0.2s;
-    pointer-events: auto;
+  width: fit-content;
+  min-width: 8rem;
+  max-width: 18rem;
+  padding: 0.6rem 0;
+  border-radius: 30px;
+  background-color: var(--bs-gray-400);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.2s;
+  pointer-events: auto;
 }
 
 .actions button {
-    border: none;
-    background-color: inherit;
-    padding: 2px;
+  border: none;
+  background-color: inherit;
+  padding: 2px;
 }
 
 .actions button:disabled {
-    background: gray;
-    color: white;
+  background: gray;
+  color: white;
 }
 
 .hover {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .hover:hover div:hover button.active {
-    width: 140px;
-    height: 40px;
-    border-radius: 30px;
+  width: 8rem;
+  border-radius: 30px;
 }
 
-
-/* .hover:hover div:hover button.disabled {
-
-} */
-
-.actions img {
-    height: 100%;
-    padding: 6px;
+.actions svg {
+  width: 2.2rem;
+  height: 2.2rem;
+  padding: 6px;
+  color: var(--bs-white);
 }
 
 .actions div {
-    margin: 0 4px;
+  margin: 0 4px;
 }
 
 .add button {
-    width: 40px;
-    height: 40px;
-    background-color: rgb(15, 158, 22);
-    border-radius: 50%;
-    transition: 0.3s;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background-color: green;
+  border-radius: 50%;
+  transition: 0.3s;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.add button.active::after {
+  animation-name: fade;
+  animation-duration: 0.5s;
 }
 
 .add button.active:hover::after {
-    content: attr(title);
-    color: white;
-}
-
-.consult button {
-    width: 40px;
-    height: 40px;
-    background-color: rgb(43, 128, 226);
-    border-radius: 50%;
-    transition: 0.3s;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: center;
-}
-
-.consult button.active:hover::after {
-    content: attr(title);
-    color: white;
+  content: attr(title);
+  color: white;
 }
 
 .delete button {
-    width: 40px;
-    height: 40px;
-    background-color: rgb(226, 55, 43);
-    border-radius: 50%;
-    transition: 0.3s;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background-color: rgb(226, 55, 43);
+  border-radius: 50%;
+  transition: 0.3s;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete button.active::after {
+  animation-name: fade;
+  animation-duration: 0.5s;
 }
 
 .delete button.active:hover::after {
-    content: attr(title);
-    color: white;
+  content: attr(title);
+  color: white;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

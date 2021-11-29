@@ -1,13 +1,12 @@
-import { request } from 'https';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
+import { MdAddCircle } from 'react-icons/md';
 
 import Footer from '../../../../../components/Footer';
 import Header from '../../../../../components/Header';
-import PaginationBar from '../../../../../components/PaginationBar';
 import PaginationBarSR from '../../../../../components/PaginationBarSR';
 import ProductTable from '../../../../../components/ProductTable';
 import SearchBox from '../../../../../components/SearchBox';
@@ -69,18 +68,13 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
     router.push(url);
   }
 
-  const handleKeyPress = (event: any) => {
-    if (event.target.charCode == 13) {
-      alert('Enter clicked!!!');
-    }
-  }
-
   return (
     <div className="pageContainer">
       <Head><title>Buscar Produto | Ferragens Pérola do Vale</title></Head>
       <Header />
-      <div className={styles.productSearch}>
-        <Container fluid>
+      <div className="pageContent">
+        <h2>Gerenciamento de Produtos e Estoque</h2>
+        <Container className="pb-4" fluid>
           <Row>
             <Col xs={9} lg={10}>
               <SearchBox
@@ -89,8 +83,8 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
               />
             </Col>
             <Col xs={3} lg={2}>
-              <Button variant="primary" className={styles.createButton} onClick={(event) => onClickButton('/adm/manage/products/form', event)}>
-                <img src="/icons/add_circle_black_36dp.svg" alt="Adicionar" />
+              <Button variant="success" className={styles.createButton} onClick={(event) => onClickButton('/adm/manage/products/form', event)}>
+                <MdAddCircle />
                 <p>Cadastrar</p>
               </Button>
             </Col>

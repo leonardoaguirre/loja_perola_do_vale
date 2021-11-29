@@ -1,5 +1,4 @@
 :root {
-
   font-size: 85%;
 
   --background: #f0f0f0;
@@ -17,6 +16,7 @@
   --gray: #6c757d;
   --gray-dark: #343a40;
   --primary: #fca311;
+  --primary-light: #fccc80;
   --secondary: #14213d;
   --tertiary: #463232;
   --success: #28a745;
@@ -32,7 +32,13 @@
   --breakpoint-xl: 1200px;
 }
 
-h1, h2, h3, h4, h5, h6, strong {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong {
   font-family: "PT Sans", sans-serif;
   text-transform: uppercase;
 }
@@ -87,7 +93,11 @@ h1, h2, h3, h4, h5, h6, strong {
   height: 100vh;
 }
 
-#paymentRef ul[role='tablist'] {
+.bold {
+  font-weight: 700;
+}
+
+#paymentRef ul[role="tablist"] {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -104,7 +114,6 @@ h1, h2, h3, h4, h5, h6, strong {
   -moz-appearance: textfield;
   appearance: textfield;
 }
-
 
 @media (min-width: 1200px) {
   :root {

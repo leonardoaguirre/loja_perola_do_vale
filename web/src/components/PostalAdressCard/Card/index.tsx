@@ -5,14 +5,14 @@ import { FaPen, FaTrash } from 'react-icons/fa';
 
 import { useToasts } from '../../../contexts/ToastContext';
 import { UserContext } from '../../../contexts/UserContext';
-import { Adress } from '../../../models/Costumer';
 import { Endereco } from '../../../models/Endereco';
+import { PostalAdress } from '../../../models/PostalAdress';
 import api from '../../../services/api';
 import { ModalExclusion, ModalLarge } from '../../Modal';
 import styles from './styles.module.css';
 
 interface PostalAdressCardProps {
-  postalAdress: Adress;
+  postalAdress: PostalAdress;
   selectable?: boolean;
   selected?: boolean;
 }

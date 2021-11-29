@@ -1,9 +1,7 @@
-import api from '../../services/api';
-import { Customer } from '../../models/Customer';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-import styles from './styles.module.css';
 import Input from '../Input/Search';
+import styles from './styles.module.css';
 
 interface SearchBoxProps {
   filterOptions?: Options[];
@@ -33,13 +31,6 @@ const SearchBox: React.FC<SearchBoxProps> = (props) => {
           </select>
           : ''
         }
-        {/* <div className={styles.inputContainer}>
-          <input type="search" value={searchStr} onChange={(event) => setSearchStr(event.target.value)} placeholder="Digite aqui sua pesquisa..." autoComplete="off" />
-          <button onClick={(event) => props.handleSearch(event, searchStr, atribute)} className={styles.searchButton}>
-            Buscar
-          </button>
-          {props.error != '' ? props.error : ''}
-        </div> */}
         <Input
           handleInputChange={(value) => setSearchStr(value)}
           handleSubmit={() => props.handleSearch(searchStr, atribute)}
