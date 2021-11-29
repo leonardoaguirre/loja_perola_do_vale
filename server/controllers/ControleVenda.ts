@@ -208,14 +208,22 @@ class ControleVenda {
 
     async pesquisarVendas(request: Request, response: Response) {
         const vendaRepo = getCustomRepository(VendaRepository)
-        const atributo  = request.query.atributo
-        const pesquisa  = request.query.pesquisa
-        
+        const atributo = request.query.atributo
+        const pesquisa = request.query.pesquisa
+        const query = request.query.pagina
+        const pagina = query ? parseInt(query.toString()) : 1
+        const itensPorPagina: number = 5
+
         try {
-            await vendaRepo.pesquisar(pesquisa.toString(), atributo.toString())
-                .then(res => {
-                    if (res.length > 0) {
-                        return response.status(200).json(res)
+            await vendaRepo.pesquisar(pesquisa.toString(), atributo.toString(), ((pagina - 1) * itensPorPagina), itensPorPagina)
+                .then(vendas => {
+                    if (vendas[0].length > 0) {
+                        vendas[1] = Math.ceil(vendas[1] / itensPorPagina);
+                        const data = {
+                            vendas: vendas[0],
+                            nPages: vendas[1]
+                        }
+                        return response.status(200).json(data)
                     } else {
                         throw new AppError('Nenhuma venda encontrada', 'venda')
                     }

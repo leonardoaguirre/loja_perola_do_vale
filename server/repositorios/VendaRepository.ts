@@ -19,9 +19,9 @@ class VendaRepository extends Repository<Venda>{
             take: itensPorPag
         })
     }
-    async pesquisar(pesquisa: string, atributo: string) {
+    async pesquisar(pesquisa: string, atributo: string, skip: number, take: number) {
         if (atributo === "id") {
-            return this.find({ where: { id: parseInt(pesquisa) } })
+            return this.findAndCount({ where: { id: parseInt(pesquisa) }, skip: skip, take: take })
         }
         else if (atributo === "dtCompra") {
             return this.createQueryBuilder("venda")
@@ -30,8 +30,10 @@ class VendaRepository extends Repository<Venda>{
                 .leftJoinAndSelect("venda.destino", "endereco")
                 .leftJoinAndSelect("itemvenda.produto", "produto")
                 .leftJoinAndSelect("produto.imagens", "imagem")
-                .where("DATE(dtCompra) = :dt", { dt: `${moment(pesquisa.replace('/','-'),`DD-MM-YYYY`).format(`YYYY-MM-DD`)}` })
-                .getMany();
+                .where("DATE(dtCompra) = :dt", { dt: `${moment(pesquisa.replace('/', '-'), `DD-MM-YYYY`).format(`YYYY-MM-DD`)}` })
+                .skip(skip)
+                .take(take)
+                .getManyAndCount();
         }
         else if (atributo === "email") {
             return this.createQueryBuilder("venda")
@@ -41,7 +43,9 @@ class VendaRepository extends Repository<Venda>{
                 .leftJoinAndSelect("itemvenda.produto", "produto")
                 .leftJoinAndSelect("produto.imagens", "imagem")
                 .where("pessoa.email=:email", { email: `${pesquisa}` })
-                .getMany();
+                .skip(skip)
+                .take(take)
+                .getManyAndCount();
         }
         else {
             throw new AppError('Filtro invalido', 'filtro')
