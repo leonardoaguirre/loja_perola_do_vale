@@ -1,4 +1,4 @@
-#userForm h1 {
+#userForm h2 {
   display: flex;
   justify-content: center;
 }
@@ -9,18 +9,14 @@
 }
 
 .formContainer form {
-  margin: 2rem 4rem;
+  margin: 0 4rem;
   background-color: inherit;
-  padding: 1rem 4rem 3rem 4rem;
-  border-radius: 20px;
-  width: 70rem;
 }
 
 .inputContainer,
 .selectContainer {
   background-color: white;
-  padding: 1rem 2rem;
-  border-radius: 10px;
+  padding: 1rem 1rem;
 }
 
 .selectContainer select option {
@@ -30,7 +26,7 @@
 .formContainer label {
   display: flex;
   justify-content: flex-start;
-  padding: 1rem 0;
+  padding: 1rem 0 0.5rem 0;
 }
 
 .email input,
@@ -40,7 +36,6 @@
 .identificationCpf input,
 .birthDate input,
 .telephone input {
-  height: 2rem;
   width: 100%;
   border: none;
 }
@@ -55,48 +50,11 @@
   outline: none;
 }
 
-.buttonsContainer {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  column-span: all;
-
-  padding-top: 1.7rem;
+.create button {
+  height: 3rem;
 }
 
-.create {
-  padding-right: 2rem;
-}
-
-.create input {
-  background-color: #2753ca;
-  color: white;
-  padding: 1rem 2rem;
-  border: none;
-  border-radius: 10px;
-  transition: 0.2s;
-}
-
-.reset input {
-  background-color: #949494;
-  color: white;
-  padding: 1rem 2rem;
-  border: none;
-  border-radius: 10px;
-  transition: 0.2s;
-}
-
-.create input:hover {
-  cursor: pointer;
-  background-color: #6f85c2;
-}
-
-.reset input:hover {
-  cursor: pointer;
-  background-color: #b6b6a9;
-}
-
-.create input:focus,
-.reset input:focus {
-  outline: none;
+.formContainer p {
+  margin: 0;
+  color: var(--danger);
 }

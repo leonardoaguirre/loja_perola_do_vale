@@ -42,7 +42,7 @@ const Login: React.FC<LoginProps> = (props) => {
         console.log(res);
         if (res.statusText == 'OK') {
           loginUser(res.data.pessoa, res.data.token);
-          if (props.cameFrom == null || props.cameFrom == `${process.env.URL}/user/login`) {
+          if (props.cameFrom == null || props.cameFrom == `${process.env.URL}/user/login` || props.cameFrom == `${process.env.URL}/user/form`) {
             router.push('/');
           } else {
             router.push(props.cameFrom);
