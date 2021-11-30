@@ -16,6 +16,7 @@ import OrderItem from '../../../components/OrderItem';
 import PaginationBar from '../../../components/PaginationBar';
 import { Order } from '../../../models/Order';
 import api from '../../../services/api';
+import apiWithAuth from '../../../services/apiWithAuth';
 import styles from './styles.module.css';
 
 interface PageCostumerAccountProps {
@@ -102,27 +103,63 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
   )
 }
 
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//   const { user } = context.req.cookies;
+//   const { pagina } = context.query;
+//   const userData = JSON.parse(user);
+
+//   let data;
+//   await api.get(`Venda/ListarPorPessoa/${userData.idPessoa}?pagina=${pagina}`)
+//     .then(res => {
+//       if (res.status === 200) data = res.data
+//       else if (res.status === 401) return { notFound: true }
+//     })
+//   // .catch(err => console.log(err))
+
+//   return {
+//     props: {
+//       pedidos: data.vendas,
+//       nPages: data.nPages,
+//       search: userData.idPessoa,
+//       activePage: pagina ? pagina : 1
+//     }
+//   }
+// }
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { user } = context.req.cookies;
-  const { pagina } = context.query;
   const userData = JSON.parse(user);
+  const { pagina } = context.query;
+  const { tokenCookie } = context.req.cookies;
 
-  let data;
-  await api.get(`Venda/ListarPorPessoa/${userData.idPessoa}?pagina=${pagina}`)
-    .then(res => {
-      if (res.status === 200) data = res.data
-      else if (res.status === 401) return { notFound: true }
-    })
-  // .catch(err => console.log(err))
-
-  return {
-    props: {
-      pedidos: data.vendas,
-      nPages: data.nPages,
-      search: userData.idPessoa,
-      activePage: pagina ? pagina : 1
+  if (!tokenCookie) {
+    return {
+      redirect: {
+        destination: '/user/login',
+        permanent: false,
+      }
     }
   }
-}
 
+  return await apiWithAuth(tokenCookie).get(`Venda/ListarPorPessoa/${userData.idPessoa}?pagina=${pagina}`)
+    .then(res => {
+      return {
+        props: {
+          pedidos: res.data.vendas,
+          nPages: res.data.nPages,
+          search: userData.idPessoa,
+          activePage: pagina ? pagina : 1
+        }
+      }
+    })
+    .catch(err => {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        }
+      }
+    })
+
+
+}
 export default UserAccount;
