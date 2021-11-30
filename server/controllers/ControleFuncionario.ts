@@ -105,14 +105,22 @@ class ControleFuncionario {
     async buscarPor(request: Request, response: Response) {
         const atributo = request.params.atributo;
         const pesquisa = request.params.pesquisa;
+        const query = request.query.pagina
+        const pagina = query ? parseInt(query.toString()) : 1
+        const itensPorPagina: number = 4
 
         const funcionarioRepository = getCustomRepository(FuncionarioRepository);
 
         try {
-            const funcionarioExiste = await funcionarioRepository.buscaPor(pesquisa, atributo);
+            const funcionarioExiste = await funcionarioRepository.buscaPor(pesquisa, atributo, ((pagina - 1) * itensPorPagina), itensPorPagina);
 
-            if (funcionarioExiste.length > 0) {
-                return response.status(201).json(funcionarioExiste);
+            if (funcionarioExiste[0].length > 0) {
+                funcionarioExiste[1] = Math.ceil(funcionarioExiste[1] / itensPorPagina);
+                const data = {
+                    employees: funcionarioExiste[0],
+                    nPages: funcionarioExiste[1]
+                }
+                return response.status(200).json(data);
             } else {
                 throw new AppError("Nenhum funcionario encontrado", 'funcionario');
             }
@@ -120,7 +128,7 @@ class ControleFuncionario {
             return response.status(400).json(error);
         }
     }
-    async buscarGerente(id : string){
+    async buscarGerente(id: string) {
         const funcionarioRepository = getCustomRepository(FuncionarioRepository);
 
         try {
@@ -148,14 +156,15 @@ class ControleFuncionario {
                     const token = jwt.sign({ id: funcExiste.id }, process.env.SECRET_KEY, { expiresIn: '7d' });
 
                     return response.status(200).json({
-                        message: "Usuario logado com sucesso!", 
-                        token, 
-                        pessoa: { 
+                        message: "Usuario logado com sucesso!",
+                        token,
+                        pessoa: {
                             id: funcExiste.id,
                             idPessoa: funcExiste.pessoaFisica.pessoa.id,
-                            nome : funcExiste.pessoaFisica.nome, 
-                            email: funcExiste.pessoaFisica.pessoa.email 
-                        }});
+                            nome: funcExiste.pessoaFisica.nome,
+                            email: funcExiste.pessoaFisica.pessoa.email
+                        }
+                    });
                 } else {
                     throw new AppError("Email ou senha inválidos", "login");
                 }
