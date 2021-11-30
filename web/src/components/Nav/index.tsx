@@ -1,4 +1,7 @@
+import { useEffect, useState } from 'react';
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Category } from '../../models/Category';
+import api from '../../services/api';
 
 import styles from './styles.module.css';
 
@@ -7,6 +10,15 @@ interface NavigationProps {
 }
 
 const Navigation: React.FC<NavigationProps> = (props) => {
+
+  const [categorias, setCategorias] = useState<Category[]>([])
+
+  useEffect(() => {
+    api.get('Categoria/Listar')
+      .then(res => setCategorias(res.data[0]))
+      .catch(err => setCategorias([]))
+  }, [])
+  
   return (
     <Navbar className={styles.navigation} bg="light" variant="light" expand="md">
       <Container className={styles.navigationContent} fluid>
@@ -17,20 +29,18 @@ const Navigation: React.FC<NavigationProps> = (props) => {
               id="nav-dropdown"
               title="Departamentos"
             >
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+              {categorias.length > 0 ?
+                categorias.map((cat, i) => {
+                  return <NavDropdown.Item key={i} href={`/products/list/${cat.descricao}`}> {cat.descricao}</NavDropdown.Item>
+                })
+                : <NavDropdown.Divider />
+              }
             </NavDropdown>
-
             <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
-    </Navbar>
+    </Navbar >
   );
 }
 
