@@ -8,6 +8,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 
 import Footer from '../../../components/Footer';
 import Header from '../../../components/Header';
+import apiWithAuth from '../../../services/apiWithAuth';
 import styles from './styles.module.css';
 
 interface OrderSuccessProps {
@@ -44,15 +45,54 @@ const OrderSuccess: React.FC<OrderSuccessProps> = ({
   );
 }
 
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//   const { user } = context.req.cookies;
+//   const userData = JSON.parse(user);
+
+//   return {
+//     props: {
+//       userId: userData.id,
+//     }
+//   }
+// }
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { user } = context.req.cookies;
-  const userData = JSON.parse(user);
 
-  return {
-    props: {
-      userId: userData.id,
+
+  const { pagina } = context.query;
+  const { tokenCookie } = context.req.cookies;
+
+  if (!tokenCookie) {
+    return {
+      redirect: {
+        destination: '/user/login',
+        permanent: false,
+      }
     }
   }
-}
 
+  if (user) {
+    let userData = JSON.parse(user)
+
+    return await apiWithAuth(tokenCookie).get(`Venda/ListarPorPessoa/${userData.idPessoa}?pagina=${pagina}`)
+      .then(res => {
+        return {
+          props: {
+            pedidos: res.data.vendas,
+            nPages: res.data.nPages,
+            search: userData.idPessoa,
+            activePage: pagina ? pagina : 1
+          }
+        }
+      })
+      .catch(err => {
+        return {
+          redirect: {
+            destination: '/',
+            permanent: false,
+          }
+        }
+      })
+  }
+}
 export default OrderSuccess;

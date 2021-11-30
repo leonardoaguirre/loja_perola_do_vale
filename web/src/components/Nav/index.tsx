@@ -15,7 +15,7 @@ const Navigation: React.FC<NavigationProps> = (props) => {
 
   useEffect(() => {
     api.get('Categoria/Listar')
-      .then(res => setCategorias(res.data[0]))
+      .then(res => setCategorias(res.data.categories))
       .catch(err => setCategorias([]))
   }, [])
   

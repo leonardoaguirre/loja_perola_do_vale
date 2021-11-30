@@ -1,19 +1,6 @@
 Lista de coisas a fazer no projeto
 
-- Estilizar telas do adm
-
 - Deixar front independente do backend
-
--Criar tela de vendas(tabela de exibicao de vendas organizado das mais antigas por status de compra aprovada)
-    *Ao clicar na venda exibir um modal com os itens a serem enviados, o endereco e um campo para alterar o codigo de rastreio da venda
-
--Criar tela de meus pedidos(cliente), para exibir os pedidos realizados(produtos comprados) e o status do mesmo para poder exibir o codigo de rastreio
-
--Criar tela de estoque mostrando os produtos com menor estoque em primeiro
-    *Ao clicar no produto exibe um modal onde mostra todos os lotes comprados daquele produto em uma tabela(com opcao de excluir o lote)
-    *E opcao de adicionar um novo lote daquele produto
-    *E opcao de alterar as informacoes do produto
-    *Criar botao acima da listagem para cadastrar um novo produto
 
 - Corrigir estilos dos logins, formulários de cadastro
 

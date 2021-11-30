@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Placeholder } from 'react-bootstrap';
-
-import { Adress } from '../../models/Costumer';
+import { PostalAdress } from '../../models/PostalAdress';
 import { Product } from '../../models/Product';
 import api from '../../services/api';
 import styles from './styles.module.css';
@@ -13,7 +12,7 @@ interface ShippingCalcProps {
   dontShowTable?: boolean;
   hasPlaceholder?: boolean;
   getFrete?(frete: Shipping): void;
-  freteAuto?: Adress;
+  freteAuto?: PostalAdress;
   setDeliveryType?: (tipoEntrega: number) => void;
   emitEventDeliveryType?: boolean;
 }
