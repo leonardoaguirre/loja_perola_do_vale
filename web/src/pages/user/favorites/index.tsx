@@ -80,7 +80,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
       props: {},
       redirect: {
-        destination: '/',
+        destination: '/user/login',
       }
     }
   }

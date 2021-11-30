@@ -2,7 +2,7 @@ import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
@@ -13,7 +13,7 @@ import api from '../../../services/api';
 import styles from './styles.module.css';
 
 interface LoginProps {
-
+  cameFrom: string;
 }
 
 const Login: React.FC<LoginProps> = (props) => {
@@ -42,7 +42,11 @@ const Login: React.FC<LoginProps> = (props) => {
         console.log(res);
         if (res.statusText == 'OK') {
           loginUser(res.data.pessoa, res.data.token);
-          router.push('/');
+          if (props.cameFrom == null || props.cameFrom == `${process.env.URL}/user/login` || props.cameFrom == `${process.env.URL}/user/form`) {
+            router.push('/');
+          } else {
+            router.push(props.cameFrom);
+          }
         }
       })
       .catch((error) => {
@@ -74,6 +78,10 @@ const Login: React.FC<LoginProps> = (props) => {
       }
     }
   }
+
+  useEffect(() => {
+    console.log(props.cameFrom);
+  }, [])
 
   return (
     <div className="pageContainer entire-page fx-column align-i-center">
@@ -131,7 +139,7 @@ const Login: React.FC<LoginProps> = (props) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const { tokenCookie } = context.req.cookies;
-  console.log(tokenCookie);
+  const referer: string = context.req.headers.referer ? context.req.headers.referer : null;
 
   if (tokenCookie !== undefined) {
     return {
@@ -142,7 +150,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
   return {
-    props: {}
+    props: {
+      cameFrom: referer,
+    }
   }
 }
 

@@ -27,7 +27,7 @@ const TelephoneCard: React.FC<TelephoneCardProps> = (props) => {
   const [erroCadastro, setErroCadastro] = useState([]);
   const [disabledAlt, setDisabledAlt] = useState<boolean>(true);
   const { user } = useContext(UserContext)
-  const { add } = useToasts();
+  const { addToast } = useToasts();
   const router = useRouter()
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const TelephoneCard: React.FC<TelephoneCardProps> = (props) => {
     api.delete('Telefone/Deletar', { data: { id: props.telephone.id } })
       .then((res: any) => {
         router.reload()
-        add({
+        addToast({
           title: 'Telefone Excluido',
           content: `Telefone (${telefone.ddd})${telefone.numero} excluido com sucesso!`,
           delay: 8000,
@@ -67,7 +67,7 @@ const TelephoneCard: React.FC<TelephoneCardProps> = (props) => {
     }).then(() => {
       setShowModal(false)
       router.reload();
-      add({
+      addToast({
         title: 'Telefone Alterado',
         content: `Telefone (${telefone.ddd})${telefone.numero} alterado com sucesso!`,
         delay: 8000,

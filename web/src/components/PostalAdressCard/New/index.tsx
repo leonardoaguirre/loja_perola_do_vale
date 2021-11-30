@@ -18,7 +18,7 @@ function PostalAdressCardNew() {
   const [erroCep, setErroCep] = useState<string>('')
   const [erroCadastro, setErroCadastro] = useState([])
   const { user } = useContext(UserContext);
-  const { add } = useToasts();
+  const { addToast } = useToasts();
   const router = useRouter()
 
   const onChangeCep = (e) => {
@@ -67,7 +67,7 @@ function PostalAdressCardNew() {
       )
         .then(() => {
           setShowModal(false)
-          add({
+          addToast({
             title: 'Endereço Excluido',
             content: `Endereço ${endereco.titulo ? endereco.titulo : ``} cadastrado com sucesso!`,
             delay: 8000,

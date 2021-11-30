@@ -88,7 +88,7 @@ class ControleFuncionario {
             })
     }
     async buscarPorId(request: Request, response: Response) {
-        const id = request.body.idFuncionario;
+        const id = request.params.idFuncionario;
         const funcionarioRepository = getCustomRepository(FuncionarioRepository);
 
         try {

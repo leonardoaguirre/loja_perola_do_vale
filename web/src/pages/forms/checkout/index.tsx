@@ -18,7 +18,8 @@ import ShippingCalc from '../../../components/Shipping';
 import { CartContext } from '../../../contexts/CartContext';
 import { StepperContext } from '../../../contexts/StepperContext';
 import { environment } from '../../../environments/environment';
-import { Adress, Costumer } from '../../../models/Costumer';
+import { Costumer } from '../../../models/Costumer';
+import { PostalAdress } from '../../../models/PostalAdress';
 import { Product } from '../../../models/Product';
 import api from '../../../services/api';
 import styles from './styles.module.css';
@@ -46,11 +47,12 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
   const checkoutRef = useRef(null);
   const paymentRef = useRef(null);
 
-  const [endEntrega, setEndEntrega] = useState<Adress>(props.costumer.pessoaFisica.pessoa.enderecos[0] || null);
+  const [endEntrega, setEndEntrega] = useState<PostalAdress>(props.costumer.pessoaFisica.pessoa.enderecos[0] || null);
   const [frete, setFrete] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
 
   const [deliveryType, setDeliveryType] = useState<number>();
+  const [buscar, setBuscar] = useState<boolean>(false);
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -154,8 +156,8 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
         <div ref={checkoutRef} className={styles.checkoutContainer}>
           <form action="post" onSubmit={(e) => checkout(e)}>
             <Container fluid>
-              <Row id={styles.firstRow} className="justify-content-sm-center">
-                <Col xs={5}>
+              <Row id={styles.firstRow} className="justify-content-center">
+                <Col xs={12} sm={8} md={5}>
                   <h2>Endereço de entrega</h2>
                   {((endEntrega) ? (
                     <>
@@ -216,7 +218,12 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
                   }
                   {cartProducts.length > 0 && endEntrega ?
                     <div className={styles.shippingOptions}>
-                      <h3>Opcoes de frete</h3>
+                      {/* <span className={styles.buscar}>
+                        <ToggleSwitch name="buscar" small={true} checked={buscar} onChange={setBuscar} />
+                        <label>Buscar na loja</label>
+                      </span> */}
+
+                      <h3>Opções de frete</h3>
                       <div className={styles.shipping}>
                         <ShippingCalc
                           produtos={cartProducts}
@@ -233,7 +240,7 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
                     : ``
                   }
                 </Col>
-                <Col xs={5}>
+                <Col xs={12} sm={8} md={5}>
                   <div className={styles.rightContainer}>
                     <div className={styles.summaryContainer}>
                       <h2>Resumo da compra</h2>
@@ -254,8 +261,8 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
           </form>
         </div>
         <div id="paymentRef" ref={paymentRef} className={styles.paymentContainer}>
+          <Button id={styles.backButton} onClick={() => setCurrentStepNumber(3)}><AiOutlineArrowLeft />Voltar</Button>
           <div className={styles.flexRow}>
-            <Button id={styles.backButton} onClick={() => setCurrentStepNumber(3)}><AiOutlineArrowLeft />Voltar</Button>
             <h2>Formas de pagamento</h2>
           </div>
           <Tabs

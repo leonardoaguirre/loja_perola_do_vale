@@ -17,8 +17,6 @@ Lista de coisas a fazer no projeto
 
 - Corrigir estilos dos logins, formulários de cadastro
 
-- Deixar prosseguir na conferencia somente se houver seleção de frete
-
 - Aviso na página de info de produtos, sequencia de hooks errada
 
 - criar lógica dos banners, receber imagens do backend

@@ -5,14 +5,14 @@ import { FaPen, FaTrash } from 'react-icons/fa';
 
 import { useToasts } from '../../../contexts/ToastContext';
 import { UserContext } from '../../../contexts/UserContext';
-import { Adress } from '../../../models/Costumer';
 import { Endereco } from '../../../models/Endereco';
+import { PostalAdress } from '../../../models/PostalAdress';
 import api from '../../../services/api';
 import { ModalExclusion, ModalLarge } from '../../Modal';
 import styles from './styles.module.css';
 
 interface PostalAdressCardProps {
-  postalAdress: Adress;
+  postalAdress: PostalAdress;
   selectable?: boolean;
   selected?: boolean;
 }
@@ -40,7 +40,7 @@ const PostalAdressCard: React.FC<PostalAdressCardProps> = ({
   const [disabledAlt, setDisabledAlt] = useState<boolean>(false);
 
   const { user } = useContext(UserContext);
-  const { add } = useToasts();
+  const { addToast } = useToasts();
   const router = useRouter()
 
   const onChangeEndereco = (field, value) => setEndereco({ ...endereco, [field]: value })
@@ -61,7 +61,7 @@ const PostalAdressCard: React.FC<PostalAdressCardProps> = ({
     api.delete('Endereco/Deletar', { data: { id: postalAdress.id } })
       .then((res: any) => {
         router.reload()
-        add({
+        addToast({
           title: 'Endereço Excluido',
           content: `Endereço (${endereco.titulo || postalAdress.titulo}) excluido com sucesso!`,
           delay: 8000,
@@ -115,7 +115,7 @@ const PostalAdressCard: React.FC<PostalAdressCardProps> = ({
     }).then((res) => {
       setShowModal(false)
       router.reload()
-      add({
+      addToast({
         title: 'Endereço Excluido',
         content: `Endereço (${endereco.titulo || postalAdress.titulo}) alterado com sucesso!`,
         delay: 8000,

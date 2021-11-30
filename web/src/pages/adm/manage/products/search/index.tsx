@@ -1,13 +1,10 @@
-import { request } from 'https';
-import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row, Spinner } from 'react-bootstrap';
+import { MdAddCircle } from 'react-icons/md';
 
-import Footer from '../../../../../components/Footer';
 import Header from '../../../../../components/Header';
-import PaginationBar from '../../../../../components/PaginationBar';
 import PaginationBarSR from '../../../../../components/PaginationBarSR';
 import ProductTable from '../../../../../components/ProductTable';
 import SearchBox from '../../../../../components/SearchBox';
@@ -20,30 +17,30 @@ interface ProductSearchProps {
   nPages: number;
   activePage: number
 }
-interface searchProps {
+interface SearchProps {
   products: Product[];
   nPages: number;
 }
 const ProductSearch: React.FC<ProductSearchProps> = (props) => {
   const router = useRouter();
 
-  // const [isActive, setIsActive] = useState<boolean>(false);
-  const [tableData, setTableData] = useState<searchProps>(null);
+  const [tableData, setTableData] = useState<SearchProps>(null);
   const [error, setError] = useState<string>('');
 
   const [activePage, setActivePage] = useState(props.activePage ? props.activePage : 1)
   const [search, setSearch] = useState(props.search ? props.search : ``)
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const handleSearch = async (searchStr: string, atribute: string) => {
     if (searchStr.length > 0) {
+      setIsLoading(true);
       setSearch(searchStr)
-
       await api.get(`Produto/Procurar/${searchStr}?pagina=${activePage}`)
         .then(
           (res) => {
-            if (res.statusText === "OK") {
+            if (res.status === 200) {
               setTableData(res.data);
-              // setIsActive(true);
               setError('');
             } else {
               setTableData({ products: [], nPages: 0 });
@@ -55,7 +52,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
             setError('Nenhum resultado encontrado');
             setTableData(null);
           }
-        )
+        ).finally(() => setIsLoading(false))
     } else {
       setError('Campo de pesquisa está vazio');
     }
@@ -69,72 +66,65 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
     router.push(url);
   }
 
-  const handleKeyPress = (event: any) => {
-    if (event.target.charCode == 13) {
-      alert('Enter clicked!!!');
-    }
-  }
-
   return (
     <div className="pageContainer">
       <Head><title>Buscar Produto | Ferragens Pérola do Vale</title></Head>
       <Header />
-      <div className={styles.productSearch}>
+      <div className="pageContent">
+        <h2>Gerenciamento de Produtos e Estoque</h2>
         <Container fluid>
-          <Row>
+          <Row className="pb-4">
             <Col xs={9} lg={10}>
               <SearchBox
                 handleSearch={handleSearch}
+                emitHandleInputChange={true}
+                handleInputChange={setSearch}
                 error={error}
+                placeholder="Digite sua pesquisa aqui"
               />
             </Col>
             <Col xs={3} lg={2}>
-              <Button variant="primary" className={styles.createButton} onClick={(event) => onClickButton('/adm/manage/products/form', event)}>
-                <img src="/icons/add_circle_black_36dp.svg" alt="Adicionar" />
+              <Button variant="success" className={styles.createButton} onClick={(event) => onClickButton('/adm/manage/products/form', event)}>
+                <MdAddCircle />
                 <p>Cadastrar</p>
               </Button>
             </Col>
           </Row>
-        </Container>
-        {tableData ?
-          <>
-            <ProductTable products={tableData.products} />
+          {(isLoading ? (
             <Row>
-              <PaginationBarSR nPages={tableData.nPages} activePage={activePage} onClick={(nPag) => { setActivePage(nPag); }} />
+              <Col className="d-flex justify-content-center pt-5" xs={12}>
+                <Spinner id={styles.spinner} animation="border" role="status" variant="primary">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              </Col>
             </Row>
-          </>
-          : ''
-        }
+          ) : (
+            (tableData ?
+              <>
+                <Row>
+                  <ProductTable products={tableData.products} />
+                </Row>
+                <Row>
+                  <PaginationBarSR nPages={tableData.nPages} activePage={activePage} onClick={(nPag) => { setActivePage(nPag) }} />
+                </Row>
+              </>
+              : '')
+          ))}
+          {/* {tableData ?
+            <>
+              <Row>
+                <ProductTable products={tableData.products} />
+              </Row>
+              <Row>
+                <PaginationBarSR nPages={tableData.nPages} activePage={activePage} onClick={(nPag) => { setActivePage(nPag); }} />
+              </Row>
+            </>
+            : ''
+          } */}
+        </Container>
       </div>
-      <Footer />
     </div>
   );
-}
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { pagina } = context.query;
-  const { search } = context.params || ``;
-
-  if (pagina && search) {
-    let data;
-    await api.get(`Produto/Procurar/${search}?pagina=${pagina}`)
-      .then(res => {
-        if (res.status === 200) data = res.data
-        else if (res.status === 401) return { notFound: true }
-      })
-    // .catch(err => console.log(err))
-
-    return {
-      props: {
-        products: data.products,
-        nPages: data.nPages,
-        search: search,
-        activePage: pagina ? pagina : 1
-      }
-    }
-  }
-  return {
-    props: {}
-  }
 }
 
 export default ProductSearch;

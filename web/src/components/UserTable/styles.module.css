@@ -1,91 +1,132 @@
-.clientTable .filters {
-    display: flex;
-    flex-direction: column;
+.selected {
+  background-color: var(--primary-light);
 }
 
-.clientTable .table {
-    border-collapse: collapse;
-    width: 100%;
-    margin: 0 auto;
-    max-width: 2880px;
+.bContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-end;
+  align-items: center;
+  position: sticky;
+  bottom: 2rem;
+  margin: 0.5rem 1rem;
+  pointer-events: none;
 }
 
-.clientTable .table .selected {
-    background-color: blue;
+.aContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  /* width: 17rem; */
+  margin: 0 12px;
 }
 
-.clientTable .table thead tr th {
-    background-color: #a7baff;
-    font-weight: bold;
-    padding: 1rem 2rem;
+.actions {
+  width: fit-content;
+  min-width: 8rem;
+  max-width: 18rem;
+  padding: 0.6rem 0;
+  border-radius: 30px;
+  background-color: var(--bs-gray-400);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.2s;
+  pointer-events: auto;
 }
 
-.clientTable .table tr td {
-    cursor: pointer;
+.actions button {
+  border: none;
+  background-color: inherit;
+  padding: 2px;
 }
 
-.clientTable .table tr td, .productsTable table tr th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-  
-.clientTable .table tr:nth-child(even) {
-    background-color: #dfe5fa;
+.actions button:disabled {
+  background: gray;
+  color: white;
 }
 
-.clientTable .table tr:hover td {
-    background-color: #d0dcff;
-    color: white;
+.hover {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.clientTable .table tr.selected td {
-    background-color: #4b79f7;
-    color: white;
+.hover:hover div:hover button.active {
+  width: 8rem;
+  border-radius: 30px;
 }
 
-.actionsContainer {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+.actions svg {
+  width: 2.2rem;
+  height: 2.2rem;
+  padding: 6px;
+  color: var(--bs-white);
 }
 
-.actionsContainer button {
-    width: 12rem;
-    height: 4rem;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.actions div {
+  margin: 0 4px;
 }
 
-.actionsContainer .buttonContainer {
-    display: flex;
-    flex-direction: row;
-    padding: 2rem 2rem;
+.edit button {
+  width: 3rem;
+  height: 3rem;
+  background-color: rgb(226, 137, 43);
+  border-radius: 50%;
+  transition: 0.3s;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
 }
 
-.actionsContainer .buttonContainer .createButton {
-    background-color: #068601;
-    color: white;
+.edit button.active::after {
+  animation-name: fade;
+  animation-duration: 0.5s;
 }
 
-.actionsContainer .buttonContainer .updateButton {
-    background-color: #bdba00;
-    color: black;
-    margin: 0 1rem;
+.edit button.active:hover::after {
+  content: attr(title);
+  color: white;
 }
 
-.actionsContainer .buttonContainer .updateButton:disabled {
-    background: gray;
-    color: white;
+.delete button {
+  width: 3rem;
+  height: 3rem;
+  background-color: rgb(226, 55, 43);
+  border-radius: 50%;
+  transition: 0.3s;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
 }
 
-.actionsContainer .buttonContainer .deleteButton {
-    background-color: #e73b3b;
-    color: white;
+.delete button.active::after {
+  animation-name: fade;
+  animation-duration: 0.5s;
 }
 
-.actionsContainer .buttonContainer .deleteButton:disabled {
-    background: gray;
+.delete button.active:hover::after {
+  content: attr(title);
+  color: white;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

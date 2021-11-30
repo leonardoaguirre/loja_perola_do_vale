@@ -54,7 +54,8 @@
   nav-index: 4;
 }
 
-.userContainer a img {
+.userContainer a img,
+.userContainer a svg {
   height: 3rem;
   width: 3rem;
   border-radius: 50%;
@@ -232,7 +233,7 @@
   }
 }
 
-@media(max-width: 575px) {
+@media (max-width: 575px) {
   .userInfo {
     display: none;
   }

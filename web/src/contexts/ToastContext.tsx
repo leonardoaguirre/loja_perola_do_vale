@@ -7,8 +7,8 @@ import { Toast, ToastContainer } from 'react-bootstrap';
 import { MyToast } from '../models/MyToast';
 
 interface ToastContextData {
-  add: (toast: MyToast) => void;
-  remove: (id: number) => void;
+  addToast: (toast: MyToast) => void;
+  removeToast: (id: number) => void;
 }
 
 interface Toaste {
@@ -30,7 +30,6 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
 
   useEffect(() => {
     const toastNotification: Toaste[] = Cookies.getJSON('toasts');
-    console.log(toastNotification);
 
     if (toastNotification) {
       setToasts(toastNotification);
@@ -38,13 +37,13 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
 
   }, []);
 
-  const add = toast => {
+  const addToast = toast => {
     const id = toasts.length + 1;
     const newToast = { toast, id };
     setToasts([...toasts, newToast]);
   }
 
-  const remove = id => {
+  const removeToast = id => {
     const newToasts = toasts.filter(t => t.id !== id);
     setToasts(newToasts);
   };
@@ -56,8 +55,8 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
   return (
     <ToastContext.Provider
       value={{
-        add,
-        remove
+        addToast,
+        removeToast
       }}
     >
       {children}
@@ -74,14 +73,14 @@ export function ToastProvider({ children }: ToastContextProviderProps) {
           <Toast
             key={id}
             show={true}
-            onClose={() => remove(id)}
+            onClose={() => removeToast(id)}
             delay={toast.delay}
             autohide={toast.autohide}
             bg={toast.variant}
           >
             <Toast.Header>
               {toast.img}
-              <strong className="me-auto">{toast.title}{console.log(toast)}</strong>
+              <strong className="me-auto">{toast.title}</strong>
               <small>{toast.time}</small>
             </Toast.Header>
             <Toast.Body>{toast.content}</Toast.Body>
