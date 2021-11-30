@@ -36,7 +36,7 @@ const Navigation: React.FC<NavigationProps> = (props) => {
                 : <NavDropdown.Divider />
               }
             </NavDropdown>
-            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="/">Home</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
