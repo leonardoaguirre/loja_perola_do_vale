@@ -39,7 +39,7 @@ class ControleCategoria {
         const categoriaRepository = getCustomRepository(CategoriaRepository);
         const query = request.query.pagina
         const pagina = query ? parseInt(query.toString()) : 1
-        const itensPorPagina: number = 3
+        const itensPorPagina: number = 10
 
         await categoriaRepository.findAndCount({
             skip: (pagina - 1) * itensPorPagina,
@@ -48,7 +48,11 @@ class ControleCategoria {
             .then(async (result) => {
                 if (result[0].length > 0) {
                     result[1] = Math.ceil(result[1] / itensPorPagina)
-                    return response.status(200).json(result);
+                    const data = {
+                        categories: result[0],
+                        nPages: result[1]
+                    }
+                    return response.status(200).json(data);
                 } else {
                     return response.status(400).json(new AppError('Nenhuma Categoria encontrada', 'categoria'));
                 }

@@ -10,6 +10,7 @@ import Footer from '../../../../../components/Footer';
 import Header from '../../../../../components/Header';
 import { environment } from '../../../../../environments/environment';
 import styles from './styles.module.css';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 
 
 interface UploadedFiles {
@@ -178,9 +179,9 @@ function productForm() {
 
   const fillCategories = async () => {
     const response = await fetch(`${environment.API}/categoria/listar`);
-    const data: Category[] = await response.json();
+    const data: { categories: Category[], nPages: number } = await response.json();
 
-    setCategories(data);
+    setCategories(data.categories);
   }
 
   function handleInputChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
@@ -243,168 +244,201 @@ function productForm() {
     <div className="pageContainer">
       <Head><title>Cadastrar Produto | Ferragens Pérola do Vale</title></Head>
       <Header />
-      <div className={styles.productForm}>
+      <div className="pageContent">
         <h1>Cadastrar Produto</h1>
         <div className={styles.formContainer}>
           <form encType="multipart/form-data" onSubmit={handleSubmit}>
-            <div className={styles.name}>
-              <label htmlFor="nome">Nome</label>
-              <div className={styles.inputContainer}>
-                <input type="text" placeholder="Nome" name="nome" autoComplete="off" onChange={handleInputChange} required />
-              </div>
-            </div>
-            <div className={styles.brand}>
-              <label htmlFor="marca">Marca</label>
-              <div className={styles.inputContainer}>
-                <input type="text" placeholder="Marca" name="marca" autoComplete="off" onChange={handleInputChange} required />
-              </div>
-            </div>
-            <div className={styles.description}>
-              <label htmlFor="descricao">Descrição</label>
-              <div className={styles.inputContainer}>
-                <textarea placeholder="Descrição" name="descricao" autoComplete="off" onChange={handleInputChange} required />
-              </div>
-            </div>
-            <div className={styles.qtd}>
-              <label htmlFor="quantidade">Quantidade</label>
-              <div className={styles.inputContainer}>
-                <input type="text" placeholder="quantidade" name="quantidade" autoComplete="off" onChange={handleInputChange} required />
-              </div>
-            </div>
-            <div className={styles.peso}>
-              <label htmlFor="Peso">Peso</label>
-              <div className={styles.inputContainer}>
-                <input type="text" placeholder="Peso" name="peso" autoComplete="off" onChange={handleInputChange} required />
-              </div>
-            </div>
-            <div className={styles.altura}>
-              <label htmlFor="altura">Altura</label>
-              <div className={styles.inputContainer}>
-                <input type="text" placeholder="Altura" name="altura" autoComplete="off" onChange={handleInputChange} required />
-              </div>
-            </div>
-            <div className={styles.size}>
-              <label htmlFor="largura">Largura</label>
-              <div className={styles.inputContainer}>
-                <input type="text" placeholder="Largura" name="largura" autoComplete="off" onChange={handleInputChange} required />
-              </div>
-            </div>
-            <div className={styles.comprimento}>
-              <label htmlFor="comprimento">comprimento</label>
-              <div className={styles.inputContainer}>
-                <input type="text" placeholder="comprimento" name="comprimento" autoComplete="off" onChange={handleInputChange} required />
-              </div>
-            </div>
-            <div className={styles.salePrice}>
-              <label htmlFor="valorVenda">Preço de venda</label>
-              <div className={styles.inputContainer}>
-                <div className={styles.currency}>R$</div>
-                <input type="text" placeholder="" name="valorVenda" autoComplete="off" onChange={handleInputChange} required />
-              </div>
-            </div>
-            <div className={styles.provider}>
-              <label htmlFor="fornecedor">Fornecedor</label>
-              {isProviderSelectActive
-                ? <div className={styles.selectContainer}>
-                  <select name="fornecedor" onChange={handleSelectProvider}>
-                    <option value="0">Selecione um fonecedor</option>
-                    {providers.map(provider => (
-                      <option key={provider.id} value={provider.id}>{provider.pessoaJuridica.nomeFantasia}</option>
-                    ))}
-                  </select>
-                  {providersSelected.length > 0
-                    ? <div className={styles.cancelSelect}><button onClick={handleCancelSelectProvider}>Cancelar</button></div>
-                    : ''}
-                </div>
-                : <button className={styles.addProvider} onClick={handleAddProvider}>
-                  <span>Adicionar fornecedor</span>
-                  <MdAddBox
-                    color='#fca311'
-                    size={32}
-                  />
-                </button>}
-              <div className={styles.providersSelected}>
-                {providersSelected.map(providerSelected => (
-                  <div key={providerSelected.id} className={styles.providerItemSelected}>
-                    <div>{providerSelected.pessoaJuridica.nomeFantasia}</div>
-                    <button onClick={() => handleDeleteProvider(providerSelected)}>
-                      <img src="/icons/close_black_36dp.svg" alt="x" title="Excluir" />
-                    </button>
+            <Container fluid>
+              <Row className="pb-4">
+                <Col xs={12} md={3}>
+                  <div className={styles.name}>
+                    <label htmlFor="nome"><strong>Nome</strong></label>
+                    <div className={styles.inputContainer}>
+                      <input type="text" placeholder="Nome" name="nome" autoComplete="off" onChange={handleInputChange} required />
+                    </div>
                   </div>
-                ))}
-              </div>
-            </div>
-            <div className={styles.category}>
-              <label htmlFor="categoria">Categoria</label>
-              {isCategorySelectActive
-                ? <div className={styles.selectContainer}>
-                  <select name="categoria" onChange={handleSelectCategory}>
-                    <option value="0">Selecione uma categoria</option>
-                    {categories.map(category => (
-                      <option key={category.id} value={category.id}>{category.descricao}</option>
-                    ))}
-                  </select>
-                  {categoriesSelected.length > 0
-                    ? <div className={styles.cancelSelect}><button onClick={handleCancelSelectCategory}>Cancelar</button></div>
-                    : ''}
-                </div>
-                : <button className={styles.addCategory} onClick={handleAddCategory}>
-                  <span>Adicionar categoria</span>
-                  <MdAddBox
-                    color='#fca311'
-                    size={32}
-                  />
-                </button>}
+                </Col>
+                <Col xs={6} md={3}>
+                  <div className={styles.barcode}>
+                    <label htmlFor="codBarra"><strong>Código de barra</strong></label>
+                    <div className={styles.inputContainer}>
+                      <input
+                        name="codBarra"
+                        type="text"
+                        placeholder="Código de barra"
+                        minLength={12}
+                        maxLength={13}
+                        autoComplete="off"
+                        required
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={6} md={3}>
+                  <div className={styles.brand}>
+                    <label htmlFor="marca"><strong>Marca</strong></label>
+                    <div className={styles.inputContainer}>
+                      <input type="text" placeholder="Marca" name="marca" autoComplete="off" onChange={handleInputChange} required />
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={6} md={3}>
+                  <div className={styles.qtd}>
+                    <label htmlFor="quantidade"><strong>Quantidade</strong></label>
+                    <div className={styles.inputContainer}>
+                      <input type="text" placeholder="Quantidade" name="quantidade" autoComplete="off" onChange={handleInputChange} required />
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={6} md={3}>
+                  <div className={styles.altura}>
+                    <label htmlFor="altura"><strong>Altura</strong></label>
+                    <div className={styles.inputContainer}>
+                      <input type="text" placeholder="Altura" name="altura" autoComplete="off" onChange={handleInputChange} required />
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={6} md={3}>
+                  <div className={styles.size}>
+                    <label htmlFor="largura"><strong>Largura</strong></label>
+                    <div className={styles.inputContainer}>
+                      <input type="text" placeholder="Largura" name="largura" autoComplete="off" onChange={handleInputChange} required />
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={6} md={3}>
+                  <div className={styles.comprimento}>
+                    <label htmlFor="comprimento"><strong>Comprimento</strong></label>
+                    <div className={styles.inputContainer}>
+                      <input type="text" placeholder="Comprimento" name="comprimento" autoComplete="off" onChange={handleInputChange} required />
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={6} md={3}>
+                  <div className={styles.peso}>
+                    <label htmlFor="Peso"><strong>Peso</strong></label>
+                    <div className={styles.inputContainer}>
+                      <input type="text" placeholder="Peso" name="peso" autoComplete="off" onChange={handleInputChange} required />
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={6} md={4}>
+                  <div className={styles.salePrice}>
+                    <label htmlFor="valorVenda"><strong>Preço de venda</strong></label>
+                    <div className={styles.inputContainer}>
+                      <div className={styles.currency}>R$</div>
+                      <input type="number" placeholder="" name="valorVenda" autoComplete="off" onChange={handleInputChange} required />
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={6} md={4}>
+                  <div className={styles.provider}>
+                    <label htmlFor="fornecedor"><strong>Fornecedor</strong></label>
+                    {isProviderSelectActive
+                      ? <div className={styles.selectContainer}>
+                        <select name="fornecedor" onChange={handleSelectProvider}>
+                          <option value="0">Selecione um fonecedor</option>
+                          {providers.map(provider => (
+                            <option key={provider.id} value={provider.id}>{provider.pessoaJuridica.nomeFantasia}</option>
+                          ))}
+                        </select>
+                        {providersSelected.length > 0
+                          ? <div className={styles.cancelSelect}><button onClick={handleCancelSelectProvider}>Cancelar</button></div>
+                          : ''}
+                      </div>
+                      : <button className={styles.addProvider} onClick={handleAddProvider}>
+                        <span>Adicionar fornecedor</span>
+                        <MdAddBox
+                          color='#fca311'
+                          size={32}
+                        />
+                      </button>}
+                    <div className={styles.providersSelected}>
+                      {providersSelected.map(providerSelected => (
+                        <div key={providerSelected.id} className={styles.providerItemSelected}>
+                          <div>{providerSelected.pessoaJuridica.nomeFantasia}</div>
+                          <button onClick={() => handleDeleteProvider(providerSelected)}>
+                            <img src="/icons/close_black_36dp.svg" alt="x" title="Excluir" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={6} md={4}>
+                  <div className={styles.category}>
+                    <label htmlFor="categoria"><strong>Categoria</strong></label>
+                    {isCategorySelectActive
+                      ? <div className={styles.selectContainer}>
+                        <select name="categoria" onChange={handleSelectCategory}>
+                          <option value="0">Selecione uma categoria</option>
+                          {categories.map(category => (
+                            <option key={category.id} value={category.id}>{category.descricao}</option>
+                          ))}
+                        </select>
+                        {categoriesSelected.length > 0
+                          ? <div className={styles.cancelSelect}><button onClick={handleCancelSelectCategory}>Cancelar</button></div>
+                          : ''}
+                      </div>
+                      : <button className={styles.addCategory} onClick={handleAddCategory}>
+                        <span>Adicionar categoria</span>
+                        <MdAddBox
+                          color='#fca311'
+                          size={32}
+                        />
+                      </button>}
 
-              <div className={styles.categoriesSelected}>
-                {categoriesSelected.map(categorySelected => (
-                  <div key={categorySelected.id} className={styles.categoryItemSelected}>
-                    <div>{categorySelected.descricao}</div>
-                    <button onClick={() => handleDeleteCategory(categorySelected)}>
-                      <img src="/icons/close_black_36dp.svg" alt="x" title="Excluir" />
-                    </button>
+                    <div className={styles.categoriesSelected}>
+                      {categoriesSelected.map(categorySelected => (
+                        <div key={categorySelected.id} className={styles.categoryItemSelected}>
+                          <div>{categorySelected.descricao}</div>
+                          <button onClick={() => handleDeleteCategory(categorySelected)}>
+                            <img src="/icons/close_black_36dp.svg" alt="x" title="Excluir" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                ))}
-              </div>
-            </div>
-            <div className={styles.barcode}>
-              <label htmlFor="codBarra">Código de barra</label>
-              <div className={styles.inputContainer}>
-                <input
-                  name="codBarra"
-                  type="text"
-                  placeholder="Código de barra"
-                  minLength={12}
-                  maxLength={13}
-                  autoComplete="off"
-                  required
-                  onChange={handleInputChange}
-                />
-              </div>
-            </div>
-            <div className={styles.image}>
-              <label htmlFor="imagem">Imagem</label>
-              <div className={styles.inputContainer}>
-                <Dropzone
-                  onUpload={handleUpload}
-                  filesLength={uploadedFiles.length}
-                  filesLimit={limit}
-                  isDisabled={isUploadDisabled}
-                />
-                {!!uploadedFiles.length && (
-                  <FileList files={uploadedFiles} onDelete={handleDeleteUploadedFiles} />
-                )}
-              </div>
-            </div>
-            <div className={styles.buttonsContainer}>
-              <div className={styles.create}>
-                <input type="submit" value="Cadastrar" />
-              </div>
-            </div>
+                </Col>
+                <Col xs={6}>
+                  <div className={styles.description}>
+                    <label htmlFor="descricao"><strong>Descrição</strong></label>
+                    <div className={styles.inputContainer}>
+                      <textarea placeholder="Descrição" name="descricao" autoComplete="off" onChange={handleInputChange} required />
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={6}>
+                  <div className={styles.image}>
+                    <label htmlFor="imagem"><strong>Imagem</strong></label>
+                    <div className={styles.inputContainer}>
+                      <Dropzone
+                        onUpload={handleUpload}
+                        filesLength={uploadedFiles.length}
+                        filesLimit={limit}
+                        isDisabled={isUploadDisabled}
+                      />
+                      {!!uploadedFiles.length && (
+                        <FileList files={uploadedFiles} onDelete={handleDeleteUploadedFiles} />
+                      )}
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+              <Row className="d-flex justify-content-center">
+                <Col xs={12} sm={6}>
+                  <div className={styles.buttonsContainer}>
+                    <div className={styles.create}>
+                      <Button className="w-100" type="submit"><strong>Cadastrar</strong></Button>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+            </Container>
           </form>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

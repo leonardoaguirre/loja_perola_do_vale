@@ -1,18 +1,152 @@
-.container {
-  height: 100%;
+.formContainer form input,
+.formContainer form textarea,
+.formContainer form select {
   width: 100%;
-  margin: 0 auto;
+  border: none;
+  outline: 0;
+  background: inherit;
+}
 
+.formContainer .inputContainer,
+.formContainer .selectContainer {
+  background-color: white;
+  padding: 1rem 1rem;
+}
+
+.formContainer .image .inputContainer {
+  padding: 1rem;
+}
+
+.formContainer label {
+  margin-top: 1rem;
+}
+
+
+/* .formContainer .name input,
+.formContainer .brand input,
+.formContainer .description textarea,
+.formContainer .size input,
+.formContainer .salePrice input,
+.formContainer .barcode input,
+.formContainer .image input,
+.formContainer .qtd input,
+.formContainer .peso input,
+.formContainer .altura input,
+.formContainer .comprimento input,
+.formContainer .provider select,
+.formContainer .category select {
+  width: 100%;
+  border: none;
+} */
+
+.formContainer .salePrice .inputContainer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: center;
+
+  font-size: 1rem;
 }
 
-.productForm {
-  width: 95%;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 1.6rem 0;
+.formContainer .salePrice .currency {
+  color: green;
+  padding-right: 1rem;
 }
+
+.formContainer .salePrice input {
+  background-color: inherit;
+  width: 100%;
+  /* font-size: 2.8rem; */
+  color: var(--secondary);
+}
+
+.addCategory,
+.addProvider {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  border: none;
+  background-color: inherit;
+  font-size: 1rem;
+}
+
+.addCategory:hover,
+.addProvider:hover {
+  color: var(--primary);
+}
+
+.addCategory svg,
+.addProvider svg {
+  width: 2rem;
+  height: 2rem;
+  margin-left: 0.6rem;
+}
+
+.cancelSelect {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  /* margin-top: 1rem; */
+  /* position: absolute; */
+}
+
+.cancelSelect button {
+  display: flex;
+  align-items: center;
+  background-color: inherit;
+  transition: 0.2s;
+  border: none;
+  color: var(--bs-gray-600);
+}
+
+.cancelSelect button:hover,
+.cancelSelect button:hover {
+  color: black;
+}
+
+.providersSelected,
+.categoriesSelected {
+  margin-top: 1rem;
+  height: fit-content;
+  background-color: white;
+}
+
+.categoryItemSelected,
+.providerItemSelected {
+  background-color: var(--primary-light);
+  padding: 0.4rem 0.7rem;
+  display: inline-flex;
+  margin: 0.5rem;
+  align-items: center;
+}
+
+.categoryItemSelected div,
+.providerItemSelected div {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.categoryItemSelected button,
+.providerItemSelected button {
+  border: none;
+  background-color: inherit;
+  display: flex;
+  align-items: center;
+}
+
+.categoryItemSelected button img,
+.providerItemSelected button img {
+  width: 1rem;
+  position: relative;
+}
+
+.create button {
+  height: 3rem;
+}
+
+/* 
 
 .productForm h1 {
   display: flex;
@@ -313,4 +447,4 @@
 .productForm .formContainer .buttonsContainer .create input:focus,
 .productForm .formContainer .buttonsContainer .reset input:focus {
   outline: none;
-}
+} */
