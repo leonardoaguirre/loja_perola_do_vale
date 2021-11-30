@@ -12,25 +12,31 @@ class FuncionarioRepository extends Repository<Funcionario>{
             .where("pessoa.email = :email", { email: email })
             .getOne();
     }
-    buscaPor(pesquisa: string, atributo: string) {
+    buscaPor(pesquisa: string, atributo: string, skip : number, take : number) {
         if (atributo === "nome") {
             return this.createQueryBuilder("funcionario")
                 .leftJoinAndSelect("funcionario.pessoaFisica", "pessoaFisica")
                 .leftJoinAndSelect("pessoaFisica.pessoa", "pessoa")
                 .where("pessoaFisica.nome like :nome", { nome: `%${pesquisa}%` })
-                .getMany();
+                .skip(skip)
+                .take(take)
+                .getManyAndCount();
         } else if (atributo === "email") {
             return this.createQueryBuilder("funcionario")
                 .leftJoinAndSelect("funcionario.pessoaFisica", "pessoaFisica")
                 .leftJoinAndSelect("pessoaFisica.pessoa", "pessoa")
                 .where("pessoa.email like :email", { email: `%${pesquisa}%` })
-                .getMany();
+                .skip(skip)
+                .take(take)
+                .getManyAndCount();
         } else if (atributo === "cpf") {
             return this.createQueryBuilder("funcionario")
                 .leftJoinAndSelect("funcionario.pessoaFisica", "pessoaFisica")
                 .leftJoinAndSelect("pessoaFisica.pessoa", "pessoa")
                 .where("pessoaFisica.cpf like :cpf", { cpf: `%${pesquisa}%` })
-                .getMany();
+                .skip(skip)
+                .take(take)
+                .getManyAndCount();
         }
     }
     async validaDados(Funcionario: Funcionario) {
