@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { AiOutlineUser } from 'react-icons/ai';
 import { BsCardChecklist } from 'react-icons/bs';
-import { MdDoneOutline, MdOutlineShoppingCart, MdPayment } from 'react-icons/md';
+import { MdDoneOutline, MdOutlineLibraryBooks, MdOutlineShoppingCart, MdPayment } from 'react-icons/md';
 
 import { UserContext } from '../../contexts/UserContext';
 import Input from '../Input/Search';
@@ -22,10 +22,10 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const router = useRouter();
 
-  const { user, logoutUser } = useContext(UserContext);
+  const { user, accessType, logoutUser } = useContext(UserContext);
 
   const [search, setSearch] = useState("");
-  const [type, setType] = useState<string>(headerType ? headerType : 'default');
+  const [type, setType] = useState<string>('default');
 
   const handleSearch = () => {
     if (search) {
@@ -34,6 +34,23 @@ const Header: React.FC<HeaderProps> = ({
       alert("Preencha o campo de pesquisa!");
     }
   }
+
+  useEffect(() => {
+    console.log(type, accessType)
+
+    if (headerType) {
+      setType(headerType);
+    } else {
+      if (accessType == 'adm') {
+        setType('adm');
+      } else {
+        setType('default');
+      }
+    }
+
+    console.log(type)
+
+  }, [type, accessType])
 
   return (
     <Container fluid color="secondary">
@@ -61,7 +78,7 @@ const Header: React.FC<HeaderProps> = ({
                 </a>
               </Link>
             </Col>
-            {(type == 'default' ? (
+            {((type == 'default' || type == 'adm') ? (
               <>
                 <Col xs={12} sm={12} md={5} lg={4} xl={5}>
                   <Input
@@ -73,15 +90,28 @@ const Header: React.FC<HeaderProps> = ({
                 <Col xs={3} sm={4} md={2} lg={3} xl={3}>
                   <div className={styles.userContainer}>
                     {user ? (
-                      <Link href="/user/account">
-                        <a>
-                          <img
-                            src="/icons/account_circle-black-36dp.svg"
-                            alt="Usuário"
-                            title="Minha Conta"
-                          />
-                        </a>
-                      </Link>
+                      ((type == 'adm') ? (
+                        <Link href="/adm/manage/menu">
+                          <a>
+                            {/* <img
+                              src="/icons/account_circle-black-36dp.svg"
+                              alt="Usuário"
+                              title="Menu de gerenciamento"
+                            /> */}
+                            <MdOutlineLibraryBooks color='black' />
+                          </a>
+                        </Link>
+                      ) : (
+                        <Link href="/user/account">
+                          <a>
+                            <img
+                              src="/icons/account_circle-black-36dp.svg"
+                              alt="Usuário"
+                              title="Minha Conta"
+                            />
+                          </a>
+                        </Link>
+                      ))
                     ) : (
                       <Link href="/user/login">
                         <a>
@@ -95,16 +125,29 @@ const Header: React.FC<HeaderProps> = ({
                     )}
 
                     {user ? (
-                      <div className={styles.userInfo}>
-                        <strong>{user.nome}</strong>
-                        <div className={styles.log}>
-                          <Link href="/user/account">
-                            <a>Minha&nbsp;Conta</a>
-                          </Link>
-                          <div className={styles.divider}></div>
-                          <button onClick={logoutUser}>Sair</button>
+                      ((type == 'adm') ? (
+                        <div className={styles.userInfo}>
+                          <strong>{user.nome}</strong>
+                          <div className={styles.log}>
+                            <Link href="/adm/manage/menu">
+                              <a>Gerenciar</a>
+                            </Link>
+                            <div className={styles.divider}></div>
+                            <button onClick={logoutUser}>Sair</button>
+                          </div>
                         </div>
-                      </div>
+                      ) : (
+                        <div className={styles.userInfo}>
+                          <strong>{user.nome}</strong>
+                          <div className={styles.log}>
+                            <Link href="/user/account">
+                              <a>Minha&nbsp;Conta</a>
+                            </Link>
+                            <div className={styles.divider}></div>
+                            <button onClick={logoutUser}>Sair</button>
+                          </div>
+                        </div>
+                      ))
                     ) : (
                       <div className={styles.userInfo}>
                         <div className={styles.nolog}>
@@ -193,8 +236,8 @@ const Header: React.FC<HeaderProps> = ({
             {(type == 'login') ? ('') : ('')}
           </div>
         </header>
-      </Row>
-    </Container>
+      </Row >
+    </Container >
   );
 };
 
