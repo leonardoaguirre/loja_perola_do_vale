@@ -1,6 +1,8 @@
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Button, Col, Container, Row } from 'react-bootstrap';
+import apiWithAuth from '../../../../services/apiWithAuth';
 
 import styles from './styles.module.css';
 
@@ -45,6 +47,32 @@ const Menu: React.FC<MenuProps> = (props) => {
       </div>
     </div>
   );
+
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { tokenCookie } = context.req.cookies;
+
+  if (!tokenCookie) {
+    return {
+      redirect: {
+        destination: '/user/login',
+        permanent: false,
+      }
+    }
+  }
+  return await apiWithAuth(tokenCookie).get('Funcionario/Autorizar')
+    .then(res => {
+      return { props: {} }
+    })
+    .catch(err => {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        }
+      }
+    })
 }
 
 export default Menu;

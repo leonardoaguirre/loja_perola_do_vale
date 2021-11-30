@@ -10,6 +10,7 @@ import SaleResume from '../../../../../components/SaleResume';
 import SearchBox from '../../../../../components/SearchBox';
 import { Order } from '../../../../../models/Order';
 import api from '../../../../../services/api';
+import apiWithAuth from '../../../../../services/apiWithAuth';
 import styles from './styles.module.css';
 
 interface ListSaleProps {
@@ -188,7 +189,17 @@ const ListSales: React.FC<ListSaleProps> = (props) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { user } = context.req.cookies;
   const { pagina } = context.query;
+  const { tokenCookie } = context.req.cookies;
 
+  if (!tokenCookie) {
+    return {
+      redirect: {
+        destination: '/user/login',
+        permanent: false,
+      }
+    }
+  }
+  
   let data;
   await api.get(`Venda/ListarVendas?pagina=${pagina}`)
     .then(res => {
@@ -196,13 +207,26 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       else if (res.status === 401) return { notFound: true }
     })
     .catch(err => console.log(err))
+    
+  return await apiWithAuth(tokenCookie).get('Funcionario/Autorizar')
+    .then(res => {
+      return {
+        props: {
+          vendas: data.vendas,
+          nPages: data.nPages,
+          activePage: pagina ? pagina : 1
+        }
+      }
+    })
+    .catch(err => {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        }
+      }
+    })
 
-  return {
-    props: {
-      vendas: data.vendas,
-      nPages: data.nPages,
-      activePage: pagina ? pagina : 1
-    }
-  }
 }
+
 export default ListSales;

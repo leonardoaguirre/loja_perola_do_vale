@@ -36,8 +36,6 @@ const Header: React.FC<HeaderProps> = ({
   }
 
   useEffect(() => {
-    console.log(type, accessType)
-
     if (headerType) {
       setType(headerType);
     } else {
@@ -47,9 +45,6 @@ const Header: React.FC<HeaderProps> = ({
         setType('default');
       }
     }
-
-    console.log(type)
-
   }, [type, accessType])
 
   return (

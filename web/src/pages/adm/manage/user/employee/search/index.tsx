@@ -1,3 +1,4 @@
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -10,6 +11,7 @@ import PaginationBarSR from '../../../../../../components/PaginationBarSR';
 import SearchBox from '../../../../../../components/SearchBox';
 import { Employee } from '../../../../../../models/Employee';
 import api from '../../../../../../services/api';
+import apiWithAuth from '../../../../../../services/apiWithAuth';
 import styles from './styles.module.css';
 
 interface EmployeeSearchProps {
@@ -77,8 +79,6 @@ const EmployeeSearch: React.FC<EmployeeSearchProps> = (props) => {
       <Head><title>Buscar Colaborador | Ferragens Pérola do Vale</title></Head>
       <Header />
       <div className="pageContent">
-        {console.log(tableData)}
-
         <h2>Gerenciamento de Funcionários</h2>
         <Container fluid>
           <Row className="pb-4">
@@ -126,4 +126,28 @@ const EmployeeSearch: React.FC<EmployeeSearchProps> = (props) => {
   );
 }
 
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { tokenCookie } = context.req.cookies;
+
+  if (!tokenCookie) {
+    return {
+      redirect: {
+        destination: '/user/login',
+        permanent: false,
+      }
+    }
+  }
+  return await apiWithAuth(tokenCookie).get('Funcionario/Autorizar')
+    .then(res => {
+      return { props: {} }
+    })
+    .catch(err => {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        }
+      }
+    })
+}
 export default EmployeeSearch;

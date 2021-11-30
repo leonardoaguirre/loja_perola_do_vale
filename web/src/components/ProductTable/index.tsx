@@ -7,6 +7,7 @@ import { useToasts } from '../../contexts/ToastContext';
 import { environment } from '../../environments/environment';
 import { Product } from '../../models/Product';
 import api from '../../services/api';
+import { Utils } from '../../shared/classes/utils';
 import { ModalExclusion } from '../Modal';
 import StockResume from '../StockResume';
 import styles from './styles.module.css';
@@ -121,7 +122,7 @@ const ProductTable: React.FC<ProductTableProps> = (props) => {
               <td>{product.marca}</td>
               <td className={styles.textLimited}><p>{product.descricao}</p></td>
               <td className={styles.alignLeft}>{product.quantidade}</td>
-              <td className={styles.alignLeft}>{product.valorVenda}</td>
+              <td className={styles.alignLeft}>R$ {Utils.formatMoney(product.valorVenda) }</td>
               <td>
                 <div className={styles.imgContainer}>
                   <div>

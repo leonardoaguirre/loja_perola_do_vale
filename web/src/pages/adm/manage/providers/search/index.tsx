@@ -1,3 +1,4 @@
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -10,6 +11,7 @@ import ProviderTable from '../../../../../components/ProviderTable';
 import SearchBox from '../../../../../components/SearchBox';
 import { Provider } from '../../../../../models/Provider';
 import api from '../../../../../services/api';
+import apiWithAuth from '../../../../../services/apiWithAuth';
 import styles from './styles.module.css';
 
 interface PageUserProps {
@@ -125,40 +127,28 @@ const PageUser: React.FC<PageUserProps> = (props) => {
     </div>
   );
 }
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { tokenCookie } = context.req.cookies;
 
-
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-
-//   const { tokenCookie } = context.req.cookies;
-
-//   const pessoa = { headers: { 'authorization': tokenCookie }, method: "GET" };
-
-//   const response = await fetch(`${environment.API}/Cliente/Listar`, pessoa);
-
-
-
-
-//   if (response.status == 200) {
-//     const data = await response.json();
-//     return {
-//       props: {
-//         pessoas: data,
-//       }
-//     }
-//   } else if (response.status == 400) {
-//     const data = await response.json();
-//     return {
-//       props: {
-//         pessoas: data,
-//       }
-//     }
-//   } else {
-//     return {
-//       redirect: {
-//         destination: '/login',
-//         permanent: false,
-//       },
-//     }
-//   }
-// }
+  if (!tokenCookie) {
+    return {
+      redirect: {
+        destination: '/user/login',
+        permanent: false,
+      }
+    }
+  }
+  return await apiWithAuth(tokenCookie).get('Funcionario/Autorizar')
+    .then(res => {
+      return { props: {} }
+    })
+    .catch(err => {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        }
+      }
+    })
+}
 export default PageUser;
