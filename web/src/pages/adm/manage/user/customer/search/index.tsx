@@ -14,8 +14,6 @@ import styles from './styles.module.css';
 
 interface CustomerSearchProps {
   customers: Customer[];
-  search: string;
-  atribute: string;
   nPages: number;
   activePage: number
 }
@@ -34,12 +32,12 @@ const CustomerSearch: React.FC<CustomerSearchProps> = (props) => {
 
   const router = useRouter();
 
-  const [tableData, setTableData] = useState<SearchProps>(props.customers ? { customers: props.customers, nPages: props.nPages } : null);
+  const [tableData, setTableData] = useState<SearchProps>(null);
   const [error, setError] = useState<string>('');
 
-  const [activePage, setActivePage] = useState(props.activePage ? props.activePage : 1)
-  const [search, setSearch] = useState(props.search ? props.search : ``)
-  const [atribute, setAtribute] = useState<string>(props.atribute ? props.atribute : null);
+  const [activePage, setActivePage] = useState<number>(1)
+  const [search, setSearch] = useState<string>('')
+  const [atribute, setAtribute] = useState<string>('');
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 

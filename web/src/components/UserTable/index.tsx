@@ -59,24 +59,6 @@ const UserTable: React.FC<ClientTableProps> = (props) => {
   };
 
   const deleteUser = (userId: string, trIndex: number) => {
-    // console.log(userid)
-    // api.delete("Cliente/Deletar", {
-    //   data: {
-    //     id: userid
-    //   }
-    // }).then(
-    //   (res) => {
-    //     if (res.status === 200) {
-    //       removeLinha(trIndex);
-    //     } else {
-    //       console.log("Falha ao deletar cliente");
-    //     }
-    //   }
-    // ).catch(
-    //   (error) => {
-    //     console.log(error);
-    //   }
-    // )
     api.delete("Cliente/Deletar", {
       data: {
         id: userId
