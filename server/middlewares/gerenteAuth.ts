@@ -4,7 +4,7 @@ import { ControleCliente } from '../controllers/ControleCliente';
 import { ControleFuncionario } from '../controllers/ControleFuncionario';
 import { AppError } from '../errors/AppError';
 
-export default async function gerenteAuthMiddleware(req: Request, res: Response, next: NextFunction) {
+export default async function gerenteAuth(req: Request, res: Response, next: NextFunction) {
     const authorization = req.headers.authorization
     if (!authorization) {
         return res.status(401);

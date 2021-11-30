@@ -17,6 +17,7 @@ import { useToasts } from '../../../contexts/ToastContext';
 import { environment } from '../../../environments/environment';
 import { Costumer } from '../../../models/Costumer';
 import api from '../../../services/api';
+import apiWithAuth from '../../../services/apiWithAuth';
 import styles from './styles.module.css';
 
 interface PageCostumerAccountProps {
@@ -37,6 +38,7 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 
   const router = useRouter();
   const { addToast } = useToasts();
+
 
   const [nome, setNome] = useState<string>(props.costumer?.pessoaFisica.nome);
   const [cpf, setCpf] = useState<string>(props.costumer?.pessoaFisica.cpf);
@@ -279,23 +281,36 @@ const UserAccount: React.FC<PageCostumerAccountProps> = (props) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { tokenCookie } = context.req.cookies;
+
+  if (!tokenCookie) {
+    return {
+      redirect: {
+        destination: '/user/login',
+        permanent: false,
+      }
+    }
+  }
   const { user } = context.req.cookies;
 
   if (user) {
     const userData = JSON.parse(user);
-
-    let data = null;
-    await api.get(`Cliente/BuscaPorId/${userData.id}`)
-      .then(res => data = res.data)
-      .catch(err => console.log(err))
-
-    if (!data) return { notFound: true }
-
-    return {
-      props: {
-        costumer: data,
-      }
-    }
+    return await apiWithAuth(tokenCookie).get(`Cliente/BuscaPorId/${userData.id}`)
+      .then(res => {
+        return {
+          props: {
+            costumer: res.data,
+          }
+        }
+      })
+      .catch(err => {
+        return {
+          redirect: {
+            destination: '/',
+            permanent: false,
+          }
+        }
+      })
   } else {
     return {
       redirect: {
