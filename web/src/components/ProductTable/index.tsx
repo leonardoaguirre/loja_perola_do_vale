@@ -103,7 +103,7 @@ const ProductTable: React.FC<ProductTableProps> = (props) => {
 
   return (
     <div className={styles.productTable}>
-      <Table responsive striped bordered hover id={styles.table}>
+      <Table responsive striped bordered hover id="table">
         <thead>
           <tr>
             <th>Nome</th>

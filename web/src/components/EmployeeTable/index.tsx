@@ -101,7 +101,7 @@ const EmployeeTable: React.FC<EmployeeTableProps> = (props) => {
 
   return (
     <div className={styles.clientTable}>
-      <Table responsive striped bordered hover id={styles.table}>
+      <Table responsive striped bordered hover id="table">
         <thead>
           <tr>
             <th>Nome</th>

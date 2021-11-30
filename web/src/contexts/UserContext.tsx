@@ -45,7 +45,6 @@ export function UserProvider({ children }: UserContextProviderProps) {
     if (user) {
       api.get(`Funcionario/BuscarPorId/${user.id}`)
         .then((res) => {
-          console.log(res.data)
           if (res.status === 200) {
             if (res.data.length > 0) {
               setAccessType('adm')
