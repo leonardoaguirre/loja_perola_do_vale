@@ -95,11 +95,12 @@ class ControleVenda {
                     await manager.save(vendaExiste)
                         .catch((error) => { throw error })
 
-                    // const controleEstoque = new ControleEstoque()
-                    // vendaExiste.itensVenda.map(async item => {
-                    //     const estoque = await controleEstoque.buscaEstoque(item.produto)
-                    //     await controleEstoque.adicionaAoEstoque(estoque, manager, item.quantidade)
-                    // })
+                    const controleEstoque = new ControleEstoque()
+                    
+                    await Promise.all(vendaExiste.itensVenda.map(async item => {
+                        const estoque = await controleEstoque.buscaEstoque(item.produto)
+                        await controleEstoque.adicionaAoEstoque(estoque, manager, item.quantidade)
+                    }))
                 } else {
                     throw new AppError('Não é possivel cancelar, o pedido ja foi enviado!', 'venda')
                 }
