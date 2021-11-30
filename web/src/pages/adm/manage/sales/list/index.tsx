@@ -1,10 +1,11 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { useState } from 'react';
-import { Button, Col, Container, Row, Table } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { Button, Col, Container, Row, Spinner, Table } from 'react-bootstrap';
 
 import Header from '../../../../../components/Header';
 import PaginationBar from '../../../../../components/PaginationBar';
+import PaginationBarSR from '../../../../../components/PaginationBarSR';
 import SaleResume from '../../../../../components/SaleResume';
 import SearchBox from '../../../../../components/SearchBox';
 import { Order } from '../../../../../models/Order';
@@ -17,12 +18,27 @@ interface ListSaleProps {
   nPages: number;
   activePage: number;
 }
+
+interface SearchData {
+  orders: Order[];
+  nPages: number;
+}
+
 const ListSales: React.FC<ListSaleProps> = (props) => {
   const [showSaleResume, setShowSaleResume] = useState<boolean[]>([])
 
   const [error, setError] = useState<string>('');
-  const [searchData, setSearchData] = useState<Order[]>([])
+  const [searchData, setSearchData] = useState<SearchData>({ orders: [], nPages: 0 })
   const [showSearchDataResume, setShowSearchDataResume] = useState<boolean[]>([])
+
+  const [activePageSearch, setActivePageSearch] = useState<number>(1)
+  const [search, setSearch] = useState(``)
+  const [atribute, setAtribute] = useState<string>(null);
+  const [isLoadingSR, setIsLoadingSR] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (search) handleSearch(search, atribute)
+  }, [activePageSearch])
 
   const onChangeShowSale = (i: number, state: boolean) => {
     let show: boolean[] = []
@@ -41,15 +57,15 @@ const ListSales: React.FC<ListSaleProps> = (props) => {
   }
 
   const handleSearch = (searchStr: string, atribute: string) => {
-
-    api.get(`Venda/Pesquisar?atributo=${atribute}&pesquisa=${searchStr}`)
+    setIsLoadingSR(true);
+    api.get(`Venda/Pesquisar?atributo=${atribute}&pesquisa=${searchStr}&pagina=${activePageSearch}`)
       .then((res) => {
-        setSearchData(res.data)
+        setSearchData({ orders: res.data.vendas, nPages: res.data.nPages })
         setError(``)
       }).catch(err => {
         setError(`Nenhuma venda foi encontrada`)
-        setSearchData([])
-      })
+        setSearchData({ orders: [], nPages: 0 })
+      }).finally(() => setIsLoadingSR(false))
   }
 
   return (
@@ -77,11 +93,12 @@ const ListSales: React.FC<ListSaleProps> = (props) => {
                         <td>{venda.id}</td>
                         <td>{venda.status}</td>
                         <td>{new Date(venda.dtCompra).toLocaleDateString()}</td>
-                        <td><Button className="w-100 h-100" variant="secondary" onClick={() => onChangeShowSale(i, true)}>Mostrar</Button></td>
-
-                        {showSaleResume[i] ?
-                          <SaleResume order={venda} show={showSaleResume[i]} onClose={(show: boolean) => onChangeShowSale(i, show)} /> : ``
-                        }
+                        <td>
+                          <Button className="w-100 h-100" variant="secondary" onClick={() => onChangeShowSale(i, true)}>Mostrar</Button>
+                          {showSaleResume[i] ?
+                            <SaleResume order={venda} show={showSaleResume[i]} onClose={(show: boolean) => onChangeShowSale(i, show)} /> : ``
+                          }
+                        </td>
                       </tr>
                     )
                   })}
@@ -94,6 +111,7 @@ const ListSales: React.FC<ListSaleProps> = (props) => {
               <PaginationBar nPages={props.nPages} search={``} destination={'adm/manage/sales/list'} activePage={props.activePage} />
             </Col>
           </Row>
+          <hr />
           <Row>
             <Col className="pb-4" xs={12} sm={6} lg={5}>
               <div className={styles.pageTitle}>
@@ -101,47 +119,66 @@ const ListSales: React.FC<ListSaleProps> = (props) => {
               </div>
               <SearchBox
                 handleSearch={handleSearch}
+                handleInputChange={setSearch}
+                emitHandleInputChange={true}
                 error={error}
                 filterOptions={[
                   { value: 'id', viewValue: 'Id' },
                   { value: 'email', viewValue: 'Email' },
                   { value: 'dtCompra', viewValue: 'Data de compra' },
                 ]}
+                handleSelectChange={setAtribute}
               />
             </Col>
-            <Col xs={12}>
-              {(searchData.length > 0 ? (
-                <Table id={styles.table} striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Status</th>
-                      <th>Data da compra</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {searchData.map((venda, i) => {
-                      return (
-                        <tr key={i}>
-                          <td>{venda.id}</td>
-                          <td>{venda.status}</td>
-                          <td>{new Date(venda.dtCompra).toLocaleDateString()}</td>
-                          <td><Button className="w-100 h-100" variant="secondary" onClick={() => onChangeShowSale(i, true)}>Mostrar</Button></td>
-
-                          {showSaleResume[i] ?
-                            <SaleResume order={venda} show={showSaleResume[i]} onClose={(show: boolean) => onChangeShowSale(i, show)} /> : ``
-                          }
-                        </tr>
-                      )
-                    })}
-                  </tbody>
-                </Table>
-              ) : (
-                ''
-              ))}
-            </Col>
           </Row>
+          {(isLoadingSR ? (
+            <Row>
+              <Col className="d-flex justify-content-center pt-5" xs={12}>
+                <Spinner id={styles.spinner} animation="border" role="status" variant="primary">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              </Col>
+            </Row>
+          ) : (
+            (searchData.orders.length > 0 ? (
+              <Row>
+                <Col xs={12}>
+                  <Table id={styles.table} responsive striped bordered hover>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Status</th>
+                        <th>Data da compra</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {searchData.orders.map((venda, i) => {
+                        return (
+                          <tr key={i}>
+                            <td>{venda.id}</td>
+                            <td>{venda.status}</td>
+                            <td>{new Date(venda.dtCompra).toLocaleDateString()}</td>
+                            <td>
+                              <Button className="w-100 h-100" variant="secondary" onClick={() => onChangeShowSale(i, true)}>Mostrar</Button>
+                              {showSaleResume[i] ?
+                                <SaleResume order={venda} show={showSaleResume[i]} onClose={(show: boolean) => onChangeShowSale(i, show)} /> : ``
+                              }
+                            </td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </Table>
+                </Col>
+                <Col xs={12}>
+                  <PaginationBarSR nPages={searchData.nPages} activePage={activePageSearch} onClick={(nPag) => { setActivePageSearch(nPag) }} />
+                </Col>
+              </Row>
+            ) : (
+              ''
+            ))
+          ))}
         </Container>
       </div>
     </div >
