@@ -37,82 +37,15 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
     return <LoadingIcon />;
   }
 
-  // const { user } = useContext(UserContext);
   const { addToCart } = useContext(CartContext)
-
-  // const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
   const [mainImage, setMainImage] = useState<string>(`${environment.API}/${props.product.imagens[0].path}`);
 
-  // const [favorite, setFavorite] = useState<Favorite>({ idFavorito: null, favoritado: false, nFavoritos: 0 });
-  // const [favImg, setFavImg] = useState<string>('/icons/favorite_border_gray_36dp.svg');
-
   const [produtoAtual, setProdutoAtual] = useState<Product[]>([{ ...props.product, quantidade: 1 }])
-
-
-  // useEffect(() => {
-  //   const user = Cookies.getJSON("user");
-  //   let idPessoa = '';
-  //   if (user) {
-  //     idPessoa = user.idPessoa;
-  //     setIsDisabled(false);
-  //   }
-  //   // buscar dados de favorito
-  //   api.get(`favorito/verificaFavorito/${props.product.id}?idPessoa=${user ? idPessoa : ''}`).then((res) => {
-  //     setFavorite(res.data);
-  //   }).catch((res) => {
-  //     console.log(res);
-  //   });
-  // }, []);
-
-  // useEffect(() => {
-  //   if (favorite.favoritado) {
-  //     setFavImg('/icons/favorite_red_36dp.svg');
-  //   } else {
-  //     setFavImg('/icons/favorite_border_gray_36dp.svg');
-  //   }
-  // }, [favorite])
 
   const handleImagePick = (event) => {
     setMainImage(event.target.src);
   }
-
-  // const handleFavorite = async (event) => {
-  //   if (favorite.favoritado) {
-  //     // desfavoritar
-  //     api.delete(`${environment.API}/favorito/deletarPorId`, {
-  //       data: {
-  //         idFavorito: favorite.idFavorito
-  //       }
-  //     }).then((res) => {
-  //       setFavorite({
-  //         idFavorito: null,
-  //         favoritado: false,
-  //         nFavoritos: favorite.nFavoritos - 1
-  //       })
-  //       setFavImg('/icons/favorite_border_gray_36dp.svg')
-  //     }).catch((res) => {
-  //       console.log(res);
-  //     });
-
-  //   } else {
-  //     // favoritar
-
-  //     api.post(`${environment.API}/favorito/adicionar`, {
-  //       idPessoa: user.idPessoa,
-  //       idProduto: props.product.id
-  //     }).then((res) => {
-  //       setFavorite({
-  //         idFavorito: res.data.idFavorito,
-  //         favoritado: true,
-  //         nFavoritos: favorite.nFavoritos + 1
-  //       })
-  //       setFavImg('/icons/favorite_red_36dp.svg')
-  //     }).catch((res) => {
-  //       console.log(res);
-  //     });
-  //   }
-  // }
 
   const sendToCart = (prod: Product) => {//envia as informacoes do produto mostrado ao context do carrinho
     addToCart({
@@ -220,38 +153,31 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
                   </div>
                   <hr />
                 </div>
-                {/* {props.disponivel == true ?
-                  <>
-                    <div className={styles.amount}>
-                      <label htmlFor="quantidade">Quantidade</label>
-                      <select name="quantidade" id="amount" onChange={() => getQtd()}>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                      </select>
-                    </div>
-                    <div className={styles.shipping}>
-                      <Shipping produtos={produtoAtual} getFrete={getF} />
-                    </div>
-                    <div className={styles.buttonContainer}>
-                      <button className={styles.addCart} onClick={() => sendToCart(props.product)}>Adicionar ao carrinho</button>
-                      <button className={styles.buyButton}>Comprar</button>
-                    </div>
-                  </>
-                  :
-                  <h1>Produto Indisponivel</h1>
-                } */}
-                <div className={styles.shipping}>
-                  <Shipping produtos={produtoAtual} getFrete={getF} />
-                </div>
-                <div className={styles.buttonContainer}>
-                  <Button variant="outline-secondary" className={styles.addCart} onClick={() => sendToCart(props.product)}>Adicionar ao carrinho</Button>
-                  <Button variant="primary" size="lg" className={styles.buyButton}><strong>Comprar</strong></Button>
-                </div>
-
+                {
+                  props.disponivel == true ?
+                    <>
+                      <div className={styles.amount}>
+                        <label htmlFor="quantidade">Quantidade</label>
+                        <select name="quantidade" id="amount" onChange={() => getQtd()}>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                        </select>
+                      </div>
+                      <div className={styles.shipping}>
+                        <Shipping produtos={produtoAtual} getFrete={getF} />
+                      </div>
+                      <div className={styles.buttonContainer}>
+                        <Button variant="outline-secondary" className={styles.addCart} onClick={() => sendToCart(props.product)}>Adicionar ao carrinho</Button>
+                        <Button variant="primary" size="lg" className={styles.buyButton}>Comprar</Button>
+                      </div>
+                    </>
+                    :
+                    <h1>Produto Indisponivel</h1>
+                }
               </section>
             </Col>
           </Row>

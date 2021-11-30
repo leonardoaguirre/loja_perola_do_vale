@@ -61,12 +61,12 @@ class ControleVenda {
                             venda: vendaSalva
                         }))
 
-                    // const estoque = await controleEstoque.buscaEstoque(item.produto)
+                    const estoque = await controleEstoque.buscaEstoque(item.produto)
 
                     // if (!await controleEstoque.consultaDisponibilidade(item.produto)) {
                     //     prodsIndisponiveis.push(new AppError(`${item.produto.nome} nao disponivel`, 'produto'))
                     // }
-                    // await controleEstoque.retiraDoEstoque(estoque, manager, item.quantidade)
+                    await controleEstoque.retiraDoEstoque(estoque, manager, item.quantidade)
                 }
 
                 // if (prodsIndisponiveis.length > 0) throw prodsIndisponiveis
