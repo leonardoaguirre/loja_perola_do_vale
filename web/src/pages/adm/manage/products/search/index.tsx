@@ -68,7 +68,7 @@ const ProductSearch: React.FC<ProductSearchProps> = (props) => {
 
   return (
     <div className="pageContainer">
-      <Head><title>Buscar Produto | Ferragens Pérola do Vale</title></Head>
+      <Head><title>Gerenciamento de Produtos | Ferragens Pérola do Vale</title></Head>
       <Header />
       <div className="pageContent">
         <h2>Gerenciamento de Produtos e Estoque</h2>

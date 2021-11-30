@@ -76,7 +76,7 @@ const PageUser: React.FC<PageUserProps> = (props) => {
 
   return (
     <div className="pageContainer">
-      <Head><title>Buscar Fornecedores | Ferragens Pérola do Vale</title></Head>
+      <Head><title>Gerenciamento de Fornecedores | Ferragens Pérola do Vale</title></Head>
       <Header />
       <div className="pageContent">
         <h2>Gerenciamento de Fornecedores</h2>

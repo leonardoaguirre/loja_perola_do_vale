@@ -70,7 +70,7 @@ const ListSales: React.FC<ListSaleProps> = (props) => {
 
   return (
     <div className="pageContainer">
-      <Head><title>Minha Conta | Ferragens Pérola do Vale</title></Head>
+      <Head><title>Gerenciamento de Vendas | Ferragens Pérola do Vale</title></Head>
       <Header />
       <div className="pageContent">
         <h2>Gerenciamento de Vendas</h2>
