@@ -39,7 +39,7 @@ class ControleCategoria {
         const categoriaRepository = getCustomRepository(CategoriaRepository);
         const query = request.query.pagina
         const pagina = query ? parseInt(query.toString()) : 1
-        const itensPorPagina: number = 10
+        const itensPorPagina: number = 30
 
         await categoriaRepository.findAndCount({
             skip: (pagina - 1) * itensPorPagina,

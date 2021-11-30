@@ -1,5 +1,6 @@
 import filesize from 'filesize';
 import { uniqueId } from 'lodash';
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { MdAddBox } from 'react-icons/md';
@@ -9,6 +10,7 @@ import FileList from '../../../../../components/FileList';
 import Footer from '../../../../../components/Footer';
 import Header from '../../../../../components/Header';
 import { environment } from '../../../../../environments/environment';
+import apiWithAuth from '../../../../../services/apiWithAuth';
 import styles from './styles.module.css';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 
@@ -442,5 +444,28 @@ function productForm() {
     </div>
   );
 }
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { tokenCookie } = context.req.cookies;
 
+  if (!tokenCookie) {
+    return {
+      redirect: {
+        destination: '/user/login',
+        permanent: false,
+      }
+    }
+  }
+  return await apiWithAuth(tokenCookie).get('Funcionario/Autorizar')
+    .then(res => {
+      return { props: {} }
+    })
+    .catch(err => {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        }
+      }
+    })
+}
 export default productForm;

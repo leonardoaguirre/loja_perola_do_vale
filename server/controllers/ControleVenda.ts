@@ -61,12 +61,12 @@ class ControleVenda {
                             venda: vendaSalva
                         }))
 
-                    // const estoque = await controleEstoque.buscaEstoque(item.produto)
+                    const estoque = await controleEstoque.buscaEstoque(item.produto)
 
                     // if (!await controleEstoque.consultaDisponibilidade(item.produto)) {
                     //     prodsIndisponiveis.push(new AppError(`${item.produto.nome} nao disponivel`, 'produto'))
                     // }
-                    // await controleEstoque.retiraDoEstoque(estoque, manager, item.quantidade)
+                    await controleEstoque.retiraDoEstoque(estoque, manager, item.quantidade)
                 }
 
                 // if (prodsIndisponiveis.length > 0) throw prodsIndisponiveis
@@ -95,11 +95,12 @@ class ControleVenda {
                     await manager.save(vendaExiste)
                         .catch((error) => { throw error })
 
-                    // const controleEstoque = new ControleEstoque()
-                    // vendaExiste.itensVenda.map(async item => {
-                    //     const estoque = await controleEstoque.buscaEstoque(item.produto)
-                    //     await controleEstoque.adicionaAoEstoque(estoque, manager, item.quantidade)
-                    // })
+                    const controleEstoque = new ControleEstoque()
+                    
+                    await Promise.all(vendaExiste.itensVenda.map(async item => {
+                        const estoque = await controleEstoque.buscaEstoque(item.produto)
+                        await controleEstoque.adicionaAoEstoque(estoque, manager, item.quantidade)
+                    }))
                 } else {
                     throw new AppError('Não é possivel cancelar, o pedido ja foi enviado!', 'venda')
                 }

@@ -15,6 +15,7 @@ interface User {
 
 interface UserContextData {
   user: User;
+  tokenCookie: string;
   loginUser: (user: User, token: string) => void;
   logoutUser: () => void;
   accessType: 'default' | 'adm'; // somente para definir o tipo do header, perigo de segurança, não use em outro lugar
@@ -28,13 +29,18 @@ export const UserContext = createContext({} as UserContextData);
 
 export function UserProvider({ children }: UserContextProviderProps) {
   const [user, setUser] = useState<User>(null);
+  const [tokenCookie, setTokenCookie] = useState<string>(null)
   const [accessType, setAccessType] = useState<'default' | 'adm'>('default');
   const router = useRouter();
 
   useEffect(() => {
     // const userToken = localStorage.getItem('@userToken');
     const userCookie: User = Cookies.getJSON('user');
+    const tokenCookie: string = Cookies.get('tokenCookie')
 
+    if (tokenCookie) {
+      setTokenCookie(tokenCookie)
+    }
     if (userCookie) {
       setUser(userCookie);
     }
@@ -84,6 +90,7 @@ export function UserProvider({ children }: UserContextProviderProps) {
     <UserContext.Provider
       value={{
         user,
+        tokenCookie,
         loginUser,
         logoutUser,
         accessType,

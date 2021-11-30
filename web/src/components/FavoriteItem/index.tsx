@@ -71,7 +71,7 @@ const FavoriteItem: React.FC<FavoriteItemProps> = (props) => {
                 })}
               </span></p>
               <div><a onClick={() => props.deleteFavorite(props.favorite.id)}>Remover</a></div>
-              <div><a>Encontre produtos similares</a></div>
+              <div><a href={`/products/list/${props.favorite.produto.nome}`}>Encontre produtos similares</a></div>
             </div>
           </Col>
         </Row>

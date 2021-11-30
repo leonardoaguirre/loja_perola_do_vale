@@ -39,7 +39,6 @@ const Login: React.FC<LoginProps> = (props) => {
 
     api.post('Cliente/Login', authentication)
       .then((res) => {
-        console.log(res);
         if (res.statusText == 'OK') {
           loginUser(res.data.pessoa, res.data.token);
           if (props.cameFrom == null || props.cameFrom == `${process.env.URL}/user/login` || props.cameFrom == `${process.env.URL}/user/form`) {
@@ -78,10 +77,6 @@ const Login: React.FC<LoginProps> = (props) => {
       }
     }
   }
-
-  useEffect(() => {
-    console.log(props.cameFrom);
-  }, [])
 
   return (
     <div className="pageContainer entire-page fx-column align-i-center">

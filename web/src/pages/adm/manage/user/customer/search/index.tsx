@@ -1,6 +1,7 @@
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Col, Container, Row, Spinner } from 'react-bootstrap';
 import { MdAddCircle } from 'react-icons/md';
 
@@ -8,8 +9,11 @@ import Header from '../../../../../../components/Header';
 import PaginationBarSR from '../../../../../../components/PaginationBarSR';
 import SearchBox from '../../../../../../components/SearchBox';
 import UserTable from '../../../../../../components/UserTable';
+import { UserContext } from '../../../../../../contexts/UserContext';
+import { environment } from '../../../../../../environments/environment';
 import { Customer } from '../../../../../../models/Customer';
 import api from '../../../../../../services/api';
+import apiWithAuth from '../../../../../../services/apiWithAuth';
 import styles from './styles.module.css';
 
 interface CustomerSearchProps {
@@ -31,6 +35,7 @@ interface Filter {
 const CustomerSearch: React.FC<CustomerSearchProps> = (props) => {
 
   const router = useRouter();
+  const { tokenCookie } = useContext(UserContext)
 
   const [tableData, setTableData] = useState<SearchProps>(null);
   const [error, setError] = useState<string>('');
@@ -50,7 +55,7 @@ const CustomerSearch: React.FC<CustomerSearchProps> = (props) => {
   const handleSearch = async (searchStr: string, atribute: string) => {
     if (searchStr.length > 0) {
       setIsLoading(true);
-      await api.get(`Cliente/Buscar/${atribute}/${searchStr}?pagina=${activePage}`)
+      await apiWithAuth(tokenCookie).get(`Cliente/Buscar/${atribute}/${searchStr}?pagina=${activePage}`)
         .then(
           (res) => {
             if (res.status === 200) {
@@ -134,39 +139,31 @@ const CustomerSearch: React.FC<CustomerSearchProps> = (props) => {
 }
 
 
-// export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { tokenCookie } = context.req.cookies;
 
-//   const { tokenCookie } = context.req.cookies;
+  if (!tokenCookie) {
+    return {
+      redirect: {
+        destination: '/user/login',
+        permanent: false,
+      }
+    }
+  }
+  return await apiWithAuth(tokenCookie).get('Funcionario/Autorizar')
+    .then(res => {
+      return { props: {} }
+    })
+    .catch(err => {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        }
+      }
+    })
+}
 
-//   const pessoa = { headers: { 'authorization': tokenCookie }, method: "GET" };
 
-//   const response = await fetch(`${environment.API}/Cliente/Listar`, pessoa);
-
-
-
-
-//   if (response.status == 200) {
-//     const data = await response.json();
-//     return {
-//       props: {
-//         pessoas: data,
-//       }
-//     }
-//   } else if (response.status == 400) {
-//     const data = await response.json();
-//     return {
-//       props: {
-//         pessoas: data,
-//       }
-//     }
-//   } else {
-//     return {
-//       redirect: {
-//         destination: '/login',
-//         permanent: false,
-//       },
-//     }
-//   }
-// }
 
 export default CustomerSearch;
