@@ -7,6 +7,7 @@ import Header from '../../../components/Header';
 import LoadingIcon from '../../../components/LoadingIcon';
 import { environment } from '../../../environments/environment';
 import styles from './styles.module.css';
+import { useToasts } from '../../../contexts/ToastContext';
 
 function UserForm() {
   const [erro, setErro] = useState([]);
@@ -16,6 +17,8 @@ function UserForm() {
   if (isFallback) {
     return <LoadingIcon />;
   }
+
+  const { addToast } = useToasts();
 
   const registerUser = async (event) => {
     event.preventDefault();
@@ -41,6 +44,12 @@ function UserForm() {
     await fetch(`${environment.API}/Cliente/Adicionar`, pessoa)
       .then(async (res) => {
         if (res.ok) {
+          addToast({
+            title: 'Cadastrado Sucedido',
+            content: `Seu cadastro foi realizado com sucesso!`,
+            delay: 8000,
+            autohide: true,
+          });
           router.push('/user/login');
         } else {
           const erro = await res.json()

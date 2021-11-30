@@ -86,7 +86,7 @@ const CustomerSearch: React.FC<CustomerSearchProps> = (props) => {
 
   return (
     <div className="pageContainer">
-      <Head><title>Buscar Cliente | Ferragens Pérola do Vale</title></Head>
+      <Head><title>Gerenciamento de Cliente | Ferragens Pérola do Vale</title></Head>
       <Header />
       <div className="pageContent">
         <h2>Gerenciamento de Clientes</h2>
