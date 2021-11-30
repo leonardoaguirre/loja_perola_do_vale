@@ -5,25 +5,31 @@ import { Fornecedor } from "../models/Fornecedor";
 
 @EntityRepository(Fornecedor)
 class FornecedorRepository extends Repository<Fornecedor>{
-    buscaPor(pesquisa: string, atributo: string) {
+    buscaPor(pesquisa: string, atributo: string, skip : number, take : number) {
         if (atributo === "nome") {
             return this.createQueryBuilder("fornecedor")
                 .leftJoinAndSelect("fornecedor.pessoaJuridica", "pessoaJuridica")
                 .leftJoinAndSelect("pessoaJuridica.pessoa", "pessoa")
                 .where("pessoaJuridica.nomeFantasia like :nome", { nome: `%${pesquisa}%` })
-                .getMany();
+                .skip(skip)
+                .take(take)
+                .getManyAndCount();
         } else if (atributo === "email") {
             return this.createQueryBuilder("fornecedor")
                 .leftJoinAndSelect("fornecedor.pessoaJuridica", "pessoaJuridica")
                 .leftJoinAndSelect("pessoaJuridica.pessoa", "pessoa")
                 .where("pessoa.email like :email", { email: `%${pesquisa}%` })
-                .getMany();
+                .skip(skip)
+                .take(take)
+                .getManyAndCount();
         } else if (atributo === "cnpj") {
             return this.createQueryBuilder("fornecedor")
                 .leftJoinAndSelect("fornecedor.pessoaJuridica", "pessoaJuridica")
                 .leftJoinAndSelect("pessoaJuridica.pessoa", "pessoa")
                 .where("pessoaJuridica.cnpj like :cnpj", { cnpj: `%${pesquisa}%` })
-                .getMany();
+                .skip(skip)
+                .take(take)
+                .getManyAndCount();
         }
     }
     async validaDados(fornecedor: Fornecedor) {

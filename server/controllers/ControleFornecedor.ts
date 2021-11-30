@@ -113,14 +113,22 @@ class ControleFornecedor {
     async buscarPor(request: Request, response: Response) {
         const atributo = request.params.atributo;
         const pesquisa = request.params.pesquisa;
+        const query = request.query.pagina
+        const pagina = query ? parseInt(query.toString()) : 1
+        const itensPorPagina: number = 4
 
         const fornecedorRepository = getCustomRepository(FornecedorRepository);
 
         try {
-            const fornecedorExiste = await fornecedorRepository.buscaPor(pesquisa, atributo);
+            const fornecedorExiste = await fornecedorRepository.buscaPor(pesquisa, atributo, ((pagina - 1) * itensPorPagina), itensPorPagina);
 
-            if (fornecedorExiste.length > 0) {
-                return response.status(201).json(fornecedorExiste);
+            if (fornecedorExiste[0].length > 0) {
+                fornecedorExiste[1] = Math.ceil(fornecedorExiste[1] / itensPorPagina);
+                const data = {
+                    providers: fornecedorExiste[0],
+                    nPages: fornecedorExiste[1]
+                }
+                return response.status(201).json(data);
             } else {
                 throw new AppError("Nenhum fornecedor encontrado", 'fornecedor');
             }
